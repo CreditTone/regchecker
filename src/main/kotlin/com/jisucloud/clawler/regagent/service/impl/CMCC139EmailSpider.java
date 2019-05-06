@@ -1,0 +1,68 @@
+package com.jisucloud.clawler.regagent.service.impl;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.jisucloud.clawler.regagent.service.PapaSpider;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+import java.util.Map;
+
+@Component
+public class CMCC139EmailSpider implements PapaSpider {
+
+    private final Logger log = LoggerFactory.getLogger(CMCC139EmailSpider.class);
+
+    @Override
+    public String message() {
+        return "139邮箱是中国移动提供的电子邮件业务,以手机号@139.com作为邮箱地址,来邮短信及时提醒; 同时提供WEB、WAP、短彩信、APP等多种方式,随时随地收发邮件。";
+    }
+
+    @Override
+    public String platform() {
+        return "139Email";
+    }
+
+    @Override
+    public boolean checkTelephone(String account) {
+        try {
+            String url = "http://www.emailcamel.com/api/single/validate/?usr=guozhong@quicklyun.com&pwd=qqadmin&email=" + account + "@139.com";
+            Connection.Response response = Jsoup.connect(url).ignoreContentType(true).execute();
+            if (response != null) {
+                JSONObject result = JSON.parseObject(response.body());
+                System.out.println(result);
+                if ("success".equals(result.getString("verify_status"))) {
+                    if ("valid".equals(result.getString("verify_result"))) {
+                        return true;
+                    }
+                    if ("catch-all".equals(result.getString("verify_result"))) {
+                        return true;
+                    }
+                } else {
+                    log.error("emailcamel效验失败，请充值");
+                }
+            }
+        } catch (Exception e) {
+            log.error("checkTelephone异常----------", e);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean checkEmail(String account) {
+        return false;
+    }
+
+    @Override
+    public Map<String, String> getFields() {
+        return null;
+    }
+
+    @Override
+    public String platformName() {
+        return "移动139邮箱";
+    }
+}
