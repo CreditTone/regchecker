@@ -51,7 +51,7 @@ class WeiDaiQianBaoService : PapaSpider {
 
 }
 
-fun main(args: Array<String>) {
-    val checkTelephone = RongYiJieService().checkTelephone("13261165342")
-    println(checkTelephone)
-}
+//fun main(args: Array<String>) {
+//    val checkTelephone = RongYiJieService().checkTelephone("13261165342")
+//    println(checkTelephone)
+//}

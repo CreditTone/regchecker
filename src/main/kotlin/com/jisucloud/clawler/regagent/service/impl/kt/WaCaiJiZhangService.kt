@@ -55,7 +55,7 @@ class WaCaiJiZhangService : PapaSpider {
 
 }
 
-fun main(args: Array<String>) {
-    val checkTelephone = WaCaiJiZhangService().checkTelephone("13261165342")
-    println(checkTelephone)
-}
+//fun main(args: Array<String>) {
+//    val checkTelephone = WaCaiJiZhangService().checkTelephone("13261165342")
+//    println(checkTelephone)
+//}

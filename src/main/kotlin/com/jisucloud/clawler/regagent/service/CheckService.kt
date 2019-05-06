@@ -30,7 +30,7 @@ class CheckService {
      */
     fun doCheckAsync(info: Info): MutableList<Any> {
         var relustList = mutableListOf<Any>()
-        val list = SpiderMap.map.map {
+        var list = SpiderMap.map.map {
             return@map GlobalScope.async {
                 val k = it.key
                 val v = it.value
@@ -40,10 +40,15 @@ class CheckService {
                 }
             }
         }
+        val job007 = GlobalScope.async {
+            //单独处理Reg007
+            relustList.addAll(Reg007Service().doCheckTelephone(info.account))
+        }
         runBlocking {
             list.map {
                 it.await()
             }
+            job007.await()
         }
         return relustList
     }

@@ -50,7 +50,7 @@ class XinYongGuanJiaService : PapaSpider {
 
 }
 
-fun main(args: Array<String>) {
-    val checkTelephone = XinYongGuanJiaService().checkTelephone("13261165342")
-    println(checkTelephone)
-}
+//fun main(args: Array<String>) {
+//    val checkTelephone = XinYongGuanJiaService().checkTelephone("13261165342")
+//    println(checkTelephone)
+//}
