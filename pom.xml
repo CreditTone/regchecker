@@ -14,6 +14,7 @@
     <description>注册检测服务</description>
 
     <properties>
+        <skipTests>true</skipTests>
         <java.version>1.8</java.version>
         <kotlin.version>1.3.30</kotlin.version>
     </properties>
