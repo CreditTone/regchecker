@@ -2,8 +2,7 @@ package com.jisucloud.clawler.regagent.service.impl.kt
 
 import com.alibaba.fastjson.JSONPath
 import com.jisucloud.clawler.regagent.service.PapaSpider
-import me.kagura.JJsoup
-import me.kagura.Session
+import org.jsoup.Jsoup
 import org.springframework.stereotype.Component
 
 @Component
@@ -25,13 +24,15 @@ class DaZhiHuiService : PapaSpider {
 
     override fun checkTelephone(account: String): Boolean {
         try {
-            val session = JJsoup.newSession()
-            session.connect("https://i.gw.com.cn/UserCenter/page/account/forgetPass")
+            val cookies = Jsoup.connect("https://i.gw.com.cn/UserCenter/page/account/forgetPass")
                     .validateTLSCertificates(false)
-                    .execute()
-            val response = session.connect("https://i.gw.com.cn/UserCenter/account/mobile/$account")
-                    .header("X-Requested-Type", getToken(session))
+                    .ignoreContentType(true)
+                    .execute().cookies()
+            val response = Jsoup.connect("https://i.gw.com.cn/UserCenter/account/mobile/$account")
+                    .header("X-Requested-Type", getToken(cookies))
                     .validateTLSCertificates(false)
+                    .ignoreContentType(true)
+                    .cookies(cookies)
                     .execute()
             //未注册返回：{"code":"200","message":null,"data":null}
             //已注册返回：{"code":"200","message":null,"data":"d**********9"}
@@ -58,10 +59,10 @@ class DaZhiHuiService : PapaSpider {
      * 具体参考https://i.gw.com.cn/UserCenter/web/js/pcaccount.js?v=1.0.26
      * 第677行account.util.alg.auth()方法的实现
      */
-    fun getToken(session: Session): String {
-        var tokenG = session.cookie("_gpd")
-        var tokenC = session.cookie("_cis")
-        var tokenS = session.cookie("_sad")
+    fun getToken(session: Map<String, String>): String {
+        var tokenG = session.get("_gpd") + ""
+        var tokenC = session.get("_cis") + ""
+        var tokenS = session.get("_sad") + ""
         var oathG = "${tokenG.get(tokenG.length - 2)}${tokenG.get(3)}${tokenG.get(6)}"
         var oathC = "${tokenC[tokenC.length - 10]}${tokenC.get(2)}${tokenC.get(11)}"
         var oathS = "${tokenS.get(2)}${tokenS.get(tokenS.length - 10)}${tokenS.get(tokenS.length - 1)}"
@@ -74,6 +75,6 @@ class DaZhiHuiService : PapaSpider {
 //fun main(args: Array<String>) {
 //    var checkTelephone = DaZhiHuiService().checkTelephone("18763623587")
 //    println(checkTelephone)
-//     checkTelephone = DaZhiHuiService().checkTelephone("18210538513")
+//    checkTelephone = DaZhiHuiService().checkTelephone("18210538513")
 //    println(checkTelephone)
 //}

@@ -24,7 +24,7 @@ class CheckController {
     fun doCheck(@RequestBody requestBody: String): Map<String, Any>? {
         try {
             val jsonInfo = JSON.parseObject(requestBody, Info::class.java)
-            val result = checkService.doCheck(jsonInfo)
+            val result = checkService.doCheckAsync(jsonInfo)
             return mapOf(
                     "code" to "200",
                     "success" to true,
