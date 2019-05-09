@@ -3,9 +3,10 @@ package com.jisucloud.clawler.regagent.service
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.JSONPath
 import com.jisucloud.clawler.regagent.entity.Result
+import com.jisucloud.clawler.regagent.util.JJsoupUtil
+import com.jisucloud.clawler.regagent.util.StaticValue
 import com.jisucloud.clawler.regagent.util.getRegexMatch
 import org.jsoup.Connection
-import org.jsoup.Jsoup
 
 /**
  * reg007单独处理
@@ -14,34 +15,17 @@ class Reg007Service {
 
     fun doCheckTelephone(account: String): MutableList<Any> {
         try {
-            var response = Jsoup.connect("https://www.reg007.com/account/signin").execute()
-            var cookies = response.cookies()
-            val csrf = response.parse().selectFirst("[name=__csrf__]").`val`()
-            Jsoup.connect("https://www.reg007.com/account/signin")
-                    .cookies(cookies)
-                    .data(mapOf(
-                            "account" to "18210538513",
-                            "password" to "admini",
-                            "remember" to "on",
-                            "__csrf__" to csrf
-                    ))
-                    .method(Connection.Method.POST)
-                    .execute().run {
-                        cookies.putAll(this.cookies())
-                        this
-                    }
-            val document = Jsoup.connect("https://www.reg007.com/search?q=$account").cookies(cookies).execute().run {
-                cookies.putAll(this.cookies())
-                this.body()
-            }
+            val session = JJsoupUtil.newProxySession()
+            session.cookies(StaticValue.REG007_COOKIES)
+
+            val document = session.connect("https://www.reg007.com/search?q=$account").execute().body()
             val h = Regex("""var h="([a-z0-9]+)";""").find(document).run { this!!.groupValues[1] }
             var i = Regex("""var i=(\d+)""").find(document).run { this!!.groupValues[1].toInt() }
 
             var relustList = mutableListOf<Any>()
 
             for (t in 0..31) {
-                Jsoup.connect("https://www.reg007.com/search/ajax")
-                        .cookies(cookies)
+                session.connect("https://www.reg007.com/search/ajax")
                         .data(
                                 mapOf(
                                         "q" to "$account",

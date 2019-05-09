@@ -4,9 +4,11 @@ import com.jisucloud.clawler.regagent.service.PapaSpider
 import com.jisucloud.clawler.regagent.util.JJsoupUtil
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.scheduling.annotation.EnableScheduling
 import java.net.Authenticator
 import java.net.PasswordAuthentication
 
+@EnableScheduling
 @SpringBootApplication
 class RegAgentApplication
 
