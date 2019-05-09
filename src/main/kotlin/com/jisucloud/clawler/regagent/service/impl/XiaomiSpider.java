@@ -3,6 +3,7 @@ package com.jisucloud.clawler.regagent.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.springframework.stereotype.Component;
@@ -42,7 +43,7 @@ public class XiaomiSpider implements PapaSpider {
     @Override
     public boolean checkTelephone(String account) {
         try {
-            Map<String, String> cookies = Jsoup.connect("https://account.xiaomi.com/pass/forgetPassword")
+            Map<String, String> cookies = JJsoupUtil.newProxySession().connect("https://account.xiaomi.com/pass/forgetPassword")
                     .ignoreContentType(true)
                     .execute().cookies();
             String url = "https://account.xiaomi.com/pass/sms/userQuota?_dc=" + System.currentTimeMillis();

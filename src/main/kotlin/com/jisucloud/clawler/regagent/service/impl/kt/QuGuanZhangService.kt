@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.kt
 
 import com.jisucloud.clawler.regagent.service.PapaSpider
+import com.jisucloud.clawler.regagent.util.JJsoupUtil
 import org.jsoup.Connection
-import org.jsoup.Jsoup
 import org.springframework.stereotype.Component
 
 @Component
@@ -23,7 +23,8 @@ class QuGuanZhangService : PapaSpider {
 
     override fun checkTelephone(account: String): Boolean {
         try {
-            val response = Jsoup.connect("https://www.finsphere.cn/abook/data/ws/rest/user/login")
+            val session = JJsoupUtil.newProxySession()
+            val response = session.connect("https://www.finsphere.cn/abook/data/ws/rest/user/login")
                     .requestBody("""
                         {
                             "mobileNo": "$account",
@@ -38,7 +39,6 @@ class QuGuanZhangService : PapaSpider {
                     """.trimIndent())
                     .method(Connection.Method.POST)
                     .header("Content-Type", "application/json; charset=utf-8")
-                    .ignoreContentType(true)
                     .execute()
             val body = response.body()
             //{"resCode":"1","resMsg":"调用成功!","data":{"operationResult":false,"displayInfo":"你的手机号暂未注册，请用验证码直接登录注册","displayLevel":"2"}}

@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.kt
 
 import com.jisucloud.clawler.regagent.service.PapaSpider
+import com.jisucloud.clawler.regagent.util.JJsoupUtil
 import org.jsoup.Connection
-import org.jsoup.Jsoup
 import org.springframework.stereotype.Component
 
 @Component
@@ -24,9 +24,9 @@ class WeiDaiQianBaoService : PapaSpider {
 
     override fun checkTelephone(account: String): Boolean {
         try {
-            val response = Jsoup.connect("http://www.casheasy.cn:8082/login?username=$account&password=B7w3PkTyPU8lY8%2BwmaYjkA%3D%3D")
+            val session = JJsoupUtil.newProxySession()
+            val response = session.connect("http://www.casheasy.cn:8082/login?username=$account&password=B7w3PkTyPU8lY8%2BwmaYjkA%3D%3D")
                     .method(Connection.Method.POST)
-                    .ignoreContentType(true)
                     .execute()
             val body = response.body()
             System.err.println(body)

@@ -3,6 +3,7 @@ package com.jisucloud.clawler.regagent.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.springframework.stereotype.Component;
@@ -46,7 +47,7 @@ public class SujieDaiSpider implements PapaSpider {
     public boolean checkTelephone(String account) {
         try {
             String url = "https://api.kyxdloan.com/user/signin_check";
-            Connection.Response response = Jsoup.connect(url)
+            Connection.Response response = JJsoupUtil.newProxySession().connect(url)
                     .headers(getHeader())
                     .data(getParams(account))
                     .method(Connection.Method.POST)

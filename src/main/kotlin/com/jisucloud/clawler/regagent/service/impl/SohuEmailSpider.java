@@ -3,6 +3,7 @@ package com.jisucloud.clawler.regagent.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.springframework.stereotype.Component;
@@ -26,7 +27,7 @@ public class SohuEmailSpider implements PapaSpider {
     public boolean checkTelephone(String account) {
         try {
             String url = "http://www.emailcamel.com/api/single/validate/?usr=guozhong@quicklyun.com&pwd=qqadmin&email=" + account + "@sohu.com";
-            Connection.Response response = Jsoup.connect(url)
+            Connection.Response response = JJsoupUtil.newProxySession().connect(url)
                     .ignoreContentType(true)
                     .execute();
             if (response != null) {

@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.kt
 
 import com.jisucloud.clawler.regagent.service.PapaSpider
+import com.jisucloud.clawler.regagent.util.JJsoupUtil
 import org.jsoup.Connection
-import org.jsoup.Jsoup
 import org.springframework.stereotype.Component
 
 @Component
@@ -24,10 +24,10 @@ class ZhongAnBaoXianService : PapaSpider {
 
     override fun checkTelephone(account: String): Boolean {
         try {
+            val session = JJsoupUtil.newProxySession()
             //此接口为老版本v1.1.1接口
-            val response = Jsoup.connect("https://app.zhongan.com/za-clare/app/user/sendCaptcha")
+            val response = session.connect("https://app.zhongan.com/za-clare/app/user/sendCaptcha")
                     .method(Connection.Method.POST)
-                    .ignoreContentType(true)
                     .requestBody("""
                         {"phoneNo":"$account","type":"3"}
                     """.trimIndent())

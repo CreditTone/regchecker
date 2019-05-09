@@ -2,7 +2,7 @@ package com.jisucloud.clawler.regagent.service.impl.kt
 
 import com.alibaba.fastjson.JSONPath
 import com.jisucloud.clawler.regagent.service.PapaSpider
-import org.jsoup.Jsoup
+import com.jisucloud.clawler.regagent.util.JJsoupUtil
 import org.springframework.stereotype.Component
 
 @Component
@@ -24,15 +24,15 @@ class DaZhiHuiService : PapaSpider {
 
     override fun checkTelephone(account: String): Boolean {
         try {
-            val cookies = Jsoup.connect("https://i.gw.com.cn/UserCenter/page/account/forgetPass")
+
+            val session = JJsoupUtil.newProxySession()
+
+            session.connect("https://i.gw.com.cn/UserCenter/page/account/forgetPass")
                     .validateTLSCertificates(false)
-                    .ignoreContentType(true)
-                    .execute().cookies()
-            val response = Jsoup.connect("https://i.gw.com.cn/UserCenter/account/mobile/$account")
-                    .header("X-Requested-Type", getToken(cookies))
+                    .execute()
+            val response = session.connect("https://i.gw.com.cn/UserCenter/account/mobile/$account")
+                    .header("X-Requested-Type", getToken(session.cookies()))
                     .validateTLSCertificates(false)
-                    .ignoreContentType(true)
-                    .cookies(cookies)
                     .execute()
             //未注册返回：{"code":"200","message":null,"data":null}
             //已注册返回：{"code":"200","message":null,"data":"d**********9"}

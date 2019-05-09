@@ -3,8 +3,8 @@ package com.jisucloud.clawler.regagent.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -71,7 +71,7 @@ public class WuBaSpider implements PapaSpider {
     public boolean checkTelephone(String account) {
         try {
             String url = "https://passport.58.com/login/dologin";
-            Connection.Response response = Jsoup.connect(url)
+            Connection.Response response = JJsoupUtil.newProxySession().connect(url)
                     .method(Connection.Method.POST)
                     .data(getParams(account))
                     .headers(getHeader())

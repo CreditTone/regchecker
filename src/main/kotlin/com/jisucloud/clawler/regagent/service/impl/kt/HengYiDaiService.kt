@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.kt
 
 import com.jisucloud.clawler.regagent.service.PapaSpider
+import com.jisucloud.clawler.regagent.util.JJsoupUtil
 import org.jsoup.Connection
-import org.jsoup.Jsoup
 import org.springframework.stereotype.Component
 import java.security.SecureRandom
 import java.util.*
@@ -41,8 +41,9 @@ class HengYiDaiService : PapaSpider {
                     "sourceType":"3"
                 }
             """.trimIndent()
+            val session = JJsoupUtil.newProxySession()
             //老版本2.9.9接口，邦邦加固+DES加密
-            val response = Jsoup.connect("https://hyd.hengchang6.com/hyd/services/hydUser/checkPhone")
+            val response = session.connect("https://hyd.hengchang6.com/hyd/services/hydUser/checkPhone")
                     .userAgent("Mozilla/5.0 (Linux; U; Android 5.1.1; zh-cn; Nexus 5 Build/LMY48M) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30")
                     .data("jsonParams", encrypt(jsonParams))
                     .method(Connection.Method.POST)

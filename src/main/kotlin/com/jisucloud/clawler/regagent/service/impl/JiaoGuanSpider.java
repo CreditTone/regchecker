@@ -3,6 +3,8 @@ package com.jisucloud.clawler.regagent.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.util.JJsoupUtil;
+import me.kagura.Session;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.springframework.stereotype.Component;
@@ -34,11 +36,11 @@ public class JiaoGuanSpider implements PapaSpider {
     @Override
     public boolean checkTelephone(String account) {
         try {
-            Map<String, String> cookies = Jsoup.connect("https://www.12123.com/forget.html")
+            Session session = JJsoupUtil.newProxySession();
+            session.connect("https://www.12123.com/forget.html")
                     .ignoreContentType(true)
-                    .execute().cookies();
-            Connection.Response execute = Jsoup.connect("https://www.12123.com/api/checkRegistered.json")
-                    .cookies(cookies)
+                    .execute();
+            Connection.Response execute = session.connect("https://www.12123.com/api/checkRegistered.json")
                     .headers(getHeader())
                     .header("Accept", "*/*")
                     .header("Accept-Encoding", "gzip, deflate, br")

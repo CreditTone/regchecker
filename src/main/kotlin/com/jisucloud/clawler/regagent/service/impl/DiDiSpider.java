@@ -3,6 +3,7 @@ package com.jisucloud.clawler.regagent.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.springframework.stereotype.Component;
@@ -69,7 +70,7 @@ public class DiDiSpider implements PapaSpider {
         try {
             String url = "https://epassport.diditaxi.com.cn/passport/login/v5/getIdentity";
 
-            Connection.Response response = Jsoup.connect(url)
+            Connection.Response response = JJsoupUtil.newProxySession().connect(url)
                     .userAgent("Android/4.4.2 didihttp OneNet/2.1.0.81 com.sdu.didi.psnger/5.2.40")
                     .ignoreContentType(true)
                     .method(Connection.Method.POST)

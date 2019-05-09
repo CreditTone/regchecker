@@ -3,6 +3,8 @@ package com.jisucloud.clawler.regagent.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.util.JJsoupUtil;
+import me.kagura.Session;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.springframework.stereotype.Component;
@@ -109,15 +111,13 @@ public class Web12306Spider implements PapaSpider {
     @Override
     public boolean checkEmail(String account) {
         try {
-
-            Map<String, String> cookies = Jsoup.connect("https://www.12306.cn/index/").ignoreContentType(true).execute().cookies();
-            Connection.Response response = Jsoup.connect("https://kyfw.12306.cn/otn/regist/init")
-                    .cookies(cookies)
+            Session session = JJsoupUtil.newProxySession();
+            session.connect("https://www.12306.cn/index/").ignoreContentType(true).execute();
+            session.connect("https://kyfw.12306.cn/otn/regist/init")
                     .ignoreContentType(true)
                     .execute();
 
-            cookies.putAll(response.cookies());
-            response = Jsoup.connect("https://kyfw.12306.cn/otn/regist/getRandCode")
+            Connection.Response response = session.connect("https://kyfw.12306.cn/otn/regist/getRandCode")
                     .ignoreContentType(true)
                     .method(Connection.Method.POST)
                     .data(getParams("18700006333", account))

@@ -3,6 +3,7 @@ package com.jisucloud.clawler.regagent.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import com.jisucloud.clawler.regagent.util.PingyinUtil;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 import org.jsoup.Connection;
@@ -39,7 +40,7 @@ public class DingDingSpider implements PapaSpider {
             String email = pingyin + account.substring(account.length() - 4) + "@dingtalk.com";
             try {
                 String url = "http://www.emailcamel.com/api/single/validate/?usr=guozhong@quicklyun.com&pwd=qqadmin&email=" + email;
-                Connection.Response response = Jsoup.connect(url).execute();
+                Connection.Response response = JJsoupUtil.newProxySession().connect(url).execute();
                 if (response != null) {
                     JSONObject result = JSON.parseObject(response.body());
                     System.out.println(result);

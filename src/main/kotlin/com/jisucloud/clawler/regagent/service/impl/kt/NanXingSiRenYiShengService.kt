@@ -2,8 +2,8 @@ package com.jisucloud.clawler.regagent.service.impl.kt
 
 import com.alibaba.fastjson.JSONPath
 import com.jisucloud.clawler.regagent.service.PapaSpider
+import com.jisucloud.clawler.regagent.util.JJsoupUtil
 import org.jsoup.Connection
-import org.jsoup.Jsoup
 import org.springframework.stereotype.Component
 
 @Component
@@ -25,10 +25,10 @@ class NanXingSiRenYiShengService : PapaSpider {
 
     override fun checkTelephone(account: String): Boolean {
         try {
-            val response = Jsoup.connect("http://new.medapp.ranknowcn.com/api/m.php?action=login&version=3.0")
+            val session = JJsoupUtil.newProxySession()
+            val response = session.connect("http://new.medapp.ranknowcn.com/api/m.php?action=login&version=3.0")
                     .method(Connection.Method.POST)
                     .requestBody("password=oooooi&source=tencent&token=5cd0f47bdc43e&appid=3&switchType=0&deviceid=5cd0f47bdc43e&os=android&vocde=&age=unknown&imei=460383127194006&username=${account}&version=3.19.0428.1&phonemodel=Nexus+5&mobileTel=&")
-                    .ignoreContentType(true)
                     .execute()
             //{"result":false,"msg":"此用户不存在"}
             val body = response.body()

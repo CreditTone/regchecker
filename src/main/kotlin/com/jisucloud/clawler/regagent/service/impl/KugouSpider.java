@@ -3,6 +3,7 @@ package com.jisucloud.clawler.regagent.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.springframework.stereotype.Component;
@@ -50,7 +51,7 @@ public class KugouSpider implements PapaSpider {
     public boolean checkTelephone(String account) {
         try {
             String url = "http://userinfo.user.kugou.com/v3/retrieve_pwd";
-            Connection.Response response = Jsoup.connect(url)
+            Connection.Response response = JJsoupUtil.newProxySession().connect(url)
                     .headers(getHeader())
                     .requestBody(getRequestBody(account))
                     .userAgent("Android810-AndroidPhone-9156-238-0-User-wifi")

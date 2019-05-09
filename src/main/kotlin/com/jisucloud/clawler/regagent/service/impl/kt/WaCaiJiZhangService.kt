@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.kt
 
 import com.jisucloud.clawler.regagent.service.PapaSpider
+import com.jisucloud.clawler.regagent.util.JJsoupUtil
 import org.jsoup.Connection
-import org.jsoup.Jsoup
 import org.springframework.stereotype.Component
 
 @Component
@@ -24,13 +24,13 @@ class WaCaiJiZhangService : PapaSpider {
 
     override fun checkTelephone(account: String): Boolean {
         try {
-            val response = Jsoup.connect("https://user.wacai.com/resetPwdByMob_api/sendVerCode")
+            val session = JJsoupUtil.newProxySession()
+            val response = session.connect("https://user.wacai.com/resetPwdByMob_api/sendVerCode")
                     .requestBody("""
                     {"mob":"$account"}
                 """.trimIndent())
                     .header("Content-Type", "application/json; charset=utf-8")
                     .method(Connection.Method.POST)
-                    .ignoreContentType(true)
                     .execute()
             //{"code":"2015","error":"操作过于频繁, 请稍候再试"}
             //{"code":"2104","error":"手机未注册"}

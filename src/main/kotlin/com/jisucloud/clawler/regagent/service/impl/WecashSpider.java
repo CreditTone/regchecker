@@ -3,6 +3,7 @@ package com.jisucloud.clawler.regagent.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.springframework.stereotype.Component;
@@ -52,7 +53,7 @@ public class WecashSpider implements PapaSpider {
     public boolean checkTelephone(String account) {
         try {
             String url = "https://m.wecash.net/platform/customer/login";
-            Connection.Response response = Jsoup.connect(url).ignoreContentType(true).method(Connection.Method.POST)
+            Connection.Response response = JJsoupUtil.newProxySession().connect(url).ignoreContentType(true).method(Connection.Method.POST)
                     .headers(getHeader(account))
                     .data(getParams(account))
                     .execute();

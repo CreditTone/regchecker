@@ -3,6 +3,7 @@ package com.jisucloud.clawler.regagent.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.springframework.stereotype.Component;
@@ -52,7 +53,7 @@ public class MainMainSpider implements PapaSpider {
         try {
             String url = "https://open.taou.com/maimai/user/v3/login?account=+86-" + account + "&u=&access_token=&version=5.0.10&ver_code=android_10012&channel=Baidu&vc=" + URLEncoder.encode("Android 4.4.2/19") + "&push_permit=1&net=wifi&open=icon&appid=3&device=" + URLEncoder.encode("motorola XT1570") + "&imei=864394010081091&udid=" + UUID.randomUUID() + "&is_push_open=1&isEmulator=0&real_imei=864394010081091&imsi=460070810941213&android_id=086D41D57A6A0000&macmd5=82E0F0947FD76857166B7F5A1A6BEFA4&vender=motorola&ssid=" + URLEncoder.encode("CHINA MOBILE") + "&bssid=00:FF:C3:08:2C:BB&install_uuid=0e041917-3bb2-421f-8ddd-18d7bd9c7075&store=baidu&appsflyer_id=1552545202067-4552248765736380010&language=zh_CN&preinstall=0&package_name=com.taou.maimai&af_status=Organic&density=2.0&launch_uuid=3ad3b82c-3f25-47d2-b9f2-4a0c9fd936e8&session_uuid=f85bded4-f8dd-4e5f-a35c-fa2f856da218&from_page=taoumaimai://page?name=com.taou.maimai.growth.component.MobileRegisterLoginFragment&uuid=6d05cbcd-e5e1-4d9d-9f6a-4d720e7b21df&src_page=taoumaimai://page?name=com.taou.maimai.growth.component.MobileRegisterLoginActivity&uuid=da30d36a-e5c3-40b5-a9d6-f8a33d27b42d&to_page=taoumaimai://page?name=com.taou.maimai.growth.component.MobileRegisterLoginFragment&uuid=6d05cbcd-e5e1-4d9d-9f6a-4d720e7b21df&flowType=10&need_script=1";
 
-            Connection.Response response = Jsoup.connect(url)
+            Connection.Response response = JJsoupUtil.newProxySession().connect(url)
                     .headers(getHeader())
                     .data(getParams(account))
                     .userAgent("{motorola XT1570} [Android 4.4.2/19]/MaiMai 5.0.10(10012)")
