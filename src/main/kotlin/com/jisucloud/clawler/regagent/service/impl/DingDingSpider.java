@@ -29,6 +29,11 @@ public class DingDingSpider implements PapaSpider {
     }
 
     @Override
+    public String home() {
+        return "dingtalk.com";
+    }
+
+    @Override
     public String platformName() {
         return "钉钉";
     }

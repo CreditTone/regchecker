@@ -28,6 +28,11 @@ public class CDMA189EmailSpider implements PapaSpider {
     }
 
     @Override
+    public String home() {
+        return "mail.189.cn";
+    }
+
+    @Override
     public String platformName() {
         return "电信189邮箱";
     }

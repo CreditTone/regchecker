@@ -24,6 +24,11 @@ public class ENet126EmailSpider implements PapaSpider {
     }
 
     @Override
+    public String home() {
+        return "mail.126.com";
+    }
+
+    @Override
     public String platformName() {
         return "网易126邮箱";
     }

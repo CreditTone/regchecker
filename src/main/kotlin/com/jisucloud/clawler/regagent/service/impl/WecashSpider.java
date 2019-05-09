@@ -24,6 +24,11 @@ public class WecashSpider implements PapaSpider {
         return "wecash";
     }
 
+    @Override
+    public String home() {
+        return "wecash.net";
+    }
+
     private Map<String, String> getHeader(String account) {
         Map<String, String> headers = new HashMap<>();
         headers.put("Host", "m.wecash.net");

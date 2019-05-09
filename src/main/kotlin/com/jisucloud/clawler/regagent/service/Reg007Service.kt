@@ -68,7 +68,7 @@ class Reg007Service {
                                         val desc = JSONPath.read(body, "$.data[$x].desc") as String
                                         var domain = JSONPath.read(body, "$.data[$x].home") as String
                                         domain = domain.getRegexMatch("""http[s]?://([A-Za-z0-9.:-]*)""")
-                                        relustList.add(Result(desc, domain, name, false, true, null))
+                                        relustList.add(Result(desc, domain, domain, name, false, true, null))
                                     }
                                 }
                             }

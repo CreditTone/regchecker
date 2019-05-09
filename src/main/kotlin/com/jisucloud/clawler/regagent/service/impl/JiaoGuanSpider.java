@@ -25,6 +25,11 @@ public class JiaoGuanSpider implements PapaSpider {
         return "12123";
     }
 
+    @Override
+    public String home() {
+        return "12123.com";
+    }
+
     private Map<String, String> getHeader() {
         Map<String, String> headers = new HashMap<>();
         headers.put("Host", "www.12123.com");

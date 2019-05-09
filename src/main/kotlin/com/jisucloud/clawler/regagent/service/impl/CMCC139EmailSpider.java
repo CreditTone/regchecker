@@ -28,6 +28,11 @@ public class CMCC139EmailSpider implements PapaSpider {
     }
 
     @Override
+    public String home() {
+        return "mail.10086.cn";
+    }
+
+    @Override
     public boolean checkTelephone(String account) {
         try {
             String url = "http://www.emailcamel.com/api/single/validate/?usr=guozhong@quicklyun.com&pwd=qqadmin&email=" + account + "@139.com";

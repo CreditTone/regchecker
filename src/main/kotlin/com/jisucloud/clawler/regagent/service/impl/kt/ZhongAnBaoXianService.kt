@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class ZhongAnBaoXianService : PapaSpider {
+    override fun home(): String = "zhongan.com"
     //https://www.wandoujia.com/apps/com.zhongan.insurance/history
 
     override fun message(): String {

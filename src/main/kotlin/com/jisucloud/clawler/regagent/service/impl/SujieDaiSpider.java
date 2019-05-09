@@ -24,6 +24,11 @@ public class SujieDaiSpider implements PapaSpider {
         return "sujiedai";
     }
 
+    @Override
+    public String home() {
+        return "kyxdloan.com";
+    }
+
     private Map<String, String> getHeader() {
         Map<String, String> headers = new HashMap<>();
         headers.put("Sign", "EDCB7FAA0AC96CECA3652AE07E4503840FE04910");

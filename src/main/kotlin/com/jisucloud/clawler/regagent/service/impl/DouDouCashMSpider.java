@@ -31,6 +31,11 @@ public class DouDouCashMSpider implements PapaSpider {
         return "doudoucash";
     }
 
+    @Override
+    public String home() {
+        return "ddcash.cn";
+    }
+
     private String getRequestBody(String mobile) {
         JSONObject q = new JSONObject();
         JSONObject reqParam = new JSONObject();

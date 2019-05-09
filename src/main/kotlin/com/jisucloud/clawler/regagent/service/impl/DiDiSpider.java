@@ -24,6 +24,11 @@ public class DiDiSpider implements PapaSpider {
         return "dudichuxing";
     }
 
+    @Override
+    public String home() {
+        return "didiglobal.com";
+    }
+
     private Map<String, String> getHeader() {
         Map<String, String> headers = new HashMap<>();
         headers.put("didi-header-hint-content", "{\"utc_offset\":\"480\",\"lang\":\"zh-CN\",\"Cityid\":1,\"app_timeout_ms\":20000}");

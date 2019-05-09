@@ -23,6 +23,11 @@ public class RenRenDaiService implements PapaSpider {
     }
 
     @Override
+    public String home() {
+        return "renrendai.com";
+    }
+
+    @Override
     public String platformName() {
         return "人人贷APP";
     }

@@ -30,6 +30,11 @@ public class Web12306Spider implements PapaSpider {
         return "12306";
     }
 
+    @Override
+    public String home() {
+        return "12306.cn";
+    }
+
     private Map<String, String> getHeader() {
         Map<String, String> headers = new HashMap<>();
         headers.put("Host", "kyfw.12306.cn");

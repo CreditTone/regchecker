@@ -8,6 +8,8 @@ public interface PapaSpider {
 
     String platform();
 
+    String home();
+
     String platformName();
 
     boolean checkTelephone(String account);

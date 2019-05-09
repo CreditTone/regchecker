@@ -19,7 +19,7 @@ class CheckService {
         SpiderMap.map.forEach { k, v ->
             if (!info.exclusions.contains(k)) {
                 val checkResult = v.checkTelephone(info.account)
-                relustList.add(Result(v.message(), v.platform(), v.platformName(), v.checkEmail(info.account), checkResult, v.fields))
+                relustList.add(Result(v.message(), v.home(), v.platform(), v.platformName(), v.checkEmail(info.account), checkResult, v.fields))
             }
         }
         return relustList
@@ -36,7 +36,7 @@ class CheckService {
                 val v = it.value
                 if (!info.exclusions.contains(k)) {
                     val checkResult = v.checkTelephone(info.account)
-                    relustList.add(Result(v.message(), v.platform(), v.platformName(), v.checkEmail(info.account), checkResult, v.fields))
+                    relustList.add(Result(v.message(), v.home(), v.platform(), v.platformName(), v.checkEmail(info.account), checkResult, v.fields))
                 }
             }
         }

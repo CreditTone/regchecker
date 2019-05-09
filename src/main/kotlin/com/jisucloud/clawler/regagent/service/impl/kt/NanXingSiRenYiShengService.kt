@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class NanXingSiRenYiShengService : PapaSpider {
+    override fun home(): String = "ranknowcn.com"
     //https://sj.qq.com/myapp/detail.htm?apkName=com.medapp.man
 
     override fun message(): String {

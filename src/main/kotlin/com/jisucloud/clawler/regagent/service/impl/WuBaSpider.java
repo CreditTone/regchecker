@@ -23,6 +23,11 @@ public class WuBaSpider implements PapaSpider {
         return "58ganji";
     }
 
+    @Override
+    public String home() {
+        return "58.com";
+    }
+
     private Map<String, String> getHeader() {
         Map<String, String> headers = new HashMap<>();
         headers.put("uid", "");

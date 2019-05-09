@@ -24,6 +24,11 @@ public class XiaomiSpider implements PapaSpider {
         return "xiaomi";
     }
 
+    @Override
+    public String home() {
+        return "xiami.com";
+    }
+
     private Map<String, String> getHeader(String account) {
         Map<String, String> headers = new HashMap<>();
         headers.put("Host", "account.xiaomi.com");

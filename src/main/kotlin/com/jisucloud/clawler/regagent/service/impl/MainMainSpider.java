@@ -26,6 +26,11 @@ public class MainMainSpider implements PapaSpider {
         return "mainmain";
     }
 
+    @Override
+    public String home() {
+        return "taou.com";
+    }
+
     private Map<String, String> getHeader() {
         Map<String, String> headers = new HashMap<>();
         headers.put("X-Maimai-Reqid", UUID.randomUUID().toString().replaceAll("\\-", ""));

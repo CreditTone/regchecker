@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class WaCaiJiZhangService : PapaSpider {
+    override fun home(): String = "wacai.com"
     //https://sj.qq.com/myapp/detail.htm?apkName=com.wacai365
 
     override fun message(): String {

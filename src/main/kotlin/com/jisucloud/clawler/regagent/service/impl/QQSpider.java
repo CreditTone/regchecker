@@ -26,6 +26,11 @@ public class QQSpider implements PapaSpider {
         return "qq";
     }
 
+    @Override
+    public String home() {
+        return "qq.com";
+    }
+
     private Map<String, String> getHeader() {
         Map<String, String> headers = new HashMap<>();
         headers.put("Host", "aq.qq.com");

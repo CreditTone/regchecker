@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class QuGuanZhangService : PapaSpider {
+    override fun home(): String = "finsphere.cn"
 
     override fun message(): String {
         return "趣管账是一款专为工薪阶层打造，用手机借贷提供分期消费、小额借款的移动互联网信贷产品，其宗旨是为20-45周岁的人群提供便捷迅速的金融信贷服务。国内首批利用大数据，人工智能实现风控审核的信贷服务平台。"
