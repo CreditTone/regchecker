@@ -1,3 +1,22 @@
+# 服务调用
+```kotlin
+val execute = Jsoup.connect("http://120.132.22.65:8888/check")
+            .requestBody("""
+                {
+                    "account": "18799990000",
+                    "accountType": "PHONE",
+                    "exclusions": [
+                        "12306"
+                    ]
+                }
+            """)
+            .header("Content-Type", "application/json;charset=UTF-8")
+            .method(Connection.Method.POST)
+            .ignoreContentType(true)
+            .timeout(1000 * 60 * 60)
+            .execute()
+    println(execute.body())
+```
 # 开发进度
 | platform | 名称 | 状态 | 备注 |
 | ------ | ------ | ------ | ------ |
