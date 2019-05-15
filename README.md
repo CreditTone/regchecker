@@ -50,7 +50,7 @@ val execute = Jsoup.connect("http://120.132.22.65:8888/check")
 
 # 暗网查询
 ```kotlin
-Jsoup.connect("http://127.0.0.1:8888/tor/search?account=13964036054")
+Jsoup.connect("http://120.132.22.65:8888/tor/search?account=13800138000")
     .ignoreContentType(true)
     .timeout(1000 * 60 * 60)
     .method(Connection.Method.GET)
