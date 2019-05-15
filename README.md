@@ -46,3 +46,15 @@ val execute = Jsoup.connect("http://120.132.22.65:8888/check")
 |  | 携程 | 未完成 | 滑块跟点选验证 |
 |  | 美团WEB | 未完成 | 滑块验证 |
 |  | 西瓜视频 | 未完成 | 直接访问频繁，找回密码点选滑块验证 |
+
+
+# 暗网查询
+```kotlin
+Jsoup.connect("http://127.0.0.1:8888/tor/search?account=13964036054")
+    .ignoreContentType(true)
+    .timeout(1000 * 60 * 60)
+    .method(Connection.Method.GET)
+    .execute()
+    
+println(execute.body())
+```
