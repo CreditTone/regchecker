@@ -35,7 +35,12 @@ class CheckService {
                 val k = it.key
                 val v = it.value
                 if (!info.exclusions.contains(k)) {
-                    val checkResult = v.checkTelephone(info.account)
+                    var checkResult = false
+                    try {
+                        checkResult = v.checkTelephone(info.account)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                     relustList.add(Result(v.message(), v.home(), v.platform(), v.platformName(), v.checkEmail(info.account), checkResult, v.fields))
                 }
             }
