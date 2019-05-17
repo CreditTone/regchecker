@@ -7,10 +7,8 @@ import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import com.jisucloud.clawler.regagent.util.PingyinUtil;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Type;
 import java.util.Map;
 
 @Component
@@ -74,6 +72,11 @@ public class DingDingSpider implements PapaSpider {
 
     @Override
     public Map<String, String> getFields() {
+        return null;
+    }
+
+    @Override
+    public Map<String, String[]> tags() {
         return null;
     }
 }

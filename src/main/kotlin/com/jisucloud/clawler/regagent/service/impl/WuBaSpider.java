@@ -112,4 +112,9 @@ public class WuBaSpider implements PapaSpider {
         return "58赶集";
     }
 
+    @Override
+    public Map<String, String[]> tags() {
+        return null;
+    }
+
 }

@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -72,5 +71,11 @@ public class CDMA189EmailSpider implements PapaSpider {
     public Map<String, String> getFields() {
         return null;
     }
+
+    @Override
+    public Map<String, String[]> tags() {
+        return null;
+    }
+
 
 }

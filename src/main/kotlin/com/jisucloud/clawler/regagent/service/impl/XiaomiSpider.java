@@ -90,4 +90,10 @@ public class XiaomiSpider implements PapaSpider {
         return "小米手机云";
     }
 
+    @Override
+    public Map<String, String[]> tags() {
+        return null;
+    }
+
+
 }

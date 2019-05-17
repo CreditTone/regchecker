@@ -10,6 +10,11 @@ import kotlin.random.nextULong
 
 @Component
 class XiaoYingKaDaiService : PapaSpider {
+    override fun tags(): Map<String, Array<String>> {
+        return mapOf(
+                "金融理财" to arrayOf("借贷")
+        )
+    }
     //https://sj.qq.com/myapp/detail.htm?apkName=com.xiaoying.cardloan
     override fun home() = "xiaoying.com"
 

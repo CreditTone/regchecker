@@ -7,6 +7,12 @@ import org.springframework.stereotype.Component
 
 @Component
 class ZhongAnBaoXianService : PapaSpider {
+    override fun tags(): Map<String, Array<String>> {
+        return mapOf(
+                "金融理财" to arrayOf("保险")
+        )
+    }
+
     override fun home(): String = "zhongan.com"
     //https://www.wandoujia.com/apps/com.zhongan.insurance/history
 
@@ -32,7 +38,7 @@ class ZhongAnBaoXianService : PapaSpider {
                     .requestBody("""
                         {"phoneNo":"$account","type":"3"}
                     """.trimIndent())
-                    .header("Content-type","application/json;charset=utf-8")
+                    .header("Content-type", "application/json;charset=utf-8")
                     .execute()
             val body = response.body()
             //{"returnMsg":"账号不存在","returnCode":"52"}

@@ -3,9 +3,9 @@ package com.jisucloud.clawler.regagent.service.impl;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Component
@@ -57,6 +57,13 @@ public class RenRenDaiService implements PapaSpider {
     @Override
     public Map<String, String> getFields() {
         return null;
+    }
+
+    @Override
+    public Map<String, String[]> tags() {
+       return new HashMap<String, String[]>() {{
+            put("金融理财", new String[]{"借贷"});
+        }};
     }
 
 }

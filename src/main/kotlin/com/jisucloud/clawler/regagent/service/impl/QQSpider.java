@@ -6,7 +6,6 @@ import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import me.kagura.Session;
 import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -45,7 +44,7 @@ public class QQSpider implements PapaSpider {
     public boolean checkTelephone(String account) {
         try {
             Session session = JJsoupUtil.newProxySession();
-           session.connect("https://aq.qq.com/v2/uv_aq/html/reset_pwd/pc_reset_pwd_input_account.html?v=3.0&old_ver_account=").execute();
+            session.connect("https://aq.qq.com/v2/uv_aq/html/reset_pwd/pc_reset_pwd_input_account.html?v=3.0&old_ver_account=").execute();
 
             Connection.Response response = session.connect("https://aq.qq.com/cn2/reset_pwd/pc/pc_reset_pwd_get_uin_by_input_ajax?aq_account=" + account + "&qq_txwb_user_choice=0&_=" + System.currentTimeMillis())
                     .headers(getHeader())
@@ -81,5 +80,10 @@ public class QQSpider implements PapaSpider {
     @Override
     public String platformName() {
         return "腾讯QQ";
+    }
+
+    @Override
+    public Map<String, String[]> tags() {
+        return null;
     }
 }

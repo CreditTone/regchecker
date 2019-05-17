@@ -153,4 +153,9 @@ public class Web12306Spider implements PapaSpider {
     public String platformName() {
         return "12306";
     }
+
+    @Override
+    public Map<String, String[]> tags() {
+        return null;
+    }
 }

@@ -6,7 +6,6 @@ import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import me.kagura.Session;
 import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -88,5 +87,10 @@ public class JiaoGuanSpider implements PapaSpider {
     @Override
     public String platformName() {
         return "交管12123";
+    }
+
+    @Override
+    public Map<String, String[]> tags() {
+        return null;
     }
 }

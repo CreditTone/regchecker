@@ -18,4 +18,6 @@ public interface PapaSpider {
 
     Map<String, String> getFields();
 
+    Map<String, String[]> tags();
+
 }

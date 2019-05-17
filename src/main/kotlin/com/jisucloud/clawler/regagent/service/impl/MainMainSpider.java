@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.springframework.stereotype.Component;
 
 import java.net.URLEncoder;
@@ -92,5 +91,10 @@ public class MainMainSpider implements PapaSpider {
     @Override
     public String platformName() {
         return "脉脉";
+    }
+
+    @Override
+    public Map<String, String[]> tags() {
+        return null;
     }
 }

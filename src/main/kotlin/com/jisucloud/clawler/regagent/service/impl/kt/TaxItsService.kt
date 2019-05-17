@@ -10,6 +10,10 @@ import java.util.*
 
 @Component
 class TaxItsService : PapaSpider {
+    override fun tags(): Map<String, Array<String>>? {
+        return null
+    }
+
     //https://sj.qq.com/myapp/detail.htm?apkName=cn.gov.tax.its
     override fun message() = "个人所得税APP是由国家税务总局主办，为贯彻落实党中央、国务院提出的个人所得税综合与分类相结合的税制改革要求，为保障全国自然人纳税人能够及时享受税改红利，而推出的一款APP。"
 

@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -109,5 +108,10 @@ public class DiDiSpider implements PapaSpider {
     @Override
     public String platformName() {
         return "滴滴出行";
+    }
+
+    @Override
+    public Map<String, String[]> tags() {
+        return null;
     }
 }

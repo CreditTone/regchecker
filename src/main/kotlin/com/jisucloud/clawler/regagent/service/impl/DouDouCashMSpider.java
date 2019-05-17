@@ -98,4 +98,9 @@ public class DouDouCashMSpider implements PapaSpider {
     public String platformName() {
         return "豆豆钱包";
     }
+
+    @Override
+    public Map<String, String[]> tags() {
+        return null;
+    }
 }

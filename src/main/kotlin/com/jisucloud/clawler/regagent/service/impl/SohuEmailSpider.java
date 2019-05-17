@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -68,5 +67,11 @@ public class SohuEmailSpider implements PapaSpider {
     @Override
     public String platformName() {
         return "搜狐邮箱";
+    }
+
+
+    @Override
+    public Map<String, String[]> tags() {
+        return null;
     }
 }

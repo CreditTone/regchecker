@@ -12,6 +12,12 @@ import javax.crypto.spec.DESKeySpec
 
 @Component
 class HengYiDaiService : PapaSpider {
+    override fun tags(): Map<String, Array<String>> {
+        return mapOf(
+                "金融理财" to arrayOf("借贷")
+        )
+    }
+
     override fun home(): String = "credithc.com"
     //https://sj.qq.com/myapp/detail.htm?apkName=com.hengchang.client
 
@@ -25,7 +31,7 @@ class HengYiDaiService : PapaSpider {
     }
 
     override fun platformName(): String {
-            return "恒易贷"
+        return "恒易贷"
     }
 
     override fun checkTelephone(account: String): Boolean {

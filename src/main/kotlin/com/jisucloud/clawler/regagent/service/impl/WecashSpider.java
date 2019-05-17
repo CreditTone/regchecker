@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -90,4 +89,12 @@ public class WecashSpider implements PapaSpider {
     public String platformName() {
         return "闪银";
     }
+
+    @Override
+    public Map<String, String[]> tags() {
+        return new HashMap<String, String[]>() {{
+            put("金融理财", new String[]{"借贷", "贷超"});
+        }};
+    }
+
 }
