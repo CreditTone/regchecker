@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Controller
 import org.springframework.test.context.junit.jupiter.SpringExtension
@@ -23,6 +24,8 @@ internal class CheckControllerTest {
 
     @Autowired
     lateinit var mvc: MockMvc
+    @Autowired
+    lateinit var redisTemplate: StringRedisTemplate
 
     @Test
     fun doCheck() {
@@ -43,5 +46,12 @@ internal class CheckControllerTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn()
         System.err.println("注册检测接口返回：" + mvcResult.response.contentAsString)
+    }
+
+    @Test
+    fun doTest() {
+        redisTemplate.boundValueOps("xxxxx").set("5313131",8640000)
+        val s = redisTemplate.boundValueOps("xxxxx").get()
+        System.err.println(s)
     }
 }

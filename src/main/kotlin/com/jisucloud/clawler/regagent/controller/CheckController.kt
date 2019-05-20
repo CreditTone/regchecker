@@ -5,6 +5,7 @@ import com.jisucloud.clawler.regagent.entity.Info
 import com.jisucloud.clawler.regagent.service.CheckService
 import com.jisucloud.clawler.regagent.service.TorIDCardSearchService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE
 import org.springframework.web.bind.annotation.*
 
@@ -18,13 +19,15 @@ class CheckController {
     lateinit var checkService: CheckService
     @Autowired
     lateinit var torIDCardSearchService: TorIDCardSearchService
+    @Autowired
+    lateinit var redisTemplate: StringRedisTemplate
 
     @PostMapping("check", produces = [APPLICATION_JSON_UTF8_VALUE], consumes = [APPLICATION_JSON_UTF8_VALUE])
     @ResponseBody
     fun doCheck(@RequestBody requestBody: String): Map<String, Any>? {
         try {
             val jsonInfo = JSON.parseObject(requestBody, Info::class.java)
-            val result = checkService.doCheckAsync(jsonInfo)
+            val result = checkService.doCheckAsync2(jsonInfo)
             return mapOf(
                     "code" to "200",
                     "success" to true,
@@ -44,7 +47,7 @@ class CheckController {
 
     @GetMapping("/tor/search", produces = [APPLICATION_JSON_UTF8_VALUE])
     @ResponseBody
-    fun doSearchTor( @RequestParam account: String): Map<String, Any>? {
+    fun doSearchTor(@RequestParam account: String): Map<String, Any>? {
         try {
             val result = torIDCardSearchService.doSearch(account)
             return mapOf(
@@ -62,6 +65,25 @@ class CheckController {
             )
         }
         return null
+    }
+
+    @GetMapping("/get/reg007", produces = [APPLICATION_JSON_UTF8_VALUE])
+    @ResponseBody
+    fun getReg007(@RequestParam account: String): Map<String, Any>? {
+        if (!redisTemplate.hasKey(account)) {
+            return mapOf(
+                    "code" to "-1",
+                    "success" to true,
+                    "msg" to "还在爬取中",
+                    "result" to ""
+            )
+        }
+        val result = redisTemplate.boundValueOps(account).get()
+        return mapOf(
+                "code" to "200",
+                "success" to true,
+                "msg" to "成功",
+                "result" to result + "")
     }
 
 }

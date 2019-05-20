@@ -69,7 +69,7 @@ public class QQSpider implements PapaSpider {
 
     @Override
     public boolean checkEmail(String account) {
-        return checkTelephone(account);
+        return false;
     }
 
     @Override

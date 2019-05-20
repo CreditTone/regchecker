@@ -42,6 +42,10 @@ class Reg007Service {
                         .timeout(1000 * 50)
                         .execute().run {
                             val body = this.body()
+                            println(body)
+                            if (JSONPath.read(this.body(), "$.data") == -1) {
+                                return relustList
+                            }
                             val isInt = JSONPath.read(this.body(), "$.data") is Int
                             if (!isInt) {
                                 val size = JSONPath.read(this.body(), "$.data.length()")
@@ -61,9 +65,29 @@ class Reg007Service {
             println("手机号:$account 在reg007检测返回：${JSON.toJSONString(relustList)}")
             return relustList
         } catch (e: Exception) {
+            e.printStackTrace()
             println("Reg007 检测$account 出现异常：${e.localizedMessage}")
         }
         return mutableListOf()
     }
 
 }
+
+//fun main() {
+//    System.err.println("--------------------重新登录Reg007------>")
+//    val session = JJsoupUtil.newProxySession()
+//
+//    val csrf = session.connect("https://www.reg007.com/account/signin").execute().parse().selectFirst("[name=__csrf__]").`val`()
+//    session.connect("https://www.reg007.com/account/signin")
+//            .data(mapOf(
+//                    "account" to "18210538513",
+//                    "password" to "admini",
+//                    "remember" to "on",
+//                    "__csrf__" to csrf
+//            ))
+//            .method(Connection.Method.POST)
+//            .execute()
+//    StaticValue.REG007_COOKIES = session.cookies()
+//
+//    Reg007Service().doCheckTelephone("18701666062")
+//}
