@@ -8,6 +8,7 @@ val execute = Jsoup.connect("http://120.132.22.65:8888/check")
                     "exclusions": [
                         "12306"
                     ]
+                    "reg007CallBackUrl": "http://127.0.0.1:8888/callback"
                 }
             """)
             .header("Content-Type", "application/json;charset=UTF-8")
@@ -17,6 +18,7 @@ val execute = Jsoup.connect("http://120.132.22.65:8888/check")
             .execute()
     println(execute.body())
 ```
+`reg007CallBackUrl`字段设置reg007回调接口地址，会以POST方式提交，Content-Type=application/json;
 # 开发进度
 | platform | 名称 | 状态 | 备注 |
 | ------ | ------ | ------ | ------ |
