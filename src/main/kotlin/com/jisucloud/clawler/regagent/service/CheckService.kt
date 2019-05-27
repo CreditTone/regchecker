@@ -11,6 +11,7 @@ import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.redis.core.StringRedisTemplate
+import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
 
 @Service
@@ -70,7 +71,11 @@ class CheckService {
         GlobalScope.async {
             //单独处理Reg007
             val list007 = Reg007Service().doCheckTelephone(info.account)
-            Jsoup.connect(info.reg007CallBackUrl).method(Connection.Method.POST).requestBody(JSON.toJSONString(list007)).execute()
+            Jsoup.connect(info.reg007CallBackUrl)
+                    .method(Connection.Method.POST)
+                    .requestBody(JSON.toJSONString(list007))
+                    .header("Content-Type",MediaType.APPLICATION_JSON_UTF8_VALUE)
+                    .execute()
 
         }
         var relustList = mutableListOf<Any>()
