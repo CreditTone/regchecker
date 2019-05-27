@@ -74,7 +74,7 @@ class CheckService {
             Jsoup.connect(info.reg007CallBackUrl)
                     .method(Connection.Method.POST)
                     .requestBody(JSON.toJSONString(list007))
-                    .header("Content-Type",MediaType.APPLICATION_JSON_UTF8_VALUE)
+                    .header("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
                     .execute()
 
         }
@@ -90,7 +90,9 @@ class CheckService {
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
-                    relustList.add(Result(v.message(), v.home(), v.platform(), v.platformName(), v.checkEmail(info.account), checkResult, v.fields, v.tags()))
+                    //单纯是手机好的时候不调用Email检测方法
+                    val checkEmail = if (Regex("\\d{11}").matches(info.account)) false else v.checkEmail(info.account)
+                    relustList.add(Result(v.message(), v.home(), v.platform(), v.platformName(), checkEmail, checkResult, v.fields, v.tags()))
                 }
             }
         }
