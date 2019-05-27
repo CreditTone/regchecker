@@ -49,10 +49,10 @@ public class XiaoweiJinrongSpider implements PapaSpider {
 		};
 	}
 
-	public static void main(String[] args) {
-		System.out.println(new XiaoweiJinrongSpider().checkTelephone("18210538513"));
-		System.out.println(new XiaoweiJinrongSpider().checkTelephone("18210538577"));
-	}
+//	public static void main(String[] args) {
+//		System.out.println(new XiaoweiJinrongSpider().checkTelephone("18210538513"));
+//		System.out.println(new XiaoweiJinrongSpider().checkTelephone("18210538577"));
+//	}
 
 	private Map<String, String> getHeader() {
 		Map<String, String> headers = new HashMap<>();

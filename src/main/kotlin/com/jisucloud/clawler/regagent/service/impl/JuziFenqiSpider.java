@@ -76,10 +76,10 @@ public class JuziFenqiSpider implements PapaSpider {
 		return params;
 	}
 	
-	 public static void main(String[] args) {
-			System.out.println(new JuziFenqiSpider().checkTelephone("18210538513"));
-			System.out.println(new JuziFenqiSpider().checkTelephone("18210538577"));
-		}
+//	 public static void main(String[] args) {
+//			System.out.println(new JuziFenqiSpider().checkTelephone("18210538513"));
+//			System.out.println(new JuziFenqiSpider().checkTelephone("18210538577"));
+//		}
 
     @Override
     public boolean checkTelephone(String account) {

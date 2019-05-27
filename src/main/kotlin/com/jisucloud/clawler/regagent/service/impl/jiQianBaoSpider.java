@@ -53,10 +53,10 @@ public class jiQianBaoSpider implements PapaSpider {
         return params;
     }
 
-    public static void main(String[] args) {
-		System.out.println(new jiQianBaoSpider().checkTelephone("18210538513"));
-		System.out.println(new jiQianBaoSpider().checkTelephone("18210531111"));
-	}
+//    public static void main(String[] args) {
+//		System.out.println(new jiQianBaoSpider().checkTelephone("18210538513"));
+//		System.out.println(new jiQianBaoSpider().checkTelephone("18210531111"));
+//	}
 
     @Override
     public boolean checkTelephone(String account) {

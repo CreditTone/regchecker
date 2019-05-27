@@ -54,10 +54,10 @@ public class MoerlongSpider implements PapaSpider {
 		};
 	}
 
-	public static void main(String[] args) {
-		System.out.println(new MoerlongSpider().checkTelephone("18210538513"));
-		System.out.println(new MoerlongSpider().checkTelephone("18210538577"));
-	}
+//	public static void main(String[] args) {
+//		System.out.println(new MoerlongSpider().checkTelephone("18210538513"));
+//		System.out.println(new MoerlongSpider().checkTelephone("18210538577"));
+//	}
 
 	private Map<String, String> getHeader() {
 		Map<String, String> headers = new HashMap<>();
