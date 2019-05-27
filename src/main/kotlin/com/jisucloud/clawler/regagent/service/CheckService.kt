@@ -7,10 +7,11 @@ import com.jisucloud.clawler.regagent.entity.Result
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
+import org.jsoup.Connection
+import org.jsoup.Jsoup
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.stereotype.Service
-import java.util.concurrent.TimeUnit
 
 @Service
 class CheckService {
@@ -68,11 +69,8 @@ class CheckService {
     fun doCheckAsync2(info: Info): MutableList<Any> {
         GlobalScope.async {
             //单独处理Reg007
-            if (redisTemplate.hasKey(info.account)) {
-                return@async
-            }
             val list007 = Reg007Service().doCheckTelephone(info.account)
-            redisTemplate.boundValueOps(info.account).set(JSON.toJSONString(list007), 1, TimeUnit.DAYS)
+            Jsoup.connect(info.reg007CallBackUrl).method(Connection.Method.POST).requestBody(JSON.toJSONString(list007)).execute()
 
         }
         var relustList = mutableListOf<Any>()

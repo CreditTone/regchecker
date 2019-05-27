@@ -67,23 +67,4 @@ class CheckController {
         return null
     }
 
-    @GetMapping("/get/reg007", produces = [APPLICATION_JSON_UTF8_VALUE])
-    @ResponseBody
-    fun getReg007(@RequestParam account: String): Map<String, Any>? {
-        if (!redisTemplate.hasKey(account)) {
-            return mapOf(
-                    "code" to "-1",
-                    "success" to true,
-                    "msg" to "还在爬取中",
-                    "result" to ""
-            )
-        }
-        val result = redisTemplate.boundValueOps(account).get()
-        return mapOf(
-                "code" to "200",
-                "success" to true,
-                "msg" to "成功",
-                "result" to result + "")
-    }
-
 }
