@@ -160,7 +160,4 @@ public class Web12306Spider implements PapaSpider {
         return null;
     }
 
-    public static void main(String[] args) {
-        System.err.println(new Web12306Spider().checkTelephone("13737025111"));
-    }
 }
