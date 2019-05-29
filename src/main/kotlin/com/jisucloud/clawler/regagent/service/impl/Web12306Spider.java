@@ -89,6 +89,7 @@ public class Web12306Spider implements PapaSpider {
                     .ignoreContentType(true)
                     .data(getParams(account, ""))
                     .headers(getHeader())
+                    .method(Connection.Method.POST)
                     .execute();
 
             if (response != null) {
@@ -157,5 +158,9 @@ public class Web12306Spider implements PapaSpider {
     @Override
     public Map<String, String[]> tags() {
         return null;
+    }
+
+    public static void main(String[] args) {
+        System.err.println(new Web12306Spider().checkTelephone("13737025111"));
     }
 }
