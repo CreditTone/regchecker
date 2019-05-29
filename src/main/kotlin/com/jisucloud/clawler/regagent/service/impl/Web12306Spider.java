@@ -3,7 +3,7 @@ package com.jisucloud.clawler.regagent.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.util.JJsoupUtil;
+import me.kagura.JJsoup;
 import me.kagura.Session;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -117,7 +117,7 @@ public class Web12306Spider implements PapaSpider {
     @Override
     public boolean checkEmail(String account) {
         try {
-            Session session = JJsoupUtil.newProxySession();
+            Session session = JJsoup.newSession();
             session.connect("https://www.12306.cn/index/").ignoreContentType(true).execute();
             session.connect("https://kyfw.12306.cn/otn/regist/init")
                     .ignoreContentType(true)
