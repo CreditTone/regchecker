@@ -68,21 +68,21 @@ class CheckService {
 //    }
 
     fun doCheckAsync2(info: Info): MutableList<Any> {
-        GlobalScope.async {
-            //单独处理Reg007
-            val list007 = Reg007Service().doCheckTelephone(info.account)
-            Jsoup.connect(info.reg007CallBackUrl)
-                    .method(Connection.Method.POST)
-                    .requestBody(JSON.toJSONString(list007))
-                    .header("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
-                    .execute()
-
-        }
+//        GlobalScope.async {
+//            //单独处理Reg007
+//            val list007 = Reg007Service().doCheckTelephone(info.account)
+//            Jsoup.connect(info.reg007CallBackUrl)
+//                    .method(Connection.Method.POST)
+//                    .requestBody(JSON.toJSONString(list007))
+//                    .header("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
+//                    .execute()
+//
+//        }
         var relustList = mutableListOf<Any>()
         var list = SpiderMap.map.map {
             return@map GlobalScope.async {
                 val k = it.key
-                val v = it.value
+                val v = it.value.javaClass.newInstance() as PapaSpider
                 if (!info.exclusions.contains(k)) {
                     var checkResult = false
                     try {

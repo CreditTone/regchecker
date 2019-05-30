@@ -77,16 +77,10 @@ public class Web12306Spider implements PapaSpider {
     @Override
     public boolean checkTelephone(String account) {
         try {
-            Map<String, String> cookies = Jsoup.connect("https://www.12306.cn/index/").ignoreContentType(true).execute().cookies();
-            Connection.Response response = Jsoup.connect("https://kyfw.12306.cn/otn/regist/init")
-                    .cookies(cookies)
-                    .ignoreContentType(true)
-                    .execute();
-
-            cookies.putAll(response.cookies());
-
-            response = Jsoup.connect("https://kyfw.12306.cn/otn/regist/getRandCode")
-                    .ignoreContentType(true)
+            Session session = JJsoup.newSession();
+            session.connect("https://www.12306.cn/index/").execute().cookies();
+            session.connect("https://kyfw.12306.cn/otn/regist/init").execute();
+            Connection.Response response = session.connect("https://kyfw.12306.cn/otn/regist/getRandCode")
                     .data(getParams(account, ""))
                     .headers(getHeader())
                     .method(Connection.Method.POST)
@@ -158,6 +152,10 @@ public class Web12306Spider implements PapaSpider {
     @Override
     public Map<String, String[]> tags() {
         return null;
+    }
+
+    public static void main(String[] args) {
+        System.err.println(new Web12306Spider().checkTelephone("18907582000"));
     }
 
 }
