@@ -24,7 +24,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-// 无效
+@Component
 public class CSDNSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
@@ -59,11 +59,11 @@ public class CSDNSpider implements PapaSpider {
 		};
 	}
 
-	public static void main(String[] args) throws InterruptedException {
-		System.out.println(new CSDNSpider().checkTelephone("13879691485"));
-		Thread.sleep(3000);
-		System.out.println(new CSDNSpider().checkTelephone("18210538513"));
-	}
+//	public static void main(String[] args) throws InterruptedException {
+//		System.out.println(new CSDNSpider().checkTelephone("13879691485"));
+//		Thread.sleep(3000);
+//		System.out.println(new CSDNSpider().checkTelephone("18210538513"));
+//	}
 
 	@Override
 	public boolean checkTelephone(String account) {

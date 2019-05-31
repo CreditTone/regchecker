@@ -154,6 +154,8 @@ public class HeadlessUtil {
 					log.info("finish crawl:"+url);
 				}
 			};
+			mDriver.get("https://www.benlai.com");
+			Thread.sleep(3000);
 			mDriver.get("https://www.benlai.com/login.html");
 			Thread.sleep(3000);
 			log.info("cookie get finish");

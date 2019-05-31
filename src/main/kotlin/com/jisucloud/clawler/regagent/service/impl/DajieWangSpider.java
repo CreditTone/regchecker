@@ -1,30 +1,20 @@
 package com.jisucloud.clawler.regagent.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.util.JJsoupUtil;
-import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import lombok.extern.slf4j.Slf4j;
-import me.kagura.JJsoup;
-import me.kagura.Session;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.jsoup.Connection;
-import org.jsoup.Connection.Method;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-// 无效
+@Component
 public class DajieWangSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
@@ -59,11 +49,11 @@ public class DajieWangSpider implements PapaSpider {
 		};
 	}
 
-	public static void main(String[] args) throws InterruptedException {
-		System.out.println(new DajieWangSpider().checkTelephone("13879691485"));
-		System.out.println(new DajieWangSpider().checkTelephone("18210538513"));
-		System.out.println(new DajieWangSpider().checkTelephone("18210538511"));
-	}
+//	public static void main(String[] args) throws InterruptedException {
+//		System.out.println(new DajieWangSpider().checkTelephone("13879691485"));
+//		System.out.println(new DajieWangSpider().checkTelephone("18210538513"));
+//		System.out.println(new DajieWangSpider().checkTelephone("18210538511"));
+//	}
 
 	@Override
 	public boolean checkTelephone(String account) {
