@@ -1,16 +1,11 @@
 package com.jisucloud.clawler.regagent.service.impl;
 
-import com.jisucloud.clawler.regagent.service.CookieService;
-import com.jisucloud.clawler.regagent.service.Cookies;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.PersistenceCookieJar;
 import com.jisucloud.clawler.regagent.util.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -58,11 +53,11 @@ public class BenlaiShenghuoSpider implements PapaSpider {
 		};
 	}
 
-	public static void main(String[] args) throws InterruptedException {
-		System.out.println(new BenlaiShenghuoSpider().checkTelephone("13879691485"));
-		System.out.println(new BenlaiShenghuoSpider().checkTelephone("18210538513"));
-		System.out.println(new BenlaiShenghuoSpider().checkTelephone("18210538511"));
-	}
+//	public static void main(String[] args) throws InterruptedException {
+//		System.out.println(new BenlaiShenghuoSpider().checkTelephone("13879691485"));
+//		System.out.println(new BenlaiShenghuoSpider().checkTelephone("18210538513"));
+//		System.out.println(new BenlaiShenghuoSpider().checkTelephone("18210538511"));
+//	}
 
 	@Override
 	public boolean checkTelephone(String account) {
