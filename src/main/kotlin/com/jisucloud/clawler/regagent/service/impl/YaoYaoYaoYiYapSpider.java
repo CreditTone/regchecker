@@ -3,84 +3,80 @@ package com.jisucloud.clawler.regagent.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.util.JJsoupUtil;
-import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import lombok.extern.slf4j.Slf4j;
-import me.kagura.JJsoup;
-import me.kagura.Session;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.jsoup.Connection;
-import org.jsoup.Connection.Method;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class CSDNSpider implements PapaSpider {
+public class YaoYaoYaoYiYapSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "中国专业IT社区CSDN (Chinese Software Developer Network) 创立于1999年，致力于为中国软件开发者提供知识传播、在线学习、职业发展等全生命周期服务。";
+		return "111医药馆是德生堂旗下网上药店，专做药品特卖的网站。111医药馆网上药店是国家药监局认证专业网上药店，经营药品种类齐全，网上购药就选111医药馆网上药店。";
 	}
 
 	@Override
 	public String platform() {
-		return "csdn";
+		return "111yao";
 	}
 
 	@Override
 	public String home() {
-		return "csdn.net";
+		return "111yao.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "CSDN";
+		return "111医药";
 	}
 
 	@Override
 	public Map<String, String[]> tags() {
 		return new HashMap<String, String[]>() {
 			{
-				put("教育", new String[] { "IT" });
+				put("购物", new String[] { });
 			}
 		};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new CSDNSpider().checkTelephone("13879691485"));
-//		Thread.sleep(3000);
-//		System.out.println(new CSDNSpider().checkTelephone("18210538513"));
+//		System.out.println(new YaoYaoYaoYiYapSpider().checkTelephone("13844441111"));
+//		System.out.println(new YaoYaoYaoYiYapSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://passport.csdn.net/v1/service/mobiles/"+account+"?comeFrom=0&code=0086";
+			String url = "http://www.111yao.com/login/login!userLogin.action?0.8448281925529483";
+			FormBody formBody = new FormBody
+	                .Builder()
+	                .add("username", account)
+	                .add("password", "wocaonimabi")
+	                .add("phoneCode", "")
+	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "passport.csdn.net")
-					.addHeader("Referer", "https://passport.csdn.net/forget")
+					.addHeader("Host", "www.111yao.com")
+					.addHeader("Referer", "http://www.111yao.com/login/login!index.action")
+					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response != null) {
-				JSONObject result = JSON.parseObject(response.body().string());
-				log.info("csdn:" + result);
-				if (result.getBooleanValue("status")) {
-					return true;
-				}
+			JSONObject result = JSON.parseObject(response.body().string());
+			if (result.getIntValue("flag") == 1) {
+				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

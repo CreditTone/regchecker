@@ -105,7 +105,7 @@ public class YuanBaoPuSpider implements PapaSpider {
 
 	@Override
 	public boolean checkEmail(String account) {
-		return checkTelephone(account);
+		return false;
 	}
 
 	@Override
