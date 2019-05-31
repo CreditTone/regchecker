@@ -20,10 +20,10 @@ class AsyncCheckController {
 
     @PostMapping("async/check", produces = [APPLICATION_JSON_UTF8_VALUE], consumes = [APPLICATION_JSON_UTF8_VALUE])
     @ResponseBody
-    fun doCheck(@RequestBody requestBody: String): Map<String, Any>? {
+    fun doAsyncCheck(@RequestBody requestBody: String): Map<String, Any>? {
         try {
             val jsonInfo = JSON.parseObject(requestBody, Info::class.java)
-            val result = checkService.doCheckAsync2(jsonInfo)
+            val result = checkService.doAsyncCheckAndSave(jsonInfo)
             return mapOf(
                     "code" to "200",
                     "success" to true,
