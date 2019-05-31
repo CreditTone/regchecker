@@ -1,5 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl;
 
+import com.jisucloud.clawler.regagent.service.CookieService;
+import com.jisucloud.clawler.regagent.service.Cookies;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.PersistenceCookieJar;
 import com.jisucloud.clawler.regagent.util.HeadlessUtil;
@@ -16,15 +18,14 @@ import java.util.concurrent.TimeUnit;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 
 @Slf4j
 public class BenlaiShenghuoSpider implements PapaSpider {
+	
+	private PersistenceCookieJar persistenceCookieJar = new PersistenceCookieJar();
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
-			.cookieJar(new PersistenceCookieJar())
+			.cookieJar(persistenceCookieJar)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
@@ -65,6 +66,8 @@ public class BenlaiShenghuoSpider implements PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
+			Cookies cookies = CookieService.getInstance().getCookies(CookieService.BENLAI_COOKIE);
+			persistenceCookieJar.saveCookies(cookies);
 			Request request = new Request.Builder().url("https://www.benlai.com/login.html")
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
 					.addHeader("Host", "www.benlai.com")
