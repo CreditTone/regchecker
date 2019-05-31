@@ -108,7 +108,7 @@ class CheckService {
      * key=info.account
      */
     fun doAsyncCheckAndSave(info: Info) {
-
+        if (redisTemplate.hasKey("RegAgent-$info.account")) return
         GlobalScope.async {
             var resultList = mutableListOf<Any>()
             var list = SpiderMap.map.map {
@@ -132,7 +132,7 @@ class CheckService {
                 list.map {
                     it.await()
                 }
-                redisTemplate.boundValueOps(info.account).set(JSON.toJSONString(resultList), 30, TimeUnit.MINUTES)
+                redisTemplate.boundValueOps("RegAgent-$info.account").set(JSON.toJSONString(resultList), 24, TimeUnit.HOURS)
             }
         }
     }
@@ -142,6 +142,6 @@ class CheckService {
      * key=info.account
      */
     fun doAsyncGetResult(account: String): Pair<Boolean, String?> {
-        return if (redisTemplate.hasKey(account)) Pair(true, redisTemplate.boundValueOps(account).get()) else Pair(false, null)
+        return if (redisTemplate.hasKey("RegAgent-$account")) Pair(true, redisTemplate.boundValueOps(account).get()) else Pair(false, null)
     }
 }
