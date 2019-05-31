@@ -7,12 +7,15 @@ import java.util.regex.Pattern;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.jisucloud.clawler.regagent.service.impl.RenRenSpider;
 
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+@Slf4j
 public class OCRDecode {
 	
 	private static OkHttpClient okHttpClient  = new OkHttpClient.Builder()  
@@ -36,6 +39,7 @@ public class OCRDecode {
 			String body = response.body().string();
 			JSONObject result = JSON.parseObject(body);
 			if (result.containsKey("errCode") && result.getIntValue("errCode") == 0) {
+				log.info("decode:"+result.getString("v_code"));
 				return result.getString("v_code");
 			}
 		}catch(Exception e) {
