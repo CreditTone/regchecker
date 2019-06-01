@@ -1,14 +1,12 @@
 package com.jisucloud.clawler.regagent.service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.jisucloud.clawler.regagent.util.HeadlessUtil;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,36 +18,18 @@ import okhttp3.HttpUrl;
 @Slf4j
 public class PersistenceCookieJar implements CookieJar {
 	
-	private Map<String,Set<Cookie>> domainToCookies = new ConcurrentHashMap<>();
+	private Map<String,List<Cookie>> domainToCookies = new ConcurrentHashMap<>();
 	
-	public void saveCookies(Cookies store) {
-		Iterator<com.jisucloud.clawler.regagent.service.Cookie> iter = store.iterator();
-		while (iter.hasNext()) {
-			com.jisucloud.clawler.regagent.service.Cookie cookie = iter.next();
-			String domain = StringUtil.getDomain(cookie.getDomain());
-			Set<Cookie> cache = domainToCookies.getOrDefault(domain, new HashSet<Cookie>());
-			Builder cookieBuilder = new Cookie.Builder().domain(domain).name(cookie.getName()).value(cookie.getValue()).path(cookie.getPath());
-			if (cookie.isHttpOnly()) {
-				cookieBuilder.httpOnly();
-			}
-			if (cookie.isSecure()) {
-				cookieBuilder.secure();
-			}
-			if (cookie.getExpiry() != null) {
-				cookieBuilder.expiresAt(cookie.getExpiry().getTime());
-			}
-			cache.add(cookieBuilder.build());
-			domainToCookies.put(domain, cache);
-		}
-	}
-	
-	public void saveCookies(Set<org.openqa.selenium.Cookie> cookies) {
+	public void saveCookies(String url,Set<org.openqa.selenium.Cookie> cookies) {
 		log.info("saveCookies:"+cookies.toString());
+		List<Cookie> cache = new ArrayList<>();
 		Iterator<org.openqa.selenium.Cookie> iter = cookies.iterator();
 		while (iter.hasNext()) {
 			org.openqa.selenium.Cookie cookie = iter.next();
-			String domain = StringUtil.getDomain(cookie.getDomain());
-			Set<Cookie> cache = domainToCookies.getOrDefault(domain, new HashSet<Cookie>());
+			String domain = cookie.getDomain();
+			if (domain.startsWith(".")) {
+				domain = domain.substring(1);
+			}
 			Builder cookieBuilder = new Cookie.Builder().domain(domain).name(cookie.getName()).value(cookie.getValue()).path(cookie.getPath());
 			if (cookie.isHttpOnly()) {
 				cookieBuilder.httpOnly();
@@ -61,25 +41,25 @@ public class PersistenceCookieJar implements CookieJar {
 				cookieBuilder.expiresAt(cookie.getExpiry().getTime());
 			}
 			cache.add(cookieBuilder.build());
-			domainToCookies.put(domain, cache);
 		}
+		HttpUrl httpUrl = HttpUrl.get(url);
+		saveFromResponse(httpUrl, cache);
 	}
 
 	@Override
 	public List<Cookie> loadForRequest(HttpUrl url) {
-		String domain = StringUtil.getDomain(url.host());
-		Set<Cookie> cache = domainToCookies.getOrDefault(domain, new HashSet<Cookie>());
+		List<Cookie> cache = domainToCookies.getOrDefault(url.host(), new ArrayList<Cookie>());
 		System.out.println(url +" get:"+cache);
-		return new ArrayList<>();
+		return cache;
 	}
 
 	@Override
 	public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
-		String domain = StringUtil.getDomain(url.host());
-		Set<Cookie> cache = domainToCookies.getOrDefault(domain, new HashSet<Cookie>());
+		domainToCookies.remove(url.host());
+		List<Cookie> cache = domainToCookies.getOrDefault(url.host(), new ArrayList<Cookie>());
 		cache.addAll(cookies);
 		System.out.println("save:"+cache);
-		domainToCookies.put(domain, cache);
+		domainToCookies.put(url.host(), cache);
 	}
 
 }

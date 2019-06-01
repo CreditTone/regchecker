@@ -3,7 +3,6 @@ package com.jisucloud.clawler.regagent.service.impl;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -16,58 +15,53 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class ZhongGuoGuoJiHangKongSpider implements PapaSpider {
+public class HaoDaiFuSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "中国国际航空股份有限公司官网，提供国际国内飞机票查询、航班查询、特价打折机票预订服务。";
+		return "好大夫在线-智慧互联网医院， 汇集全国15万+优质医疗权威专家，为患者提供网上看病、挂专家号，在线开药，线上买药，线上复诊，网络预约手术等全方位服务；患者通过智慧互联网医院获得全国优质医疗专家的权威诊治，小病大病网上就诊，看病不再难。";
 	}
 
 	@Override
 	public String platform() {
-		return "airchina";
+		return "haodf";
 	}
 
 	@Override
 	public String home() {
-		return "airchina.com";
+		return "haodf.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "中国国际航空";
+		return "好大夫在线";
 	}
 
 	@Override
 	public Map<String, String[]> tags() {
 		return new HashMap<String, String[]>() {
 			{
-				put("出行", new String[] { "飞机" });
+				put("生活", new String[] {"医疗" });
 			}
 		};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new ZhongGuoGuoJiHangKongSpider().checkTelephone("18210538000"));
-//		System.out.println(new ZhongGuoGuoJiHangKongSpider().checkTelephone("18210538513"));
+//		System.out.println(new HaoDaiFuSpider().checkTelephone("18210538500"));
+//		System.out.println(new HaoDaiFuSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "http://www.airchina.com.cn/www/servlet/com.ace.um.userRegister.servlet.PhoneValidator";
-			FormBody formBody = new FormBody
-	                .Builder()
-	                .add("shouji",account)
-	                .build();
+			String url = "https://passport.haodf.com/user/ajaxuseridcnt4name?username=" + account + "&type=NORMAL&_=" + System.currentTimeMillis();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "www.airchina.com.cn")
-					.addHeader("Referer", "http://www.airchina.com.cn/www/jsp/userManager/register.jsp")
-					.post(formBody)
+					.addHeader("Host", "passport.haodf.com")
+					.addHeader("Referer", "https://passport.haodf.com/user/showlogin?fromType=&forward=https%3A%2F%2Fwww.haodf.com%2F")
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
 			if (response.body().string().contains("1")) {

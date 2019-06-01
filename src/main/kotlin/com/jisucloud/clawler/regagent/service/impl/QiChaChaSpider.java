@@ -16,61 +16,62 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class ZhongGuoGuoJiHangKongSpider implements PapaSpider {
+public class QiChaChaSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "中国国际航空股份有限公司官网，提供国际国内飞机票查询、航班查询、特价打折机票预订服务。";
+		return "企查查为您提供企业信息查询,工商查询,信用查询,公司查询等相关信息查询；帮您快速了解企业信息,企业工商信息,企业信用信息,企业失信信息等企业经营和人员投资状况,查询更多企业信息就到企查查官网。";
 	}
 
 	@Override
 	public String platform() {
-		return "airchina";
+		return "qichacha";
 	}
 
 	@Override
 	public String home() {
-		return "airchina.com";
+		return "qichacha.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "中国国际航空";
+		return "企查查";
 	}
 
 	@Override
 	public Map<String, String[]> tags() {
 		return new HashMap<String, String[]>() {
 			{
-				put("出行", new String[] { "飞机" });
+				put("工具" , new String[] { });
 			}
 		};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new ZhongGuoGuoJiHangKongSpider().checkTelephone("18210538000"));
-//		System.out.println(new ZhongGuoGuoJiHangKongSpider().checkTelephone("18210538513"));
+//		System.out.println(new QiChaChaSpider().checkTelephone("18210538000"));
+//		System.out.println(new QiChaChaSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "http://www.airchina.com.cn/www/servlet/com.ace.um.userRegister.servlet.PhoneValidator";
+			String url = "https://www.qichacha.com/user_phonecheck";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("shouji",account)
+	                .add("phone", account)
+	                .add("title", account)
 	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "www.airchina.com.cn")
-					.addHeader("Referer", "http://www.airchina.com.cn/www/jsp/userManager/register.jsp")
+					.addHeader("Host", "www.qichacha.com")
+					.addHeader("Referer", "https://www.qichacha.com/user_register")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("1")) {
+			if (response.body().string().contains("false")) {
 				return true;
 			}
 		} catch (Exception e) {

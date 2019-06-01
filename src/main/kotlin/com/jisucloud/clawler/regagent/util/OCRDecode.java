@@ -45,7 +45,7 @@ public class OCRDecode {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return "abcd";
 	}
 	
 	public static String decodeImageCode(String imageUrl) {
@@ -55,7 +55,7 @@ public class OCRDecode {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return "abcd";
 	}
 	
 	public static String decodeImageCodeForChinese(byte[] image) {
@@ -82,7 +82,7 @@ public class OCRDecode {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return "abcd";
 	}
 	
 	public static String decodeImageCodeForChinese(String imageUrl) {
@@ -92,6 +92,6 @@ public class OCRDecode {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return "abcd";
 	}
 }
