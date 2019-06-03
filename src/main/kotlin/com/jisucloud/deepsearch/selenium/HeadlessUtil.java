@@ -306,7 +306,7 @@ public class HeadlessUtil {
 		if (System.getProperty("os.name").toLowerCase().indexOf("linux") >= 0) {
 			options.setBinary("/usr/bin/google-chrome");
 		}
-		options.addArguments("--headless");// headless mode
+		//options.addArguments("--headless");// headless mode
 		options.addArguments("--disable-gpu");
 		options.addArguments("--ignore-certificate-errors");
 		options.addArguments("--no-sandbox"); // Bypass OS security model
@@ -332,7 +332,6 @@ public class HeadlessUtil {
 		ChromeAjaxListenDriver mDriver = null;
 		try {
 			mDriver = new ChromeAjaxListenDriver(options);
-			mDriver.manage().window().maximize();
 			mDriver.manage().timeouts().setScriptTimeout(30, TimeUnit.SECONDS);//脚步执行超时
 			mDriver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);//页面加载超时
 		} catch (Exception e) {

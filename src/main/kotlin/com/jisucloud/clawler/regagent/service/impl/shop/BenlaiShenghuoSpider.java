@@ -14,8 +14,10 @@ import java.util.concurrent.TimeUnit;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.springframework.stereotype.Component;
 
 @Slf4j
+@Component
 public class BenlaiShenghuoSpider implements PapaSpider {
 	
 	private ChromeDriver chromeDriver;

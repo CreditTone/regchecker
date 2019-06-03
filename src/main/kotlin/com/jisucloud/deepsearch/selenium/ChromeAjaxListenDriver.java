@@ -1,5 +1,6 @@
 package com.jisucloud.deepsearch.selenium;
 
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -81,6 +82,9 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 		}
 		readAjaxQueueThread = new Thread(this);
 		readAjaxQueueThread.start();
+		if (getCurrentUrl().startsWith("http")) {
+			get(getCurrentUrl());
+		}
 	}
 	
 	@Override
@@ -96,44 +100,29 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 	}
 	
 
-	public static void main(String[] args) throws Exception {
-		ChromeAjaxListenDriver driver = null;
-		try {
-			driver = HeadlessUtil.getChromeDriver(false, null, null);
-			driver.setAjaxListener(new AjaxListener() {
-				@Override
-				public void ajax(Ajax ajax) {
-					System.out.println("监听:"+ajax);
-				}
-			});
-			driver.get("https://www.qixin.com/auth/regist");
-			driver.findElementByCssSelector("input[placeholder=请输入手机号码]").sendKeys("18210538513");
-			driver.findElementByCssSelector("div[class=input-group-btn]").click();
-			Thread.sleep(10000);
-		}catch(Exception e) {
-			e.printStackTrace();
-		}finally {
-			if (driver != null) {
-				driver.quit();
-			}
-		}
-	}
-
 	@Override
 	public void run() {
 		Ajax ajax = null;
-		try {
-			while (ajaxListener != null) {
-				ajax = takeAjax();
-				if (ajax != null) {
+		while (ajaxListener != null) {
+			ajax = takeAjax();
+			if (ajax != null) {
+				System.out.println(ajax);
+			}
+			if (ajax != null && ajax.getUrl().contains(ajaxListener.matcherUrl())) {
+				try {
 					ajaxListener.ajax(ajax);
-				}else {
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}else {
+				try {
 					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				}
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
+		
 	}
 
 	@Override
