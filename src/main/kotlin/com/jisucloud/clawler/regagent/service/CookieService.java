@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.jisucloud.clawler.regagent.util.HeadlessUtil;
+import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 @Service
 public class CookieService extends Thread {
@@ -95,11 +95,6 @@ public class CookieService extends Thread {
 		while (true) {
 			try {
 				Thread.sleep(1000);
-				long ttl = ttl(BENLAI_COOKIE);
-				if (ttl < 120L) {
-					Set<org.openqa.selenium.Cookie> baiduCookies = HeadlessUtil.getBenlaiCookies();
-					setex(BENLAI_COOKIE, 60 * 30, JSON.toJSONString(baiduCookies));
-				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				break;

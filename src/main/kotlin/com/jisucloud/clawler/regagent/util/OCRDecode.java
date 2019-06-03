@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.jisucloud.clawler.regagent.service.impl.RenRenSpider;
+import com.jisucloud.clawler.regagent.service.impl.social.RenRenSpider;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
