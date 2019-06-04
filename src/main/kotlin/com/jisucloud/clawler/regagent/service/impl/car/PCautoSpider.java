@@ -1,10 +1,13 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl.car;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import org.springframework.stereotype.Component;
@@ -15,67 +18,63 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class QiHu360Spider implements PapaSpider {
+public class PCautoSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
-
 	@Override
 	public String message() {
-		return "奇虎360是（北京奇虎科技有限公司）的简称，由周鸿祎于2005年9月创立，主营360杀毒为代表的免费网络安全平台和拥有问答等独立业务的公司。";
+		return "太平洋汽车网（PCauto）是一个专业的汽车网站。自2002年7月成立以来，以自身魅力迅速引起业界的瞩目，赢得了广大网友的拥护。以资讯、导购、导用、社区为出发点，坚持原创风格。";
 	}
 
 	@Override
 	public String platform() {
-		return "360";
+		return "pcauto";
 	}
 
 	@Override
 	public String home() {
-		return "360.cn";
+		return "pcauto.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "360";
+		return "太平洋汽车网";
 	}
 
 	@Override
 	public Map<String, String[]> tags() {
 		return new HashMap<String, String[]>() {
 			{
-				put("生活", new String[] { "app市场" });
+				put("生活", new String[] {"汽车" });
 			}
 		};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new QiHu360Spider().checkTelephone("18210014444"));
-//		System.out.println(new QiHu360Spider().checkTelephone("18210538513"));
+//		System.out.println(new PCautoSpider().checkTelephone("18210538500"));
+//		System.out.println(new PCautoSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
-		if (account.length() != 11) {
-			return false;
-		}
 		try {
-			String url = "https://login.360.cn/?callback=jQuery18309111090361054407_"+System.currentTimeMillis()+"&src=pcw_so&from=pcw_so&charset=UTF-8&requestScema=https&quc_sdk_version=6.7.0&quc_sdk_name=jssdk&o=User&m=checkmobile&mobile="+account+"&type=&_=" +System.currentTimeMillis();
+			String url = "https://passport3.pcauto.com.cn/passport3/api/validate_mobile.jsp?mobile="+account+"&req_enc=UTF-8";
+			RequestBody formBody = FormBody.create(MediaType.get("application/x-www-form-urlencoded"), "{}");
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "login.360.cn")
-					.addHeader("Referer", "https://www.so.com/?src=hao")
+					.addHeader("Host", "passport3.pcauto.com.cn")
+					.addHeader("Origin", "https://my.pcauto.com.cn")
+					.addHeader("Referer", "https://my.pcauto.com.cn/passport/mobileRegister.jsp")
+					.post(formBody)
 					.build();
-			Response response = okHttpClient.newCall(request)
-					.execute();
-			String res = response.body().string();
-			if (res.contains("\\u624b\\u673a\\u53f7\\u5df2\\u88ab\\u4f7f\\u7528") || res.contains("手机号已被使用")) {
+			Response response = okHttpClient.newCall(request).execute();
+			if (response.body().string().contains("已经注册过")) {
 				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
 		}
 		return false;
 	}

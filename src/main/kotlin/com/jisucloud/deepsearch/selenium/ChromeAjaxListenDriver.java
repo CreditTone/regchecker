@@ -74,13 +74,14 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		if (ret != null && ret.length() > 20) {
+		if (ret != null && !ret.isEmpty()) {
 			JSONObject result = JSON.parseObject(ret);
 			ajax = new Ajax();
 			ajax.setUrl(result.getString("requestUrl"));
 			ajax.setMethod(result.getString("requestMethod"));
 			ajax.setRequestData(result.getString("requestData"));
 			ajax.setResponse(result.getString("responseText"));
+			//System.out.println(ajax);
 		}
 		return ajax;
 	}
@@ -119,9 +120,6 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 		Ajax ajax = null;
 		while (ajaxListener != null) {
 			ajax = takeAjax();
-			if (ajax != null) {
-				System.out.println(ajax);
-			}
 			if (ajax != null && ajax.getUrl().contains(ajaxListener.matcherUrl())) {
 				try {
 					ajaxListener.ajax(ajax);

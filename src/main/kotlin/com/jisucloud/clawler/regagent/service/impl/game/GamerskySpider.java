@@ -1,8 +1,9 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl.game;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -15,67 +16,65 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class QiHu360Spider implements PapaSpider {
+public class GamerskySpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
-
 	@Override
 	public String message() {
-		return "奇虎360是（北京奇虎科技有限公司）的简称，由周鸿祎于2005年9月创立，主营360杀毒为代表的免费网络安全平台和拥有问答等独立业务的公司。";
+		return "游民星空是国内单机游戏门户网站,提供特色的游戏资讯,大量游戏攻略,经验,评测文章,以及热门游戏资料专题。";
 	}
 
 	@Override
 	public String platform() {
-		return "360";
+		return "gamersky";
 	}
 
 	@Override
 	public String home() {
-		return "360.cn";
+		return "gamersky.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "360";
+		return "游民星空";
 	}
 
 	@Override
 	public Map<String, String[]> tags() {
 		return new HashMap<String, String[]>() {
 			{
-				put("生活", new String[] { "app市场" });
+				put("媒体", new String[] { });
 			}
 		};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new QiHu360Spider().checkTelephone("18210014444"));
-//		System.out.println(new QiHu360Spider().checkTelephone("18210538513"));
+//		System.out.println(new GamerskySpider().checkTelephone("18210538000"));
+//		System.out.println(new GamerskySpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
-		if (account.length() != 11) {
-			return false;
-		}
 		try {
-			String url = "https://login.360.cn/?callback=jQuery18309111090361054407_"+System.currentTimeMillis()+"&src=pcw_so&from=pcw_so&charset=UTF-8&requestScema=https&quc_sdk_version=6.7.0&quc_sdk_name=jssdk&o=User&m=checkmobile&mobile="+account+"&type=&_=" +System.currentTimeMillis();
+			String url = "https://i.gamersky.com/user/verifyphone";
+			FormBody formBody = new FormBody
+	                .Builder()
+	                .add("phone",account)
+	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "login.360.cn")
-					.addHeader("Referer", "https://www.so.com/?src=hao")
+					.addHeader("Host", "i.gamersky.com")
+					.addHeader("Referer", "https://i.gamersky.com/user/register")
+					.post(formBody)
 					.build();
-			Response response = okHttpClient.newCall(request)
-					.execute();
-			String res = response.body().string();
-			if (res.contains("\\u624b\\u673a\\u53f7\\u5df2\\u88ab\\u4f7f\\u7528") || res.contains("手机号已被使用")) {
+			Response response = okHttpClient.newCall(request).execute();
+			if (response.body().string().contains("已被注册")) {
 				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
 		}
 		return false;
 	}

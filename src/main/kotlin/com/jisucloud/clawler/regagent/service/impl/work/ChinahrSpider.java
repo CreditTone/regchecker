@@ -1,9 +1,8 @@
-package com.jisucloud.clawler.regagent.service.impl.game;
+package com.jisucloud.clawler.regagent.service.impl.work;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -15,64 +14,58 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-//@Component
-public class GuangYuYouXiSpider implements PapaSpider {
+@Component
+public class ChinahrSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "教育部学历查询网站、教育部高校招生阳光工程指定网站、全国硕士研究生招生报名和调剂指定网站。";
+		return "中华英才网北京招聘网,为您提供北京招聘,北京找工作,北京人才网,北京求职信息,同时覆盖校园招聘、求职指导、职业测评、猎头服务等求职服务。";
 	}
 
 	@Override
 	public String platform() {
-		return "chdsadasdassi";
+		return "chinahr";
 	}
 
 	@Override
 	public String home() {
-		return "asdas.com";
+		return "chinahr.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "学dasdasdasd信网";
+		return "中华英才网";
 	}
 
 	@Override
 	public Map<String, String[]> tags() {
 		return new HashMap<String, String[]>() {
 			{
-				put("教育dasdas", new String[] { "dasd" });
+				put("社交", new String[] { "招聘" });
 			}
 		};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new XuexinSpider().checkTelephone("13879691485"));
-//		System.out.println(new XuexinSpider().checkTelephone("18210538513"));
+//		System.out.println(new ChinahrSpider().checkTelephone("18210538513"));
+//		System.out.println(new ChinahrSpider().checkTelephone("18210538511"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://account.chsi.com.cn/account/checkmobilephoneother.action";
-			FormBody formBody = new FormBody
-	                .Builder()
-	                .add("mphone",account)
-	                .add("dataInfo",account)
-	                .add("optType","REGISTER")
-	                .build();
+			String url = "http://passport.chinahr.com/ajax/m/existLoginName?input="+account+"&_=" +System.currentTimeMillis();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "account.chsi.com.cn")
-					.addHeader("Referer", "https://account.chsi.com.cn/account/preregister.action?from=archive")
-					.post(formBody)
+					.addHeader("Host", "passport.chinahr.com")
+					.addHeader("Referer", "http://passport.chinahr.com/pc/toregister?backUrl=%2F%2Fwww.chinahr.com&from=")
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("false")) {
+			String res = response.body().string();
+			if (res.contains("用户存在")) {
 				return true;
 			}
 		} catch (Exception e) {

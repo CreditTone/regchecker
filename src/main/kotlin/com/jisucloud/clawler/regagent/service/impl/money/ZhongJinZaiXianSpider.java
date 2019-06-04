@@ -1,8 +1,9 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl.money;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -15,67 +16,69 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class QiHu360Spider implements PapaSpider {
+public class ZhongJinZaiXianSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
-
 	@Override
 	public String message() {
-		return "奇虎360是（北京奇虎科技有限公司）的简称，由周鸿祎于2005年9月创立，主营360杀毒为代表的免费网络安全平台和拥有问答等独立业务的公司。";
+		return "中金在线-中国人的金融门户网站,覆盖财经、股票、 证券、金融、港股、行情、基金、债券、期货、外汇、保险、银行、博客、股票分析软件等多种面向个人和企业的服务。";
 	}
 
 	@Override
 	public String platform() {
-		return "360";
+		return "cnfol";
 	}
 
 	@Override
 	public String home() {
-		return "360.cn";
+		return "cnfol.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "360";
+		return "中金在线";
 	}
 
 	@Override
 	public Map<String, String[]> tags() {
 		return new HashMap<String, String[]>() {
 			{
-				put("生活", new String[] { "app市场" });
+				put("金融", new String[] { "储蓄"});
 			}
 		};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new QiHu360Spider().checkTelephone("18210014444"));
-//		System.out.println(new QiHu360Spider().checkTelephone("18210538513"));
+//		System.out.println(new ZhongJinZaiXianSpider().checkTelephone("18210538000"));
+//		System.out.println(new ZhongJinZaiXianSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
-		if (account.length() != 11) {
-			return false;
-		}
 		try {
-			String url = "https://login.360.cn/?callback=jQuery18309111090361054407_"+System.currentTimeMillis()+"&src=pcw_so&from=pcw_so&charset=UTF-8&requestScema=https&quc_sdk_version=6.7.0&quc_sdk_name=jssdk&o=User&m=checkmobile&mobile="+account+"&type=&_=" +System.currentTimeMillis();
+			String url = "https://passport.cnfol.com/userregister/ajaxcheckmobile";
+			FormBody formBody = new FormBody
+	                .Builder()
+	                .add("mobile", account)
+	                .add("type", "1")
+	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "login.360.cn")
-					.addHeader("Referer", "https://www.so.com/?src=hao")
+					.addHeader("Host", "passport.cnfol.com")
+					.addHeader("X-Requested-With", "XMLHttpRequest")
+					.addHeader("Referer", "https://passport.cnfol.com/userregister?rt=aHR0cHM6Ly9wYXNzcG9ydC5jbmZvbC5jb20v")
+					.post(formBody)
 					.build();
-			Response response = okHttpClient.newCall(request)
-					.execute();
+			Response response = okHttpClient.newCall(request).execute();
 			String res = response.body().string();
-			if (res.contains("\\u624b\\u673a\\u53f7\\u5df2\\u88ab\\u4f7f\\u7528") || res.contains("手机号已被使用")) {
+			System.out.println(res);
+			if (res.contains("\\u53f7\\u5df2\\u88ab\\u6ce8\\u518c") || res.contains("已被注册")) {
 				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
 		}
 		return false;
 	}

@@ -1,8 +1,9 @@
-package com.jisucloud.clawler.regagent.service.impl.work;
+package com.jisucloud.clawler.regagent.service.impl.trip;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -15,58 +16,63 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class DajieWangSpider implements PapaSpider {
+public class QunarSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "大街网创立于2008年底,是一家真正专属于年轻人的移动社交招聘平台,为年轻职场人匹配最佳工作机会,拓展职场人脉,提升职场价值.大街想要做的,就是用互联网思维。";
+		return "去哪儿是中国领先的旅游搜索引擎，去哪儿是目前全球最大的中文在线旅行网站，创立于2005年2月，总部在北京。去哪儿网为消费者提供机票、酒店、会场、度假产品的实时搜索，并提供旅游产品团购以及其他旅游信息服务，为旅游行业合作伙伴提供在线技术、移动技术解决方案。";
 	}
 
 	@Override
 	public String platform() {
-		return "dajie";
+		return "qunar";
 	}
 
 	@Override
 	public String home() {
-		return "dajie.com";
+		return "qunar.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "大街网";
+		return "去哪儿";
 	}
 
 	@Override
 	public Map<String, String[]> tags() {
 		return new HashMap<String, String[]>() {
 			{
-				put("社交", new String[] { "招聘" });
+				put("金融", new String[] { "储蓄"});
 			}
 		};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new DajieWangSpider().checkTelephone("13879691485"));
-//		System.out.println(new DajieWangSpider().checkTelephone("18210538513"));
-//		System.out.println(new DajieWangSpider().checkTelephone("18210538511"));
+//		System.out.println(new QunarSpider().checkTelephone("18210538000"));
+//		System.out.println(new QunarSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://www.dajie.com/account/phonestatuscheck?callback=jQuery151020488464963648478_"+System.currentTimeMillis()+"&ajax=1&phoneNumber="+account+"&_=1559213156444&_CSRFToken=";
+			String url = "https://user.qunar.com/ajax/validator.jsp";
+			FormBody formBody = new FormBody
+	                .Builder()
+	                .add("method", account)
+	                .add("prenum", "86")
+	                .add("vcode", "null")
+	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "www.dajie.com")
-					.addHeader("Referer", "https://www.dajie.com")
+					.addHeader("Host", "user.qunar.com")
+					.addHeader("Referer", "https://user.qunar.com/passport/register.jsp?ret=https%3A%2F%2Fdujia.qunar.com%2F%3Fex_track%3Dauto_52b3f121")
+					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			String res = response.body().string();
-			if (res.contains("AUTHED")) {
+			if (response.body().string().contains("用户已存在")) {
 				return true;
 			}
 		} catch (Exception e) {
