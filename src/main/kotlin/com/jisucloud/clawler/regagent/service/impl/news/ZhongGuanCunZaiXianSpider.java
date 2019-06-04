@@ -1,7 +1,5 @@
 package com.jisucloud.clawler.regagent.service.impl.news;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
 import lombok.extern.slf4j.Slf4j;

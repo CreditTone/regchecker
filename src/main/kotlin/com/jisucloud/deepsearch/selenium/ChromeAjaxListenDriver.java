@@ -1,11 +1,15 @@
 package com.jisucloud.deepsearch.selenium;
 
-import java.util.Set;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -14,6 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
+	
+	public static final Random random = new Random();
 	
 	private AjaxListener ajaxListener;
 	
@@ -37,6 +43,14 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 			log.info("ArrayQueueJS:"+url);
 			executeScript(AjaxListererJs.AjaxListeneJS);
 			log.info("AjaxListeneJS:"+url);
+		}
+	}
+	
+	public void quicklyVisit(String url) {
+		try {
+			super.get(url);
+		}catch(Exception e) {
+			log.warn("quicklyVisit error "+e.getLocalizedMessage());
 		}
 	}
 	
@@ -143,5 +157,43 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 		super.quit();
 	}
 	
+	public byte[] screenshot(WebElement webElement) throws Exception {
+		byte[] body = webElement.getScreenshotAs(OutputType.BYTES);
+		return body;
+	}
 	
+	public void mouseClick(WebElement webElement) throws Exception {
+		Actions actions = new Actions(this);
+		actions.moveToElement(webElement).perform();
+		Thread.sleep(random.nextInt(1500));
+		actions.click().perform();
+		Thread.sleep(random.nextInt(1500));
+	}
+	
+	public void keyboardClear(WebElement webElement, int backSpace) throws Exception {
+		mouseClick(webElement);
+		for (int k = 0; k < backSpace + random.nextInt(3); k++) {
+			webElement.sendKeys(Keys.BACK_SPACE);
+			Thread.sleep(random.nextInt(150));
+		}
+	}
+	
+	public void keyboardInput(WebElement webElement, String text) throws Exception {
+		mouseClick(webElement);
+		int inputed = 0;
+		int backTimes = 0;
+		int prebackNums = random.nextInt(text.length() / 3);
+		for (int k = 0; k < text.length(); k++) {
+			webElement.sendKeys(String.valueOf(text.charAt(k)));
+			Thread.sleep(random.nextInt(1000) + 500);
+			inputed ++;
+			int backNum = inputed >= 3 && backTimes <= prebackNums ?random.nextInt(3) : 0;
+			backTimes += backNum;
+			for (int i = 0; i < backNum; i++) {
+				webElement.sendKeys(Keys.BACK_SPACE);
+				Thread.sleep(random.nextInt(1530) + 500);
+				k--;
+			}
+		}
+	}
 }

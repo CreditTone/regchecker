@@ -306,7 +306,7 @@ public class HeadlessUtil {
 		if (System.getProperty("os.name").toLowerCase().indexOf("linux") >= 0) {
 			options.setBinary("/usr/bin/google-chrome");
 		}
-		//options.addArguments("--headless");// headless mode
+		options.addArguments("--headless");// headless mode
 		options.addArguments("--disable-gpu");
 		options.addArguments("--ignore-certificate-errors");
 		options.addArguments("--no-sandbox"); // Bypass OS security model

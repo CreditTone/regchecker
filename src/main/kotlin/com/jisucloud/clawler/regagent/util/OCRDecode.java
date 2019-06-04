@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.util;
 
+import java.net.Proxy;
 import java.util.Base64;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -7,7 +8,6 @@ import java.util.regex.Pattern;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.jisucloud.clawler.regagent.service.impl.social.RenRenSpider;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -18,9 +18,10 @@ import okhttp3.Response;
 @Slf4j
 public class OCRDecode {
 	
-	private static OkHttpClient okHttpClient  = new OkHttpClient.Builder()  
+	private static OkHttpClient okHttpClient  = new OkHttpClient.Builder()
+			.proxy(Proxy.NO_PROXY)
 	        .connectTimeout(10, TimeUnit.SECONDS)
-	        .readTimeout(30, TimeUnit.SECONDS)
+	        .readTimeout(60, TimeUnit.SECONDS)
 	        .retryOnConnectionFailure(true)
 	        .build();
 
@@ -38,7 +39,7 @@ public class OCRDecode {
 			Response response = okHttpClient.newCall(request).execute();
 			String body = response.body().string();
 			JSONObject result = JSON.parseObject(body);
-			if (result.containsKey("errCode") && result.getIntValue("errCode") == 0) {
+			if (result != null && result.containsKey("errCode") && result.getIntValue("errCode") == 0) {
 				log.info("decode:"+result.getString("v_code"));
 				return result.getString("v_code");
 			}
