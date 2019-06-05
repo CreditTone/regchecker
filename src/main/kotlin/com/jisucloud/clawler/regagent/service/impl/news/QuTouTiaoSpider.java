@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.medical;
+package com.jisucloud.clawler.regagent.service.impl.news;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
@@ -16,56 +16,63 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class PharmacySpider implements PapaSpider {
+public class QuTouTiaoSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "澳洲PO药房是澳洲本土大型综合类药房,也是首家开通直邮中国服务的澳洲本土药房,提供数万母婴用品、保健品、护肤化妆品、洗护用品等各类产品选购,全中文购物界面。";
+		return "趣头条作为一款新生代内容资讯APP，由上海基分文化传播有限公司开发。团队致力于让用户的阅读更有价值，通过大数据算法和云计算等技术，为用户提供感兴趣、有价值的个性化内容及服务。2018年8月18日，趣头条提交美国IPO申请。";
 	}
 
 	@Override
 	public String platform() {
-		return "pharmacyonline";
+		return "qutoutiao";
 	}
 
 	@Override
 	public String home() {
-		return "pharmacyonline.com";
+		return "qutoutiao.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "澳洲PO药房";
+		return "趣头条";
 	}
 
 	@Override
 	public Map<String, String[]> tags() {
 		return new HashMap<String, String[]>() {
 			{
-				put("金融", new String[] { "储蓄"});
+				put("媒体", new String[] { });
 			}
 		};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new YinLianShangWuSpider().checkTelephone("18210538000"));
-//		System.out.println(new YinLianShangWuSpider().checkTelephone("18210538513"));
+//		System.out.println(new QuTouTiaoSpider().checkTelephone("18210538000"));
+//		System.out.println(new QuTouTiaoSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://cn.pharmacyonline.com.au/api/member/check?username=" + account + "&method=get&_=" + System.currentTimeMillis();
+			String url = "https://qac-qupost.qutoutiao.net/member/checkPhoneExistOrNot?telephone="+account+"&dtu=200";
+			FormBody formBody = new FormBody
+	                .Builder()
+	                .add("name",account)
+	                .add("format", "json")
+	                .add("from", "mobile")
+	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "cn.pharmacyonline.com.au")
-					.addHeader("Referer", "https://cn.pharmacyonline.com.au/security/passwordforgotten?step=account")
+					.addHeader("Host", "qac-qupost.qutoutiao.net")
+					.addHeader("Referer", "https://mp.qutoutiao.net/register/step-one")
+					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (!response.body().string().contains("用户不存在")) {
+			if (response.body().string().contains("is_exist\":1")) {
 				return true;
 			}
 		} catch (Exception e) {
