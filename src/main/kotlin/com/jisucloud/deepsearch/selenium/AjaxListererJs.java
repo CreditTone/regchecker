@@ -31,15 +31,28 @@ public class AjaxListererJs {
 			"    }\n" + 
 			"};\n" + 
 			"\n" + 
-			"window.myQueue = new ArrayQueue();";
+			"window.myQueue = new ArrayQueue();\n"
+			+ "window.blockAjax = new Array();";
 	
-	public static final String AjaxListeneJS = "; (function() {\n" + 
+	public static final String AjaxListeneJS = "function needBlock(url){\n" + 
+			"    for(var i = 0; i < window.blockAjax.length; i++) {\n" + 
+			"              if(url.indexOf(window.blockAjax[i]) != -1) {\n" + 
+			"                    return true;\n" + 
+			"              }\n" + 
+			"       }\n" + 
+			"       return false;\n" + 
+			"};\n" + 
+			"\n" + 
+			"; (function() {\n" + 
 			"    var open = window.XMLHttpRequest.prototype.open,\n" + 
 			"    send = window.XMLHttpRequest.prototype.send,\n" + 
 			"    onReadyStateChange;\n" + 
 			"\n" + 
 			"    function openReplacement(method, url, async, user, password) {\n" + 
 			"        // some code\n" + 
+			"        if (needBlock(url)){\n" + 
+			"            return \"error\";\n" + 
+			"        }\n" + 
 			"        this.requestUrl = url;\n" + 
 			"        this.requestMethod = method;\n" + 
 			"        if (method.toLowerCase() == 'get' && url.indexOf(\"?\") != -1) {\n" + 
@@ -141,6 +154,7 @@ public class AjaxListererJs {
 			"function(e) {\n" + 
 			"    var xhr = e.detail;\n" + 
 			"    var cType = xhr.getResponseHeader('Content-Type')\n" + 
+			"    console.log('cType:'+cType)\n" + 
 			"    if (cType.indexOf('application') != -1 || cType.indexOf('charset') != -1) {\n" + 
 			"        var result = new Object();\n" + 
 			"        result.requestUrl = xhr.requestUrl;\n" + 

@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.work;
+package com.jisucloud.clawler.regagent.service.impl.game;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.deepsearch.selenium.Ajax;
@@ -6,66 +6,74 @@ import com.jisucloud.deepsearch.selenium.AjaxListener;
 import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
 import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
+import lombok.extern.slf4j.Slf4j;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Component
-public class QiXinBaoSpider implements PapaSpider {
+public class ChangYouWangSpider implements PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
 	
 	@Override
 	public String message() {
-		return "启信宝为您提供全国企业信用信息查询服务,包括企业注册信息查询、企业工商信息查询、企业信用查询、企业信息查询等相关信息查询!还可以深入了解企业相关的法人股东,企业。";
+		return "畅游有限公司(纳斯达克股票交易代码:CYOU),中国在线游戏开发和运营商之一,自主研发的《新天龙八部》是中国最受欢迎的大型多人在线角色扮演游戏之一。";
 	}
 
 	@Override
 	public String platform() {
-		return "qixin";
+		return "changyou";
 	}
 
 	@Override
 	public String home() {
-		return "qixin.com";
+		return "changyou.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "启信宝";
+		return "畅游网";
 	}
 
 	@Override
 	public Map<String, String[]> tags() {
 		return new HashMap<String, String[]>() {
 			{
-				put("工具" , new String[] { });
+				put("金融", new String[] { "储蓄"});
 			}
 		};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new QiXinBaoSpider().checkTelephone("18210538000"));
-//		System.out.println(new QiXinBaoSpider().checkTelephone("18210538513"));
+//		System.out.println(new ChangYouWangSpider().checkTelephone("15700102865"));
+//		System.out.println(new ChangYouWangSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = HeadlessUtil.getChromeDriver(true, null, null);
+			String url = "http://zhuce.changyou.com/reg.act?gameType=PE-ZHPT&invitecode=&regWay=phone&suffix=";
 			chromeDriver.setAjaxListener(new AjaxListener() {
-				@Override
-				public void ajax(Ajax ajax) throws Exception {
-					if (ajax.getResponse().contains("密码错误")) {
-						checkTel = true;
-					}
-				}
-
+				
 				@Override
 				public String matcherUrl() {
-					return "api/user/login";
+					return "baseReg/checkCnIsUsed.act";
+				}
+				
+				@Override
+				public void ajax(Ajax ajax) throws Exception {
+					checkTel = ajax.getResponse().contains("used");
 				}
 				
 				@Override
@@ -73,11 +81,10 @@ public class QiXinBaoSpider implements PapaSpider {
 					return null;
 				}
 			});
-			//chromeDriver.get("https://www.qixin.com/");
-			chromeDriver.get("https://www.qixin.com/auth/login?return_url=%2F");
-			chromeDriver.findElementByCssSelector("input[placeholder=请输入手机号码]").sendKeys(account);
-			chromeDriver.findElementByCssSelector("input[placeholder=请输入密码]").sendKeys("xkaocgwicb123");
-			chromeDriver.findElementByLinkText("登录").click();
+			chromeDriver.get(url);
+			Thread.sleep(3000);
+			chromeDriver.findElementById("securityPhone").sendKeys(account);
+			chromeDriver.findElementById("passwd_phone").click();
 			Thread.sleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();

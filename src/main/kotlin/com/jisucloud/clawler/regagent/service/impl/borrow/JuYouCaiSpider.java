@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.news;
+package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
@@ -12,33 +12,34 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class XinLangSpider implements PapaSpider {
+public class JuYouCaiSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "新浪网为全球用户24小时提供全面及时的中文资讯，内容覆盖国内外突发新闻事件、体坛赛事、娱乐时尚、产业资讯、实用信息等，设有新闻、体育、娱乐、财经、科技、房产、汽车等30多个内容频道，同时开设博客、视频、论坛等自由互动交流空间。";
+		return "聚优财是浙江聚有财金融服务外包有限公司旗下运营的理财APP，原为“聚有财”升级；旨在宣传优生活，优选择；公司致力于成为一个针对中国中产阶级的专业互联网资产管理平台.关注互联网金融，投资理财，资产配置方面，坚持设计清晰、透明的理财产品；关注用户个性化、定制化需求。";
 	}
 
 	@Override
 	public String platform() {
-		return "sina";
+		return "jyc99";
 	}
 
 	@Override
 	public String home() {
-		return "sina.com";
+		return "jyc99.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "新浪网";
+		return "聚优财";
 	}
 
 	@Override
@@ -51,28 +52,33 @@ public class XinLangSpider implements PapaSpider {
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new XinLangSpider().checkTelephone("18210538000"));
-//		System.out.println(new XinLangSpider().checkTelephone("18210538513"));
+//		System.out.println(new JuYouCaiSpider().checkTelephone("13910252045"));
+//		System.out.println(new JuYouCaiSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://login.sina.com.cn/signup/check_user.php";
+			String url = "https://www.jyc99.com/api/user/loginreg/dologin";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("name", account)
-	                .add("format", "json")
-	                .add("from", "mobile")
+	                .add("userPassword", "casda0sdjj1231")
+	                .add("userMobile", account)
+	                .add("type", "1")
+	                .add("terminalType", "1")
+	                .add("macAddress", UUID.randomUUID().toString())
 	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "login.sina.com.cn")
-					.addHeader("Referer", "https://login.sina.com.cn/signup/signup?entry=homepage")
+					.addHeader("Host", "www.jyc99.com")
+					.addHeader("contentType", "application/json; charset=utf-8")
+					.addHeader("X-Requested-With", "XMLHttpRequest")
+					.addHeader("Referer", "https://www.jyc99.com/userreg/login?returnUrl=/product")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("100001")) {
+			String res = response.body().string();
+			if (res.contains("帐号或密码有误") || res.contains("帐号已锁定")) {
 				return true;
 			}
 		} catch (Exception e) {

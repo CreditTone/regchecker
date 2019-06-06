@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.news;
+package com.jisucloud.clawler.regagent.service.impl.trip;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
@@ -16,29 +16,29 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class XinLangSpider implements PapaSpider {
+public class AoYouSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "新浪网为全球用户24小时提供全面及时的中文资讯，内容覆盖国内外突发新闻事件、体坛赛事、娱乐时尚、产业资讯、实用信息等，设有新闻、体育、娱乐、财经、科技、房产、汽车等30多个内容频道，同时开设博客、视频、论坛等自由互动交流空间。";
+		return "遨游网是A股上市公司中青旅旗下在互联网时代打造的旅行生活平台，提供国内/出境游、海岛游、签证办理、机票预订、精品酒店、游学、康养、境外当地玩乐、高端定制等品质旅行服务，移动端品牌为遨游旅行。";
 	}
 
 	@Override
 	public String platform() {
-		return "sina";
+		return "aoyou";
 	}
 
 	@Override
 	public String home() {
-		return "sina.com";
+		return "aoyou.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "新浪网";
+		return "遨游网";
 	}
 
 	@Override
@@ -51,28 +51,26 @@ public class XinLangSpider implements PapaSpider {
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new XinLangSpider().checkTelephone("18210538000"));
-//		System.out.println(new XinLangSpider().checkTelephone("18210538513"));
+//		System.out.println(new AoYouSpider().checkTelephone("13910252045"));
+//		System.out.println(new AoYouSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://login.sina.com.cn/signup/check_user.php";
+			String url = "https://passport.aoyou.com/Reg/VerificationMobile";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("name", account)
-	                .add("format", "json")
-	                .add("from", "mobile")
+	                .add("regMobile", account)
 	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "login.sina.com.cn")
-					.addHeader("Referer", "https://login.sina.com.cn/signup/signup?entry=homepage")
+					.addHeader("Host", "passport.aoyou.com")
+					.addHeader("Referer", "https://passport.aoyou.com/Reg/Index")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("100001")) {
+			if (response.body().string().contains("exist\":true")) {
 				return true;
 			}
 		} catch (Exception e) {

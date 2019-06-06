@@ -1,9 +1,8 @@
-package com.jisucloud.clawler.regagent.service.impl.news;
+package com.jisucloud.clawler.regagent.service.impl.education;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -16,29 +15,31 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class XinLangSpider implements PapaSpider {
+public class ZhongGuoZhiWangSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
+	
+	private String name = null;
 
 	@Override
 	public String message() {
-		return "新浪网为全球用户24小时提供全面及时的中文资讯，内容覆盖国内外突发新闻事件、体坛赛事、娱乐时尚、产业资讯、实用信息等，设有新闻、体育、娱乐、财经、科技、房产、汽车等30多个内容频道，同时开设博客、视频、论坛等自由互动交流空间。";
+		return "中国知网，是国家知识基础设施的概念，由世界银行于1998年提出。CNKI工程是以实现全社会知识资源传播共享与增值利用为目标的信息化建设项目。";
 	}
 
 	@Override
 	public String platform() {
-		return "sina";
+		return "cnki";
 	}
 
 	@Override
 	public String home() {
-		return "sina.com";
+		return "cnki.net";
 	}
 
 	@Override
 	public String platformName() {
-		return "新浪网";
+		return "中国知网";
 	}
 
 	@Override
@@ -51,30 +52,21 @@ public class XinLangSpider implements PapaSpider {
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new XinLangSpider().checkTelephone("18210538000"));
-//		System.out.println(new XinLangSpider().checkTelephone("18210538513"));
+//		System.out.println(new ZhongGuoZhiWangSpider().checkTelephone("13910252045"));
+//		System.out.println(new ZhongGuoZhiWangSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://login.sina.com.cn/signup/check_user.php";
-			FormBody formBody = new FormBody
-	                .Builder()
-	                .add("name", account)
-	                .add("format", "json")
-	                .add("from", "mobile")
-	                .build();
+			String url = "http://my.cnki.net/mycnki/RealName/Server.aspx?mobile="+account+"&temp=741&operatetype=4";
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "login.sina.com.cn")
-					.addHeader("Referer", "https://login.sina.com.cn/signup/signup?entry=homepage")
-					.post(formBody)
+					.addHeader("Host", "my.cnki.net/mycnki")
+					.addHeader("Referer", "http://my.cnki.net/mycnki/RealName/FindPsd.aspx")
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("100001")) {
-				return true;
-			}
+			return response.body().string().contains("1");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -88,6 +80,11 @@ public class XinLangSpider implements PapaSpider {
 
 	@Override
 	public Map<String, String> getFields() {
+		if (name != null) {
+			Map<String, String> fields = new HashMap<>();
+			fields.put("name" , name);
+			return fields;
+		}
 		return null;
 	}
 

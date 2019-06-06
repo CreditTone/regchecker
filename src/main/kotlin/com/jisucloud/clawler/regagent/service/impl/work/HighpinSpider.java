@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.news;
+package com.jisucloud.clawler.regagent.service.impl.work;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
@@ -16,29 +16,29 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class XinLangSpider implements PapaSpider {
+public class HighpinSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "新浪网为全球用户24小时提供全面及时的中文资讯，内容覆盖国内外突发新闻事件、体坛赛事、娱乐时尚、产业资讯、实用信息等，设有新闻、体育、娱乐、财经、科技、房产、汽车等30多个内容频道，同时开设博客、视频、论坛等自由互动交流空间。";
+		return "【智联卓聘 highpin.cn】是智联招聘网旗下中高端人才招聘网站,整合全球1088个国家和地区40多个行业海量年薪10万以上的中高端职位。中高端人才求职、找工作,首选智联卓聘。";
 	}
 
 	@Override
 	public String platform() {
-		return "sina";
+		return "highpin";
 	}
 
 	@Override
 	public String home() {
-		return "sina.com";
+		return "highpin.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "新浪网";
+		return "智联卓聘";
 	}
 
 	@Override
@@ -51,28 +51,26 @@ public class XinLangSpider implements PapaSpider {
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new XinLangSpider().checkTelephone("18210538000"));
-//		System.out.println(new XinLangSpider().checkTelephone("18210538513"));
+//		System.out.println(new HighpinSpider().checkTelephone("15700102866"));
+//		System.out.println(new HighpinSpider().checkTelephone("15700102860"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://login.sina.com.cn/signup/check_user.php";
+			String url = "https://c.highpin.cn/Users/CheckUserName/?x-zp-client-id=d1c8cf49-2e75-4ace-dcd3-c85fcfb7998a";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("name", account)
-	                .add("format", "json")
-	                .add("from", "mobile")
+	                .add("username", account)
 	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "login.sina.com.cn")
-					.addHeader("Referer", "https://login.sina.com.cn/signup/signup?entry=homepage")
+					.addHeader("Host", "c.highpin.cn")
+					.addHeader("Referer", "https://c.highpin.cn/Users/Register")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("100001")) {
+			if (response.body().string().contains("\"OtherMessage\":\"true")) {
 				return true;
 			}
 		} catch (Exception e) {

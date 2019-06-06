@@ -1,6 +1,7 @@
-package com.jisucloud.clawler.regagent.service.impl.news;
+package com.jisucloud.clawler.regagent.service.impl.game;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -16,29 +17,29 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class XinLangSpider implements PapaSpider {
+public class SanQiGameSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "新浪网为全球用户24小时提供全面及时的中文资讯，内容覆盖国内外突发新闻事件、体坛赛事、娱乐时尚、产业资讯、实用信息等，设有新闻、体育、娱乐、财经、科技、房产、汽车等30多个内容频道，同时开设博客、视频、论坛等自由互动交流空间。";
+		return "37游戏平台是专业的游戏运营平台,为中外游戏用户提供精品游戏;37游戏致力于游戏精细化运营与优质的客户服务,成为深受玩家喜爱的国际化品牌游戏运营商。";
 	}
 
 	@Override
 	public String platform() {
-		return "sina";
+		return "37";
 	}
 
 	@Override
 	public String home() {
-		return "sina.com";
+		return "37.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "新浪网";
+		return "37游戏";
 	}
 
 	@Override
@@ -51,28 +52,22 @@ public class XinLangSpider implements PapaSpider {
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new XinLangSpider().checkTelephone("18210538000"));
-//		System.out.println(new XinLangSpider().checkTelephone("18210538513"));
+//		System.out.println(new SanQiGameSpider().checkTelephone("13910252045"));
+//		System.out.println(new SanQiGameSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://login.sina.com.cn/signup/check_user.php";
-			FormBody formBody = new FormBody
-	                .Builder()
-	                .add("name", account)
-	                .add("format", "json")
-	                .add("from", "mobile")
-	                .build();
+			String url = "https://my.37.com/api/register.php?action=checkUser&callback=jQuery1830635194860639588_"+System.currentTimeMillis()+"&login_account="+account+"&_="+System.currentTimeMillis();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "login.sina.com.cn")
-					.addHeader("Referer", "https://login.sina.com.cn/signup/signup?entry=homepage")
-					.post(formBody)
+					.addHeader("Host", "my.37.com")
+					.addHeader("Referer", "https://www.37.com/")
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("100001")) {
+			String res = StringUtil.unicodeToString(response.body().string());
+			if (res.contains("已被注册")) {
 				return true;
 			}
 		} catch (Exception e) {

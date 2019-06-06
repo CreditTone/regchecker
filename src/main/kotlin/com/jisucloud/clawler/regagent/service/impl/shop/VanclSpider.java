@@ -75,6 +75,11 @@ public class VanclSpider implements PapaSpider {
 				public void ajax(Ajax ajax) throws Exception {
 					checkTel = ajax.getResponse().contains("密码不匹配");
 				}
+				
+				@Override
+				public String[] blockUrl() {
+					return null;
+				}
 			});
 			chromeDriver.get("http://login.vancl.com/login/Login.aspx?http://www.vancl.com?http%3A%2F%2Fwww.vancl.com%2F");
 			Thread.sleep(3000);

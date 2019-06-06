@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.news;
+package com.jisucloud.clawler.regagent.service.impl.life;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
@@ -8,6 +8,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -16,29 +18,29 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class XinLangSpider implements PapaSpider {
+public class WoAiWoJiaSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "新浪网为全球用户24小时提供全面及时的中文资讯，内容覆盖国内外突发新闻事件、体坛赛事、娱乐时尚、产业资讯、实用信息等，设有新闻、体育、娱乐、财经、科技、房产、汽车等30多个内容频道，同时开设博客、视频、论坛等自由互动交流空间。";
+		return "我爱我家网为您提供二手房买卖、普通租赁、相寓品牌-住宅资质管理、新房交易、海外房产等房地产综合服务。您可以通过小区找房、地图找房、建立选房卡、联系经纪人、下载APP等方式自由选择心仪房源。";
 	}
 
 	@Override
 	public String platform() {
-		return "sina";
+		return "5i5j";
 	}
 
 	@Override
 	public String home() {
-		return "sina.com";
+		return "5i5j.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "新浪网";
+		return "我爱我家网";
 	}
 
 	@Override
@@ -51,28 +53,31 @@ public class XinLangSpider implements PapaSpider {
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new XinLangSpider().checkTelephone("18210538000"));
-//		System.out.println(new XinLangSpider().checkTelephone("18210538513"));
+//		System.out.println(new WoAiWoJiaSpider().checkTelephone("18515290717"));
+//		System.out.println(new WoAiWoJiaSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://login.sina.com.cn/signup/check_user.php";
+			String url = "https://passport.5i5j.com/passport/sigin?city=bj";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("name", account)
-	                .add("format", "json")
-	                .add("from", "mobile")
+	                .add("username", account)
+	                .add("password", "json21dsacvew")
+	                .add("aim", "pc")
+	                .add("service", "https://bj.5i5j.com/reglogin/index?preUrl=https%3A%2F%2Fbj.5i5j.com%2F")
+	                .add("status", "1")
 	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "login.sina.com.cn")
-					.addHeader("Referer", "https://login.sina.com.cn/signup/signup?entry=homepage")
+					.addHeader("Host", "passport.5i5j.com")
+					.addHeader("Referer", "https://passport.5i5j.com/passport/sigin?city=bj")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("100001")) {
+			Document doc = Jsoup.parse(response.body().string());
+			if (doc.select("#erromsg").text().contains("密码错误")) {
 				return true;
 			}
 		} catch (Exception e) {

@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.shop;
+package com.jisucloud.clawler.regagent.service.impl.education;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.deepsearch.selenium.Ajax;
@@ -12,6 +12,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -20,29 +22,29 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class GuoMeiSpider implements PapaSpider {
+public class WanTiKuSpider implements PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
 	
 	@Override
 	public String message() {
-		return "国美电器（GOME）成立于1987年1月1日，总部位于香港，是中国大陆家电零售连锁企业。2009年入选中国世界纪录协会中国最大的家电零售连锁企业。";
+		return "万题库,拥有名师视频解析的智能题库!考证通关大杀器,科学通关,懒人必备!... 智能辅导 互动式欢乐直播新大纲名师课程 智能练习 利用人工智能算法实现一对一智能出题。";
 	}
 
 	@Override
 	public String platform() {
-		return "gome";
+		return "wantiku";
 	}
 
 	@Override
 	public String home() {
-		return "gome.com";
+		return "wantiku.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "国美电器";
+		return "万题库";
 	}
 
 	@Override
@@ -55,39 +57,25 @@ public class GuoMeiSpider implements PapaSpider {
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new GuoMeiSpider().checkTelephone("18210538000"));
-//		System.out.println(new GuoMeiSpider().checkTelephone("18210538513"));
+//		System.out.println(new WanTiKuSpider().checkTelephone("15970663703"));
+//		System.out.println(new WanTiKuSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = HeadlessUtil.getChromeDriver(false, null, null);
-			String url = "https://reg.gome.com.cn/register/index/person?intcmp=reg-public01003";
-			chromeDriver.setAjaxListener(new AjaxListener() {
-				
-				@Override
-				public String matcherUrl() {
-					return "register/validateExist/refuse.do";
-				}
-				
-				@Override
-				public void ajax(Ajax ajax) throws Exception {
-					checkTel = ajax.getResponse().endsWith("k3NDpzaG93VmFsaWRhdGVDb2Rl") || ajax.getResponse().startsWith("true");
-				}
-				
-				@Override
-				public String[] blockUrl() {
-					return null;
-				}
-			});
+			String url = "http://www.wantiku.com/login/";
 			chromeDriver.get(url);
 			Thread.sleep(3000);
-			chromeDriver.findElementByLinkText("同意协议").click();
+			chromeDriver.findElementByCssSelector("input[name=UserName]").sendKeys(account);
+			chromeDriver.findElementByCssSelector("input[name=UserPass]").sendKeys("dsdsk92812ddddv");
+			chromeDriver.findElementByLinkText("登录").click();
 			Thread.sleep(3000);
-			chromeDriver.findElementById("mobile").sendKeys(account);
-			chromeDriver.findElementById("verifyCode").click();
-			Thread.sleep(3000);
+			Document doc = Jsoup.parse(chromeDriver.getPageSource());
+			if (doc.select("div.tishi_wrong.fl.handle-pwd").text().contains("密码错误")) {
+				return true;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.shop;
+package com.jisucloud.clawler.regagent.service.impl.life;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.deepsearch.selenium.Ajax;
@@ -7,87 +7,87 @@ import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
 import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.WebElement;
+import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class GuoMeiSpider implements PapaSpider {
-
+public class AiQiyiSpider implements PapaSpider {
+	
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
-	
+
 	@Override
 	public String message() {
-		return "国美电器（GOME）成立于1987年1月1日，总部位于香港，是中国大陆家电零售连锁企业。2009年入选中国世界纪录协会中国最大的家电零售连锁企业。";
+		return "爱奇艺是由龚宇于2010年4月22日创立的视频网站，2011年11月26日启动“爱奇艺”品牌并推出全新标志。爱奇艺成立伊始，坚持“悦享品质”的公司理念，以“用户体验..";
 	}
 
 	@Override
 	public String platform() {
-		return "gome";
+		return "iqiyi";
 	}
 
 	@Override
 	public String home() {
-		return "gome.com";
+		return "iqiyi.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "国美电器";
+		return "爱奇艺";
 	}
 
 	@Override
 	public Map<String, String[]> tags() {
 		return new HashMap<String, String[]>() {
 			{
-				put("金融", new String[] { "储蓄"});
+				put("电商", new String[] { });
 			}
 		};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new GuoMeiSpider().checkTelephone("18210538000"));
-//		System.out.println(new GuoMeiSpider().checkTelephone("18210538513"));
+//		System.out.println(new AiQiyiSpider().checkTelephone("18210538513"));
+//		System.out.println(new AiQiyiSpider().checkTelephone("18210530000"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(false, null, null);
-			String url = "https://reg.gome.com.cn/register/index/person?intcmp=reg-public01003";
+			chromeDriver = HeadlessUtil.getChromeDriver(true, null, null);
 			chromeDriver.setAjaxListener(new AjaxListener() {
 				
 				@Override
 				public String matcherUrl() {
-					return "register/validateExist/refuse.do";
+					return "user/check_account.action";
 				}
 				
 				@Override
 				public void ajax(Ajax ajax) throws Exception {
-					checkTel = ajax.getResponse().endsWith("k3NDpzaG93VmFsaWRhdGVDb2Rl") || ajax.getResponse().startsWith("true");
+					checkTel = ajax.getResponse().contains("data\":true");
 				}
-				
+
 				@Override
 				public String[] blockUrl() {
 					return null;
 				}
 			});
-			chromeDriver.get(url);
-			Thread.sleep(3000);
-			chromeDriver.findElementByLinkText("同意协议").click();
-			Thread.sleep(3000);
-			chromeDriver.findElementById("mobile").sendKeys(account);
-			chromeDriver.findElementById("verifyCode").click();
-			Thread.sleep(3000);
+			chromeDriver.get("http://www.iqiyi.com/iframe/loginreg?ver=1");
+			Thread.sleep(2000);
+			chromeDriver.findElementByLinkText("账号密码登录").click();
+			Thread.sleep(1000);
+			chromeDriver.findElementByLinkText("忘记密码").click();
+			Thread.sleep(1000);
+			chromeDriver.findElementByLinkText("短信登录").click();
+			Thread.sleep(1000);
+			WebElement nameInputArea = chromeDriver.findElementByCssSelector("input[data-regbox='name']");
+			nameInputArea.sendKeys(account);
+			chromeDriver.findElementByLinkText("下一步").click();
+			Thread.sleep(2000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

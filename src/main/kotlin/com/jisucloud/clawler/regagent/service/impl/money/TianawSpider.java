@@ -75,6 +75,11 @@ public class TianawSpider implements PapaSpider {
 				public void ajax(Ajax ajax) throws Exception {
 					checkTel = !ajax.getResponse().contains("该用户未注册");
 				}
+				
+				@Override
+				public String[] blockUrl() {
+					return null;
+				}
 			});
 			chromeDriver.get(url);
 			Thread.sleep(5000);

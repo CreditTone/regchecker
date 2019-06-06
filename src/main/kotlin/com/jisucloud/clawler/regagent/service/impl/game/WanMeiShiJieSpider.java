@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.news;
+package com.jisucloud.clawler.regagent.service.impl.game;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
@@ -16,29 +16,29 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class XinLangSpider implements PapaSpider {
+public class WanMeiShiJieSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "新浪网为全球用户24小时提供全面及时的中文资讯，内容覆盖国内外突发新闻事件、体坛赛事、娱乐时尚、产业资讯、实用信息等，设有新闻、体育、娱乐、财经、科技、房产、汽车等30多个内容频道，同时开设博客、视频、论坛等自由互动交流空间。";
+		return "完美世界控股集团... 完美世界控股集团 完美世界影视 完美世界游戏 完美世界影城 完美世界动画 完美世界文学 完美世界媒体 完美世界教育新闻报道 新闻动态 完美世界商城。";
 	}
 
 	@Override
 	public String platform() {
-		return "sina";
+		return "wanmei";
 	}
 
 	@Override
 	public String home() {
-		return "sina.com";
+		return "wanmei.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "新浪网";
+		return "完美世界";
 	}
 
 	@Override
@@ -51,28 +51,21 @@ public class XinLangSpider implements PapaSpider {
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new XinLangSpider().checkTelephone("18210538000"));
-//		System.out.println(new XinLangSpider().checkTelephone("18210538513"));
+//		System.out.println(new WanMeiShiJieSpider().checkTelephone("13426345414"));
+//		System.out.println(new WanMeiShiJieSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://login.sina.com.cn/signup/check_user.php";
-			FormBody formBody = new FormBody
-	                .Builder()
-	                .add("name", account)
-	                .add("format", "json")
-	                .add("from", "mobile")
-	                .build();
+			String url = "https://passport.wanmei.com/reg/checkuser?username=" + account;
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "login.sina.com.cn")
-					.addHeader("Referer", "https://login.sina.com.cn/signup/signup?entry=homepage")
-					.post(formBody)
+					.addHeader("Host", "passport.wanmei.com")
+					.addHeader("Referer", "https://passport.wanmei.com/reg/?s=pay")
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("100001")) {
+			if (response.body().string().contains("已存在")) {
 				return true;
 			}
 		} catch (Exception e) {

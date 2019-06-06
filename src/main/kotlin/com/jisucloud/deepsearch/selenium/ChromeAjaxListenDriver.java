@@ -1,6 +1,7 @@
 package com.jisucloud.deepsearch.selenium;
 
 import java.util.Random;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,6 +44,11 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 			log.info("ArrayQueueJS:"+url);
 			executeScript(AjaxListererJs.AjaxListeneJS);
 			log.info("AjaxListeneJS:"+url);
+			executeScript(AjaxListererJs.AjaxListeneJS);
+			if (ajaxListener.blockUrl() != null) {
+				log.info("BlockUrl:"+url);
+				blockAjax(ajaxListener.blockUrl());
+			}
 		}
 	}
 	
@@ -99,6 +105,13 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 		readAjaxQueueThread.start();
 		if (getCurrentUrl().startsWith("http")) {
 			get(getCurrentUrl());
+		}
+	}
+	
+	
+	private void blockAjax(String ...urlPaths) {
+		for (int i = 0;urlPaths != null && i < urlPaths.length; i++) {
+			executeScript("window.blockAjax.push('"+ urlPaths[i] +"');");
 		}
 	}
 	

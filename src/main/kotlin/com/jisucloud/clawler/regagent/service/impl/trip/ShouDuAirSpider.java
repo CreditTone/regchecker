@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.news;
+package com.jisucloud.clawler.regagent.service.impl.trip;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
@@ -16,29 +16,29 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class XinLangSpider implements PapaSpider {
+public class ShouDuAirSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "新浪网为全球用户24小时提供全面及时的中文资讯，内容覆盖国内外突发新闻事件、体坛赛事、娱乐时尚、产业资讯、实用信息等，设有新闻、体育、娱乐、财经、科技、房产、汽车等30多个内容频道，同时开设博客、视频、论坛等自由互动交流空间。";
+		return "北京首都航空官方网站,北京首都航空有限公司简称首都航空,是一家总部位于北京的公共运输航空公司。首都航空秉承“安全、简单、亲和”的服务理念。";
 	}
 
 	@Override
 	public String platform() {
-		return "sina";
+		return "jdair";
 	}
 
 	@Override
 	public String home() {
-		return "sina.com";
+		return "jdair.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "新浪网";
+		return "首都航空";
 	}
 
 	@Override
@@ -51,28 +51,29 @@ public class XinLangSpider implements PapaSpider {
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new XinLangSpider().checkTelephone("18210538000"));
-//		System.out.println(new XinLangSpider().checkTelephone("18210538513"));
+//		System.out.println(new ShouDuAirSpider().checkTelephone("13910252045"));
+//		System.out.println(new ShouDuAirSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://login.sina.com.cn/signup/check_user.php";
+			String url = "https://cas.jdair.net/uniqueValidate";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("name", account)
-	                .add("format", "json")
-	                .add("from", "mobile")
+	                .add("mobileNo", account)
+	                .add("value", account)
+	                .add("custNo", "")
+	                .add("type", "mobile")
 	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "login.sina.com.cn")
-					.addHeader("Referer", "https://login.sina.com.cn/signup/signup?entry=homepage")
+					.addHeader("Host", "cas.jdair.net")
+					.addHeader("Referer", "https://cas.jdair.net/regist?execution=e1s1&_eventId=agree")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("100001")) {
+			if (response.body().string().contains("请直接登录")) {
 				return true;
 			}
 		} catch (Exception e) {
