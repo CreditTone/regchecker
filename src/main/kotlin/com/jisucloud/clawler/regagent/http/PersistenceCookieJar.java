@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service;
+package com.jisucloud.clawler.regagent.http;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,7 +21,7 @@ public class PersistenceCookieJar implements CookieJar {
 	private Map<String,List<Cookie>> domainToCookies = new ConcurrentHashMap<>();
 	
 	public void saveCookies(String url,Set<org.openqa.selenium.Cookie> cookies) {
-		log.info("saveCookies:"+cookies.toString());
+		//log.info("saveCookies:"+cookies.toString());
 		List<Cookie> cache = new ArrayList<>();
 		Iterator<org.openqa.selenium.Cookie> iter = cookies.iterator();
 		while (iter.hasNext()) {
@@ -49,7 +49,6 @@ public class PersistenceCookieJar implements CookieJar {
 	@Override
 	public List<Cookie> loadForRequest(HttpUrl url) {
 		List<Cookie> cache = domainToCookies.getOrDefault(url.host(), new ArrayList<Cookie>());
-		System.out.println(url +" get:"+cache);
 		return cache;
 	}
 
@@ -58,7 +57,6 @@ public class PersistenceCookieJar implements CookieJar {
 		domainToCookies.remove(url.host());
 		List<Cookie> cache = domainToCookies.getOrDefault(url.host(), new ArrayList<Cookie>());
 		cache.addAll(cookies);
-		System.out.println("save:"+cache);
 		domainToCookies.put(url.host(), cache);
 	}
 

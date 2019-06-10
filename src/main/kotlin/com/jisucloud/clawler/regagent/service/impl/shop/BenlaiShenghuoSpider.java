@@ -1,7 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.shop;
 
+import com.jisucloud.clawler.regagent.http.PersistenceCookieJar;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.service.PersistenceCookieJar;
 import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
 import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 

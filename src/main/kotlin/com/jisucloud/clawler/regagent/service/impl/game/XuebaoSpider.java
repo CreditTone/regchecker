@@ -1,7 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.game;
 
+import com.jisucloud.clawler.regagent.http.PersistenceCookieJar;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.service.PersistenceCookieJar;
 import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,7 @@ public class XuebaoSpider implements PapaSpider {
 
 	@Override
 	public String message() {
-		return " 暴雪娱乐公司是一家著名视频游戏制作和发行公司,1991年2月8日由加利福尼亚大学洛杉矶分校的三位毕业生1994年,他们公司品牌正式更名为“Blizzard” 在“暴雪”成立.";
+		return "暴雪娱乐公司是一家著名视频游戏制作和发行公司,1991年2月8日由加利福尼亚大学洛杉矶分校的三位毕业生1994年,他们公司品牌正式更名为“Blizzard” 在“暴雪”成立.";
 	}
 
 	@Override
