@@ -150,8 +150,8 @@ public class Web12306Spider implements PapaSpider {
     }
 
     @Override
-    public Map<String, String[]> tags() {
-        return null;
-    }
+	public String[] tags() {
+		return new String[] {"出行" , "火车" , "高铁"};
+	}
 
 }

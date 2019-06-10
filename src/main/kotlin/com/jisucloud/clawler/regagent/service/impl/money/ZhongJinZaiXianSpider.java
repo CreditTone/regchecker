@@ -41,13 +41,10 @@ public class ZhongJinZaiXianSpider implements PapaSpider {
 		return "中金在线";
 	}
 
+
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("金融", new String[] { "储蓄"});
-			}
-		};
+	public String[] tags() {
+		return new String[] {"金融资讯", "期货" , "贵金属" , "股票"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

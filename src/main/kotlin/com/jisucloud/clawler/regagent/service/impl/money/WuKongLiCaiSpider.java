@@ -44,12 +44,8 @@ public class WuKongLiCaiSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("电商", new String[] { });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"理财"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

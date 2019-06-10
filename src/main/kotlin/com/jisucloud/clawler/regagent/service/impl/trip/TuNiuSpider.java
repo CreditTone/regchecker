@@ -42,12 +42,8 @@ public class TuNiuSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("出行", new String[] { "飞机" });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"旅游" , "酒店" , "美食" , "o2o"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

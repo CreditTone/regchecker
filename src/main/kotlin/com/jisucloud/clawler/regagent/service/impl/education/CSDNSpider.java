@@ -51,12 +51,8 @@ public class CSDNSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("教育", new String[] { "IT" });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"新闻阅读","it资料"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

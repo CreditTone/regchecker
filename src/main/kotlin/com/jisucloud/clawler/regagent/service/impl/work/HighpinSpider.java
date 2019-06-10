@@ -42,12 +42,8 @@ public class HighpinSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("媒体", new String[] { });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"求职" , "招聘"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

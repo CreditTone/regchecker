@@ -1,8 +1,9 @@
-package com.jisucloud.clawler.regagent.service.impl.education;
+package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -15,56 +16,57 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class XuexinSpider implements PapaSpider {
+public class CaoGenTouZiSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "光宇游戏国内十大网络游戏运营商之一，百万级玩家在线游戏平台，同时也是知名的网络游戏研发公司。";
+		return "草根投资是国内领先的P2P理财平台,为投资者提供多元化的理财产品,在安全的基础上保障高收益,是投资理财首选平台。";
 	}
 
 	@Override
 	public String platform() {
-		return "gyyx";
+		return "cgtz";
 	}
 
 	@Override
 	public String home() {
-		return "gyyx.com";
+		return "cgtz.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "光宇游戏";
+		return "草根投资";
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("娱乐", new String[] { "游戏" });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"P2P", "借贷"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new XuexinSpider().checkTelephone("13879691485"));
-//		System.out.println(new XuexinSpider().checkTelephone("18210538513"));
+//		System.out.println(new CaoGenTouZiSpider().checkTelephone("13910252045"));
+//		System.out.println(new CaoGenTouZiSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "http://reg.gyyx.cn/register/CheckPhoneAccountIsExist?jsoncallback=jQuery5086078795_"+System.currentTimeMillis()+"&userName="+account+"&r=0.4185677471204179&_="+System.currentTimeMillis();
+			String url = "https://www.cgtz.com/find_pwd/check_mobile.do";
+			FormBody formBody = new FormBody
+	                .Builder()
+	                .add("mobile", account)
+	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "reg.gyyx.cn")
-					.addHeader("Referer", "http://account.gyyx.cn/Member/RegisterPhone?gameId=0&toURL=http%3A%2F%2Fwww.gyyx.cn%2F&reg_mobreg=")
+					.addHeader("Host", "www.cgtz.com")
+					.addHeader("Referer", "https://www.cgtz.com/user/info/find_password.html")
+					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("false")) {
+			if (response.body().string().contains("success\":false")) {
 				return true;
 			}
 		} catch (Exception e) {

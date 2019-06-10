@@ -46,18 +46,14 @@ public class AplipaySpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("电商", new String[] { });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"电商" , "海购"};
 	}
 
-	public static void main(String[] args) throws InterruptedException {
-		System.out.println(new AplipaySpider().checkTelephone("13879691485"));
-		System.out.println(new AplipaySpider().checkTelephone("18210538513"));
-	}
+//	public static void main(String[] args) throws InterruptedException {
+//		System.out.println(new AplipaySpider().checkTelephone("13879691485"));
+//		System.out.println(new AplipaySpider().checkTelephone("18210538513"));
+//	}
 	
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {

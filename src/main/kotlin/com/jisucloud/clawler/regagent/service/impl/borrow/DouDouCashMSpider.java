@@ -99,8 +99,8 @@ public class DouDouCashMSpider implements PapaSpider {
         return "豆豆钱包";
     }
 
-    @Override
-    public Map<String, String[]> tags() {
-        return null;
-    }
+	@Override
+	public String[] tags() {
+		return new String[] {"P2P", "消费分期" , "借贷"};
+	}
 }

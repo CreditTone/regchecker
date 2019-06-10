@@ -44,12 +44,8 @@ public class YaoYaoYaoYiYapSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("购物", new String[] { });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"购药"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

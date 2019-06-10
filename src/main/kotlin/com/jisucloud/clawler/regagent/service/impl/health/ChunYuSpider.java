@@ -42,12 +42,8 @@ public class ChunYuSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("媒体", new String[] { });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"健康运动", "医疗", "生活应用" , "挂号" , "用药"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

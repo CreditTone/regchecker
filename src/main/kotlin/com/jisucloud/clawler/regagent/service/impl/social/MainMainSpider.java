@@ -94,7 +94,7 @@ public class MainMainSpider implements PapaSpider {
     }
 
     @Override
-    public Map<String, String[]> tags() {
-        return null;
-    }
+	public String[] tags() {
+		return new String[] {"社交" , "找合作" , "求职", "招聘" , "工具"};
+	}
 }

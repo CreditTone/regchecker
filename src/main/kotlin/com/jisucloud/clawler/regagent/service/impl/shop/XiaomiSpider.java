@@ -91,9 +91,9 @@ public class XiaomiSpider implements PapaSpider {
     }
 
     @Override
-    public Map<String, String[]> tags() {
-        return null;
-    }
+	public String[] tags() {
+		return new String[] {"电商" , "智能手机"};
+	}
 
 
 }

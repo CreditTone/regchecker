@@ -41,12 +41,8 @@ public class DangDangWangSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("购物", new String[] {});
-			}
-		};
+	public String[] tags() {
+		return new String[] {"电商" , "网上书城"};
 	}
 
 //	public static void main(String[] args) {

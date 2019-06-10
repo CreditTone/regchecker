@@ -43,12 +43,8 @@ public class ZhongGuoZhiWangSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("媒体", new String[] { });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"中国学术文献", "外文文献", "学位论文"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

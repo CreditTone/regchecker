@@ -39,16 +39,12 @@ public class QiongYouSpider implements PapaSpider {
 
 	@Override
 	public String platformName() {
-		return "途牛旅游";
+		return "穷游网";
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("出行", new String[] { "飞机" });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"旅游" , "酒店" , "美食" , "o2o"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

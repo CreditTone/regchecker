@@ -73,9 +73,9 @@ public class CDMA189EmailSpider implements PapaSpider {
     }
 
     @Override
-    public Map<String, String[]> tags() {
-        return null;
-    }
+	public String[] tags() {
+		return new String[] {"邮箱"};
+	}
 
 
 }

@@ -95,10 +95,8 @@ public class jiQianBaoSpider implements PapaSpider {
         return null;
     }
 
-    @Override
-    public Map<String, String[]> tags() {
-        return new HashMap<String, String[]>() {{
-            put("金融理财", new String[]{"借贷", "贷超"});
-        }};
-    }
+	@Override
+	public String[] tags() {
+		return new String[] {"P2P", "消费分期" , "借贷"};
+	}
 }

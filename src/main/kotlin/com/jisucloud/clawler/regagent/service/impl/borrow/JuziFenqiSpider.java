@@ -38,13 +38,9 @@ public class JuziFenqiSpider implements PapaSpider {
         return "桔子分期";
     }
 
-    @Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("金融理财", new String[] { "借贷", "消费分期" });
-			}
-		};
+	@Override
+	public String[] tags() {
+		return new String[] {"P2P", "消费分期" , "借贷"};
 	}
 
     private Map<String, String> getHeader() {

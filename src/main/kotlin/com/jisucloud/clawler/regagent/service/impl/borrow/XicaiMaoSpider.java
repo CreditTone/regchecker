@@ -39,12 +39,10 @@ public class XicaiMaoSpider implements PapaSpider {
         return "希财猫";
     }
 
-    @Override
-    public Map<String, String[]> tags() {
-        return new HashMap<String, String[]>() {{
-            put("金融理财", new String[]{"借贷"});
-        }};
-    }
+	@Override
+	public String[] tags() {
+		return new String[] {"P2P", "消费分期" , "借贷"};
+	}
     
 //    public static void main(String[] args) {
 //		System.out.println(new XicaiMaoSpider().checkTelephone("18210538513"));

@@ -41,12 +41,8 @@ public class ChinahrSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("社交", new String[] { "招聘" });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"求职" , "招聘"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

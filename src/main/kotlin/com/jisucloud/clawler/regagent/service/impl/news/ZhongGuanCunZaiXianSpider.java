@@ -43,12 +43,8 @@ public class ZhongGuanCunZaiXianSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("生活", new String[] { "app市场" });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"新闻资讯" , "3C资讯" , "智能手机"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

@@ -113,8 +113,8 @@ public class WuBaSpider implements PapaSpider {
     }
 
     @Override
-    public Map<String, String[]> tags() {
-        return null;
-    }
+	public String[] tags() {
+		return new String[] {"o2o", "生活休闲", "求职" , "招聘" , "房产家居"};
+	}
 
 }

@@ -47,14 +47,6 @@ public class WanTiKuSpider implements PapaSpider {
 		return "万题库";
 	}
 
-	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("金融", new String[] { "储蓄"});
-			}
-		};
-	}
 
 //	public static void main(String[] args) throws InterruptedException {
 //		System.out.println(new WanTiKuSpider().checkTelephone("15970663703"));
@@ -94,6 +86,11 @@ public class WanTiKuSpider implements PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
+	}
+
+	@Override
+	public String[] tags() {
+		return new String[] {"考试","学习","教育"};
 	}
 
 }

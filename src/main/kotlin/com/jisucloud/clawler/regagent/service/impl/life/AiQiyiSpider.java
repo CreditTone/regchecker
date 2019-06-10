@@ -42,12 +42,8 @@ public class AiQiyiSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("电商", new String[] { });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"影音", "视频", "MV"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

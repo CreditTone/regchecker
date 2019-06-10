@@ -44,11 +44,9 @@ public class DocinSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("媒体", new String[] { });
-			}
+	public String[] tags() {
+		return new String[] {
+			"新闻阅读","小说","听书","教育"
 		};
 	}
 

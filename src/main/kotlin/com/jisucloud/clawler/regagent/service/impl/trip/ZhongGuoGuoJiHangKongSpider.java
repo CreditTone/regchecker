@@ -42,12 +42,8 @@ public class ZhongGuoGuoJiHangKongSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("出行", new String[] { "飞机" });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"出行" , "飞机" , "机票"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

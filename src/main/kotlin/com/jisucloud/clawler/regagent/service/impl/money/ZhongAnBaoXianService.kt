@@ -7,11 +7,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class ZhongAnBaoXianService : PapaSpider {
-    override fun tags(): Map<String, Array<String>> {
-        return mapOf(
-                "金融理财" to arrayOf("保险")
-        )
-    }
+    override fun tags() = arrayOf("理财" , "保险");
 
     override fun home(): String = "zhongan.com"
     //https://www.wandoujia.com/apps/com.zhongan.insurance/history

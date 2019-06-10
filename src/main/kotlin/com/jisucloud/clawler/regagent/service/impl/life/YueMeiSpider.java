@@ -42,12 +42,8 @@ public class YueMeiSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("媒体", new String[] { });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"医美", "美容" , "整容"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

@@ -46,12 +46,8 @@ public class ChangYouWangSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("金融", new String[] { "储蓄"});
-			}
-		};
+	public String[] tags() {
+		return new String[] {"游戏"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

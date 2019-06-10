@@ -7,11 +7,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class PingAnXiaoDaiService : PapaSpider {
-    override fun tags(): Map<String, Array<String>> {
-        return mapOf(
-                "金融理财" to arrayOf("网贷")
-        )
-    }
+    override fun tags() = arrayOf("借贷" , "p2p");
 
     override fun home(): String = "pingan.com"
     //https://sj.qq.com/myapp/detail.htm?apkName=com.xiaoedai.xed

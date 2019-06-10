@@ -44,12 +44,8 @@ public class DanShenJiaoYouSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("房产", new String[] {  });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"单身交友" , "婚恋"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

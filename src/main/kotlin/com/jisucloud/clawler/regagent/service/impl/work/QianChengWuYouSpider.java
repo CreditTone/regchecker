@@ -23,31 +23,27 @@ public class QianChengWuYouSpider implements PapaSpider {
 
 	@Override
 	public String message() {
-		return "安卓市场,Android,安卓,安智市场-国内最专业的Android安卓手机电子市场，提供海量安卓软件、Android手机游戏、安卓最新汉化软件资源及最新APK汉化、汉化破解APP、APK免费下载，致力于为用户打造最贴心的Android安卓应用商店。";
+		return "前程无忧(NASDAQ:JOBS)是中国具有广泛影响力的人力资源服务供应商,在美国上市的中国人力资源服务企业,创立了网站+猎头+RPO+校园招聘+管理软件的全方位招聘方案.目前51Job有效简历数量超过1.2亿。";
 	}
 
 	@Override
 	public String platform() {
-		return "anzhi";
+		return "51job";
 	}
 
 	@Override
 	public String home() {
-		return "anzhi.com";
+		return "51job.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "安智市场";
+		return "前程无忧";
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("生活", new String[] { "app市场" });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"求职" , "招聘"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

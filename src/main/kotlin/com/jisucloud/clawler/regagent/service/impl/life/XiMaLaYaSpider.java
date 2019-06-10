@@ -41,12 +41,8 @@ public class XiMaLaYaSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("娱乐", new String[] {"声音" });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"听书", "生活休闲"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

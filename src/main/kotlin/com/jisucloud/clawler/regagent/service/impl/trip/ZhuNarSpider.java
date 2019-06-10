@@ -30,31 +30,27 @@ public class ZhuNarSpider implements PapaSpider {
 
 	@Override
 	public String message() {
-		return "神州租车 (CAR Inc.)成立于2007年9月，总部位于中国北京。作为中国汽车租赁行业的领跑者，神州租车积极借鉴国际成熟市场成功的汽车租赁模式，并结合中国客户的消费习惯，为广大消费者提供短租、长租及融资租赁等专业化的汽车租赁服务。";
+		return "住哪网是中国最专业的在线旅行住宿服务平台,提供国内40000多家酒店、全球260000家海外酒店的预订服务,及短租公寓、民宿客栈等预订服务。订酒店,返现金!";
 	}
 
 	@Override
 	public String platform() {
-		return "zuche";
+		return "zhuna";
 	}
 
 	@Override
 	public String home() {
-		return "zuche.com";
+		return "zhuna.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "神州租车";
+		return "住哪网";
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("媒体", new String[] { });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"旅游" , "酒店"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

@@ -43,12 +43,8 @@ public class MtimeSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("媒体", new String[] { });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"娱乐咨询", "追星"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

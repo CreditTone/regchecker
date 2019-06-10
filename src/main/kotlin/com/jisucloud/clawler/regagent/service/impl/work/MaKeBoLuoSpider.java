@@ -43,12 +43,8 @@ public class MaKeBoLuoSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("媒体", new String[] { });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"b2b" ,"商机" ,"生意"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

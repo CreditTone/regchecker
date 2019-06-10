@@ -83,7 +83,7 @@ public class QQSpider implements PapaSpider {
     }
 
     @Override
-    public Map<String, String[]> tags() {
-        return null;
-    }
+	public String[] tags() {
+		return new String[] {"交友" , "社交"};
+	}
 }

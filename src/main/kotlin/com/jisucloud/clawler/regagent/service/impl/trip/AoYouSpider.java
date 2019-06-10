@@ -42,12 +42,8 @@ public class AoYouSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("媒体", new String[] { });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"旅游" , "酒店" , "美食" , "o2o"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

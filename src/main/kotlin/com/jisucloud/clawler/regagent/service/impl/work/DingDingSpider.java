@@ -76,7 +76,7 @@ public class DingDingSpider implements PapaSpider {
     }
 
     @Override
-    public Map<String, String[]> tags() {
-        return null;
-    }
+	public String[] tags() {
+		return new String[] {"办公软件"};
+	}
 }

@@ -45,12 +45,8 @@ public class QianQianJingTingSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("生活", new String[] { "app市场" });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"音乐"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

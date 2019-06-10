@@ -41,12 +41,8 @@ public class MangGuoTVSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("娱乐", new String[] {});
-			}
-		};
+	public String[] tags() {
+		return new String[] {"影音", "视频", "TV"};
 	}
 
 //	public static void main(String[] args) {

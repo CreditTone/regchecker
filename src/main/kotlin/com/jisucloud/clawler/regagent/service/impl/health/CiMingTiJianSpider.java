@@ -42,12 +42,8 @@ public class CiMingTiJianSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("医疗", new String[] { "体检" });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"体检", "医疗"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

@@ -43,12 +43,8 @@ public class ShengDaSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("娱乐", new String[] { "游戏" });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"游戏"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

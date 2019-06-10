@@ -44,12 +44,8 @@ public class WoAiWoJiaSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("媒体", new String[] { });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"房产家居" , "房产中介"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

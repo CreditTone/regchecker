@@ -42,12 +42,8 @@ public class ErShouQiCheZhiJiaSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("生活", new String[] { "汽车" });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"二手车", "卖车", "买车"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

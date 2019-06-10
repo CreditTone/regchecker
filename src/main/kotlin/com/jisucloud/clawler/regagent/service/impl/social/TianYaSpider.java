@@ -42,12 +42,8 @@ public class TianYaSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("社交", new String[] { });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"论坛" , "社交" , "校园"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

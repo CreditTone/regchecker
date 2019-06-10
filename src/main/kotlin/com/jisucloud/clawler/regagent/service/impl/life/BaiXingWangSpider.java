@@ -45,12 +45,8 @@ public class BaiXingWangSpider implements PapaSpider {
 	}
 
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("借贷", new String[] {"p2p" });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"o2o", "生活休闲", "求职" , "招聘" , "房产家居"};
 	}
 
 //	public static void main(String[] args) {

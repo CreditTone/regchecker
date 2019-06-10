@@ -39,13 +39,10 @@ public class ZhongGuoRenMinBaoXianSpider implements PapaSpider {
 		return "PICC人保官网";
 	}
 
+
 	@Override
-	public Map<String, String[]> tags() {
-		return new HashMap<String, String[]>() {
-			{
-				put("生活", new String[] { "保险" });
-			}
-		};
+	public String[] tags() {
+		return new String[] {"理财", "保险"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
