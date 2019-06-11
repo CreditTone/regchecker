@@ -1,12 +1,15 @@
-package com.jisucloud.clawler.regagent.service.impl.work;
+package com.jisucloud.clawler.regagent.service.impl.education;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -15,53 +18,61 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class DajieWangSpider implements PapaSpider {
+public class XueXinWangSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "大街网创立于2008年底,是一家真正专属于年轻人的移动社交招聘平台,为年轻职场人匹配最佳工作机会,拓展职场人脉,提升职场价值.大街想要做的,就是用互联网思维。";
+		return "中国高等教育学生信息网(简称“学信网”)由全国高等学校学生信息咨询与就业指导中心(以下简称“中心”)于2002年5月注册并开通，由中心控股的学信咨询服务有限公司负责运营";
 	}
 
 	@Override
 	public String platform() {
-		return "dajie";
+		return "chsi";
 	}
 
 	@Override
 	public String home() {
-		return "dajie.com";
+		return "chsi.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "大街网";
+		return "学信网";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"求职" , "招聘" , "商务"};
+		return new String[] {"学历"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new DajieWangSpider().checkTelephone("18210538513"));
-//		System.out.println(new DajieWangSpider().checkTelephone("18210538511"));
+//		System.out.println(new XueXinWangSpider().checkTelephone("15210000000"));
+//		System.out.println(new XueXinWangSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://www.dajie.com/account/phonestatuscheck?callback=jQuery151020488464963648478_"+System.currentTimeMillis()+"&ajax=1&phoneNumber="+account+"&_=1559213156444&_CSRFToken=";
+			String url = "https://account.chsi.com.cn/account/checkmobilephoneother.action";
+			FormBody formBody = new FormBody
+	                .Builder()
+	                .add("mphone", account)
+	                .add("dataInfo", account)
+	                .add("optType", "REGISTER")
+	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "www.dajie.com")
-					.addHeader("Referer", "https://www.dajie.com")
+					.addHeader("Host", "account.chsi.com.cn")
+					.addHeader("Referer", "https://account.chsi.com.cn/account/preregister.action?from=chsi-home")
+					.addHeader("X-Requested-With", "XMLHttpRequest")
+					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
 			String res = response.body().string();
-			if (res.contains("AUTHED")) {
+			if (res.contains("false")) {
 				return true;
 			}
 		} catch (Exception e) {

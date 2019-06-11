@@ -47,7 +47,7 @@ public class ErShouQiCheZhiJiaSpider implements PapaSpider {
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new ErShouQiCheZhiJiaSpider().checkTelephone("13879691485"));
+//		System.out.println(new ErShouQiCheZhiJiaSpider().checkTelephone("13879690000"));
 //		System.out.println(new ErShouQiCheZhiJiaSpider().checkTelephone("18210538513"));
 //	}
 

@@ -1,7 +1,6 @@
 package com.jisucloud.deepsearch.selenium;
 
 import java.util.Random;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,23 +31,13 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 
 	@Override
 	public void get(String url) {
-		super.get(url);
-		log.info("visit:"+url);
-		if (ajaxListener != null) {
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			executeScript(AjaxListererJs.ArrayQueueJS);
-			log.info("ArrayQueueJS:"+url);
-			executeScript(AjaxListererJs.AjaxListeneJS);
-			log.info("AjaxListeneJS:"+url);
-			executeScript(AjaxListererJs.AjaxListeneJS);
-			if (ajaxListener.blockUrl() != null) {
-				log.info("BlockUrl:"+url);
-				blockAjax(ajaxListener.blockUrl());
-			}
+		try {
+			super.get(url);
+			log.info("visit:"+url);
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally {
+			reInject();
 		}
 	}
 	
@@ -105,6 +94,25 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 		readAjaxQueueThread.start();
 		if (getCurrentUrl().startsWith("http")) {
 			get(getCurrentUrl());
+		}
+	}
+	
+	public void reInject() {
+		if (ajaxListener != null) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			executeScript(AjaxListererJs.ArrayQueueJS);
+			log.info("ArrayQueueJS");
+			executeScript(AjaxListererJs.AjaxListeneJS);
+			log.info("AjaxListeneJS");
+			executeScript(AjaxListererJs.AjaxListeneJS);
+			if (ajaxListener.blockUrl() != null) {
+				log.info("BlockUrl");
+				blockAjax(ajaxListener.blockUrl());
+			}
 		}
 	}
 	

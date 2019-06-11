@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.work;
+package com.jisucloud.clawler.regagent.service.impl.life;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
@@ -9,59 +9,60 @@ import okhttp3.Response;
 
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class DajieWangSpider implements PapaSpider {
+public class PPTVSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "大街网创立于2008年底,是一家真正专属于年轻人的移动社交招聘平台,为年轻职场人匹配最佳工作机会,拓展职场人脉,提升职场价值.大街想要做的,就是用互联网思维。";
+		return "PPTV是国内领先的综合视频门户网站平台,视频内容丰富多元,包括电视剧、电影、动漫、综艺、体育、娱乐、游戏、搞笑、旅游、财富、少儿、教育、音乐、直播、原创等。";
 	}
 
 	@Override
 	public String platform() {
-		return "dajie";
+		return "pptv";
 	}
 
 	@Override
 	public String home() {
-		return "dajie.com";
+		return "pptv.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "大街网";
+		return "PPTV";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"求职" , "招聘" , "商务"};
+		return new String[] {"视频", "影音"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new DajieWangSpider().checkTelephone("18210538513"));
-//		System.out.println(new DajieWangSpider().checkTelephone("18210538511"));
+//		System.out.println(new PPTVSpider().checkTelephone("18720982607"));
+//		System.out.println(new PPTVSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://www.dajie.com/account/phonestatuscheck?callback=jQuery151020488464963648478_"+System.currentTimeMillis()+"&ajax=1&phoneNumber="+account+"&_=1559213156444&_CSRFToken=";
+			String url = "https://api.passport.pptv.com/checkLogin?cb=checklogin&loginid="+account+"&sceneFlag=2&channel=208000202035&format=jsonp&_=" + System.currentTimeMillis();
 			Request request = new Request.Builder().url(url)
-					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "www.dajie.com")
-					.addHeader("Referer", "https://www.dajie.com")
+					.addHeader("User-Agent", "Mozilla/5.0 (Linux; Android 7.0; PLUS Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Mobile Safari/537.36")
+					.addHeader("Host", "api.passport.pptv.com")
+					.addHeader("Referer", "https://i.pptv.com/h5user/login?target=new&back=%2F%2Fi.pptv.com%2Fh5user%2Flogin%2Fpg_login_success%3Fback%3Dhttps%3A%2F%2Fm.pptv.com%2F&type=login&mobile=1&tab=login")
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
 			String res = response.body().string();
-			if (res.contains("AUTHED")) {
+			if (res.contains("不存在")) {
+				return false;
+			}else {
 				return true;
 			}
 		} catch (Exception e) {

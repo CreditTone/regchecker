@@ -1,8 +1,9 @@
-package com.jisucloud.clawler.regagent.service.impl.work;
+package com.jisucloud.clawler.regagent.service.impl.game;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -15,53 +16,53 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class DajieWangSpider implements PapaSpider {
+public class BianFengSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "大街网创立于2008年底,是一家真正专属于年轻人的移动社交招聘平台,为年轻职场人匹配最佳工作机会,拓展职场人脉,提升职场价值.大街想要做的,就是用互联网思维。";
+		return "边锋游戏官网是国内比较权威的棋牌游戏平台之一,拥有多款火爆热门棋牌游戏:掼蛋,杭州麻将,安徽斗地主,牛牛等,并且提供免费官方下载。";
 	}
 
 	@Override
 	public String platform() {
-		return "dajie";
+		return "bianfeng";
 	}
 
 	@Override
 	public String home() {
-		return "dajie.com";
+		return "bianfeng.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "大街网";
+		return "边锋游戏";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"求职" , "招聘" , "商务"};
+		return new String[] {"游戏"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new DajieWangSpider().checkTelephone("18210538513"));
-//		System.out.println(new DajieWangSpider().checkTelephone("18210538511"));
+//		System.out.println(new BianFengSpider().checkTelephone("18779861101"));
+//		System.out.println(new BianFengSpider().checkTelephone("18779861102"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://www.dajie.com/account/phonestatuscheck?callback=jQuery151020488464963648478_"+System.currentTimeMillis()+"&ajax=1&phoneNumber="+account+"&_=1559213156444&_CSRFToken=";
+			String url = "http://cas.bianfeng.com/authen/checkAccountType.jsonp?callback=checkAccountType_JSONPMethod&serviceUrl=register.bianfeng.com&appId=800000345&areaId=0&authenSource=2&inputUserId="+account+"&locale=zh_CN&productId=1&productVersion=1.7&version=21&_=" + System.currentTimeMillis();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "www.dajie.com")
-					.addHeader("Referer", "https://www.dajie.com")
+					.addHeader("Host", "cas.bianfeng.com")
+					.addHeader("Referer", "http://register.bianfeng.com/register/index?appId=800000345")
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
 			String res = response.body().string();
-			if (res.contains("AUTHED")) {
+			if (res.contains("existing\": 1")) {
 				return true;
 			}
 		} catch (Exception e) {

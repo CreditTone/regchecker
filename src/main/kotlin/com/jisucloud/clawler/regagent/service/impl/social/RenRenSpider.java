@@ -44,7 +44,7 @@ public class RenRenSpider implements PapaSpider {
 
 	@Override
 	public String platformName() {
-		return "CSDN";
+		return "人人网";
 	}
 
 	@Override
@@ -52,85 +52,32 @@ public class RenRenSpider implements PapaSpider {
 		return new String[] {"论坛" , "社交" , "校园"};
 	}
 
-	public static void main(String[] args) throws InterruptedException {
-		System.out.println(new RenRenSpider().checkTelephone("13879691485"));
-		Thread.sleep(3000);
-		System.out.println(new RenRenSpider().checkTelephone("18210538513"));
-	}
+//	public static void main(String[] args) throws InterruptedException {
+//		System.out.println(new RenRenSpider().checkTelephone("13800000000"));
+//		System.out.println(new RenRenSpider().checkTelephone("18210538513"));
+//	}
 	
-	private String getImgCode(String _captcha_type) {
-		String img = "http://icode.renren.com/getcode.do?proxy_host=icode.renren.com&proxy_uri=getcode.do&rk=800&t="+_captcha_type+"&rnd=0.6917277028166485";
-		try {
-			Response response = okHttpClient.newCall(new Request.Builder().url(img).build()).execute();
-			if (response != null) {
-				byte[] body = response.body().bytes();
-				return OCRDecode.decodeImageCode(body);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return "c2a1";
-	}
-
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			Request request = new Request.Builder().url("https://safe.renren.com/standalone/findpwd#nogo")
+			FormBody formBody = new FormBody
+	                .Builder()
+	                .add("authType", "email")
+	                .add("stage", "3")
+	                .add("t", "" + System.currentTimeMillis())
+	                .add("value", account)
+	                .add("requestToken", "")
+	                .add("_rtk", "b08da1d7")
+	                .build();
+			Request request = new Request.Builder().url("http://reg.renren.com/AjaxRegisterAuth.do")
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "safe.renren.com")
-					.addHeader("Referer", "https://safe.renren.com")
+					.addHeader("Host", "reg.renren.com")
+					.addHeader("Referer", "http://reg.renren.com/xn6218.do?ss=10131&rt=1&f=https%3A%2F%2Fwww.baidu.com%2Flink%3Furl%3DXQV23PAco2JzFTBKTWsnT202u0cwTwpHIk-L5mpGsXO%26wd%3D%26eqid%3Db977c5e000031d7e000000025cff7b6d&g=v6reg")
+					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			Document doc = Jsoup.parse(response.body().string());
-			String action_token = doc.select("input[name=action_token]").first().attr("value");
-			String _captcha_type = doc.select("input[name=_captcha_type]").first().attr("value");
-			String domain = "renren.com";
-			String _rtk = null;
-			String token = null;
-			Matcher matcher = Pattern.compile("page_token = \"([^\"]+)").matcher(doc.html());
-			if (matcher.find()) {
-				token = matcher.group(1);
-			}
-			matcher = Pattern.compile("get_check_x:'([^']+)").matcher(doc.html());
-			if (matcher.find()) {
-				_rtk = matcher.group(1);
-			}
-			String url = "https://safe.renren.com/standalone/findpwd/inputaccount";
-			if (token != null && _rtk != null) {
-				for (int i = 0 ; i < 10 ; i++) {//验证码解析重试
-					FormBody formBody = new FormBody
-			                .Builder()
-			                .add("action_token",action_token)
-			                .add("_captcha_type",_captcha_type)
-			                .add("domain",domain)
-			                .add("account",account)
-			                .add("token", token)
-			                .add("_rtk", _rtk)
-			                .add("captcha",getImgCode(_captcha_type))
-			                .add("ajax-type","json")
-			                .build();
-					request = new Request.Builder().url(url)
-							.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-							.addHeader("Host", "safe.renren.com")
-							.addHeader("Referer", "https://safe.renren.com")
-							.post(formBody)
-							.build();
-					response = okHttpClient.newCall(request).execute();
-					if (response != null) {
-						String res = response.body().string();
-						if (res.contains("验证码不正确")) {
-							log.warn("验证码不正确:"+formBody);
-							continue;
-						}
-						JSONObject result = JSON.parseObject(res);
-						log.info("csdn:" + result);
-						if (result.getBooleanValue("status")) {
-							return true;
-						}else {
-							return false;
-						}
-					}
-				}
+			if (response.body().string().contains("已经绑定")) {
+				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

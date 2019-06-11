@@ -1,8 +1,9 @@
-package com.jisucloud.clawler.regagent.service.impl.work;
+package com.jisucloud.clawler.regagent.service.impl.car;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -15,53 +16,57 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class DajieWangSpider implements PapaSpider {
+public class NiuCheWangSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "大街网创立于2008年底,是一家真正专属于年轻人的移动社交招聘平台,为年轻职场人匹配最佳工作机会,拓展职场人脉,提升职场价值.大街想要做的,就是用互联网思维。";
+		return "牛车网于2013年3月成立于北京，隶属于耐卡（香港）有限公司，前身是NextCar。牛车网立志成长为汽车第一意见网站，打造最庞大的汽车牛人团队、成长为汽车互联网第一社区。";
 	}
 
 	@Override
 	public String platform() {
-		return "dajie";
+		return "niuche";
 	}
 
 	@Override
 	public String home() {
-		return "dajie.com";
+		return "niuche.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "大街网";
+		return "牛车网";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"求职" , "招聘" , "商务"};
+		return new String[] {"买车" , "汽车"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new DajieWangSpider().checkTelephone("18210538513"));
-//		System.out.println(new DajieWangSpider().checkTelephone("18210538511"));
+//		System.out.println(new NiuCheWangSpider().checkTelephone("18210538511"));
+//		System.out.println(new NiuCheWangSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://www.dajie.com/account/phonestatuscheck?callback=jQuery151020488464963648478_"+System.currentTimeMillis()+"&ajax=1&phoneNumber="+account+"&_=1559213156444&_CSRFToken=";
+			String url = "https://user.niuche.com/reg/api/checkPhone.ashx";
+			FormBody formBody = new FormBody
+	                .Builder()
+	                .add("phone",account)
+	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "www.dajie.com")
-					.addHeader("Referer", "https://www.dajie.com")
+					.addHeader("Host", "user.niuche.com")
+					.addHeader("Referer", "https://user.niuche.com/user/reg.html?gourl=http://www.niuche.com/")
+					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			String res = response.body().string();
-			if (res.contains("AUTHED")) {
+			if (response.body().string().contains("0")) {
 				return true;
 			}
 		} catch (Exception e) {

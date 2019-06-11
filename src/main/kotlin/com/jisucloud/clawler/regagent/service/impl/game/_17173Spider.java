@@ -1,6 +1,7 @@
-package com.jisucloud.clawler.regagent.service.impl.work;
+package com.jisucloud.clawler.regagent.service.impl.game;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
@@ -9,59 +10,58 @@ import okhttp3.Response;
 
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class DajieWangSpider implements PapaSpider {
+public class _17173Spider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "大街网创立于2008年底,是一家真正专属于年轻人的移动社交招聘平台,为年轻职场人匹配最佳工作机会,拓展职场人脉,提升职场价值.大街想要做的,就是用互联网思维。";
+		return "17173是中国游戏第一门户站,全年365天保持不间断更新,您可以在这里获得专业的游戏新闻资讯,完善的游戏攻略专区,人气游戏论坛以及游戏测试账号等,是游戏玩家首选网络。";
 	}
 
 	@Override
 	public String platform() {
-		return "dajie";
+		return "17173";
 	}
 
 	@Override
 	public String home() {
-		return "dajie.com";
+		return "17173.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "大街网";
+		return "17173游戏";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"求职" , "招聘" , "商务"};
+		return new String[] {"游戏"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new DajieWangSpider().checkTelephone("18210538513"));
-//		System.out.println(new DajieWangSpider().checkTelephone("18210538511"));
+//		System.out.println(new _17173Spider().checkTelephone("18720982607"));
+//		System.out.println(new _17173Spider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://www.dajie.com/account/phonestatuscheck?callback=jQuery151020488464963648478_"+System.currentTimeMillis()+"&ajax=1&phoneNumber="+account+"&_=1559213156444&_CSRFToken=";
+			String url = "https://passport.17173.com/register/validate?field=mobile&value="+account+"&_=" + System.currentTimeMillis();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "www.dajie.com")
-					.addHeader("Referer", "https://www.dajie.com")
+					.addHeader("Host", "passport.17173.com")
+					.addHeader("Referer", "https://passport.17173.com/register")
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			String res = response.body().string();
-			if (res.contains("AUTHED")) {
+			String res = StringUtil.unicodeToString(response.body().string());
+			if (res.contains("已经注册")) {
 				return true;
 			}
 		} catch (Exception e) {

@@ -1,8 +1,9 @@
-package com.jisucloud.clawler.regagent.service.impl.work;
+package com.jisucloud.clawler.regagent.service.impl.game;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -15,53 +16,53 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class DajieWangSpider implements PapaSpider {
+public class YouKaZhuoYouSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "大街网创立于2008年底,是一家真正专属于年轻人的移动社交招聘平台,为年轻职场人匹配最佳工作机会,拓展职场人脉,提升职场价值.大街想要做的,就是用互联网思维。";
+		return "游卡桌游是中国大陆第一家集设计、开发、推广和运营于一体的专业桌面游戏公司,以“创造和分享快乐”为使命,整合行业资源,培养行业人才,以实际行动推动桌游产业发展。";
 	}
 
 	@Override
 	public String platform() {
-		return "dajie";
+		return "dobest";
 	}
 
 	@Override
 	public String home() {
-		return "dajie.com";
+		return "dobest.cn";
 	}
 
 	@Override
 	public String platformName() {
-		return "大街网";
+		return "游卡桌游";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"求职" , "招聘" , "商务"};
+		return new String[] {"游戏"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new DajieWangSpider().checkTelephone("18210538513"));
-//		System.out.println(new DajieWangSpider().checkTelephone("18210538511"));
+//		System.out.println(new YouKaZhuoYouSpider().checkTelephone("18779861101"));
+//		System.out.println(new YouKaZhuoYouSpider().checkTelephone("18210538511"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://www.dajie.com/account/phonestatuscheck?callback=jQuery151020488464963648478_"+System.currentTimeMillis()+"&ajax=1&phoneNumber="+account+"&_=1559213156444&_CSRFToken=";
+			String url = "https://splus2.dobest.cn/api/reg/check/mobile?mobile=" + account;
 			Request request = new Request.Builder().url(url)
-					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "www.dajie.com")
-					.addHeader("Referer", "https://www.dajie.com")
+					.addHeader("User-Agent", "Mozilla/5.0 (Linux; Android 7.0; PLUS Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Mobile Safari/537.36")
+					.addHeader("Host", "splus2.dobest.cn")
+					.addHeader("Referer", "https://splus2.dobest.cn/register")
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
 			String res = response.body().string();
-			if (res.contains("AUTHED")) {
+			if (res.contains("false")) {
 				return true;
 			}
 		} catch (Exception e) {

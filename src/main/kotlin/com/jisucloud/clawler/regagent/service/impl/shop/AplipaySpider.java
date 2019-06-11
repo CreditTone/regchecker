@@ -2,14 +2,11 @@ package com.jisucloud.clawler.regagent.service.impl.shop;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
-import com.jisucloud.deepsearch.selenium.Ajax;
-import com.jisucloud.deepsearch.selenium.AjaxListener;
 import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
 import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -51,7 +48,7 @@ public class AplipaySpider implements PapaSpider {
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new AplipaySpider().checkTelephone("13879691485"));
+//		System.out.println(new AplipaySpider().checkTelephone("13879690000"));
 //		System.out.println(new AplipaySpider().checkTelephone("18210538513"));
 //	}
 	

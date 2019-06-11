@@ -48,8 +48,7 @@ public class ShengDaSpider implements PapaSpider {
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new ShengDaSpider().checkTelephone("18210538513"));
-//		System.out.println(new ShengDaSpider().checkTelephone("13879691485"));
+//		System.out.println(new ShengDaSpider().checkTelephone("18210530000"));
 //		System.out.println(new ShengDaSpider().checkTelephone("18210538513"));
 //	}
 

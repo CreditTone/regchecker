@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.work;
+package com.jisucloud.clawler.regagent.service.impl.education;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
@@ -8,6 +8,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -16,60 +18,63 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class YunZhiJiaSpider implements PapaSpider {
+public class _51CTOSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "金蝶云之家是国内先进的移动办公平台,传承金蝶25余年管理经验,以组织/消息/社交为核心,提供OA系统、移动审批、考勤、会议等移动办公SaaS应用,助力企业高效智能办公!";
+		return "51CTO学院IT职业在线教育平台是依托12年行业品牌、1400万IT技术用户建立的专业IT技能学习培训平台,已签约1000多位技术专家发布了12万个自学式实战视频教程。";
 	}
 
 	@Override
 	public String platform() {
-		return "yunzhijia";
+		return "51cto";
 	}
 
 	@Override
 	public String home() {
-		return "yunzhijia.com";
+		return "51cto.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "金蝶云之家";
+		return "51CTO学院";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"工具" , "财务软件" , "saas"};
+		return new String[] {"程序员","it","网络技术"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new YunZhiJiaSpider().checkTelephone("13953679455"));
-//		System.out.println(new YunZhiJiaSpider().checkTelephone("18210538511"));
+//		System.out.println(new _51CTOSpider().checkTelephone("15210234070"));
+//		System.out.println(new _51CTOSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://www.yunzhijia.com/space/c/rest/user/pre-signup";
+			Response response = okHttpClient.newCall(new Request.Builder().url("https://home.51cto.com/user/register?reback=http%3A%2F%2Fwww.51cto.com%2F&regtype=mobile").build()).execute();
+			Document doc = Jsoup.parse(response.body().string());
+			String csrf = doc.select("input[name=_csrf]").attr("value");
+			String url = "https://home.51cto.com/user/check-mobile";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("email", account)
+	                .add("mobile", account)
 	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "www.yunzhijia.com")
-					.addHeader("Referer", "https://www.yunzhijia.com/space/c/user-activate/registerUserByMobile?_t="+System.currentTimeMillis()+"&regSource=&regSourceType=")
-					.addHeader("TE", "Trailers")
+					.addHeader("Host", "home.51cto.com")
+					.addHeader("Referer", "https://home.51cto.com/user/register?reback=http%3A%2F%2Fwww.51cto.com%2F&regtype=mobile")
+					.addHeader("X-CSRF-Token", csrf)
 					.addHeader("X-Requested-With", "XMLHttpRequest")
 					.post(formBody)
 					.build();
-			Response response = okHttpClient.newCall(request).execute();
+			response = okHttpClient.newCall(request).execute();
 			String res = response.body().string();
-			if (res.contains("isRegAccount\":true")) {
+			if (res.contains("已存在")) {
 				return true;
 			}
 		} catch (Exception e) {

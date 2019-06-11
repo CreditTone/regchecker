@@ -1,8 +1,10 @@
 package com.jisucloud.clawler.regagent.service.impl.work;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -11,57 +13,64 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class DajieWangSpider implements PapaSpider {
+public class WuTongWangSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "大街网创立于2008年底,是一家真正专属于年轻人的移动社交招聘平台,为年轻职场人匹配最佳工作机会,拓展职场人脉,提升职场价值.大街想要做的,就是用互联网思维。";
+		return "物通网是集物流查询、物流配货的专业一站式物流货运信息网,是货运物流公司、货车、快递公司、搬家公司、海运公司、空运公司、发货商的汇聚地,是物流货运信息非常全面。";
 	}
 
 	@Override
 	public String platform() {
-		return "dajie";
+		return "chinawutong";
 	}
 
 	@Override
 	public String home() {
-		return "dajie.com";
+		return "chinawutong.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "大街网";
+		return "物通网";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"求职" , "招聘" , "商务"};
+		return new String[] {"物流" ,"生意"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new DajieWangSpider().checkTelephone("18210538513"));
-//		System.out.println(new DajieWangSpider().checkTelephone("18210538511"));
+//		System.out.println(new WuTongWangSpider().checkTelephone("13761990875"));
+//		System.out.println(new WuTongWangSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://www.dajie.com/account/phonestatuscheck?callback=jQuery151020488464963648478_"+System.currentTimeMillis()+"&ajax=1&phoneNumber="+account+"&_=1559213156444&_CSRFToken=";
+			String url = "http://www.chinawutong.com/ashx/RegHandler1.ashx?Action=PhoneTest&Phone=" + account;
+			FormBody formBody = new FormBody
+	                .Builder()
+	                .add("Action", "PhoneTest")
+	                .add("Phone", account)
+	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "www.dajie.com")
-					.addHeader("Referer", "https://www.dajie.com")
+					.addHeader("Host", "www.chinawutong.com")
+					.addHeader("Referer", "http://www.chinawutong.com/regdo.aspx?type=3")
+					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
 			String res = response.body().string();
-			if (res.contains("AUTHED")) {
+			if (res.contains("0")) {
 				return true;
 			}
 		} catch (Exception e) {

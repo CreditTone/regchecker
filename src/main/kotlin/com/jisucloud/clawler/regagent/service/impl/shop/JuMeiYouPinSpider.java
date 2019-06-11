@@ -1,5 +1,7 @@
-package com.jisucloud.clawler.regagent.service.impl.work;
+package com.jisucloud.clawler.regagent.service.impl.shop;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
@@ -10,66 +12,65 @@ import okhttp3.Response;
 
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class YunZhiJiaSpider implements PapaSpider {
+public class JuMeiYouPinSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "金蝶云之家是国内先进的移动办公平台,传承金蝶25余年管理经验,以组织/消息/社交为核心,提供OA系统、移动审批、考勤、会议等移动办公SaaS应用,助力企业高效智能办公!";
+		return "聚美优品是一家化妆品限时特卖商城,其前身为团美网,由陈欧、戴雨森等创立于2010年3月。聚美优品首创“化妆品团购”模式:每天在网站推荐十几款热门化妆品。";
 	}
 
 	@Override
 	public String platform() {
-		return "yunzhijia";
+		return "jumei";
 	}
 
 	@Override
 	public String home() {
-		return "yunzhijia.com";
+		return "jumei.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "金蝶云之家";
+		return "聚美优品";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"工具" , "财务软件" , "saas"};
+		return new String[] {"护肤品" , "化妆品"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new YunZhiJiaSpider().checkTelephone("13953679455"));
-//		System.out.println(new YunZhiJiaSpider().checkTelephone("18210538511"));
+//		System.out.println(new JuMeiYouPinSpider().checkTelephone("18779861101"));
+//		System.out.println(new JuMeiYouPinSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://www.yunzhijia.com/space/c/rest/user/pre-signup";
+			String url = "https://passport.jumei.com/i/account/check_mobile";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("email", account)
+	                .add("mobile", account)
 	                .build();
 			Request request = new Request.Builder().url(url)
-					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "www.yunzhijia.com")
-					.addHeader("Referer", "https://www.yunzhijia.com/space/c/user-activate/registerUserByMobile?_t="+System.currentTimeMillis()+"&regSource=&regSourceType=")
-					.addHeader("TE", "Trailers")
+					.addHeader("User-Agent", "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.80 Mobile Safari/537.36")
+					.addHeader("Origin", "https://passport.jumei.com")
+					.addHeader("Host", "passport.jumei.com")
 					.addHeader("X-Requested-With", "XMLHttpRequest")
+					.addHeader("Referer", "https://passport.jumei.com/i/account/signup?redirect=http%3A%2F%2Fpihao.jumei.com%2F")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			String res = response.body().string();
-			if (res.contains("isRegAccount\":true")) {
+			JSONObject result = JSON.parseObject(response.body().string());
+			if (result.getIntValue("status") == 0) {
 				return true;
 			}
 		} catch (Exception e) {

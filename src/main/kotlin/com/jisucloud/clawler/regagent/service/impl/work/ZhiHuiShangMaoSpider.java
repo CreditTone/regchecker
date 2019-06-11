@@ -1,8 +1,10 @@
 package com.jisucloud.clawler.regagent.service.impl.work;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -11,57 +13,63 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class DajieWangSpider implements PapaSpider {
+public class ZhiHuiShangMaoSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "大街网创立于2008年底,是一家真正专属于年轻人的移动社交招聘平台,为年轻职场人匹配最佳工作机会,拓展职场人脉,提升职场价值.大街想要做的,就是用互联网思维。";
+		return "智慧商贸 适用于中小企业,30秒注册,基础功能全匹配.支持离线操作,试用期14天智慧商贸 手机电脑都能用.24小时QQ服务,快速响应.为您解决一切软件使用问题。";
 	}
 
 	@Override
 	public String platform() {
-		return "dajie";
+		return "zhsmjxc";
 	}
 
 	@Override
 	public String home() {
-		return "dajie.com";
+		return "zhsmjxc.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "大街网";
+		return "智慧商贸";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"求职" , "招聘" , "商务"};
+		return new String[] {"saas" ,"财务软件" ,"生意"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new DajieWangSpider().checkTelephone("18210538513"));
-//		System.out.println(new DajieWangSpider().checkTelephone("18210538511"));
+//		System.out.println(new ZhiHuiShangMaoSpider().checkTelephone("18210538000"));
+//		System.out.println(new ZhiHuiShangMaoSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://www.dajie.com/account/phonestatuscheck?callback=jQuery151020488464963648478_"+System.currentTimeMillis()+"&ajax=1&phoneNumber="+account+"&_=1559213156444&_CSRFToken=";
+			String url = "http://web.zhsmjxc.com/UCenter-webapp//Register/IsEmailOrPhoneBeBound.json?transNo=" + UUID.randomUUID();
+			FormBody formBody = new FormBody
+	                .Builder()
+	                .add("username", account)
+	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "www.dajie.com")
-					.addHeader("Referer", "https://www.dajie.com")
+					.addHeader("Host", "web.zhsmjxc.com")
+					.addHeader("Referer", "http://web.zhsmjxc.com/UCenter-webapp/Register/Init.htm?ProductType=0")
+					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
 			String res = response.body().string();
-			if (res.contains("AUTHED")) {
+			if (res.contains("手机号不可用")) {
 				return true;
 			}
 		} catch (Exception e) {

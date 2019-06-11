@@ -1,8 +1,9 @@
-package com.jisucloud.clawler.regagent.service.impl.work;
+package com.jisucloud.clawler.regagent.service.impl.health;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -15,53 +16,58 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class DajieWangSpider implements PapaSpider {
+public class IKangGuoBinSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "大街网创立于2008年底,是一家真正专属于年轻人的移动社交招聘平台,为年轻职场人匹配最佳工作机会,拓展职场人脉,提升职场价值.大街想要做的,就是用互联网思维。";
+		return "爱康国宾体检中心是全国知名体检中心,是拥有多年健康体检及健康管理经验的专业综合性健康管理机构;提供健康体检(男体检/女性体检)、健康检查。";
 	}
 
 	@Override
 	public String platform() {
-		return "dajie";
+		return "ikang";
 	}
 
 	@Override
 	public String home() {
-		return "dajie.com";
+		return "ikang.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "大街网";
+		return "爱康国宾";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"求职" , "招聘" , "商务"};
+		return new String[] {"健康运动", "医疗", "体检"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new DajieWangSpider().checkTelephone("18210538513"));
-//		System.out.println(new DajieWangSpider().checkTelephone("18210538511"));
+//		System.out.println(new IKangGuoBinSpider().checkTelephone("15901537458"));
+//		System.out.println(new IKangGuoBinSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://www.dajie.com/account/phonestatuscheck?callback=jQuery151020488464963648478_"+System.currentTimeMillis()+"&ajax=1&phoneNumber="+account+"&_=1559213156444&_CSRFToken=";
+			String url = "https://oauth2.health.ikang.com/register/request";
+			FormBody formBody = new FormBody
+	                .Builder()
+	                .add("mobile", account)
+	                .build();
 			Request request = new Request.Builder().url(url)
-					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "www.dajie.com")
-					.addHeader("Referer", "https://www.dajie.com")
+					.addHeader("User-Agent", "Chunyuyisheng/8.6.0 (Android 4.4.2;8692-A00_by_QiKU)")
+					.addHeader("Host", "oauth2.health.ikang.com")
+					.addHeader("Referer", "https://oauth2.health.ikang.com/register1?response_type=token&client_id=6237cf0f-b603-4246-8f81-88a64b0c889b&state=xyz&channel_id=h5&channel_name=h5_mobile&type_3rd=alipay&redirect_uri=http://m.ikang.com/auth.html&m=1")
+					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
 			String res = response.body().string();
-			if (res.contains("AUTHED")) {
+			if (res.contains("已经被使用")) {
 				return true;
 			}
 		} catch (Exception e) {
