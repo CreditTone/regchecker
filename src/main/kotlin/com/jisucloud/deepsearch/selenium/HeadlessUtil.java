@@ -28,6 +28,13 @@ public class HeadlessUtil {
 		if (System.getProperty("os.name").toLowerCase().contains("mac")) {
 			CHROME_DRIVER_SERVER = "/Users/stephen/Downloads/chromedriver";
 		}
+        if (System.getProperty("os.name").toLowerCase().startsWith("win")) {
+            CHROME_DRIVER_SERVER = CHROME_DRIVER_SERVER + ".exe";
+            File file = new File(CHROME_DRIVER_SERVER);
+            if (!file.exists()) {
+                throw new NullPointerException("去下载个ChromeDriver.exe放到:" + file.getAbsolutePath());
+            }
+        }
 		System.setProperty("webdriver.chrome.driver", CHROME_DRIVER_SERVER);
 	}
 	
