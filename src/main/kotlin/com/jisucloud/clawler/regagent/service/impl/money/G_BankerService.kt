@@ -13,9 +13,7 @@ class G_BankerService : PapaSpider {
 
     override fun message() = "黄金钱包是领先风投软银中国投资的互联网实物黄金投资、消费平台，为普通消费者和投资者提供“低价买黄金”、“黄金商城”和“黄金回收”等一站式服务，价格实时直通上海黄金交易所，最低买入或卖出单位为1克"
 
-    override fun platform(): String {
-        return "G-Banker"
-    }
+    override fun platform() = "G-Banker"
 
     override fun platformName() = "黄金钱包"
 
