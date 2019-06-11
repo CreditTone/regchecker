@@ -9,7 +9,7 @@ import java.util.*
 
 @Component
 class JiMuService : PapaSpider {
-    override fun tags() = arrayOf("理财")
+    override fun tags() = arrayOf("理财", "P2P", "借贷")
 
     override fun home() = "jimu.com"
 

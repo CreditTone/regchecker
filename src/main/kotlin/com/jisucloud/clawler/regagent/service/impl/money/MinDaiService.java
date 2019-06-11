@@ -44,7 +44,7 @@ public class MinDaiService implements PapaSpider {
 
     @Override
     public String[] tags() {
-        return new String[]{"理财"};
+        return new String[]{"理财", "P2P" , "借贷"};
     }
 
     @Override

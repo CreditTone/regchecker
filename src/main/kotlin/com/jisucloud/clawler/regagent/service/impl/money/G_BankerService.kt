@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class G_BankerService : PapaSpider {
-    override fun tags() = arrayOf("理财")
+    override fun tags() = arrayOf("理财", "黄金投资")
 
     override fun home() = "g-banker.com"
 

@@ -9,11 +9,11 @@ import java.util.*
 
 @Component
 class BoJinDaiService : PapaSpider {
-    override fun tags() = arrayOf("理财")
+    override fun tags() = arrayOf("理财", "P2P", "借贷")
 
     override fun home() = "bjdp2p.com"
 
-    override fun message() = "黄金钱包是领先风投软银中国投资的互联网实物黄金投资、消费平台，为普通消费者和投资者提供“低价买黄金”、“黄金商城”和“黄金回收”等一站式服务，价格实时直通上海黄金交易所，最低买入或卖出单位为1克"
+    override fun message() = "博金贷(www.bjdp2p.com)互联网金融服务平台,由博能控股集团,江西省投资集团,大成国资,南治资产,南昌市小额贷款公司协会等共同出资组建并获得中国网贷平台。"
 
     override fun platform() = "bjdp2p"
 
