@@ -16,7 +16,7 @@ public class XiaomiSpider implements PapaSpider {
 
     @Override
     public String message() {
-        return "小米用户在线管理和存储您的联系人、短信、照片、便签等各种数据,并同步到您的各个手机设备之上,还可以查找您的手机位置并锁定内容。";
+        return "米商城直营小米公司旗下所有产品,囊括小米手机系列小米9、小米MIX 3、小米Play,Redmi 红米系列Redmi K20、Redmi Note 7、Redmi 7A,智能硬件,配件及小米生活周边,。";
     }
 
     @Override
