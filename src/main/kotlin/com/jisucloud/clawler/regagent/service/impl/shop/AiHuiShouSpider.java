@@ -1,7 +1,6 @@
-package com.jisucloud.clawler.regagent.service.impl.borrow;
+package com.jisucloud.clawler.regagent.service.impl.shop;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -16,58 +15,60 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class QianGuGuSpider implements PapaSpider {
+public class AiHuiShouSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "钱鼓鼓电商贷款平台,互联网金融P2P网络借贷平台,网商贷提供中小电商贷款、电商卖家贷款、网店贷款、京东贷款、天猫,淘宝店铺贷款及资金第三方存管,为网络投资理财用户和网络贷款用户提供透明、安全、高效的互联网金融服务。";
+		return "爱回收国内专业的电子数码产品回收平台,专注数码电子产品回收8年,已拥有上千万用户, 全国上百家门店，面对面回收，当场付款，同时还支持一键上门回收,免费快递回收等多种回收方式,为用户提供更方便，更正规的回收方式，爱回收变废为宝,让闲置不用都物尽其用。";
 	}
 
 	@Override
 	public String platform() {
-		return "qiangugu";
+		return "aihuishou";
 	}
 
 	@Override
 	public String home() {
-		return "qiangugu.com";
+		return "aihuishou.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "钱鼓鼓";
+		return "爱回收";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"P2P", "消费分期" , "借贷"};
+		return new String[] {"二手购物" , "3C产品"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new QianGuGuSpider().checkTelephone("18611216720"));
-//		System.out.println(new QianGuGuSpider().checkTelephone("18210538513"));
+//		System.out.println(new AiHuiShouSpider().checkTelephone("13800000000"));
+//		System.out.println(new AiHuiShouSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://www.qiangugu.com/userajaxcheck/checkMobile";
+			String url = "https://www.aihuishou.com/portal-user/account/loginbypwd";
 			FormBody formBody = new FormBody
 	                .Builder()
 	                .add("mobile", account)
+	                .add("pwd", "c229482cb")
+	                .add("remenberUser", "true")
+	                .add("loading", "true")
 	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "www.qiangugu.com")
-					.addHeader("Referer", "https://www.qiangugu.com/user/reg")
+					.addHeader("Host", "www.aihuishou.com")
+					.addHeader("Referer", "https://www.aihuishou.com/pc/index.html#/login")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			String res = StringUtil.unicodeToString(response.body().string());
-			if (res.contains("已注册")) {
+			if (response.body().string().contains("密码错误")) {
 				return true;
 			}
 		} catch (Exception e) {

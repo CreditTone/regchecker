@@ -1,7 +1,6 @@
-package com.jisucloud.clawler.regagent.service.impl.borrow;
+package com.jisucloud.clawler.regagent.service.impl.social;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -16,58 +15,60 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class QianGuGuSpider implements PapaSpider {
+public class QingChiFanSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "钱鼓鼓电商贷款平台,互联网金融P2P网络借贷平台,网商贷提供中小电商贷款、电商卖家贷款、网店贷款、京东贷款、天猫,淘宝店铺贷款及资金第三方存管,为网络投资理财用户和网络贷款用户提供透明、安全、高效的互联网金融服务。";
+		return "请吃饭是一个通过美食进行快速线下交友的移动应用，使用请吃饭，可以花费信用发布约会，也可以报名别人发起的约会，请吃饭将线上交友转移到线下，安全快速交友。";
 	}
 
 	@Override
 	public String platform() {
-		return "qiangugu";
+		return "qingchifan";
 	}
 
 	@Override
 	public String home() {
-		return "qiangugu.com";
+		return "qingchifan.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "钱鼓鼓";
+		return "请吃饭";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"P2P", "消费分期" , "借贷"};
+		return new String[] {"单身交友" , "约"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new QianGuGuSpider().checkTelephone("18611216720"));
-//		System.out.println(new QianGuGuSpider().checkTelephone("18210538513"));
+//		System.out.println(new QingChiFanSpider().checkTelephone("13800000000"));
+//		System.out.println(new QingChiFanSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://www.qiangugu.com/userajaxcheck/checkMobile";
+			String url = "http://m.qingchifan.com/passport/webapp/login";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("mobile", account)
+	                .add("phone", account)
+	                .add("password", "c229482cb")
+	                .add("client_type", "1")
+	                .add("apiVersion", "2.5.0")
 	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "www.qiangugu.com")
-					.addHeader("Referer", "https://www.qiangugu.com/user/reg")
+					.addHeader("Host", "m.qingchifan.com")
+					.addHeader("Referer", "http://m.qingchifan.com/login.html")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			String res = StringUtil.unicodeToString(response.body().string());
-			if (res.contains("已注册")) {
+			if (response.body().string().contains("密码错误")) {
 				return true;
 			}
 		} catch (Exception e) {

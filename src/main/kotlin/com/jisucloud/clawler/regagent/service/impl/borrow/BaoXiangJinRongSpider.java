@@ -1,12 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.deepsearch.selenium.Ajax;
-import com.jisucloud.deepsearch.selenium.AjaxListener;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -16,7 +10,6 @@ import okhttp3.Response;
 
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 

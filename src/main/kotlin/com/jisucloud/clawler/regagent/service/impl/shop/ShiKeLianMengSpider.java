@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.borrow;
+package com.jisucloud.clawler.regagent.service.impl.shop;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.util.StringUtil;
@@ -16,58 +16,58 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class QianGuGuSpider implements PapaSpider {
+public class ShiKeLianMengSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "钱鼓鼓电商贷款平台,互联网金融P2P网络借贷平台,网商贷提供中小电商贷款、电商卖家贷款、网店贷款、京东贷款、天猫,淘宝店铺贷款及资金第三方存管,为网络投资理财用户和网络贷款用户提供透明、安全、高效的互联网金融服务。";
+		return "试客联盟是获得央视报道的试用网站,是试客首选的免费试用网和试客网,试用通过率高，所有试用品免费试用，不用花钱,试用商品后无需退还,试客联盟为试客提供最实用的免费试用品!";
 	}
 
 	@Override
 	public String platform() {
-		return "qiangugu";
+		return "shikee";
 	}
 
 	@Override
 	public String home() {
-		return "qiangugu.com";
+		return "shikee.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "钱鼓鼓";
+		return "试客联盟";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"P2P", "消费分期" , "借贷"};
+		return new String[] {"购物" ,"试客" ,"9.9包邮"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new QianGuGuSpider().checkTelephone("18611216720"));
-//		System.out.println(new QianGuGuSpider().checkTelephone("18210538513"));
+//		System.out.println(new ShiKeLianMengSpider().checkTelephone("18210538000"));
+//		System.out.println(new ShiKeLianMengSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://www.qiangugu.com/userajaxcheck/checkMobile";
+			String url = "http://ucenter.shikee.com/findpwd/check_account";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("mobile", account)
+	                .add("account", account)
 	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "www.qiangugu.com")
-					.addHeader("Referer", "https://www.qiangugu.com/user/reg")
+					.addHeader("Host", "ucenter.shikee.com")
+					.addHeader("Referer", "http://ucenter.shikee.com/findpwd/")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			String res = StringUtil.unicodeToString(response.body().string());
-			if (res.contains("已注册")) {
+			String res = response.body().string();
+			if (res.contains("true")) {
 				return true;
 			}
 		} catch (Exception e) {

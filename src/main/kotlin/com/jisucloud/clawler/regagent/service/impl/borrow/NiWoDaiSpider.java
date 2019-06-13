@@ -63,7 +63,7 @@ public class NiWoDaiSpider implements PapaSpider {
 	public boolean success = false;//默认false
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new NiWoDaiSpider().checkTelephone("13879691486"));
+//		System.out.println(new NiWoDaiSpider().checkTelephone("13879690000"));
 //		System.out.println(new NiWoDaiSpider().checkTelephone("18210538513"));
 //	}
 	

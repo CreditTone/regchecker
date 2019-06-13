@@ -1,5 +1,7 @@
-package com.jisucloud.clawler.regagent.service.impl.borrow;
+package com.jisucloud.clawler.regagent.service.impl.health;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
@@ -16,58 +18,61 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class QianGuGuSpider implements PapaSpider {
+public class KuaiSuWenSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "钱鼓鼓电商贷款平台,互联网金融P2P网络借贷平台,网商贷提供中小电商贷款、电商卖家贷款、网店贷款、京东贷款、天猫,淘宝店铺贷款及资金第三方存管,为网络投资理财用户和网络贷款用户提供透明、安全、高效的互联网金融服务。";
+		return "快速问医生旗下有问必答网是医生在线健康问答咨询平台。来自全国数万名医生为您免费解答任何健康问题,可以通过电话、文字等多种方式与医生进行一对一咨询!";
 	}
 
 	@Override
 	public String platform() {
-		return "qiangugu";
+		return "120ask";
 	}
 
 	@Override
 	public String home() {
-		return "qiangugu.com";
+		return "120ask.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "钱鼓鼓";
+		return "快速问医生";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"P2P", "消费分期" , "借贷"};
+		return new String[] {"医疗", "生活应用" , "用药"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new QianGuGuSpider().checkTelephone("18611216720"));
-//		System.out.println(new QianGuGuSpider().checkTelephone("18210538513"));
+//		System.out.println(new KuaiSuWenSpider().checkTelephone("18210538513"));
+//		System.out.println(new KuaiSuWenSpider().checkTelephone("18210530000"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://www.qiangugu.com/userajaxcheck/checkMobile";
+			String url = "https://sso.120ask.com/user/name_exist";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("mobile", account)
+	                .add("account", account)
+	                .add("type", "reg")
 	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "www.qiangugu.com")
-					.addHeader("Referer", "https://www.qiangugu.com/user/reg")
+					.addHeader("Host", "sso.120ask.com")
+					.addHeader("Referer", "https://sso.120ask.com/user/register?source=ask&forward=https://www.120ask.com/")
+					.addHeader("X-Requested-With", "XMLHttpRequest")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			String res = StringUtil.unicodeToString(response.body().string());
-			if (res.contains("已注册")) {
+			String res = response.body().string();
+			JSONObject result = JSON.parseObject(res);
+			if (result.getJSONObject("data").getBooleanValue("exist")) {
 				return true;
 			}
 		} catch (Exception e) {
