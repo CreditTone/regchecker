@@ -15,30 +15,29 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class XinYongBaoSpider implements PapaSpider {
+public class YouLiWangSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
-			.readTimeout(20, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
-
+			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 	
 	@Override
 	public String message() {
-		return "中国个人信用风险创新平台-信用宝,为用户提供全方位出借、P2P网络借贷服务,专业的风险管理让出借、P2P网络借贷更加高效安全,您身边的个人金融出借专家。";
+		return "国内专业的P2P平台,6年交易总额突破850亿!坚持小额分散,提供专业、便捷、透明的咨询服务。项目丰富:无忧宝、定存宝、月息通,简单3步,免费注册,领新手专享限时福利!。";
 	}
 
 	@Override
 	public String platform() {
-		return "xyb100";
+		return "yooli";
 	}
 
 	@Override
 	public String home() {
-		return "xyb100.com";
+		return "yooli.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "信用宝金融";
+		return "有利网";
 	}
 
 	@Override
@@ -47,31 +46,33 @@ public class XinYongBaoSpider implements PapaSpider {
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new XinYongBaoSpider().checkTelephone("13691032050"));
-//		System.out.println(new XinYongBaoSpider().checkTelephone("18210538513"));
+//		System.out.println(new YouLiWangSpider().checkTelephone("15985268904"));
+//		System.out.println(new YouLiWangSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
+			String url = "https://www.yooli.com/secure/ssoLogin.action";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("phoneNumber", account)
+	                .add("nickName", account)
+	                .add("password", "x10xncodcos1")
+	                .add("verifycode", "")
+	                .add("chkboxautologin", "false")
 	                .build();
-			Request request = new Request.Builder().url("https://www.xyb100.com/regist/check_phone_new")
+			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "www.xyb100.com")
-					.addHeader("Referer", "https://www.xyb100.com/regist")
+					.addHeader("Host", "www.yooli.com")
+					.addHeader("Referer", "https://www.yooli.com/secure/login/")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			String res = response.body().string();
-			if (res.contains("false")) {
+			if (response.body().string().contains("-88")) {
 				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
 		}
 		return false;
 	}

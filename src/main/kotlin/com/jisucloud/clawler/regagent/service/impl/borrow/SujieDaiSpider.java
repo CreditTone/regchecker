@@ -60,7 +60,6 @@ public class SujieDaiSpider implements PapaSpider {
                     .execute();
             if (response != null) {
                 JSONObject result = JSON.parseObject(response.body());
-                System.out.println(account + " sujiedai:" + result);
                 if (result.getString("moreInfo").contains("密码错误")) {
                     return true;
                 }

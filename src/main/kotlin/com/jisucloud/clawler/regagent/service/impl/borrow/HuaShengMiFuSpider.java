@@ -14,29 +14,29 @@ import java.util.Map;
 
 @Slf4j
 @Component
-public class ShiTouSpider implements PapaSpider {
+public class HuaShengMiFuSpider implements PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
 	
 	@Override
 	public String message() {
-		return "石投金融是实投(上海)互联网金融信息服务有限公司旗下的互联网金融理财平台，是国内领先的互联网金融网络借贷平台。";
+		return "花生米富官方网站,作为新一代互联网金融平台,在健全的风险管控体系、银行存管、三级等保基础上,提供多重风控、真实债权、消费场景等信息服务。为您的出借保驾护航!";
 	}
 
 	@Override
 	public String platform() {
-		return "shitou";
+		return "yaoyuefu";
 	}
 
 	@Override
 	public String home() {
-		return "shitou.com";
+		return "yaoyuefu.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "石投金融";
+		return "花生米富";
 	}
 
 	@Override
@@ -45,25 +45,25 @@ public class ShiTouSpider implements PapaSpider {
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new ShiTouSpider().checkTelephone("13910252045"));
-//		System.out.println(new ShiTouSpider().checkTelephone("18210538513"));
+//		System.out.println(new HuaShengMiFuSpider().checkTelephone("13910252000"));
+//		System.out.println(new HuaShengMiFuSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = HeadlessUtil.getChromeDriver(true, null, null);
-			String url = "https://www.shitou.com/login";
+			String url = "https://www.yaoyuefu.com/default/reg";
 			chromeDriver.setAjaxListener(new AjaxListener() {
 				
 				@Override
 				public String matcherUrl() {
-					return "user/loginNameVerification.do";
+					return "default/is_reg";
 				}
 				
 				@Override
 				public void ajax(Ajax ajax) throws Exception {
-					checkTel = ajax.getResponse().contains("code\":\"000000");
+					checkTel = ajax.getResponse().contains("已注册");
 				}
 				
 				@Override
@@ -71,11 +71,10 @@ public class ShiTouSpider implements PapaSpider {
 					return null;
 				}
 			});
-			chromeDriver.get("http://www.baidu.com/link?url=MUS_n9bK5KgnJ1M6Y5VG2gT87k7wXd4ejxSLqLyPy-juNLIbe9TAgzlA5__aqaN5&wd=&eqid=cea493ff0001fbdc000000025cf8c6bf");
 			chromeDriver.get(url);
 			Thread.sleep(3000);
-			chromeDriver.findElementByCssSelector("input[ng-model='user.loginName']").sendKeys(account);
-			chromeDriver.findElementByCssSelector("input[ng-model='user.password']").click();
+			chromeDriver.findElementByCssSelector("#mobile").sendKeys(account);
+			chromeDriver.mouseClick(chromeDriver.findElementByCssSelector("#code"));
 			Thread.sleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();

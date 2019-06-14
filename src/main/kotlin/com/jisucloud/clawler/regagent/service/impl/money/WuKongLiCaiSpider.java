@@ -19,7 +19,7 @@ public class WuKongLiCaiSpider implements PapaSpider {
 
 	@Override
 	public String message() {
-		return "悟空理财,玖富旗下品牌,玖富金融理财大师兄,专注为用户提供多元的出借选择和优质的出借服务。月账户、季账户、年账户等计划,满足各种资金的出借需求。";
+		return "玖富金融,玖富旗下品牌,玖富金融理财大师兄,专注为用户提供多元的出借选择和优质的出借服务。月账户、季账户、年账户等计划,满足各种资金的出借需求。";
 	}
 
 	@Override
@@ -34,12 +34,12 @@ public class WuKongLiCaiSpider implements PapaSpider {
 
 	@Override
 	public String platformName() {
-		return "悟空理财";
+		return "玖富金融";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"理财"};
+		return new String[] {"理财" , "p2p" , "借贷"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

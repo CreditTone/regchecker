@@ -14,56 +14,56 @@ import java.util.Map;
 
 @Slf4j
 @Component
-public class ShiTouSpider implements PapaSpider {
+public class YinGuZaiXianSpider implements PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
 	
 	@Override
 	public String message() {
-		return "石投金融是实投(上海)互联网金融信息服务有限公司旗下的互联网金融理财平台，是国内领先的互联网金融网络借贷平台。";
+		return "银谷在线(App同名,网址为:www.yingujr.com)是东方银谷(北京)投资管理有限公司(简称东方银谷)旗下大型网络借贷信息撮合平台。于2016年7月15日上线,目前已实现资金盈利。";
 	}
 
 	@Override
 	public String platform() {
-		return "shitou";
+		return "yingujr";
 	}
 
 	@Override
 	public String home() {
-		return "shitou.com";
+		return "yingujr.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "石投金融";
+		return "银谷在线";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"P2P", "消费分期" , "借贷"};
+		return new String[] {"P2P" , "借贷"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new ShiTouSpider().checkTelephone("13910252045"));
-//		System.out.println(new ShiTouSpider().checkTelephone("18210538513"));
+//		System.out.println(new YinGuZaiXianSpider().checkTelephone("13910252000"));
+//		System.out.println(new YinGuZaiXianSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = HeadlessUtil.getChromeDriver(true, null, null);
-			String url = "https://www.shitou.com/login";
+			String url = "https://www.yingujr.com/login";
 			chromeDriver.setAjaxListener(new AjaxListener() {
 				
 				@Override
 				public String matcherUrl() {
-					return "user/loginNameVerification.do";
+					return "auth/checkLogin";
 				}
 				
 				@Override
 				public void ajax(Ajax ajax) throws Exception {
-					checkTel = ajax.getResponse().contains("code\":\"000000");
+					checkTel = ajax.getResponse().contains("用户密码不正确") || ajax.getResponse().contains("被锁定");
 				}
 				
 				@Override
@@ -71,11 +71,12 @@ public class ShiTouSpider implements PapaSpider {
 					return null;
 				}
 			});
-			chromeDriver.get("http://www.baidu.com/link?url=MUS_n9bK5KgnJ1M6Y5VG2gT87k7wXd4ejxSLqLyPy-juNLIbe9TAgzlA5__aqaN5&wd=&eqid=cea493ff0001fbdc000000025cf8c6bf");
 			chromeDriver.get(url);
 			Thread.sleep(3000);
-			chromeDriver.findElementByCssSelector("input[ng-model='user.loginName']").sendKeys(account);
-			chromeDriver.findElementByCssSelector("input[ng-model='user.password']").click();
+			chromeDriver.findElementByCssSelector("input.account").sendKeys(account);
+			chromeDriver.findElementByCssSelector("input.password").sendKeys(account);
+			chromeDriver.reInject();
+			chromeDriver.mouseClick(chromeDriver.findElementByCssSelector("div.buttonBox"));
 			Thread.sleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();

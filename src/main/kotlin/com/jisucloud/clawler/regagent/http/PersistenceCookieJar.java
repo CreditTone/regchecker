@@ -7,8 +7,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.jisucloud.clawler.regagent.util.StringUtil;
-
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Cookie;
 import okhttp3.Cookie.Builder;

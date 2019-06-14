@@ -26,25 +26,28 @@ public class OCRDecode {
 	        .build();
 
 	public static String decodeImageCode(byte[] image) {
-		try {
-			FormBody formBody = new FormBody.Builder()
-	                .add("v_pic", Base64.getEncoder().encodeToString(image))
-	                .add("v_type", "ne4")
-	                .build();
-			Request request = new Request.Builder()
-		            .url("http://txyzmsb.market.alicloudapi.com/yzm")
-		            .post(formBody)
-		            .addHeader("Authorization", "APPCODE 10d26218b7124b28b068f70bae071348")
-		            .build();
-			Response response = okHttpClient.newCall(request).execute();
-			String body = response.body().string();
-			JSONObject result = JSON.parseObject(body);
-			if (result != null && result.containsKey("errCode") && result.getIntValue("errCode") == 0) {
-				log.info("decode:"+result.getString("v_code"));
-				return result.getString("v_code");
+		for (int i = 0; i < 3; i++) {
+			try {
+				FormBody formBody = new FormBody.Builder()
+		                .add("v_pic", Base64.getEncoder().encodeToString(image))
+		                .add("v_type", "ne4")
+		                .build();
+				Request request = new Request.Builder()
+			            .url("http://txyzmsb.market.alicloudapi.com/yzm")
+			            .post(formBody)
+			            .addHeader("Authorization", "APPCODE 10d26218b7124b28b068f70bae071348")
+			            .build();
+				Response response = okHttpClient.newCall(request).execute();
+				String body = response.body().string();
+				JSONObject result = JSON.parseObject(body);
+				if (result != null && result.containsKey("errCode") && result.getIntValue("errCode") == 0) {
+					log.info("decode:"+result.getString("v_code"));
+					return result.getString("v_code");
+				}
+				log.warn(result.toJSONString());
+			}catch(Exception e) {
+				e.printStackTrace();
 			}
-		}catch(Exception e) {
-			e.printStackTrace();
 		}
 		return "abcd";
 	}

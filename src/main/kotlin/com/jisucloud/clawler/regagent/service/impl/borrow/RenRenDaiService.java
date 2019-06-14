@@ -5,7 +5,6 @@ import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import org.jsoup.Connection;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Component
@@ -29,7 +28,7 @@ public class RenRenDaiService implements PapaSpider {
 
     @Override
     public String platformName() {
-        return "人人贷APP";
+        return "人人贷";
     }
 
     @Override
@@ -41,8 +40,7 @@ public class RenRenDaiService implements PapaSpider {
                     .ignoreContentType(true)
                     .execute();
             String body = response.body();
-            System.out.println(platformName() + "官网接口返回：" + body);
-            return !body.equals("{\"status\":80019,\"message\":\"该帐号未注册\"}");
+            return !body.contains("该帐号未注册");
         } catch (Exception e) {
             e.printStackTrace();
             return false;

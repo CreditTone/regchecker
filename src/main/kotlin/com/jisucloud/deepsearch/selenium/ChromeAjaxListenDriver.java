@@ -13,6 +13,7 @@ import org.openqa.selenium.interactions.Actions;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,21 +32,29 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 
 	@Override
 	public void get(String url) {
-		try {
-			super.get(url);
-			log.info("visit:"+url);
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally {
+		for (int i = 0 ; i < 3 ; i++) {
+			try {
+				super.get(url);
+				log.info("visit:"+url);
+			}catch(Exception e){
+				e.printStackTrace();
+				continue;
+			}
 			reInject();
+			break;
 		}
+		reInject();
 	}
 	
 	public void quicklyVisit(String url) {
-		try {
-			super.get(url);
-		}catch(Exception e) {
-			log.warn("quicklyVisit error "+e.getLocalizedMessage());
+		for (int i = 0 ; i < 3 ; i++) {
+			try {
+				super.get(url);
+				log.info("quicklyVisit:"+url);
+			}catch(Exception e){
+				continue;
+			}
+			break;
 		}
 	}
 	
@@ -75,7 +84,7 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 			ajax.setUrl(result.getString("requestUrl"));
 			ajax.setMethod(result.getString("requestMethod"));
 			ajax.setRequestData(result.getString("requestData"));
-			ajax.setResponse(result.getString("responseText"));
+			ajax.setResponse(StringUtil.unicodeToString(result.getString("responseText")));
 			//System.out.println(ajax);
 		}
 		return ajax;
@@ -98,9 +107,9 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 	}
 	
 	public void reInject() {
-		if (ajaxListener != null) {
+		if (ajaxListener != null && !isXHRListener()) {
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -112,6 +121,11 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 			if (ajaxListener.blockUrl() != null) {
 				log.info("BlockUrl");
 				blockAjax(ajaxListener.blockUrl());
+			}
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 	}

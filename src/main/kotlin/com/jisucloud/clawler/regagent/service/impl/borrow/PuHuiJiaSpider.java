@@ -15,30 +15,29 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class XinYongBaoSpider implements PapaSpider {
+public class PuHuiJiaSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
-			.readTimeout(20, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
-
+			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 	
 	@Override
 	public String message() {
-		return "中国个人信用风险创新平台-信用宝,为用户提供全方位出借、P2P网络借贷服务,专业的风险管理让出借、P2P网络借贷更加高效安全,您身边的个人金融出借专家。";
+		return "普惠家(www.puhuijia.com)专业的P2P互联网金融信息服务平台。旨在为有财富增值需求的出借人和有融资需求的借款人提供专业、高效、诚信、互惠互助的网络投融资信息。";
 	}
 
 	@Override
 	public String platform() {
-		return "xyb100";
+		return "puhuijia";
 	}
 
 	@Override
 	public String home() {
-		return "xyb100.com";
+		return "puhuijia.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "信用宝金融";
+		return "普惠家";
 	}
 
 	@Override
@@ -47,31 +46,30 @@ public class XinYongBaoSpider implements PapaSpider {
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new XinYongBaoSpider().checkTelephone("13691032050"));
-//		System.out.println(new XinYongBaoSpider().checkTelephone("18210538513"));
+//		System.out.println(new PuHuiJiaSpider().checkTelephone("15985268904"));
+//		System.out.println(new PuHuiJiaSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
+			String url = "https://www.puhuijia.com/member/memberRegistryAction!validatememberPhone.action";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("phoneNumber", account)
+	                .add("memberPhone", account)
 	                .build();
-			Request request = new Request.Builder().url("https://www.xyb100.com/regist/check_phone_new")
+			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "www.xyb100.com")
-					.addHeader("Referer", "https://www.xyb100.com/regist")
+					.addHeader("Host", "www.puhuijia.com")
+					.addHeader("Referer", "https://www.puhuijia.com/member/memberRegistryAction!initRegistry.action")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			String res = response.body().string();
-			if (res.contains("false")) {
+			if (response.body().string().contains("true")) {
 				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
 		}
 		return false;
 	}
