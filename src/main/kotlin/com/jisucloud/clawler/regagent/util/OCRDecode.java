@@ -45,6 +45,9 @@ public class OCRDecode {
 					return result.getString("v_code");
 				}
 				log.warn(result.toJSONString());
+				if (body.contains("请咨询客服")) {
+					break;
+				}
 			}catch(Exception e) {
 				e.printStackTrace();
 			}

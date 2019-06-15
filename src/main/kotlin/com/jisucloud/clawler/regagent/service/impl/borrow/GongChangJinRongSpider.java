@@ -9,6 +9,8 @@ import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +19,8 @@ import java.util.Map;
 @Slf4j
 @Component
 public class GongChangJinRongSpider implements PapaSpider {
+	
+	private ChromeAjaxListenDriver chromeDriver;
 
 	@Override
 	public String message() {
@@ -43,24 +47,18 @@ public class GongChangJinRongSpider implements PapaSpider {
 		return new String[] {"P2P", "借贷"};
 	}
 	
-	private ChromeAjaxListenDriver chromeDriver;
-	
-	private boolean checkTelephone = false;
-	
-	//暂时不能访问此页面，被反扒
-	public boolean success = false;//默认false
-	
+
 	
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new AiTouZiSpider().checkTelephone("13879690000"));
-//		System.out.println(new AiTouZiSpider().checkTelephone("18210538513"));
+//		System.out.println(new GongChangJinRongSpider().checkTelephone("13879690000"));
+//		System.out.println(new GongChangJinRongSpider().checkTelephone("18210538513"));
 //	}
 	
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector("#kaptchaImage");
-				img.click();
+				chromeDriver.mouseClick(img);
 				Thread.sleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
@@ -75,23 +73,28 @@ public class GongChangJinRongSpider implements PapaSpider {
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = HeadlessUtil.getChromeDriver(false, null, null);
+			chromeDriver.quicklyVisit("https://www.gongchangp2p.com");
 			chromeDriver.get("https://www.gongchangp2p.com/depository/retrieve/toRetrievePwd.shtml?userType=0");
 			Thread.sleep(2000);
-			chromeDriver.findElementByCssSelector("input[id='phone']").sendKeys(account);
+			chromeDriver.keyboardInput(chromeDriver.findElementByCssSelector("input[id='phone']"), account);
 			for (int i = 0; i < 5; i++) {
 				String imageCode = getImgCode();
 				if (!imageCode.isEmpty()) {
 					WebElement codeInput = chromeDriver.findElementByCssSelector("input[id='x_yanzhengma']");
-					codeInput.clear();
-					codeInput.sendKeys(imageCode);
+					chromeDriver.keyboardInput(codeInput, imageCode);
 				}
-				chromeDriver.reInject();
 				WebElement next = chromeDriver.findElementByCssSelector("input[id='next']");
-				next.click();
-				Thread.sleep(5000);
-				if (success) {
-					break;
+				chromeDriver.mouseClick(next);
+				Thread.sleep(3000);//Error_Tip-cnt
+				Document doc = Jsoup.parse(chromeDriver.getPageSource());
+				if (doc.select("#hs-findPsw-cont1").text().contains("确认新密码")) {
+					return true;
 				}
+				if (chromeDriver.getCurrentUrl().contains("toRetrievePwd.shtml") && chromeDriver.findElementById("Error_Tip-cnt").isDisplayed()) {
+					//验证码错误
+					continue;
+				}
+				break;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -100,7 +103,7 @@ public class GongChangJinRongSpider implements PapaSpider {
 				chromeDriver.quit();
 			}
 		}
-		return checkTelephone;
+		return false;
 	}
 
 

@@ -1,5 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.jisucloud.clawler.regagent.http.PersistenceCookieJar;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 import com.jisucloud.deepsearch.selenium.Ajax;
@@ -8,58 +11,60 @@ import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
 import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class AiQianJinSpider implements PapaSpider {
-	
+public class YiXinHuiMinSpider implements PapaSpider {
+
 	private ChromeAjaxListenDriver chromeDriver;
-	
-	private boolean checkTelephone = false;
-	
-	//暂时不能访问此页面，被反扒
-	public boolean success = false;//默认false
+	private boolean checkTel = false;
+	private boolean vcodeSuc = false;//验证码是否正确
 
 	@Override
 	public String message() {
-		return "爱钱进是凡普金科旗下网络借贷信息中介平台,位列第三方权威评级机构网贷天眼全国百强榜前十,始终致力于为用户提供简单、公平的互联网金融信息服务,是消费者心中靠谱的网络借贷。";
+		return "宜信惠民官网,是宜信惠民的P2P网站。宜信惠民按出借人、借款人的授权,基于出借人对出借金额、期限、参考年回报率未发生《风险揭示书》项下风险且《借款协议》及。";
 	}
 
 	@Override
 	public String platform() {
-		return "iqianjin";
+		return "creditease";
 	}
 
 	@Override
 	public String home() {
-		return "iqianjin.com";
+		return "creditease.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "爱钱进";
+		return "宜信惠民";
 	}
 
 	@Override
 	public String[] tags() {
 		return new String[] {"P2P", "借贷"};
 	}
-	
-	
+
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new AiQianJinSpider().checkTelephone("13879690000"));
-//		System.out.println(new AiQianJinSpider().checkTelephone("18210538513"));
+//		System.out.println(new YiXinHuiMinSpider().checkTelephone("13910252045"));
+//		System.out.println(new YiXinHuiMinSpider().checkTelephone("18210538513"));
 //	}
 	
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {
-				WebElement img = chromeDriver.findElementByCssSelector("img[class='img-code']");
+				WebElement img = chromeDriver.findElementByCssSelector("img[class='mid validateCode']");
 				img.click();
 				Thread.sleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
@@ -74,43 +79,40 @@ public class AiQianJinSpider implements PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(false, null, "Mozilla/5.0 (Linux; Android 7.0; PLUS Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Mobile Safari/537.36");
+			chromeDriver = HeadlessUtil.getChromeDriver(false, null, null);
+			chromeDriver.quicklyVisit("https://www.creditease.cn");
+			chromeDriver.quicklyVisit("https://www.creditease.cn/a/user/forgetPasswordStep1");
 			chromeDriver.addAjaxListener(new AjaxListener() {
 				
 				@Override
 				public String matcherUrl() {
-					// TODO Auto-generated method stub
-					return "newMPwdBack/sendMobileCode";
+					return "user/checkMobile";
 				}
 				
 				@Override
 				public String[] blockUrl() {
-					// TODO Auto-generated method stub
-					return null;
+					return new String[] {"forgetPasswordStep2"};
 				}
 				
 				@Override
 				public void ajax(Ajax ajax) throws Exception {
-					if (!ajax.getResponse().contains("图片验证码")) {
-						success = true;
-						checkTelephone = ajax.getResponse().contains("验证码发送成功");
+					JSONObject result = JSON.parseObject(ajax.getResponse());
+					int code = result.getIntValue("code");
+					if (code == 1003 || code == 0) {
+						vcodeSuc = true;
+						checkTel = result.getBooleanValue("success");
 					}
-					
 				}
 			});
-			chromeDriver.quicklyVisit("https://m.iqianjin.com");
-			chromeDriver.get("https://m.iqianjin.com/m/forgot");
-			Thread.sleep(2000);
-			chromeDriver.findElementByCssSelector("input[type='tel']").sendKeys(account);
+			chromeDriver.findElementById("mobile").sendKeys(account);
 			for (int i = 0; i < 5; i++) {
-				String imageCode = getImgCode();
-				WebElement codeInput = chromeDriver.findElementByCssSelector("input[placeholder='按右图输入验证码']");
-				codeInput.clear();
-				codeInput.sendKeys(imageCode);
-				WebElement next = chromeDriver.findElementByCssSelector("button.btn-send-code");
-				next.click();
+				WebElement validate = chromeDriver.findElementById("validate");
+				validate.clear();
+				validate.sendKeys(getImgCode());
+				chromeDriver.reInject();
+				chromeDriver.findElementById("nextBtn").click();
 				Thread.sleep(3000);
-				if (success) {
+				if (vcodeSuc) {
 					break;
 				}
 			}
@@ -121,9 +123,8 @@ public class AiQianJinSpider implements PapaSpider {
 				chromeDriver.quit();
 			}
 		}
-		return checkTelephone;
+		return checkTel;
 	}
-
 
 	@Override
 	public boolean checkEmail(String account) {

@@ -1,5 +1,7 @@
 package com.jisucloud.deepsearch.selenium;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,12 +24,16 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 	
 	public static final Random random = new Random();
 	
-	private AjaxListener ajaxListener;
+	private List<AjaxListener> ajaxListeners = new ArrayList<>();
 	
 	private Thread readAjaxQueueThread;
 	
+	private boolean quited = false;
+	
 	public ChromeAjaxListenDriver(ChromeOptions options) {
 		super(options);
+		readAjaxQueueThread = new Thread(this);
+		readAjaxQueueThread.start();
 	}
 
 	@Override
@@ -90,26 +96,25 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 		return ajax;
 	}
 	
+	@Deprecated
 	public void setAjaxListener(AjaxListener ajaxListener) {
-		if (this.ajaxListener != null && isXHRListener()) {
-			this.ajaxListener = ajaxListener;
-		}else {
-			this.ajaxListener = ajaxListener;
-		}
-		if (readAjaxQueueThread != null) {
-			try {readAjaxQueueThread.stop();}catch(Exception e) {}
-		}
-		readAjaxQueueThread = new Thread(this);
-		readAjaxQueueThread.start();
+		ajaxListeners.add(ajaxListener);
 		if (getCurrentUrl().startsWith("http")) {
-			get(getCurrentUrl());
+			reInject();
+		}
+	}
+	
+	public void addAjaxListener(AjaxListener ajaxListener) {
+		ajaxListeners.add(ajaxListener);
+		if (getCurrentUrl().startsWith("http")) {
+			reInject();
 		}
 	}
 	
 	public void reInject() {
-		if (ajaxListener != null && !isXHRListener()) {
+		if (!ajaxListeners.isEmpty() && !isXHRListener()) {
 			try {
-				Thread.sleep(500);
+				Thread.sleep(300);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -118,12 +123,14 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 			executeScript(AjaxListererJs.AjaxListeneJS);
 			log.info("AjaxListeneJS");
 			executeScript(AjaxListererJs.AjaxListeneJS);
-			if (ajaxListener.blockUrl() != null) {
-				log.info("BlockUrl");
-				blockAjax(ajaxListener.blockUrl());
+			for (AjaxListener ajaxListener : ajaxListeners) {
+				if (ajaxListener.blockUrl() != null) {
+					log.info("BlockUrl");
+					blockAjax(ajaxListener.blockUrl());
+				}
 			}
 			try {
-				Thread.sleep(500);
+				Thread.sleep(300);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -153,28 +160,36 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 	@Override
 	public void run() {
 		Ajax ajax = null;
-		while (ajaxListener != null) {
+		while (!quited) {
 			ajax = takeAjax();
+			if (ajax != null) {
+				processAjax(ajax);
+			}
+		}
+		
+	}
+	
+	private void processAjax(Ajax ajax) {
+		for (AjaxListener ajaxListener : ajaxListeners) {
 			if (ajax != null && ajax.getUrl().contains(ajaxListener.matcherUrl())) {
 				try {
 					ajaxListener.ajax(ajax);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			}else {
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
 			}
 		}
-		
 	}
 
 	@Override
 	public void close() {
-		if (readAjaxQueueThread != null) {
+		quited = true;
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+		if (readAjaxQueueThread != null && readAjaxQueueThread.isAlive()) {
 			try {readAjaxQueueThread.stop();}catch(Exception e) {}
 			readAjaxQueueThread = null;
 		}
@@ -183,7 +198,13 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 
 	@Override
 	public void quit() {
-		if (readAjaxQueueThread != null) {
+		quited = true;
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+		if (readAjaxQueueThread != null && readAjaxQueueThread.isAlive()) {
 			try {readAjaxQueueThread.stop();}catch(Exception e) {}
 			readAjaxQueueThread = null;
 		}

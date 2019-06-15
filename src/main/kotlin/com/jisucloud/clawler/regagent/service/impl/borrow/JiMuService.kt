@@ -15,7 +15,7 @@ class JiMuService : PapaSpider {
 
     override fun message() = "积木盒子是国内领先的网络借贷信息中介平台，专注于运用互联网和技术手段打通金融服务中存在的痛点，为个人、微型企业提供稳健、高效、轻松的借贷撮合服务。"
 
-    override fun platform() = "JIMU"
+    override fun platform() = "jimu"
 
     override fun platformName() = "积木盒子"
 

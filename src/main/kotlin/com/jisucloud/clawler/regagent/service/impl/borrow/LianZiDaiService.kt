@@ -14,7 +14,7 @@ class LianZiDaiService : PapaSpider {
 
     override fun message() = "连资贷是一家注重风险防控、致力诚信经营的互联网金融平台，创立于2014年9月。借助移动支付和大数据等先进互联网技术，满足借款人和出借人双方需求，实现多方共赢。"
 
-    override fun platform() = "LianZiDai"
+    override fun platform() = "lianzidai"
 
     override fun platformName() = "连资贷"
 
