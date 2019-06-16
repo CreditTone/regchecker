@@ -273,4 +273,8 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 			}
 		}
 	}
+	
+	public void jsInput(WebElement webElement, String text) throws Exception {
+		executeScript("arguments[0].value='"+text+"';", webElement);
+	}
 }

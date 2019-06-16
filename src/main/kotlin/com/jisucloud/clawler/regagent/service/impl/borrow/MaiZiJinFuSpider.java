@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Slf4j
 @Component
-public class HouBenJinRongSpider implements PapaSpider {
+public class MaiZiJinFuSpider implements PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -24,22 +24,22 @@ public class HouBenJinRongSpider implements PapaSpider {
 
 	@Override
 	public String message() {
-		return "厚本金融(houbank.com)是专业的互联网借贷撮合平台,为出借人和借款人提供优质的互联网金融借贷信息中介服务,中华财险保证保险逐步覆盖平台资产。";
+		return "麦子金服2009年成立，注册资本1.08亿，控股股东获海通证券旗下海通创新等机构战略投资，上海金融信息行业协会副会长单位，上海市互联网金融行业协会会员。严选高学历借款人群，小额分散。研发水滴风控，7重审核，接入多家知名大数据平台。上线银行存管，账户独立，资金隔离。";
 	}
 
 	@Override
 	public String platform() {
-		return "houbank";
+		return "nonobank";
 	}
 
 	@Override
 	public String home() {
-		return "houbank.com";
+		return "nonobank.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "厚本金融";
+		return "麦子金服";
 	}
 
 	@Override
@@ -47,10 +47,10 @@ public class HouBenJinRongSpider implements PapaSpider {
 		return new String[] {"P2P", "借贷"};
 	}
 
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new HouBenJinRongSpider().checkTelephone("13910252045"));
-//		System.out.println(new HouBenJinRongSpider().checkTelephone("18210538513"));
-//	}
+	public static void main(String[] args) throws InterruptedException {
+		System.out.println(new MaiZiJinFuSpider().checkTelephone("13910252045"));
+		System.out.println(new MaiZiJinFuSpider().checkTelephone("18210538513"));
+	}
 	
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
@@ -71,13 +71,12 @@ public class HouBenJinRongSpider implements PapaSpider {
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = HeadlessUtil.getChromeDriver(true, null, CHROME_USER_AGENT);
-			chromeDriver.quicklyVisit("http://www.baidu.com/link?url=dfL9ZPOGYGBiMGQ2RqQdw810qctmkrOMZm_IZoVE9VbbL9E1a1GOvQZhr2Xn0rbM&wd=&eqid=802dd3a500059a35000000025d061f5a");
-			chromeDriver.quicklyVisit("https://www.houbank.com/pro/account/forget");
+			chromeDriver.get("https://www.nonobank.com/Register");
 			chromeDriver.addAjaxListener(new AjaxListener() {
 				
 				@Override
 				public String matcherUrl() {
-					return "webserver/user/checkImageCode";
+					return "api/common/check/mobile";
 				}
 				
 				@Override
@@ -87,21 +86,19 @@ public class HouBenJinRongSpider implements PapaSpider {
 				
 				@Override
 				public void ajax(Ajax ajax) throws Exception {
-					System.out.println(ajax);
-					if (!ajax.getResponse().contains("验证码错误")) {
-						vcodeSuc = true;
-						checkTel = ajax.getResponse().contains("图片验证码校验成功");
-					}
+					vcodeSuc = true;
+					checkTel = ajax.getResponse().contains("已注册");
 				}
 			});
-			Thread.sleep(1000);
-			//chromeDriver.findElementByCssSelector("input[placeholder='请输入手机号']").sendKeys(account);
-			chromeDriver.jsInput(chromeDriver.findElementByCssSelector("input[placeholder='请输入手机号']"), account);
-			chromeDriver.jsInput(chromeDriver.findElementByCssSelector("input[placeholder='请输入图形验证码']"), "3579");
-			//chromeDriver.reInject();
-			Thread.sleep(3000);
-			chromeDriver.mouseClick(chromeDriver.findElementByCssSelector("input[class='step__btn']"));
-			Thread.sleep(3000);
+			chromeDriver.findElementById("reg-form-mobile").sendKeys(account);
+			for (int i = 0; i < 5; i++) {
+				chromeDriver.reInject();
+				chromeDriver.findElementById("reg-form-captcha").click();
+				Thread.sleep(2000);
+				if (vcodeSuc) {
+					break;
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
