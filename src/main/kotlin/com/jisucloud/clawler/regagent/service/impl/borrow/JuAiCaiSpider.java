@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
@@ -9,60 +9,58 @@ import okhttp3.Response;
 
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class XiMaLaYaSpider implements PapaSpider {
+public class JuAiCaiSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "喜马拉雅，颠覆了传统电台、个人网络电台单调的在线收听模式，让人们不仅能随时随地，听我想听，更能够轻松创建个人电台，随时分享好声音。在喜马拉雅，你随手就能上传声音作品，创建一个专属于自己的个人电台，持续发展积累粉丝并始终和他们连在一起。";
+		return "聚爱财专业的P2P投资平台、P2P网贷投资、互联网金融平台,面向个人投资者提供P2P投资产品、固定收益类产品;专业金融机构担保,100元起投,投资周期1~12个月,每日计息。";
 	}
 
 	@Override
 	public String platform() {
-		return "ximalaya";
+		return "juaicai";
 	}
 
 	@Override
 	public String home() {
-		return "ximalaya.com";
+		return "juaicai.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "喜马拉雅";
+		return "聚爱财";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"听书", "生活休闲"};
+		return new String[] {"p2p", "理财" , "借贷"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new XiMaLaYaSpider().checkTelephone("18210538500"));
-//		System.out.println(new XiMaLaYaSpider().checkTelephone("18210538513"));
+//		System.out.println(new JuAiCaiSpider().checkTelephone("13910252045"));
+//		System.out.println(new JuAiCaiSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://www.ximalaya.com/passport/register/checkAccount?account=" + account;
+			String url = "https://www.juaicai.cn/isNewUser?phoneno=" + account;
 			Request request = new Request.Builder().url(url)
-					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "www.ximalaya.com")
-					.addHeader("Referer", "https://www.ximalaya.com/passport/register")
+					.addHeader("User-Agent", CHROME_USER_AGENT)
+					.addHeader("Host", "www.juaicai.cn")
+					.addHeader("Referer", "https://www.juaicai.cn/pc_login/?isReg=y")
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("已注册")) {
-				return true;
-			}
+			String res = response.body().string();
+			return res.contains("0");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

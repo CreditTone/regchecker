@@ -1,70 +1,67 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl.music;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class LeTVSpider implements PapaSpider {
+public class QingTingSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "乐视TV,是乐视网专门为用户打造的一款在线视频播放应用,其适用于智能电视和智能盒子。依托乐视网强大的版权优势,拥有海量正版影视,内容涵盖电影、电视剧、动漫。";
+		return "蜻蜓FM,不仅囊括国内外数千家网络电台和全国广播电台,还涵盖有声小说、儿童故事、相声、评书、戏曲、在线音乐、脱口秀、鬼故事、情感故事、财经、新闻、历史、健康。";
 	}
 
 	@Override
 	public String platform() {
-		return "letv";
+		return "qingting";
 	}
 
 	@Override
 	public String home() {
-		return "le.com";
+		return "qingting.fm";
 	}
 
 	@Override
 	public String platformName() {
-		return "乐视TV";
+		return "蜻蜓FM";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"视频", "影音"};
+		return new String[] {"听书", "生活休闲" , "FM"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new LeTVSpider().checkTelephone("18720982607"));
-//		System.out.println(new LeTVSpider().checkTelephone("18210538513"));
+//		System.out.println(new QingTingSpider().checkTelephone("18720982607"));
+//		System.out.println(new QingTingSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://sso.le.com/user/checkMobileExists/mobile/"+account+"?jsonp=jQuery191074759928924606&_=" + System.currentTimeMillis();
+			String url = "https://u2.qingting.fm/u2/api/v4/check_phone_exist?phone_number="+account;
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "sso.le.com")
-					.addHeader("Referer", "https://sso.le.com/user/mobilereg?ver=3.0&lang=zh-cn&country=CN&plat=www&next_action=http%3A%2F%2Fwww.le.com%2F")
+					.addHeader("Host", "u2.qingting.fm")
+					.addHeader("Referer", "https://www.qingting.fm/channels/217920/")
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			String res = response.body().string();
-			res = StringUtil.unicodeToString(res);
-			if (res.contains("已存在")) {
+			String res = StringUtil.unicodeToString(response.body().string());
+			if (res.contains("已注册")) {
 				return true;
 			}
 		} catch (Exception e) {

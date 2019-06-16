@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl.video;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;

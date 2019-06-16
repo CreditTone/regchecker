@@ -1,8 +1,7 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl.video;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -12,64 +11,60 @@ import okhttp3.Response;
 
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class ShuiDiXinYongSpider implements PapaSpider {
+public class LeTVSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "水滴信用,全国中小企业大数据信用评价平台,实时提供企业工商信息查询,企业信用查询,企业失信记录,企业对外投资信息,企业相关股东,法人等信息的查询。";
+		return "乐视TV,是乐视网专门为用户打造的一款在线视频播放应用,其适用于智能电视和智能盒子。依托乐视网强大的版权优势,拥有海量正版影视,内容涵盖电影、电视剧、动漫。";
 	}
 
 	@Override
 	public String platform() {
-		return "shuidi";
+		return "letv";
 	}
 
 	@Override
 	public String home() {
-		return "shuidi.com";
+		return "le.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "水滴信用";
+		return "乐视TV";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"新闻咨询", "工具"};
+		return new String[] {"视频", "影音"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new ShuiDiXinYongSpider().checkTelephone("15970663703"));
-//		System.out.println(new ShuiDiXinYongSpider().checkTelephone("18210538513"));
+//		System.out.println(new LeTVSpider().checkTelephone("18720982607"));
+//		System.out.println(new LeTVSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://shuidi.cn/pcuser-register";
-			FormBody formBody = new FormBody
-	                .Builder()
-	                .add("phone", account)
-	                .add("action", "check_phone")
-	                .build();
+			String url = "https://sso.le.com/user/checkMobileExists/mobile/"+account+"?jsonp=jQuery191074759928924606&_=" + System.currentTimeMillis();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "shuidi.cn")
-					.addHeader("Referer", "https://shuidi.cn/pcuser-register")
-					.post(formBody)
+					.addHeader("Host", "sso.le.com")
+					.addHeader("Referer", "https://sso.le.com/user/mobilereg?ver=3.0&lang=zh-cn&country=CN&plat=www&next_action=http%3A%2F%2Fwww.le.com%2F")
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			JSONObject result = JSON.parseObject(response.body().string());
-			if (result.getIntValue("status") == 1) {
+			String res = response.body().string();
+			res = StringUtil.unicodeToString(res);
+			if (res.contains("已存在")) {
 				return true;
 			}
 		} catch (Exception e) {

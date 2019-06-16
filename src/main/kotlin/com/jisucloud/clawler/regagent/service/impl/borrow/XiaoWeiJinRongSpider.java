@@ -18,7 +18,7 @@ import java.util.Map;
 
 @Component
 @Slf4j
-public class XiaoweiJinrongSpider implements PapaSpider {
+public class XiaoWeiJinRongSpider implements PapaSpider {
 
 	@Override
 	public String message() {

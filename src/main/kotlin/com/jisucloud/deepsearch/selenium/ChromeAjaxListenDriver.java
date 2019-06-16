@@ -2,10 +2,14 @@ package com.jisucloud.deepsearch.selenium;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebElement;
@@ -29,6 +33,8 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 	private Thread readAjaxQueueThread;
 	
 	private boolean quited = false;
+	
+	private Map<String,Long> respTime = new ConcurrentHashMap<>();
 	
 	public ChromeAjaxListenDriver(ChromeOptions options) {
 		super(options);
@@ -76,6 +82,14 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 		return ret != null? (Boolean)ret : false;
 	}
 	
+	public boolean checkElement(String cssSelect) {
+		try {
+			return findElementByCssSelector(cssSelect).isDisplayed();
+		}catch(Exception e) {
+		}
+		return false;
+	}
+	
 	private Ajax takeAjax() {
 		Ajax ajax = null;
 		String ret = null;
@@ -85,6 +99,15 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 			e.printStackTrace();
 		}
 		if (ret != null && !ret.isEmpty()) {
+			Long reciveRespTime = respTime.get(ret);
+			if (reciveRespTime == null) {
+				reciveRespTime = System.currentTimeMillis();
+				respTime.put(ret, reciveRespTime);
+			}else if ((System.currentTimeMillis() - reciveRespTime) < 3000) {
+				return null;
+			}else {
+				respTime.put(ret, System.currentTimeMillis());
+			}
 			JSONObject result = JSON.parseObject(ret);
 			ajax = new Ajax();
 			ajax.setUrl(result.getString("requestUrl"));

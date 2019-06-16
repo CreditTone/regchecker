@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.util.StringUtil;
@@ -11,67 +11,64 @@ import okhttp3.Response;
 
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class HuaShuTVSpider implements PapaSpider {
+public class WangJinSheSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
-
+	
 	@Override
 	public String message() {
-		return "华数TV全网影视是三网融合平台下的综合视频网站。提供全网热门电影、电视剧,少儿动漫、综艺娱乐、求索纪录片、体育资讯、3D、VR、高清电视直播等在线视频点播直播。";
+		return "网金社是由恒生电子、蚂蚁金服、中投保共同设立的浙江互联网金融资产交易中心股份有限公司推出的互联网金融平台。 ";
 	}
 
 	@Override
 	public String platform() {
-		return "wasu";
+		return "wjs";
 	}
 
 	@Override
 	public String home() {
-		return "wasu.com";
+		return "wjs.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "华数TV";
+		return "网金社";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"影音", "视频", "MV" , "TV"};
+		return new String[] {"P2P", "借贷"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new HuaShuTVSpider().checkTelephone("18611216720"));
-//		System.out.println(new HuaShuTVSpider().checkTelephone("18210538513"));
+//		System.out.println(new WangJinSheSpider().checkTelephone("15985268904"));
+//		System.out.println(new WangJinSheSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://uc.wasu.cn/member/index.php/Register/existPhone/plat/pc";
+			String url = "https://www.wjs.com/web/login/mobileLogin";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("key", account)
-	                .add("name", "phone")
+	                .add("mobileNo", account)
+	                .add("password", "2dd573568d7358ef618ce940565c5b7b8cc0b2ee7b8f2916f2b6b91aed0e4561ce70ccb76b9f4604f725ead9a6483a18fb05bbfa093a90ce6f84651c33292acec95c2e698a18f2c4ba9f7d5bcadeae783afa261cb4cd8a2ac426efc82d1cb632f63bc0c46adb5ab7e62911b5431d7ab1b76f29fee4f12a63700a6c448fb6eb15")
 	                .build();
 			Request request = new Request.Builder().url(url)
-					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "uc.wasu.cn")
-					.addHeader("Referer", "https://uc.wasu.cn/member/index.php/Register")
+					.addHeader("User-Agent", CHROME_USER_AGENT)
+					.addHeader("Host", "www.wjs.com")
+					.addHeader("Referer", "https://www.wjs.com/web/login/index")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
 			String res = StringUtil.unicodeToString(response.body().string());
-			if (res.contains("已注册")) {
-				return true;
-			}
+			return res.contains("密码不正确");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

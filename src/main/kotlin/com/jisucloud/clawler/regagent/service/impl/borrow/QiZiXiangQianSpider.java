@@ -1,7 +1,5 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl.borrow;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
@@ -17,59 +15,57 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class ShuiDiXinYongSpider implements PapaSpider {
+public class QiZiXiangQianSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
-
+	
 	@Override
 	public String message() {
-		return "水滴信用,全国中小企业大数据信用评价平台,实时提供企业工商信息查询,企业信用查询,企业失信记录,企业对外投资信息,企业相关股东,法人等信息的查询。";
+		return "奇子向钱，是北京奇子投资管理有限公司旗下的互联网金融综合服务商,与奇子贷、资产卫士共同构成奇子金服的三大业务模块，专注于为投资者提供真实、透明、便捷的互联网理财及增值服务。";
 	}
 
 	@Override
 	public String platform() {
-		return "shuidi";
+		return "qzxq";
 	}
 
 	@Override
 	public String home() {
-		return "shuidi.com";
+		return "qzxq.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "水滴信用";
+		return "奇子向钱";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"新闻咨询", "工具"};
+		return new String[] {"P2P" , "借贷"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new ShuiDiXinYongSpider().checkTelephone("15970663703"));
-//		System.out.println(new ShuiDiXinYongSpider().checkTelephone("18210538513"));
+//		System.out.println(new QiZiXiangQianSpider().checkTelephone("15985268904"));
+//		System.out.println(new QiZiXiangQianSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://shuidi.cn/pcuser-register";
+			String url = "https://www.qzxq.com/regCtrl/isLoginNameExist.do?0.8" + System.currentTimeMillis();
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("phone", account)
-	                .add("action", "check_phone")
+	                .add("loginName", account)
 	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "shuidi.cn")
-					.addHeader("Referer", "https://shuidi.cn/pcuser-register")
+					.addHeader("Host", "www.qzxq.com")
+					.addHeader("Referer", "https://www.qzxq.com/regCtrl/register.do")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			JSONObject result = JSON.parseObject(response.body().string());
-			if (result.getIntValue("status") == 1) {
+			if (response.body().string().contains("true")) {
 				return true;
 			}
 		} catch (Exception e) {

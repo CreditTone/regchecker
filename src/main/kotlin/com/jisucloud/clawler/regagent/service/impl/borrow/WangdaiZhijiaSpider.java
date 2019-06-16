@@ -41,7 +41,7 @@ public class WangdaiZhijiaSpider implements PapaSpider {
 
 	@Override
 	public String[] tags() {
-		return new String[] {"P2P", "消费分期" , "借贷"};
+		return new String[] {"金融资讯", "贷超" , "借贷"};
 	}
 	
 //	public static void main(String[] args) {

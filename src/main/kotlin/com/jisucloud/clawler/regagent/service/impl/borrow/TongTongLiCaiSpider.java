@@ -1,7 +1,8 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl.borrow;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -16,68 +17,60 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class FengXingSpider implements PapaSpider {
+public class TongTongLiCaiSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
-
-
+	
 	@Override
 	public String message() {
-		return "风行视频网,提供免费电影、电视剧、综艺、动漫、体育等视频内容的在线观看和下载.累积7亿用户的全平台,为传媒机构和品牌客户开设了官方视频服务账号。";
+		return "通通理财是一款短期金融投资理财APP，成立于2015年10月，公司注册资金1亿元，隶属于浙江通通金融信息服务有限公司， 为用户提供互联网金融投资理财服务，实现财富增值。 ";
 	}
 
 	@Override
 	public String platform() {
-		return "cli";
+		return "tongtongli";
 	}
 
 	@Override
 	public String home() {
-		return "cli.com";
+		return "tongtongli.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "风行视频";
+		return "通通理财";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"影音", "视频"};
+		return new String[] {"P2P", "理财"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new FengXingSpider().checkTelephone("18210538513"));
-//		System.out.println(new FengXingSpider().checkTelephone("13925306960"));
+//		System.out.println(new TongTongLiCaiSpider().checkTelephone("15985268904"));
+//		System.out.println(new TongTongLiCaiSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
-		if (account.length() != 11) {
-			return false;
-		}
 		try {
-			String url = "http://api.fun.tv/ajax/check_account/?isajax=1&dtime=" + System.currentTimeMillis();
+			String url = "https://m.tongtongli.com/check_user_register.json";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("account", account)
+	                .add("phone", account)
 	                .build();
 			Request request = new Request.Builder().url(url)
-					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "api.fun.tv")
-					.addHeader("Referer", "http://www.fun.tv/account/reg")
+					.addHeader("User-Agent", IOS_USER_AGENT)
+					.addHeader("Host", "m.tongtongli.com")
+					.addHeader("Referer", "https://www.bxjr.com/secure/register.html")
 					.post(formBody)
 					.build();
-			Response response = okHttpClient.newCall(request)
-					.execute();
-			String res = StringUtil.unicodeToString(response.body().string());
-			if (res.contains("已经注册")) {
-				return true;
-			}
+			Response response = okHttpClient.newCall(request).execute();
+			JSONObject result = JSON.parseObject(response.body().string());
+			return result.getBooleanValue("data");
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
 		}
 		return false;
 	}

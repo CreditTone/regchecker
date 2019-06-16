@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Random;
 
 @Component
-public class JuziFenqiSpider implements PapaSpider {
+public class JuZiFenqiSpider implements PapaSpider {
 
     @Override
     public String message() {

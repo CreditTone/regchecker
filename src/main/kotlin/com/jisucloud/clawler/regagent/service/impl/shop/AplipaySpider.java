@@ -44,7 +44,7 @@ public class AplipaySpider implements PapaSpider {
 
 	@Override
 	public String[] tags() {
-		return new String[] {"电商" , "海购"};
+		return new String[] {"购物" , "理财" , "借贷" , "消费分期" , "保险"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {

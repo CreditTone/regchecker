@@ -1,7 +1,5 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl.music;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
@@ -17,63 +15,67 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class ShuiDiXinYongSpider implements PapaSpider {
+public class LanRenTingShuSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
+
 	@Override
 	public String message() {
-		return "水滴信用,全国中小企业大数据信用评价平台,实时提供企业工商信息查询,企业信用查询,企业失信记录,企业对外投资信息,企业相关股东,法人等信息的查询。";
+		return "懒人听书是3.2亿用户选择的综合性有声阅读交流平台。热门IP入驻,知名主播云集,原创小说、经典文学、海量精品栏目共筑有声阅读生态圈,解放双眼,畅听世界。";
 	}
 
 	@Override
 	public String platform() {
-		return "shuidi";
+		return "lrts";
 	}
 
 	@Override
 	public String home() {
-		return "shuidi.com";
+		return "lrts.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "水滴信用";
+		return "懒人听书";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"新闻咨询", "工具"};
+		return new String[] {"听书", "生活休闲"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new ShuiDiXinYongSpider().checkTelephone("15970663703"));
-//		System.out.println(new ShuiDiXinYongSpider().checkTelephone("18210538513"));
+//		System.out.println(new LanRenTingShuSpider().checkTelephone("18210014444"));
+//		System.out.println(new LanRenTingShuSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
+		if (account.length() != 11) {
+			return false;
+		}
 		try {
-			String url = "https://shuidi.cn/pcuser-register";
+			String url = "http://www.lrts.me/checkPhone";
 			FormBody formBody = new FormBody
 	                .Builder()
 	                .add("phone", account)
-	                .add("action", "check_phone")
 	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "shuidi.cn")
-					.addHeader("Referer", "https://shuidi.cn/pcuser-register")
+					.addHeader("Host", "www.lrts.me")
+					.addHeader("Referer", "http://www.lrts.me/signupByPhone")
 					.post(formBody)
 					.build();
-			Response response = okHttpClient.newCall(request).execute();
-			JSONObject result = JSON.parseObject(response.body().string());
-			if (result.getIntValue("status") == 1) {
+			Response response = okHttpClient.newCall(request)
+					.execute();
+			if (response.body().string().contains("errCode\":\"0001")) {
 				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
 		}
 		return false;
 	}

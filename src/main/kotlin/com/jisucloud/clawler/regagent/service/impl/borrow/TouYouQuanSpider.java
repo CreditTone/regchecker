@@ -1,72 +1,76 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class QiDianSpider implements PapaSpider {
+public class TouYouQuanSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
-
-
+	
 	@Override
 	public String message() {
-		return "起点中文网创建于2002年5月，是国内最大文学阅读与写作平台之一，是国内领先的原创文学门户网站，隶属于国内最大的数字内容综合平台——阅文集团旗下。";
+		return "投友圈是具有社交、交易功能的金融社区，于2014年10月15日正式上线，注册用户已超过10000人。投友圈是由从业于金融、互联网行业多年的精英团队创建，团队成员来自于百度、奇虎360等知名的互联网公司。投友圈本着分散投资，减小风险的理念。";
 	}
 
 	@Override
 	public String platform() {
-		return "qidian";
+		return "touyouquan";
 	}
 
 	@Override
 	public String home() {
-		return "qidian.com";
+		return "touyouquan.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "起点小说";
+		return "投友圈";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"电子书", "小说" , "网络原创"};
+		return new String[] {"P2P", "社交" , "借贷"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new QiDianSpider().checkTelephone("18210014444"));
-//		System.out.println(new QiDianSpider().checkTelephone("18210538513"));
+//		System.out.println(new TouYouQuanSpider().checkTelephone("15985268904"));
+//		System.out.println(new TouYouQuanSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://ptlogin.yuewen.com/userSdk/checkaccount?method=jQuery191021014016847558348_"+System.currentTimeMillis()+"&appId=10&format=jsonp&account="+account+"&accountType=101&areaId=1&_=" + System.currentTimeMillis();
+			String url = "https://www.touyouquan.com/jsp/user/userLogin.htm";
+			FormBody formBody = new FormBody
+	                .Builder()
+	                .add("userName", account)
+	                .add("passwd", "moaasd12bia12le")
+	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "ptlogin.yuewen.com")
-					.addHeader("Referer", "https://passport.qidian.com/reg.html?appid=10&areaid=1&target=iframe&ticket=1&auto=1&autotime=30&returnUrl=https%3A%2F%2Fwww.qidian.com")
+					.addHeader("Host", "www.touyouquan.com")
+					.addHeader("Referer", "https://www.touyouquan.com/html/login.jsp")
+					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("existing\":true")) {
+			if (response.body().string().contains("loginError")) {
 				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
 		}
 		return false;
 	}

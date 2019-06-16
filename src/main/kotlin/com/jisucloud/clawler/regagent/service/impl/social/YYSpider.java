@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl.social;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
