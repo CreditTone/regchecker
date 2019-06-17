@@ -1,10 +1,6 @@
-package com.jisucloud.clawler.regagent.service.impl.shop;
+package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.deepsearch.selenium.Ajax;
-import com.jisucloud.deepsearch.selenium.AjaxListener;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -14,65 +10,64 @@ import okhttp3.Response;
 
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class GuoMeiSpider implements PapaSpider {
+public class ERongSuoSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 	
 	@Override
 	public String message() {
-		return "国美电器（GOME）成立于1987年1月1日，总部位于香港，是中国大陆家电零售连锁企业。2009年入选中国世界纪录协会中国最大的家电零售连锁企业。";
+		return "e融所官网资料是由网贷之家为您收集整理,想知道e融所可靠吗,e融所安全吗,e融所怎么样,可以来网贷之家e融所官网资料查询p2p平台数据、新闻、消息、口碑、点评。";
 	}
 
 	@Override
 	public String platform() {
-		return "gome";
+		return "myerong";
 	}
 
 	@Override
 	public String home() {
-		return "gome.com";
+		return "myerong.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "国美电器";
+		return "e融所";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"电商" , "电器"};
+		return new String[] {"P2P", "借贷"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new GuoMeiSpider().checkTelephone("18210538000"));
-//		System.out.println(new GuoMeiSpider().checkTelephone("18210538513"));
+//		System.out.println(new ERongSuoSpider().checkTelephone("15985268904"));
+//		System.out.println(new ERongSuoSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://www.gomefinance.com.cn/api/v1/checkMobile?t=" + System.currentTimeMillis();
+			String url = "https://www.myerong.com/auth.action?callback=jQuery112781052600";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("mobile", account)
+	                .add("accountName", account)
+	                .add("method", "checkNameExists")
+	                .add("subtime", "" + System.currentTimeMillis())
 	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "www.gomefinance.com.cn")
-					.addHeader("channel", "GMJRBDSSPPC")
-					.addHeader("plant", "PC")
-					.addHeader("Referer", "https://www.gomefinance.com.cn/src/html/register.html")
+					.addHeader("Host", "www.myerong.com")
+					.addHeader("Referer", "https://www.myerong.com/sites/pages/register/register.html")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("已注册")) {
+			if (response.body().string().contains("true")) {
 				return true;
 			}
 		} catch (Exception e) {

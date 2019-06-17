@@ -1,10 +1,6 @@
-package com.jisucloud.clawler.regagent.service.impl.shop;
+package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.deepsearch.selenium.Ajax;
-import com.jisucloud.deepsearch.selenium.AjaxListener;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -14,45 +10,44 @@ import okhttp3.Response;
 
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class GuoMeiSpider implements PapaSpider {
+public class GuoMeiJinRongSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 	
 	@Override
 	public String message() {
-		return "国美电器（GOME）成立于1987年1月1日，总部位于香港，是中国大陆家电零售连锁企业。2009年入选中国世界纪录协会中国最大的家电零售连锁企业。";
+		return "国美金融-国美控股旗下金融发展与投资业务战略管控平台,致力推动普惠金融的发展!国美金融,国美,家美,生活美!";
 	}
 
 	@Override
 	public String platform() {
-		return "gome";
+		return "gomefinance";
 	}
 
 	@Override
 	public String home() {
-		return "gome.com";
+		return "gomefinance.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "国美电器";
+		return "国美金融";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"电商" , "电器"};
+		return new String[] {"P2P", "消费分期" , "借贷"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new GuoMeiSpider().checkTelephone("18210538000"));
-//		System.out.println(new GuoMeiSpider().checkTelephone("18210538513"));
+//		System.out.println(new GuoMeiJinRongSpider().checkTelephone("15985268904"));
+//		System.out.println(new GuoMeiJinRongSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
@@ -72,7 +67,7 @@ public class GuoMeiSpider implements PapaSpider {
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("已注册")) {
+			if (response.body().string().contains("该手机号已注册")) {
 				return true;
 			}
 		} catch (Exception e) {

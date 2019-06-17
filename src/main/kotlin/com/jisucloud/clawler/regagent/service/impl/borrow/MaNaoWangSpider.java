@@ -1,10 +1,7 @@
-package com.jisucloud.clawler.regagent.service.impl.shop;
+package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.deepsearch.selenium.Ajax;
-import com.jisucloud.deepsearch.selenium.AjaxListener;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
+import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -14,65 +11,63 @@ import okhttp3.Response;
 
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class GuoMeiSpider implements PapaSpider {
+public class MaNaoWangSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 	
 	@Override
 	public String message() {
-		return "国美电器（GOME）成立于1987年1月1日，总部位于香港，是中国大陆家电零售连锁企业。2009年入选中国世界纪录协会中国最大的家电零售连锁企业。";
+		return "玛瑙湾根据国家监管和合规方向,撮合小额分散的资产,目前主要为车金融、消费金融及供应链金融,同时引入第三方担保,致力于更好地满足中小微企业和个人投融资需求。";
 	}
 
 	@Override
 	public String platform() {
-		return "gome";
+		return "manaowan";
 	}
 
 	@Override
 	public String home() {
-		return "gome.com";
+		return "manaowan.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "国美电器";
+		return "玛瑙湾";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"电商" , "电器"};
+		return new String[] {"P2P", "小微金融", "借贷"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new GuoMeiSpider().checkTelephone("18210538000"));
-//		System.out.println(new GuoMeiSpider().checkTelephone("18210538513"));
+//		System.out.println(new MaNaoWangSpider().checkTelephone("15985268904"));
+//		System.out.println(new MaNaoWangSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://www.gomefinance.com.cn/api/v1/checkMobile?t=" + System.currentTimeMillis();
+			String url = "https://m.manaowan.com/Account/ajaxLoginOrRegister8717/"+account+"?_=" + System.currentTimeMillis();
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("mobile", account)
+	                .add("needSend", "0")
 	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "www.gomefinance.com.cn")
-					.addHeader("channel", "GMJRBDSSPPC")
-					.addHeader("plant", "PC")
-					.addHeader("Referer", "https://www.gomefinance.com.cn/src/html/register.html")
+					.addHeader("Host", "m.manaowan.com")
+					.addHeader("Referer", "https://m.manaowan.com/Account/show/entry")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("已注册")) {
+			String res = StringUtil.unicodeToString(response.body().string());
+			if (res.contains("已注册")) {
 				return true;
 			}
 		} catch (Exception e) {
