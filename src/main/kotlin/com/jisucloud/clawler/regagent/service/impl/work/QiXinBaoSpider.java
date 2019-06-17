@@ -68,6 +68,18 @@ public class QiXinBaoSpider implements PapaSpider {
 				public String[] blockUrl() {
 					return null;
 				}
+
+				@Override
+				public String fixPostData() {
+					// TODO Auto-generated method stub
+					return null;
+				}
+
+				@Override
+				public String fixGetData() {
+					// TODO Auto-generated method stub
+					return null;
+				}
 			});
 			//chromeDriver.get("https://www.qixin.com/");
 			chromeDriver.get("https://www.qixin.com/auth/login?return_url=%2F");

@@ -70,10 +70,22 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 		}
 	}
 	
-	public boolean isXHRListener() {
+	public boolean isXHRListener(String id) {
 		Object ret = null;
 		try {
-			String script = "return window.myQueue != undefined;";
+			String script = "return window.injectedListener != undefined && window.injectedListener['"+id+"'] != undefined;";
+			ret = executeScript(script);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+		}
+		return ret != null? (Boolean)ret : false;
+	}
+	
+	public boolean isXHRMainListener() {
+		Object ret = null;
+		try {
+			String script = "return window.injectedListener != undefined;";
 			ret = executeScript(script);
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -134,36 +146,48 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 		}
 	}
 	
+	private void sleep(long mills) {
+		try {
+			Thread.sleep(mills);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void reInject() {
-		if (!ajaxListeners.isEmpty() && !isXHRListener()) {
-			try {
-				Thread.sleep(300);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		if (!isXHRMainListener()) {
 			executeScript(AjaxListererJs.ArrayQueueJS);
-			log.info("ArrayQueueJS");
+			log.info("arrayqueue inject success");
+			executeScript(AjaxListererJs.OprationVarJS);
+			log.info("oprationvarjs inject success");
+			executeScript(AjaxListererJs.ReplaceXHRJS);
+			log.info("replacexhrjs inject success");
 			executeScript(AjaxListererJs.AjaxListeneJS);
-			log.info("AjaxListeneJS");
-			executeScript(AjaxListererJs.AjaxListeneJS);
-			for (AjaxListener ajaxListener : ajaxListeners) {
-				if (ajaxListener.blockUrl() != null) {
-					log.info("BlockUrl");
-					blockAjax(ajaxListener.blockUrl());
-				}
-			}
-			try {
-				Thread.sleep(300);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			log.info("ajaxlistenejs inject success");
+			executeScript(AjaxListererJs.AjaxPushResultJS);
+			log.info("ajaxpushresultjs inject success");
+		}
+		for (AjaxListener ajaxListener : ajaxListeners) {
+			injectedListener(ajaxListener);
 		}
 	}
 	
 	
-	private void blockAjax(String ...urlPaths) {
-		for (int i = 0;urlPaths != null && i < urlPaths.length; i++) {
-			executeScript("window.blockAjax.push('"+ urlPaths[i] +"');");
+	private void injectedListener(AjaxListener ajaxListener) {
+		String id = Integer.toHexString(ajaxListener.hashCode());
+		if (!isXHRListener(id)) {
+			sleep(300);
+			executeScript("window.injectedListener['"+ id +"'] = '"+ajaxListener.matcherUrl()+"';");
+			for (int i = 0;ajaxListener.blockUrl() != null && i < ajaxListener.blockUrl().length; i++) {
+				executeScript("window.blockAjax.push('"+ ajaxListener.blockUrl()[i] +"');");
+			}
+			if (ajaxListener.fixPostData() != null) {
+				executeScript("window.fixPostData['"+ ajaxListener.matcherUrl() +"'] = '"+ajaxListener.fixPostData()+"';");
+			}
+			if (ajaxListener.fixGetData() != null) {
+				executeScript("window.fixGetData['"+ ajaxListener.matcherUrl() +"'] = '"+ajaxListener.fixGetData()+"';");
+			}
+			sleep(300);
 		}
 	}
 	
@@ -194,11 +218,13 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 	
 	private void processAjax(Ajax ajax) {
 		for (AjaxListener ajaxListener : ajaxListeners) {
-			if (ajax != null && ajax.getUrl().contains(ajaxListener.matcherUrl())) {
-				try {
-					ajaxListener.ajax(ajax);
-				} catch (Exception e) {
-					e.printStackTrace();
+			if (ajax != null) {
+				if (ajax.getUrl().contains(ajaxListener.matcherUrl()) || ajaxListener.matcherUrl().contains(ajax.getUrl())) {
+					try {
+						ajaxListener.ajax(ajax);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}

@@ -89,6 +89,18 @@ public class MaiZiJinFuSpider implements PapaSpider {
 					vcodeSuc = true;
 					checkTel = ajax.getResponse().contains("已注册");
 				}
+
+				@Override
+				public String fixPostData() {
+					// TODO Auto-generated method stub
+					return null;
+				}
+
+				@Override
+				public String fixGetData() {
+					// TODO Auto-generated method stub
+					return null;
+				}
 			});
 			chromeDriver.findElementById("reg-form-mobile").sendKeys(account);
 			for (int i = 0; i < 5; i++) {

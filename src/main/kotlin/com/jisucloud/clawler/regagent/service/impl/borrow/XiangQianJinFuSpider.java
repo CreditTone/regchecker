@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Slf4j
 @Component
-public class JinRongGongChangSpider implements PapaSpider {
+public class XiangQianJinFuSpider implements PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -24,22 +24,22 @@ public class JinRongGongChangSpider implements PapaSpider {
 
 	@Override
 	public String message() {
-		return "金融工场-是中国领先的综合金融信息服务平台。金融工场以金融全球化发展趋势为契机,融合信息技术创新手段,秉承安全、专业、透明的经营理念,为用户提供多样化高效智能的。";
+		return "向前金服是捷越联合旗下以智能金融服务为主体的金融科技平台，旨在为用户提供金融信息匹配、信用借款咨询等综合服务。成立以来，向前金服在金融科技领域将大数据、云计算、SAAS、智能引擎等技术渗透于金融管理体系，并建立风险管理模式。";
 	}
 
 	@Override
 	public String platform() {
-		return "9888keji";
+		return "xiangqianjinfu";
 	}
 
 	@Override
 	public String home() {
-		return "9888keji.com";
+		return "xiangqianjinfu.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "金融工场";
+		return "向前金服";
 	}
 
 	@Override
@@ -48,8 +48,8 @@ public class JinRongGongChangSpider implements PapaSpider {
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new JinRongGongChangSpider().checkTelephone("13910252043"));
-//		System.out.println(new JinRongGongChangSpider().checkTelephone("18210538513"));
+//		System.out.println(new XiangQianJinFuSpider().checkTelephone("13910252045"));
+//		System.out.println(new XiangQianJinFuSpider().checkTelephone("18210538513"));
 //	}
 	
 	private String getImgCode() {
@@ -71,46 +71,13 @@ public class JinRongGongChangSpider implements PapaSpider {
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = HeadlessUtil.getChromeDriver(true, null, null);
-			chromeDriver.quicklyVisit("https://passport.9888keji.com/passport/login?service=https%3A%2F%2Fwww.9888keji.com%2ForderUser%2Flogin.shtml");
-			chromeDriver.addAjaxListener(new AjaxListener() {
-				
-				@Override
-				public String matcherUrl() {
-					return "passport/login";
-				}
-				
-				@Override
-				public String[] blockUrl() {
-					return null;
-				}
-				
-				@Override
-				public void ajax(Ajax ajax) throws Exception {
-					vcodeSuc = true;
-					checkTel = ajax.getResponse().contains("账号或密码错误") || ajax.getResponse().contains("锁定");
-				}
-
-				@Override
-				public String fixPostData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-
-				@Override
-				public String fixGetData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-			});
-			chromeDriver.findElementById("username").sendKeys(account);
-			chromeDriver.findElementById("password").sendKeys("lvnqwnk12mcxn");
-			for (int i = 0; i < 5; i++) {
-				chromeDriver.reInject();
-				chromeDriver.findElementByCssSelector("input[class='g-btn-login bl']").click();
-				Thread.sleep(3000);
-				if (vcodeSuc) {
-					break;
-				}
+			chromeDriver.get("https://www.xiangqianjinfu.com/login");
+			chromeDriver.findElementByCssSelector("input[class='el-input__inner']").sendKeys(account);
+			Thread.sleep(1000);
+			chromeDriver.mouseClick(chromeDriver.findElementByCssSelector(".login_submit"));
+			Thread.sleep(5000);
+			if (chromeDriver.checkElement(".login_submit") && chromeDriver.findElementByCssSelector(".login_submit").getText().contains("登录")) {
+				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

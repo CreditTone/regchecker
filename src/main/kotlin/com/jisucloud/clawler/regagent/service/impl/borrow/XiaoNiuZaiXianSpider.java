@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Slf4j
 @Component
-public class _91WangCaiSpider implements PapaSpider {
+public class XiaoNiuZaiXianSpider implements PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -48,18 +48,18 @@ public class _91WangCaiSpider implements PapaSpider {
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new _91WangCaiSpider().checkTelephone("13910252045"));
-//		System.out.println(new _91WangCaiSpider().checkTelephone("18210538513"));
+//		System.out.println(new XiaoNiuZaiXianSpider().checkTelephone("13910252045"));
+//		System.out.println(new XiaoNiuZaiXianSpider().checkTelephone("18210538513"));
 //	}
 	
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {
-				WebElement img = chromeDriver.findElementByCssSelector("#valicodeImg");
+				WebElement img = chromeDriver.findElementByCssSelector("#step1-img-code");
 				img.click();
 				Thread.sleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
-				return OCRDecode.decodeImageCode(body);
+				return OCRDecode.decodeImageCode(body, "ne6");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -71,50 +71,48 @@ public class _91WangCaiSpider implements PapaSpider {
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = HeadlessUtil.getChromeDriver(false, null, null);
-			chromeDriver.quicklyVisit("https://www.91wangcai.com/user/to_login");
+			chromeDriver.quicklyVisit("https://www.xiaoniu88.com/user/forgetpassword");
 			chromeDriver.addAjaxListener(new AjaxListener() {
 				
 				@Override
 				public String matcherUrl() {
-					return "oauth2/authorize";
+					return "https://www.xiaoniu88.com/user/forgetpassword/verifycode";
 				}
 				
 				@Override
 				public String[] blockUrl() {
-					return null;
+					return new String[] {"user/forgetpassword/step1"};
 				}
 				
 				@Override
 				public void ajax(Ajax ajax) throws Exception {
-					if (!ajax.getResponse().contains("验证码错误")) {
-						vcodeSuc = true;
-						checkTel = ajax.getResponse().contains("密码错误") || ajax.getResponse().contains("锁定");
-					}
+					vcodeSuc =  ajax.getResponse().contains("0") || ajax.getResponse().contains("9");
+					checkTel = ajax.getResponse().contains("0");
 				}
 
 				@Override
 				public String fixPostData() {
-					// TODO Auto-generated method stub
 					return null;
 				}
 
 				@Override
 				public String fixGetData() {
-					// TODO Auto-generated method stub
 					return null;
 				}
 			});
 			chromeDriver.findElementById("username").sendKeys(account);
-			chromeDriver.findElementById("pwd").sendKeys("lvnqwnk12mcxn");
 			for (int i = 0; i < 5; i++) {
-				WebElement validate = chromeDriver.findElementById("exa");
+				WebElement validate = chromeDriver.findElementById("randomCode");
 				validate.clear();
 				validate.sendKeys(getImgCode());
 				chromeDriver.reInject();
-				chromeDriver.findElementById("login_btn").click();
+				chromeDriver.findElementById("step1-btn").click();
 				Thread.sleep(3000);
 				if (vcodeSuc) {
 					break;
+				}
+				if (chromeDriver.getCurrentUrl().contains("user/forgetpassword/step1")) {
+					return true;
 				}
 			}
 		} catch (Exception e) {

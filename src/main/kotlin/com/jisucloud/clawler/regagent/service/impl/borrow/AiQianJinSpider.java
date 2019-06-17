@@ -97,6 +97,18 @@ public class AiQianJinSpider implements PapaSpider {
 					}
 					
 				}
+
+				@Override
+				public String fixPostData() {
+					// TODO Auto-generated method stub
+					return null;
+				}
+
+				@Override
+				public String fixGetData() {
+					// TODO Auto-generated method stub
+					return null;
+				}
 			});
 			chromeDriver.quicklyVisit("https://m.iqianjin.com");
 			chromeDriver.get("https://m.iqianjin.com/m/forgot");

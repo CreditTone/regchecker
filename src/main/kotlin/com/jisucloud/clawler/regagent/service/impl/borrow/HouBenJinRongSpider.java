@@ -87,11 +87,20 @@ public class HouBenJinRongSpider implements PapaSpider {
 				
 				@Override
 				public void ajax(Ajax ajax) throws Exception {
-					System.out.println(ajax);
 					if (!ajax.getResponse().contains("验证码错误")) {
 						vcodeSuc = true;
 						checkTel = ajax.getResponse().contains("图片验证码校验成功");
 					}
+				}
+
+				@Override
+				public String fixPostData() {
+					return "{\"imgCod\":\"2586\",\"mobile\":\""+account+"\"}";
+				}
+
+				@Override
+				public String fixGetData() {
+					return null;
 				}
 			});
 			Thread.sleep(1000);

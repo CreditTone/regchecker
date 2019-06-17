@@ -17,6 +17,9 @@ import okhttp3.Response;
 
 @Slf4j
 public class OCRDecode {
+	/**
+	 * 文字类型（n4：4位纯数字，n5：5位纯数字，n6:6位纯数字，e4：4位纯英文，e5：5位纯英文，e6：6位纯英文，ne4：4位英文数字，ne5：5位英文数字，ne6：6位英文数字），请准确填写，以免影响识别准确性。（其他类型，请搜索：通用文字识别-复杂版）
+	 */
 	
 	private static OkHttpClient okHttpClient  = new OkHttpClient.Builder()
 			.proxy(Proxy.NO_PROXY)
@@ -26,11 +29,15 @@ public class OCRDecode {
 	        .build();
 
 	public static String decodeImageCode(byte[] image) {
+		return decodeImageCode(image, "ne4");
+	}
+	
+	public static String decodeImageCode(byte[] image, String type) {
 		for (int i = 0; i < 3; i++) {
 			try {
 				FormBody formBody = new FormBody.Builder()
 		                .add("v_pic", Base64.getEncoder().encodeToString(image))
-		                .add("v_type", "ne4")
+		                .add("v_type", type)
 		                .build();
 				Request request = new Request.Builder()
 			            .url("http://txyzmsb.market.alicloudapi.com/yzm")

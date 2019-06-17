@@ -70,6 +70,18 @@ public class SuNingSpider implements PapaSpider {
 				public String[] blockUrl() {
 					return new String[] {"sms.do"};
 				}
+
+				@Override
+				public String fixPostData() {
+					// TODO Auto-generated method stub
+					return null;
+				}
+
+				@Override
+				public String fixGetData() {
+					// TODO Auto-generated method stub
+					return null;
+				}
 			});
 			chromeDriver.get("https://reg.suning.com/person.do?myTargetUrl=https%3A%2F%2Fwww.suning.com%2F");
 			Thread.sleep(2000);

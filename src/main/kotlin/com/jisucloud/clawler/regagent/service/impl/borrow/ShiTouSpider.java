@@ -54,7 +54,7 @@ public class ShiTouSpider implements PapaSpider {
 		try {
 			chromeDriver = HeadlessUtil.getChromeDriver(true, null, null);
 			String url = "https://www.shitou.com/login";
-			chromeDriver.setAjaxListener(new AjaxListener() {
+			chromeDriver.addAjaxListener(new AjaxListener() {
 				
 				@Override
 				public String matcherUrl() {
@@ -68,6 +68,18 @@ public class ShiTouSpider implements PapaSpider {
 				
 				@Override
 				public String[] blockUrl() {
+					return null;
+				}
+
+				@Override
+				public String fixPostData() {
+					// TODO Auto-generated method stub
+					return null;
+				}
+
+				@Override
+				public String fixGetData() {
+					// TODO Auto-generated method stub
 					return null;
 				}
 			});

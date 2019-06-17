@@ -71,6 +71,18 @@ public class AiQiyiSpider implements PapaSpider {
 				public String[] blockUrl() {
 					return null;
 				}
+
+				@Override
+				public String fixPostData() {
+					// TODO Auto-generated method stub
+					return null;
+				}
+
+				@Override
+				public String fixGetData() {
+					// TODO Auto-generated method stub
+					return null;
+				}
 			});
 			chromeDriver.get("http://www.iqiyi.com/iframe/loginreg?ver=1");
 			Thread.sleep(2000);

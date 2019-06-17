@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.money;
+package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.deepsearch.selenium.Ajax;
@@ -70,6 +70,18 @@ public class MinDaiService implements PapaSpider {
                 public String[] blockUrl() {
                     return new String[]{"common/captcha?"};
                 }
+
+				@Override
+				public String fixPostData() {
+					// TODO Auto-generated method stub
+					return null;
+				}
+
+				@Override
+				public String fixGetData() {
+					// TODO Auto-generated method stub
+					return null;
+				}
             });
             chromeDriver.get(url);
             Thread.sleep(3000);

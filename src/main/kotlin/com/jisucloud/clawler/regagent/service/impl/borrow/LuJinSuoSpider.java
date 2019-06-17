@@ -97,6 +97,18 @@ public class LuJinSuoSpider implements PapaSpider {
 						lastMsg = ajax.getResponse();
 					}
 				}
+
+				@Override
+				public String fixPostData() {
+					// TODO Auto-generated method stub
+					return null;
+				}
+
+				@Override
+				public String fixGetData() {
+					// TODO Auto-generated method stub
+					return null;
+				}
 			});
 			WebElement identitycard = chromeDriver.findElementByCssSelector("input[class='input-item identitycard u-full']");
 			//chromeDriver.keyboardInput(identitycard, account);

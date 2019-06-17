@@ -24,6 +24,8 @@ public class HeadlessUtil {
 	
 	public static String CHROME_DRIVER_SERVER = "/root/chromedriver";
 	
+	public static HttpsProxy httpsProxy = new HttpsProxy("http-dyn.abuyun.com", 9020, "H6224X2YF291C2AD", "2EADA65DEE87F60C");
+	
 	static {
 		if (System.getProperty("os.name").toLowerCase().contains("mac")) {
 			CHROME_DRIVER_SERVER = "/Users/stephen/Downloads/chromedriver";

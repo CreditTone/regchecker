@@ -94,6 +94,18 @@ public class XiaoShuShiDaiSpider implements PapaSpider {
 					JSONObject result = JSON.parseObject(ajax.getResponse());
 					checkTel = result.getIntValue("status") == 1;
 				}
+
+				@Override
+				public String fixPostData() {
+					// TODO Auto-generated method stub
+					return null;
+				}
+
+				@Override
+				public String fixGetData() {
+					// TODO Auto-generated method stub
+					return null;
+				}
 			});
 			chromeDriver.findElementById("password-mobile").sendKeys(account);
 			for (int i = 0; i < 5; i++) {

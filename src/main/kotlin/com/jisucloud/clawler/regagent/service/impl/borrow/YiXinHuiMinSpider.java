@@ -103,6 +103,18 @@ public class YiXinHuiMinSpider implements PapaSpider {
 						checkTel = result.getBooleanValue("success");
 					}
 				}
+
+				@Override
+				public String fixPostData() {
+					// TODO Auto-generated method stub
+					return null;
+				}
+
+				@Override
+				public String fixGetData() {
+					// TODO Auto-generated method stub
+					return null;
+				}
 			});
 			chromeDriver.findElementById("mobile").sendKeys(account);
 			for (int i = 0; i < 5; i++) {

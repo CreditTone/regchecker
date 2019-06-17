@@ -10,13 +10,13 @@ import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import org.openqa.selenium.WebElement;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Random;
 
 @Slf4j
-@Component
-public class _91WangCaiSpider implements PapaSpider {
+//@Component
+public class ZhongYeXingRongSpider implements PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -24,22 +24,22 @@ public class _91WangCaiSpider implements PapaSpider {
 
 	@Override
 	public String message() {
-		return "91旺财是九一金融旗下互联网网络借贷信息中介平台,北京市互联网金融行业协会副会长单位,中国互联网金融协会会员理事单位,公司法人许泽玮先生现任北京市互联网金融协会。";
+		return "中业兴融(zyxr.com)是专业可信赖的P2P网贷平台,拥有超过100万注册用户,为用户提供专业透明的投资渠道和优质先进的科技金融服务,用户可通过平台进行定期投资获得稳定。";
 	}
 
 	@Override
 	public String platform() {
-		return "91wangcai";
+		return "zyxr";
 	}
 
 	@Override
 	public String home() {
-		return "91wangcai.com";
+		return "zyxr.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "91旺财";
+		return "中业兴融";
 	}
 
 	@Override
@@ -47,19 +47,19 @@ public class _91WangCaiSpider implements PapaSpider {
 		return new String[] {"P2P", "借贷"};
 	}
 
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new _91WangCaiSpider().checkTelephone("13910252045"));
-//		System.out.println(new _91WangCaiSpider().checkTelephone("18210538513"));
-//	}
+	public static void main(String[] args) throws InterruptedException {
+		System.out.println(new ZhongYeXingRongSpider().checkTelephone("13910252045"));
+		System.out.println(new ZhongYeXingRongSpider().checkTelephone("18210538513"));
+	}
 	
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {
-				WebElement img = chromeDriver.findElementByCssSelector("#valicodeImg");
+				WebElement img = chromeDriver.findElementByCssSelector(".form-control img");
 				img.click();
 				Thread.sleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
-				return OCRDecode.decodeImageCode(body);
+				return OCRDecode.decodeImageCode(body, "ne5");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -70,13 +70,15 @@ public class _91WangCaiSpider implements PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(false, null, null);
-			chromeDriver.quicklyVisit("https://www.91wangcai.com/user/to_login");
+			chromeDriver = HeadlessUtil.getChromeDriver(false, null , ANDROID_USER_AGENT);
+			chromeDriver.get("https://www.zyxr.com/");
+			chromeDriver.get("https://www.zyxr.com/wap/?chl=bd-keyword-wap#/login?backUrl=https%3A%2F%2Fwww.zyxr.com%2Fwap%2F%3Fchl%3Dbd-keyword-wap%23%2Flogin");
+			Thread.sleep(3000);
 			chromeDriver.addAjaxListener(new AjaxListener() {
 				
 				@Override
 				public String matcherUrl() {
-					return "oauth2/authorize";
+					return "https://www.zyxr.com/UserWeb/login.json";
 				}
 				
 				@Override
@@ -104,14 +106,14 @@ public class _91WangCaiSpider implements PapaSpider {
 					return null;
 				}
 			});
-			chromeDriver.findElementById("username").sendKeys(account);
-			chromeDriver.findElementById("pwd").sendKeys("lvnqwnk12mcxn");
+			chromeDriver.findElementByCssSelector("input[type='tel']").sendKeys(account);
+			chromeDriver.findElementByCssSelector("input[type='password']").sendKeys("x19cn10xn" + new Random().nextInt(100000));
 			for (int i = 0; i < 5; i++) {
-				WebElement validate = chromeDriver.findElementById("exa");
+				WebElement validate = chromeDriver.findElementByCssSelector("input[placeholder='请输入图形验证码']");
 				validate.clear();
 				validate.sendKeys(getImgCode());
 				chromeDriver.reInject();
-				chromeDriver.findElementById("login_btn").click();
+				chromeDriver.findElementById("button[class='btn btn-primary btn-block']").click();
 				Thread.sleep(3000);
 				if (vcodeSuc) {
 					break;

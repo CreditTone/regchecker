@@ -76,6 +76,18 @@ public class JuRenSpider implements PapaSpider {
 				public String[] blockUrl() {
 					return new String[] {"common/captcha?"};
 				}
+
+				@Override
+				public String fixPostData() {
+					// TODO Auto-generated method stub
+					return null;
+				}
+
+				@Override
+				public String fixGetData() {
+					// TODO Auto-generated method stub
+					return null;
+				}
 			});
 			chromeDriver.get(url);
 			Thread.sleep(3000);

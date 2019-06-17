@@ -100,6 +100,18 @@ public class AiTouZiSpider implements PapaSpider {
 					}
 					
 				}
+
+				@Override
+				public String fixPostData() {
+					// TODO Auto-generated method stub
+					return null;
+				}
+
+				@Override
+				public String fixGetData() {
+					// TODO Auto-generated method stub
+					return null;
+				}
 			});
 			chromeDriver.get("https://www.itouzi.com/login");
 			Thread.sleep(2000);
