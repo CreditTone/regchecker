@@ -56,7 +56,7 @@ public class KeLaSpider implements PapaSpider {
 			String url = "http://www.kela.cn/pc.php?m=User&c=AccountApi&a=checkEmailPhone&emailPhone="+account;
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "/www.kela.cn")
+					.addHeader("Host", "www.kela.cn")
 					.addHeader("Referer", "http://www.kela.cn/home/index/index")
 					.build();
 			Response response = okHttpClient.newCall(request).execute();

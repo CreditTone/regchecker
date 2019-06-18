@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class jiQianBaoSpider implements PapaSpider {
+public class JiQianBaoSpider implements PapaSpider {
 
 
     @Override

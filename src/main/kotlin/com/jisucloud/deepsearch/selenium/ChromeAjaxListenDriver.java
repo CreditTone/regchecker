@@ -155,6 +155,9 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 	}
 	
 	public void reInject() {
+		if (ajaxListeners.isEmpty()) {
+			return;
+		}
 		if (!isXHRMainListener()) {
 			executeScript(AjaxListererJs.ArrayQueueJS);
 			log.info("arrayqueue inject success");
@@ -282,19 +285,24 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 	}
 	
 	public void keyboardInput(WebElement webElement, String text) throws Exception {
-		mouseClick(webElement);
+		keyboardInput(webElement, text, true);
+	}
+	
+	public void keyboardInput(WebElement webElement, String text, boolean needClick) throws Exception {
+		if (needClick)
+			mouseClick(webElement);
 		int inputed = 0;
 		int backTimes = 0;
 		int prebackNums = random.nextInt(text.length() / 3);
 		for (int k = 0; k < text.length(); k++) {
 			webElement.sendKeys(String.valueOf(text.charAt(k)));
-			Thread.sleep(random.nextInt(1000) + 500);
+			Thread.sleep(random.nextInt(500) + 300);
 			inputed ++;
 			int backNum = inputed >= 3 && backTimes <= prebackNums ?random.nextInt(3) : 0;
 			backTimes += backNum;
 			for (int i = 0; i < backNum; i++) {
 				webElement.sendKeys(Keys.BACK_SPACE);
-				Thread.sleep(random.nextInt(1530) + 500);
+				Thread.sleep(random.nextInt(500) + 300);
 				k--;
 			}
 		}

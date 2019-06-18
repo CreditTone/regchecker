@@ -19,7 +19,7 @@ public class PersistenceCookieJar implements CookieJar {
 	private Map<String,List<Cookie>> domainToCookies = new ConcurrentHashMap<>();
 	
 	public void saveCookies(String url,Set<org.openqa.selenium.Cookie> cookies) {
-		//log.info("saveCookies:"+cookies.toString());
+		log.info("saveCookies:"+cookies.toString());
 		List<Cookie> cache = new ArrayList<>();
 		Iterator<org.openqa.selenium.Cookie> iter = cookies.iterator();
 		while (iter.hasNext()) {

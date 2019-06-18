@@ -102,46 +102,46 @@ class CheckService {
         }
         return resultList
     }
-
-    /**
-     * 异步查询并存储到redis
-     * key=info.account
-     */
-    fun doAsyncCheckAndSave(info: Info) {
-        if (redisTemplate.hasKey("RegAgent-$info.account")) return
-        GlobalScope.async {
-            var resultList = mutableListOf<Any>()
-            var list = SpiderMap.map.map {
-                return@map async {
-                    val k = it.key
-                    val v = it.value.javaClass.newInstance() as PapaSpider
-                    if (!info.exclusions.contains(k)) {
-                        var checkResult = false
-                        try {
-                            checkResult = v.checkTelephone(info.account)
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-                        //单纯是手机好的时候不调用Email检测方法
-                        val checkEmail = if (Regex("\\d{11}").matches(info.account)) false else v.checkEmail(info.account)
-                        resultList.add(Result(v.message(), v.home(), v.platform(), v.platformName(), checkEmail, checkResult, v.fields, v.tags()))
-                    }
-                }
-            }
-            runBlocking {
-                list.map {
-                    it.await()
-                }
-                redisTemplate.boundValueOps("RegAgent-$info.account").set(JSON.toJSONString(resultList), 24, TimeUnit.HOURS)
-            }
-        }
-    }
-
-    /**
-     * 获取异步查询结果
-     * key=info.account
-     */
-    fun doAsyncGetResult(account: String): Pair<Boolean, String?> {
-        return if (redisTemplate.hasKey("RegAgent-$account")) Pair(true, redisTemplate.boundValueOps(account).get()) else Pair(false, null)
-    }
+//------------------------------------------------------
+//    /**
+//     * 异步查询并存储到redis
+//     * key=info.account
+//     */
+//    fun doAsyncCheckAndSave(info: Info) {
+//        if (redisTemplate.hasKey("RegAgent-$info.account")) return
+//        GlobalScope.async {
+//            var resultList = mutableListOf<Any>()
+//            var list = SpiderMap.map.map {
+//                return@map async {
+//                    val k = it.key
+//                    val v = it.value.javaClass.newInstance() as PapaSpider
+//                    if (!info.exclusions.contains(k)) {
+//                        var checkResult = false
+//                        try {
+//                            checkResult = v.checkTelephone(info.account)
+//                        } catch (e: Exception) {
+//                            e.printStackTrace()
+//                        }
+//                        //单纯是手机好的时候不调用Email检测方法
+//                        val checkEmail = if (Regex("\\d{11}").matches(info.account)) false else v.checkEmail(info.account)
+//                        resultList.add(Result(v.message(), v.home(), v.platform(), v.platformName(), checkEmail, checkResult, v.fields, v.tags()))
+//                    }
+//                }
+//            }
+//            runBlocking {
+//                list.map {
+//                    it.await()
+//                }
+//                redisTemplate.boundValueOps("RegAgent-$info.account").set(JSON.toJSONString(resultList), 24, TimeUnit.HOURS)
+//            }
+//        }
+//    }
+//
+//    /**
+//     * 获取异步查询结果
+//     * key=info.account
+//     */
+//    fun doAsyncGetResult(account: String): Pair<Boolean, String?> {
+//        return if (redisTemplate.hasKey("RegAgent-$account")) Pair(true, redisTemplate.boundValueOps(account).get()) else Pair(false, null)
+//    }
 }

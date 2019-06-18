@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
@@ -15,60 +15,59 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class SouFangWangSpider implements PapaSpider {
+public class PuHuiYunTongSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
-
+	
 	@Override
 	public String message() {
-		return "搜房房地产网是中国最大的房地产家居网络平台，提供全面及时的房地产新闻资讯内容，为所有楼盘提供网上浏览、业主论坛和社区网站，房地产精英人物个人主页，是国内房地产媒体及业内外网友公认的全球最大的房地产网络平台，搜房引擎给网友提供房地产网站中速度快捷内容全面的智能搜索。";
+		return "普汇云通汽车供应链金融平台(www.phyt88.com),是专注于汽车产业链金融领域的创新互联网投融资平台,拥有强力集团背景支持,普汇云通团队由专业的金融、互联网、汽车。";
 	}
 
 	@Override
 	public String platform() {
-		return "fang";
+		return "phyt88";
 	}
 
 	@Override
 	public String home() {
-		return "fang.com";
+		return "phyt88.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "搜房网";
+		return "普汇云通";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"房产家居"};
+		return new String[] {"P2P", "消费分期" , "车贷" , "借贷"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new SouFangWangSpider().checkTelephone("18210538500"));
-//		System.out.println(new SouFangWangSpider().checkTelephone("18210538513"));
+//		System.out.println(new PuHuiYunTongSpider().checkTelephone("15985268904"));
+//		System.out.println(new PuHuiYunTongSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://passport.fang.com/login.api";
+			String url = "https://www.phyt88.com/v3/login/login.jso";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("uid", account)
-	                .add("pwd", "3306d624b95730933d0fa5a74c6133142b08f8fe7bbcd9e5ef5750f5540c689792eae4d26888c9efd0451ec4db4e852756dbd113c5a370d446cd0fa728413b3097345787f093b46e41f51aec0d913f461a931d0d8bf1b580c293e25970b8f4195fee2f024c3313b730238bb989abd69610e4df1a53125ab9762ca9781375012a")
-	                .add("Service", "soufun-passport-web")
-	                .add("AutoLogin", "1")
+	                .add("username", account)
+	                .add("password", "9fd21a1b199f00b3481284ded45506b5032cbef1c4a48bcb1f181dbe87a9b3d6c274674d44e62695eb658778585327e7c8b1515efc8e390c97fff4654ee5891eb8f93f062cc90cb72eb794cb51a9ba79d73bc09976569c0d25a9445190de4b80ee388d5a03a766faaac6033124a827c3f2660165c69d28453ec0aa20fd84554d")
+	                .add("comfrom", "")
 	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "passport.fang.com")
-					.addHeader("Referer", "https://passport.fang.com/?backurl=https://www.fang.com/")
+					.addHeader("Host", "www.phyt88.com")
+					.addHeader("Referer", "https://www.phyt88.com/phyt/register.shtml")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("密码错误")) {
+			if (response.body().string().contains("密码不正确")) {
 				return true;
 			}
 		} catch (Exception e) {

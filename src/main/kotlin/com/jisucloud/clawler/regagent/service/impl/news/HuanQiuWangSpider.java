@@ -1,6 +1,7 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl.news;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -10,65 +11,66 @@ import okhttp3.Response;
 
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class SouFangWangSpider implements PapaSpider {
+public class HuanQiuWangSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "搜房房地产网是中国最大的房地产家居网络平台，提供全面及时的房地产新闻资讯内容，为所有楼盘提供网上浏览、业主论坛和社区网站，房地产精英人物个人主页，是国内房地产媒体及业内外网友公认的全球最大的房地产网络平台，搜房引擎给网友提供房地产网站中速度快捷内容全面的智能搜索。";
+		return "环球网是中国领先的国际资讯门户,拥有独立采编权的中央重点新闻网站。环球网秉承环球时报的国际视野,力求及时、客观、权威、独立地报道新闻,致力于应用前沿的互联网。";
 	}
 
 	@Override
 	public String platform() {
-		return "fang";
+		return "huanqiu";
 	}
 
 	@Override
 	public String home() {
-		return "fang.com";
+		return "huanqiu.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "搜房网";
+		return "环球网";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"房产家居"};
+		return new String[] {"新闻资讯"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new SouFangWangSpider().checkTelephone("18210538500"));
-//		System.out.println(new SouFangWangSpider().checkTelephone("18210538513"));
+//		System.out.println(new HuanQiuWangSpider().checkTelephone("18210538000"));
+//		System.out.println(new HuanQiuWangSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://passport.fang.com/login.api";
+			String url = "https://i.huanqiu.com/index.php?g=auth&m=members&a=check_mobile";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("uid", account)
-	                .add("pwd", "3306d624b95730933d0fa5a74c6133142b08f8fe7bbcd9e5ef5750f5540c689792eae4d26888c9efd0451ec4db4e852756dbd113c5a370d446cd0fa728413b3097345787f093b46e41f51aec0d913f461a931d0d8bf1b580c293e25970b8f4195fee2f024c3313b730238bb989abd69610e4df1a53125ab9762ca9781375012a")
-	                .add("Service", "soufun-passport-web")
-	                .add("AutoLogin", "1")
+	                .add("mobile", account)
 	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "passport.fang.com")
-					.addHeader("Referer", "https://passport.fang.com/?backurl=https://www.fang.com/")
+					.addHeader("Host", "i.huanqiu.com")
+					.addHeader("Referer", "https://i.huanqiu.com/register")
+					.addHeader("X-Requested-With", "XMLHttpRequest")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("密码错误")) {
+			String res = StringUtil.unicodeToString(response.body().string());
+			System.out.println(res);
+			if (res.contains("已存在")) {
 				return true;
 			}
 		} catch (Exception e) {

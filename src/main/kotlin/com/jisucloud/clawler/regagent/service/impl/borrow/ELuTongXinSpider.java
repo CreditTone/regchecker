@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 
@@ -15,60 +15,57 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class SouFangWangSpider implements PapaSpider {
+public class ELuTongXinSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
-
+	
 	@Override
 	public String message() {
-		return "搜房房地产网是中国最大的房地产家居网络平台，提供全面及时的房地产新闻资讯内容，为所有楼盘提供网上浏览、业主论坛和社区网站，房地产精英人物个人主页，是国内房地产媒体及业内外网友公认的全球最大的房地产网络平台，搜房引擎给网友提供房地产网站中速度快捷内容全面的智能搜索。";
+		return "e路同心是由深圳市同心科创金融服务有限公司运营，于2015年4月18日正式上线，是由深圳市同心投资基金股份公司及广东省粤科金融集团联袂打造的国资系P2P平台，致力于为投资者提供优质的投资理财信息服务。";
 	}
 
 	@Override
 	public String platform() {
-		return "fang";
+		return "88bank";
 	}
 
 	@Override
 	public String home() {
-		return "fang.com";
+		return "88bank.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "搜房网";
+		return "e路同心";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"房产家居"};
+		return new String[] {"P2P", "借贷"};
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new SouFangWangSpider().checkTelephone("18210538500"));
-//		System.out.println(new SouFangWangSpider().checkTelephone("18210538513"));
+//		System.out.println(new ELuTongXinSpider().checkTelephone("15985268904"));
+//		System.out.println(new ELuTongXinSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://passport.fang.com/login.api";
+			String url = "https://www.88bank.com/secure/register/check-account";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("uid", account)
-	                .add("pwd", "3306d624b95730933d0fa5a74c6133142b08f8fe7bbcd9e5ef5750f5540c689792eae4d26888c9efd0451ec4db4e852756dbd113c5a370d446cd0fa728413b3097345787f093b46e41f51aec0d913f461a931d0d8bf1b580c293e25970b8f4195fee2f024c3313b730238bb989abd69610e4df1a53125ab9762ca9781375012a")
-	                .add("Service", "soufun-passport-web")
-	                .add("AutoLogin", "1")
+	                .add("account", account)
 	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "passport.fang.com")
-					.addHeader("Referer", "https://passport.fang.com/?backurl=https://www.fang.com/")
+					.addHeader("Host", "www.88bank.com")
+					.addHeader("Referer", "https://www.88bank.com/secure/register")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("密码错误")) {
+			if (response.body().string().contains("1")) {
 				return true;
 			}
 		} catch (Exception e) {
