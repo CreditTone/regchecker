@@ -1,6 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.health;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -15,29 +16,29 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class ChunYuSpider implements PapaSpider {
+public class AiAiYiSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "春雨医生提供真实医生的在线医疗健康咨询服务。由公立医院医师解答用户的健康问题。";
+		return "爱爱医是面向医务人员的医学、药学专业知识与经验交流平台，并为医生提供国家医学考试中心信息服务的专业医学网站。";
 	}
 
 	@Override
 	public String platform() {
-		return "chunyuyisheng";
+		return "iiyi";
 	}
 
 	@Override
 	public String home() {
-		return "chunyuyisheng.com";
+		return "iiyi.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "春雨医生";
+		return "爱爱医";
 	}
 
 	@Override
@@ -46,26 +47,28 @@ public class ChunYuSpider implements PapaSpider {
 	}
 
 //	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new ChunYuSpider().checkTelephone("13910252045"));
-//		System.out.println(new ChunYuSpider().checkTelephone("13910252040"));
+//		System.out.println(new AiAiYiSpider().checkTelephone("13910252045"));
+//		System.out.println(new AiAiYiSpider().checkTelephone("18210538513"));
 //	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://api.chunyuyisheng.com/api/accounts/is_registered/?app=0&client=me.chunyu.ChunyuDoctor&platform=android&version=8.6.0&app_ver=8.6.0&imei=352284040670808&device_id=352284040670808&phoneType=8692-A00_by_QiKU&vendor=anzhi";
+			String url = "https://account.iiyi.com/index/checkbind";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("username", account)
+	                .add("bind", account)
 	                .build();
 			Request request = new Request.Builder().url(url)
-					.addHeader("User-Agent", "Chunyuyisheng/8.6.0 (Android 4.4.2;8692-A00_by_QiKU)")
-					.addHeader("Host", "api.chunyuyisheng.com")
+					.addHeader("User-Agent", CHROME_USER_AGENT)
+					.addHeader("Host", "account.iiyi.com")
+					.addHeader("Referer", "https://account.iiyi.com/register?referer=https%3A%2F%2Fwww.iiyi.com%2F")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
 			String res = response.body().string();
-			if (res.contains("is_registered\": true") || res.contains("is_registered\":true")) {
+			res = StringUtil.unicodeToString(res);
+			if (res.contains("已被使用")) {
 				return true;
 			}
 		} catch (Exception e) {

@@ -22,11 +22,11 @@ import com.jisucloud.clawler.regagent.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
+public class ChromeAjaxHookDriver extends ChromeDriver implements Runnable{
 	
 	public static final Random random = new Random();
 	
-	private List<AjaxListener> ajaxListeners = new ArrayList<>();
+	private List<AjaxHook> ajaxHooks = new ArrayList<>();
 	
 	private Thread readAjaxQueueThread;
 	
@@ -34,7 +34,7 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 	
 	private Map<String,Long> respTime = new ConcurrentHashMap<>();
 	
-	public ChromeAjaxListenDriver(ChromeOptions options) {
+	public ChromeAjaxHookDriver(ChromeOptions options) {
 		super(options);
 		readAjaxQueueThread = new Thread(this);
 		readAjaxQueueThread.start();
@@ -71,7 +71,7 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 	public boolean isXHRListener(String id) {
 		Object ret = null;
 		try {
-			String script = "return window.injectedListener != undefined && window.injectedListener['"+id+"'] != undefined;";
+			String script = "return window.injectedHookListener != undefined && window.injectedHookListener['"+id+"'] != undefined;";
 			ret = executeScript(script);
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -83,7 +83,7 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 	public boolean isXHRMainListener() {
 		Object ret = null;
 		try {
-			String script = "return window.injectedListener != undefined;";
+			String script = "return window.injectedHookListener != undefined;";
 			ret = executeScript(script);
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -129,16 +129,8 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 		return ajax;
 	}
 	
-	@Deprecated
-	public void setAjaxListener(AjaxListener ajaxListener) {
-		ajaxListeners.add(ajaxListener);
-		if (getCurrentUrl().startsWith("http")) {
-			reInject();
-		}
-	}
-	
-	public void addAjaxListener(AjaxListener ajaxListener) {
-		ajaxListeners.add(ajaxListener);
+	public void addAjaxHook(AjaxHook ajaxHook) {
+		ajaxHooks.add(ajaxHook);
 		if (getCurrentUrl().startsWith("http")) {
 			reInject();
 		}
@@ -153,7 +145,7 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 	}
 	
 	public void reInject() {
-		if (ajaxListeners.isEmpty()) {
+		if (ajaxHooks.isEmpty()) {
 			return;
 		}
 		if (!isXHRMainListener()) {
@@ -168,26 +160,17 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 			executeScript(AjaxListererJs.AjaxPushResultJS);
 			log.info("ajaxpushresultjs inject success");
 		}
-		for (AjaxListener ajaxListener : ajaxListeners) {
-			injectedListener(ajaxListener);
+		for (AjaxHook ajaxHook : ajaxHooks) {
+			injectHook(ajaxHook);
 		}
 	}
 	
 	
-	private void injectedListener(AjaxListener ajaxListener) {
-		String id = Integer.toHexString(ajaxListener.hashCode());
+	private void injectHook(AjaxHook ajaxHook) {
+		String id = Integer.toHexString(ajaxHook.hashCode());
 		if (!isXHRListener(id)) {
 			sleep(300);
-			executeScript("window.injectedListener['"+ id +"'] = '"+ajaxListener.matcherUrl()+"';");
-			for (int i = 0;ajaxListener.blockUrl() != null && i < ajaxListener.blockUrl().length; i++) {
-				executeScript("window.blockAjax.push('"+ ajaxListener.blockUrl()[i] +"');");
-			}
-			if (ajaxListener.fixPostData() != null) {
-				executeScript("window.fixPostData['"+ ajaxListener.matcherUrl() +"'] = '"+ajaxListener.fixPostData()+"';");
-			}
-			if (ajaxListener.fixGetData() != null) {
-				executeScript("window.fixGetData['"+ ajaxListener.matcherUrl() +"'] = '"+ajaxListener.fixGetData()+"';");
-			}
+			executeScript("window.injectedHookListener['"+ id +"'] = '"+ajaxHook.matcherUrl()+"';");
 			sleep(300);
 		}
 	}
@@ -218,17 +201,6 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 	}
 	
 	private void processAjax(Ajax ajax) {
-		for (AjaxListener ajaxListener : ajaxListeners) {
-			if (ajax != null) {
-				if (ajax.getUrl().contains(ajaxListener.matcherUrl()) || ajaxListener.matcherUrl().contains(ajax.getUrl())) {
-					try {
-						ajaxListener.ajax(ajax);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
 	}
 
 	@Override

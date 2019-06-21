@@ -22,6 +22,34 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>net.lightbody.bmp</groupId>
+			<artifactId>browsermob-core</artifactId>
+			<version>2.1.5</version>
+		</dependency>
+		<!-- existing LittleProxy dependency -->
+		<dependency>
+			<groupId>org.littleshoot</groupId>
+			<artifactId>littleproxy</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+		<!-- new dependency on the MITM module -->
+		<dependency>
+			<groupId>net.lightbody.bmp</groupId>
+			<artifactId>mitm</artifactId>
+			<version>2.1.4</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on -->
+		<!-- <dependency> <groupId>org.bouncycastle</groupId> <artifactId>bcprov-jdk15on</artifactId> 
+			<version>1.58</version> </dependency> -->
+
+		<!-- <dependency> <groupId>org.bouncycastle</groupId> <artifactId>bcprov-jdk16</artifactId> 
+			<version>1.46</version> </dependency> -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>21.0</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
