@@ -2,12 +2,18 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
-import com.jisucloud.deepsearch.selenium.Ajax;
-import com.jisucloud.deepsearch.selenium.AjaxListener;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
+import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
+import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
+import com.jisucloud.deepsearch.selenium.mitm.HookTracker;
 
+import io.netty.handler.codec.http.DefaultHttpResponse;
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
+import io.netty.handler.codec.http.HttpResponseDecoder;
+import io.netty.handler.codec.http.HttpResponseStatus;
 import lombok.extern.slf4j.Slf4j;
+import net.lightbody.bmp.util.HttpMessageContents;
+import net.lightbody.bmp.util.HttpMessageInfo;
 
 import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Component;
@@ -18,7 +24,7 @@ import java.util.Map;
 @Component
 public class PengJinSuoSpider implements PapaSpider {
 
-	private ChromeAjaxListenDriver chromeDriver;
+	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
 
@@ -70,39 +76,33 @@ public class PengJinSuoSpider implements PapaSpider {
 
 	@Override
 	public boolean checkTelephone(String account) {
+		HookTracker hookTracker = HookTracker.builder().addUrl("login/phoneCheckFindPwd.do").isPOST().build();
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(false, null, null);
-			chromeDriver.quicklyVisit("http://www.penging.com/findPwd.do");
-			chromeDriver.addAjaxListener(new AjaxListener() {
+			chromeDriver = ChromeAjaxHookDriver.newInstance(false, false, CHROME_USER_AGENT);
+			chromeDriver.get("http://www.penging.com/findPwd.do");
+			chromeDriver.addAjaxHook(new AjaxHook() {
 				
 				@Override
-				public String matcherUrl() {
-					return "http://www.penging.com/login/phoneCheckFindPwd.do";
-				}
-				
-				@Override
-				public String[] blockUrl() {
-					return null;
-				}
-				
-				@Override
-				public void ajax(Ajax ajax) throws Exception {
-					if (!vcodeSuc && !ajax.getResponse().contains("验证码错误")) {
+				public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+					if (!contents.getTextContents().contains("验证码错误")) {
 						vcodeSuc = true;
-						checkTel = ajax.getResponse().contains("密码错误") || ajax.getResponse().contains("锁定");
+						checkTel = contents.getTextContents().equals("true");
 					}
 				}
-
+				
 				@Override
-				public String fixPostData() {
-					//不能实时通信
-					return "MB_PHN="+account+"&c="+code+"&CI_NM=";
+				public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+					if (contents.getTextContents().contains("SMSSendType")) {//要发短信了
+						HttpResponse httpResponse = new DefaultHttpResponse(request.protocolVersion(), HttpResponseStatus.NO_CONTENT);
+						System.out.println("打断发短信");
+						return httpResponse;
+					}
+					return null;
 				}
 
 				@Override
-				public String fixGetData() {
-					// TODO Auto-generated method stub
-					return null;
+				public HookTracker getHookTracker() {
+					return hookTracker;
 				}
 			});
 			chromeDriver.findElementById("MB_PHN").sendKeys(account);

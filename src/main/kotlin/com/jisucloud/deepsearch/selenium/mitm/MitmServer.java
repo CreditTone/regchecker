@@ -22,11 +22,15 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 
 public class MitmServer implements RequestFilter,ResponseFilter {
 	
+	public static void main(String[] args) {
+		MitmServer.getInstance();
+	}
+	
 	private static Object locker = new Object();
 	
 	private static final int BIND_PORT = 8119;
 	
-	public static MitmServer instance;
+	private static MitmServer instance;
 	
 	private BrowserMobProxy proxy = null;
 	
@@ -54,7 +58,7 @@ public class MitmServer implements RequestFilter,ResponseFilter {
 		proxy.setTrustAllServers(true);
 		proxy.enableHarCaptureTypes(CaptureType.REQUEST_CONTENT, CaptureType.RESPONSE_CONTENT);
 		try {
-			proxy.start(BIND_PORT, InetAddress.getByName("127.0.0.1"));
+			proxy.start(BIND_PORT, InetAddress.getByName("0.0.0.0"));
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
@@ -81,7 +85,9 @@ public class MitmServer implements RequestFilter,ResponseFilter {
 	}
 	
 	public void removeHooks(String hookIdValue) {
-		hookers.remove(hookIdValue);
+		if (hookIdValue != null && hookers.containsKey(hookIdValue)) {
+			hookers.remove(hookIdValue);
+		}
 	}
 	
 	private List<AjaxHook> getHookers(String hookIdValue) {
@@ -91,14 +97,13 @@ public class MitmServer implements RequestFilter,ResponseFilter {
 	
 	@Override
 	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
-		System.out.println("------------------------request-------------------------");
-		System.out.println("url:" + messageInfo.getOriginalUrl());
-		System.out.println("isHttps:" + messageInfo.isHttps());
-		System.out.println("method:" + messageInfo.getOriginalRequest().method());
-		System.out.println("headers:" + messageInfo.getOriginalRequest().headers());
-		System.out.println("contentType:" + contents.getContentType());
-		System.out.println("textContents:" + contents.getTextContents());
-		System.out.println("decoderResult:" + messageInfo.getOriginalRequest().decoderResult().toString());
+//		System.out.println("------------------------request-------------------------");
+//		System.out.println("url:" + messageInfo.getOriginalUrl());
+//		System.out.println("isHttps:" + messageInfo.isHttps());
+//		System.out.println("method:" + messageInfo.getOriginalRequest().method());
+//		System.out.println("headers:" + messageInfo.getOriginalRequest().headers());
+//		System.out.println("contentType:" + contents.getContentType());
+//		System.out.println("textContents:" + contents.getTextContents());
 		HttpHeaders headers = messageInfo.getOriginalRequest().headers();
 		if (headers == null || headers.get(ChromeAjaxHookDriver.hookIdName) == null) {
 			return null;
@@ -108,7 +113,9 @@ public class MitmServer implements RequestFilter,ResponseFilter {
 		if (results != null) {
 			HttpResponse httpResponse = null;
 			for (AjaxHook ajaxHook : results) {
-				httpResponse = ajaxHook.filterRequest(request, contents, messageInfo);
+				if (ajaxHook.getHookTracker() == null || ajaxHook.getHookTracker().isHookTracker(contents, messageInfo)) {
+					httpResponse = ajaxHook.filterRequest(request, contents, messageInfo);
+				}
 				if (httpResponse != null) {
 					return httpResponse;
 				}
@@ -128,7 +135,9 @@ public class MitmServer implements RequestFilter,ResponseFilter {
 		List<AjaxHook> results = getHookers(hookIdValue);
 		if (results != null) {
 			for (AjaxHook ajaxHook : results) {
-				ajaxHook.filterResponse(response, contents, messageInfo);
+				if (ajaxHook.getHookTracker() == null || ajaxHook.getHookTracker().isHookTracker(contents, messageInfo)) {
+					ajaxHook.filterResponse(response, contents, messageInfo);
+				}
 			}
 		}
 	}

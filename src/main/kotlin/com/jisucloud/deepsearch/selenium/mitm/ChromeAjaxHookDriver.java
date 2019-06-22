@@ -13,17 +13,17 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 
-import com.jisucloud.deepsearch.selenium.HttpsProxy;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ChromeAjaxHookDriver extends ChromeDriver implements Runnable{
 	
+	
+	
 	public static final Random random = new Random();
 	
 	public static final String hookIdName = "hookName";
-	private final String hookIdValue = UUID.randomUUID().toString().replaceAll("\\-", "");
+	private String hookIdValue = null;
 	
 	private int hookerNum = 0;
 	
@@ -31,14 +31,15 @@ public class ChromeAjaxHookDriver extends ChromeDriver implements Runnable{
 	
 	private boolean isQuited;
 	
-	public static final ChromeAjaxHookDriver newInstance(boolean disableLoadImage,boolean headless,HttpsProxy proxy,String userAgent) {
-		return new ChromeAjaxHookDriver(ChromeOptionsUtil.createChromeOptions(disableLoadImage, headless, proxy, userAgent));
+	public static final ChromeAjaxHookDriver newInstance(boolean disableLoadImage,boolean headless,String userAgent) {
+		return new ChromeAjaxHookDriver(ChromeOptionsUtil.createChromeOptions(disableLoadImage, headless, MitmServer.getInstance().getHttpsProxy(), userAgent));
 	}
 	
 	public ChromeAjaxHookDriver(ChromeOptions options) {
 		super(options);
 		manage().timeouts().setScriptTimeout(30, TimeUnit.SECONDS);//脚步执行超时
 		manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);//页面加载超时
+		hookIdValue = UUID.randomUUID().toString().replaceAll("\\-", "");
 		checkHookJs = new Thread(this);
 		checkHookJs.start();
 	}
@@ -200,6 +201,24 @@ public class ChromeAjaxHookDriver extends ChromeDriver implements Runnable{
 				reInject();
 			}
 			sleep(1000);
+		}
+	}
+	
+	
+	
+	public static void main(String[] args) {
+		ChromeAjaxHookDriver chromeDriver = null;
+		try {
+			chromeDriver = ChromeAjaxHookDriver.newInstance(false, false, null);
+			chromeDriver.get("http://www.penging.com/findPwd.do");
+			chromeDriver.findElementById("MB_PHN").sendKeys("123");
+			Thread.sleep(3000);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if (chromeDriver != null) {
+				chromeDriver.quit();
+			}
 		}
 	}
 }

@@ -11,6 +11,24 @@ import com.jisucloud.deepsearch.selenium.ChromeExtensionUtil;
 import com.jisucloud.deepsearch.selenium.HttpsProxy;
 
 public class ChromeOptionsUtil {
+	
+	public static String CHROME_DRIVER_SERVER = "/root/chromedriver";
+	
+	public static HttpsProxy httpsProxy = new HttpsProxy("http-dyn.abuyun.com", 9020, "H6224X2YF291C2AD", "2EADA65DEE87F60C");
+	
+	static {
+		if (System.getProperty("os.name").toLowerCase().contains("mac")) {
+			CHROME_DRIVER_SERVER = "/Users/stephen/Downloads/chromedriver";
+		}
+        if (System.getProperty("os.name").toLowerCase().startsWith("win")) {
+            CHROME_DRIVER_SERVER = CHROME_DRIVER_SERVER + ".exe";
+            File file = new File(CHROME_DRIVER_SERVER);
+            if (!file.exists()) {
+                throw new NullPointerException("去下载个ChromeDriver.exe放到:" + file.getAbsolutePath());
+            }
+        }
+		System.setProperty("webdriver.chrome.driver", CHROME_DRIVER_SERVER);
+	}
 
 	public static ChromeOptions createChromeOptions(boolean disableLoadImage,boolean headless,HttpsProxy proxy,String userAgent) {
 		ChromeOptions options = new ChromeOptions();

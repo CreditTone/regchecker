@@ -17,6 +17,8 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -352,7 +354,7 @@ public class HeadlessUtil {
 	
 	public static void main(String[] args) throws Exception {
 		HttpsProxy httpsProxy = new HttpsProxy("http-dyn.abuyun.com", 9020, "H6224X2YF291C2AD", "2EADA65DEE87F60C");
-		ChromeDriver chromeDriver = getChromeDriver(false, httpsProxy, null);
+		ChromeDriver chromeDriver = getChromeDriver(false, null, null);
 		chromeDriver.get("https://www.baidu.com/baidu?tn=monline_3_dg&ie=utf-8&wd=ip");
 		Thread.sleep(30 * 1000);
 		chromeDriver.quit();

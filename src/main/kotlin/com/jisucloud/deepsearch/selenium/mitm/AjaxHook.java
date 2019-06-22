@@ -7,6 +7,8 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 
 public interface AjaxHook {
 	
+	public HookTracker getHookTracker();
+	
 	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo);
 	
 	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo);
