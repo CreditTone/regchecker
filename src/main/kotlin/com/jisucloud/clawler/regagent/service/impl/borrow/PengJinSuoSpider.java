@@ -78,7 +78,7 @@ public class PengJinSuoSpider implements PapaSpider {
 				.addUrl("login/phoneCheckFindPwd")
 				.isPOST().build();
 		try {
-			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
 			chromeDriver.get("http://www.penging.com/findPwd.do");
 			chromeDriver.addAjaxHook(new AjaxHook() {
 				
