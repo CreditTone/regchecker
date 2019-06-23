@@ -27,7 +27,6 @@ public class HookTracker {
 	public boolean isHookTracker(HttpMessageContents contents, HttpMessageInfo messageInfo) {
 		String originalUrl = messageInfo.getOriginalUrl();
 		String rmethod = messageInfo.getOriginalRequest().method().name();
-		log.info(urls.toString());
 		if (method != null && !method.equalsIgnoreCase(rmethod)) {
 			return false;
 		}
@@ -36,6 +35,7 @@ public class HookTracker {
 				return true;
 			}
 		}
+		log.warn("false urls:"+urls+" originalUrl:"+originalUrl);
 		return false;
 	}
 	

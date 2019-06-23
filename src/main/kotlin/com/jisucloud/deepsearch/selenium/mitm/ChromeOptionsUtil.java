@@ -3,14 +3,24 @@ package com.jisucloud.deepsearch.selenium.mitm;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.CapabilityType;
 
+import com.jisucloud.clawler.regagent.util.StringUtil;
 import com.jisucloud.deepsearch.selenium.ChromeExtensionUtil;
 import com.jisucloud.deepsearch.selenium.HttpsProxy;
 
 public class ChromeOptionsUtil {
+	
+	public static final String USER_AGENTID = "cloudId";
+	
+	public static final String ANDROID_USER_AGENT = "Mozilla/5.0 (Linux; Android 7.0; PLUS Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Mobile Safari/537.36";
+	
+	public static final String IOS_USER_AGENT = "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0_1 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A402 Safari/604.1";
+	
+	public static final String CHROME_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0";
 	
 	public static String CHROME_DRIVER_SERVER = "/root/chromedriver";
 	
@@ -29,7 +39,7 @@ public class ChromeOptionsUtil {
         }
 		System.setProperty("webdriver.chrome.driver", CHROME_DRIVER_SERVER);
 	}
-
+	
 	public static ChromeOptions createChromeOptions(boolean disableLoadImage,boolean headless,HttpsProxy proxy,String userAgent) {
 		ChromeOptions options = new ChromeOptions();
 		if (System.getProperty("os.name").toLowerCase().indexOf("linux") >= 0) {
@@ -42,9 +52,13 @@ public class ChromeOptionsUtil {
 		options.addArguments("--ignore-certificate-errors");
 		options.addArguments("--no-sandbox"); // Bypass OS security model
 		options.addArguments("--disable-dev-shm-usage");
-		if (userAgent != null) {
-			options.addArguments("--user-agent='"+userAgent+"'");
+		if (userAgent == null) {
+			userAgent = CHROME_USER_AGENT;
 		}
+		String cloudIdValue = StringUtil.getMD5(UUID.randomUUID().toString());
+		userAgent += " Cloud/" + cloudIdValue;
+		options.addArguments("--user-agent='"+userAgent+"'");
+		options.setCapability(USER_AGENTID, cloudIdValue);
 		if (proxy != null) {
 			if (proxy.getUsername() != null && proxy.getPassword() != null) {
 				File extension = ChromeExtensionUtil.createProxyauthExtension(proxy.getServer(), proxy.getPort(), proxy.getUsername(), proxy.getPassword());

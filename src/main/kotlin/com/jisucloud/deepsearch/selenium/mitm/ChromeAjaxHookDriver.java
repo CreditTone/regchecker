@@ -1,7 +1,6 @@
 package com.jisucloud.deepsearch.selenium.mitm;
 
 import java.util.Random;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,23 +15,22 @@ import org.openqa.selenium.interactions.Actions;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ChromeAjaxHookDriver extends ChromeDriver implements Runnable{
-	
-	
+public class ChromeAjaxHookDriver extends ChromeDriver {
 	
 	public static final Random random = new Random();
 	
-	public static final String hookIdName = "hookName";
-	private String hookIdValue = null;
+	private String cloudIdValue = null;
 	
-	private int hookerNum = 0;
+	public static final ChromeAjaxHookDriver newChromeInstance(boolean disableLoadImage,boolean headless) {
+		return new ChromeAjaxHookDriver(ChromeOptionsUtil.createChromeOptions(disableLoadImage, headless, MitmServer.getInstance().getHttpsProxy(), ChromeOptionsUtil.CHROME_USER_AGENT));
+	}
 	
-	private Thread checkHookJs = null;
+	public static final ChromeAjaxHookDriver newAndroidInstance(boolean disableLoadImage,boolean headless) {
+		return new ChromeAjaxHookDriver(ChromeOptionsUtil.createChromeOptions(disableLoadImage, headless, MitmServer.getInstance().getHttpsProxy(), ChromeOptionsUtil.ANDROID_USER_AGENT));
+	}
 	
-	private boolean isQuited;
-	
-	public static final ChromeAjaxHookDriver newInstance(boolean disableLoadImage,boolean headless,String userAgent) {
-		return new ChromeAjaxHookDriver(ChromeOptionsUtil.createChromeOptions(disableLoadImage, headless, MitmServer.getInstance().getHttpsProxy(), userAgent));
+	public static final ChromeAjaxHookDriver newIOSInstance(boolean disableLoadImage,boolean headless) {
+		return new ChromeAjaxHookDriver(ChromeOptionsUtil.createChromeOptions(disableLoadImage, headless, MitmServer.getInstance().getHttpsProxy(), ChromeOptionsUtil.IOS_USER_AGENT));
 	}
 	
 	public static final ChromeAjaxHookDriver newNoHookInstance(boolean disableLoadImage,boolean headless,String userAgent) {
@@ -42,17 +40,14 @@ public class ChromeAjaxHookDriver extends ChromeDriver implements Runnable{
 	
 	public ChromeAjaxHookDriver(ChromeOptions options) {
 		super(options);
+		cloudIdValue = (String) options.getCapability(ChromeOptionsUtil.USER_AGENTID);
 		manage().timeouts().setScriptTimeout(30, TimeUnit.SECONDS);//脚步执行超时
 		manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);//页面加载超时
-		hookIdValue = UUID.randomUUID().toString().replaceAll("\\-", "");
-		checkHookJs = new Thread(this);
-		checkHookJs.start();
 	}
 	
 	public void addAjaxHook(AjaxHook hook) {
 		if (hook != null) {
-			MitmServer.getInstance().addAjaxHook(hookIdValue, hook);
-			hookerNum ++;
+			MitmServer.getInstance().addAjaxHook(cloudIdValue, hook);
 		}
 	}
 
@@ -66,22 +61,8 @@ public class ChromeAjaxHookDriver extends ChromeDriver implements Runnable{
 				e.printStackTrace();
 				continue;
 			}
-			reInject();
 			break;
 		}
-		reInject();
-	}
-	
-	public boolean isXHRHooked() {
-		Object ret = null;
-		try {
-			String script = "return window.hooked != undefined && window.hookIdName != undefined && window.hookIdValue != undefined;";
-			ret = executeScript(script);
-		}catch(Exception e) {
-			e.printStackTrace();
-		}finally {
-		}
-		return ret != null? (Boolean)ret : false;
 	}
 	
 	public boolean checkElement(String cssSelect) {
@@ -92,23 +73,11 @@ public class ChromeAjaxHookDriver extends ChromeDriver implements Runnable{
 		return false;
 	}
 	
-	
-	
 	private void sleep(long mills) {
 		try {
 			Thread.sleep(mills);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}
-	}
-	
-	public synchronized void reInject() {
-		if (isQuited || hookerNum == 0) {
-			return;
-		}
-		if (!isXHRHooked()) {
-			executeScript(AjaxHookJs.getHookAjaxJs(hookIdName, hookIdValue));
-			log.info("hookajaxjs inject success");
 		}
 	}
 	
@@ -127,9 +96,8 @@ public class ChromeAjaxHookDriver extends ChromeDriver implements Runnable{
 
 	@Override
 	public void close() {
-		isQuited = true;
 		try {
-			MitmServer.getInstance().removeHooks(hookIdValue);
+			MitmServer.getInstance().removeHooks(cloudIdValue);
 			Thread.sleep(1000);
 			super.close();
 		} catch (Exception e) {
@@ -139,9 +107,8 @@ public class ChromeAjaxHookDriver extends ChromeDriver implements Runnable{
 
 	@Override
 	public void quit() {
-		isQuited = true;
 		try {
-			MitmServer.getInstance().removeHooks(hookIdValue);
+			MitmServer.getInstance().removeHooks(cloudIdValue);
 			sleep(1000);
 			super.quit();
 		} catch (Exception e) {
@@ -198,26 +165,12 @@ public class ChromeAjaxHookDriver extends ChromeDriver implements Runnable{
 		executeScript("arguments[0].value='"+text+"';", webElement);
 	}
 
-	@Override
-	public void run() {
-		while (!isQuited) {
-			String url = getCurrentUrl();
-			if (url != null && url.startsWith("http")) {
-				reInject();
-			}
-			sleep(500);
-		}
-	}
-	
-	
-	
 	public static void main(String[] args) {
 		ChromeAjaxHookDriver chromeDriver = null;
 		try {
-			chromeDriver = ChromeAjaxHookDriver.newInstance(false, false, null);
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);
 			chromeDriver.get("http://www.penging.com/findPwd.do");
-			chromeDriver.findElementById("MB_PHN").sendKeys("123");
-			Thread.sleep(3000);
+			Thread.sleep(60000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

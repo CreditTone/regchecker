@@ -6,12 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.jisucloud.deepsearch.selenium.HttpsProxy;
 
+import io.netty.handler.codec.http.DefaultHttpResponse;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
+import io.netty.handler.codec.http.HttpResponseStatus;
 import lombok.extern.slf4j.Slf4j;
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.BrowserMobProxyServer;
@@ -29,6 +33,8 @@ public class MitmServer implements RequestFilter,ResponseFilter {
 	}
 	
 	private static Object locker = new Object();
+	
+	private Pattern cloudIdPattern = Pattern.compile("\\s+Cloud/([a-z0-9]+)");
 	
 	private static final int BIND_PORT = 8119;
 	
@@ -102,23 +108,51 @@ public class MitmServer implements RequestFilter,ResponseFilter {
 		return results;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
+	private String extractCloudId(String ua) {
+		if (ua == null) {
+			return null;
+		}
+		Matcher matcher = cloudIdPattern.matcher(ua);
+		if (matcher.find()) {
+			return matcher.group(1);
+		}
+		return null;
+	}
+	
+	private String extractCloudId(HttpHeaders headers) {
+		String userAgent = headers.get("User-Agent");
+		if (userAgent == null) {
+			userAgent = headers.get("user-agent");
+		}
+		return extractCloudId(userAgent);
+	}
+	
 	@Override
 	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
 //		System.out.println("------------------------request-------------------------");
 //		System.out.println("url:" + messageInfo.getOriginalUrl());
 //		System.out.println("method:" + messageInfo.getOriginalRequest().method());
 //		System.out.println("textContents:" + contents.getTextContents());
-		log.info("hook requst:" + messageInfo.getOriginalUrl());
+		//log.info("hook requst:" + messageInfo.getOriginalUrl());
+		if (messageInfo.getOriginalUrl().contains("accounts.google.com")) {
+			return new DefaultHttpResponse(request.protocolVersion(), HttpResponseStatus.NO_CONTENT);
+		}
 		HttpHeaders headers = messageInfo.getOriginalRequest().headers();
-		if (headers == null || headers.get(ChromeAjaxHookDriver.hookIdName) == null) {
+		String cloudId = extractCloudId(headers);
+		if (cloudId == null) {
+			//log.info("noheaders hook request:" + messageInfo.getOriginalUrl());
 			return null;
 		}
-		String hookIdValue = headers.get(ChromeAjaxHookDriver.hookIdName);
-		List<AjaxHook> results = getHookers(hookIdValue);
+		List<AjaxHook> results = getHookers(cloudId);
 		if (results != null) {
 			HttpResponse httpResponse = null;
 			for (AjaxHook ajaxHook : results) {
 				if (ajaxHook.getHookTracker() == null || ajaxHook.getHookTracker().isHookTracker(contents, messageInfo)) {
+					log.info("hook requst:" + messageInfo.getOriginalUrl());
 					httpResponse = ajaxHook.filterRequest(request, contents, messageInfo);
 				}
 				if (httpResponse != null) {
@@ -132,16 +166,17 @@ public class MitmServer implements RequestFilter,ResponseFilter {
 	
 	@Override
 	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
-		log.info("hook response:" + messageInfo.getOriginalUrl());
 		HttpHeaders headers = messageInfo.getOriginalRequest().headers();
-		if (headers == null || headers.get(ChromeAjaxHookDriver.hookIdName) == null) {
+		String cloudId = extractCloudId(headers);
+		if (cloudId == null) {
+			//log.info("noheaders hook response:" + messageInfo.getOriginalUrl());
 			return;
 		}
-		String hookIdValue = headers.get(ChromeAjaxHookDriver.hookIdName);
-		List<AjaxHook> results = getHookers(hookIdValue);
+		List<AjaxHook> results = getHookers(cloudId);
 		if (results != null) {
 			for (AjaxHook ajaxHook : results) {
 				if (ajaxHook.getHookTracker() == null || ajaxHook.getHookTracker().isHookTracker(contents, messageInfo)) {
+					log.info("hook response:" + messageInfo.getOriginalUrl());
 					ajaxHook.filterResponse(response, contents, messageInfo);
 				}
 			}

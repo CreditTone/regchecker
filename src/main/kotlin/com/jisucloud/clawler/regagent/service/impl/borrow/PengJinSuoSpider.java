@@ -52,10 +52,10 @@ public class PengJinSuoSpider implements PapaSpider {
 		return new String[] {"P2P", "借贷"};
 	}
 
-	public static void main(String[] args) throws InterruptedException {
-		System.out.println(new PengJinSuoSpider().checkTelephone("13910252045"));
-		System.out.println(new PengJinSuoSpider().checkTelephone("18210538513"));
-	}
+//	public static void main(String[] args) throws InterruptedException {
+//		System.out.println(new PengJinSuoSpider().checkTelephone("13910252045"));
+//		System.out.println(new PengJinSuoSpider().checkTelephone("18210538513"));
+//	}
 	
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
@@ -78,7 +78,7 @@ public class PengJinSuoSpider implements PapaSpider {
 				.addUrl("login/phoneCheckFindPwd")
 				.isPOST().build();
 		try {
-			chromeDriver = ChromeAjaxHookDriver.newInstance(false, true, CHROME_USER_AGENT);
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);
 			chromeDriver.get("http://www.penging.com/findPwd.do");
 			chromeDriver.addAjaxHook(new AjaxHook() {
 				
@@ -111,7 +111,6 @@ public class PengJinSuoSpider implements PapaSpider {
 				WebElement validate = chromeDriver.findElementById("CFY_NO");
 				validate.clear();
 				validate.sendKeys(code);
-				chromeDriver.reInject();
 				chromeDriver.mouseClick(chromeDriver.findElementById("showTxt"));
 				Thread.sleep(3000);
 				if (vcodeSuc) {
