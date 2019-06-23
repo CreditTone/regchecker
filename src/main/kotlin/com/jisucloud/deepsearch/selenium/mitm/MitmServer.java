@@ -12,6 +12,7 @@ import com.jisucloud.deepsearch.selenium.HttpsProxy;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
+import lombok.extern.slf4j.Slf4j;
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.filters.RequestFilter;
@@ -20,6 +21,7 @@ import net.lightbody.bmp.proxy.CaptureType;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
+@Slf4j
 public class MitmServer implements RequestFilter,ResponseFilter {
 	
 	public static void main(String[] args) {
@@ -55,8 +57,13 @@ public class MitmServer implements RequestFilter,ResponseFilter {
 			return;
 		}
 		proxy = new BrowserMobProxyServer();
+		proxy.blacklistRequests("google\\.com.*", 500);
 		proxy.setTrustAllServers(true);
 		proxy.enableHarCaptureTypes(CaptureType.REQUEST_CONTENT, CaptureType.RESPONSE_CONTENT);
+		proxy.addRequestFilter(this);
+		log.info("addRequestFilter");
+		proxy.addResponseFilter(this);
+		log.info("addResponseFilter");
 		try {
 			proxy.start(BIND_PORT, InetAddress.getByName("0.0.0.0"));
 		} catch (UnknownHostException e) {
@@ -99,11 +106,9 @@ public class MitmServer implements RequestFilter,ResponseFilter {
 	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
 //		System.out.println("------------------------request-------------------------");
 //		System.out.println("url:" + messageInfo.getOriginalUrl());
-//		System.out.println("isHttps:" + messageInfo.isHttps());
 //		System.out.println("method:" + messageInfo.getOriginalRequest().method());
-//		System.out.println("headers:" + messageInfo.getOriginalRequest().headers());
-//		System.out.println("contentType:" + contents.getContentType());
 //		System.out.println("textContents:" + contents.getTextContents());
+		log.info("hook requst:" + messageInfo.getOriginalUrl());
 		HttpHeaders headers = messageInfo.getOriginalRequest().headers();
 		if (headers == null || headers.get(ChromeAjaxHookDriver.hookIdName) == null) {
 			return null;
@@ -127,6 +132,7 @@ public class MitmServer implements RequestFilter,ResponseFilter {
 	
 	@Override
 	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		log.info("hook response:" + messageInfo.getOriginalUrl());
 		HttpHeaders headers = messageInfo.getOriginalRequest().headers();
 		if (headers == null || headers.get(ChromeAjaxHookDriver.hookIdName) == null) {
 			return;

@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
@@ -16,6 +17,7 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor 
+@Slf4j
 public class HookTracker {
 
 	private Set<String> urls;
@@ -25,6 +27,7 @@ public class HookTracker {
 	public boolean isHookTracker(HttpMessageContents contents, HttpMessageInfo messageInfo) {
 		String originalUrl = messageInfo.getOriginalUrl();
 		String rmethod = messageInfo.getOriginalRequest().method().name();
+		log.info(urls.toString());
 		if (method != null && !method.equalsIgnoreCase(rmethod)) {
 			return false;
 		}

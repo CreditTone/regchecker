@@ -35,6 +35,11 @@ public class ChromeAjaxHookDriver extends ChromeDriver implements Runnable{
 		return new ChromeAjaxHookDriver(ChromeOptionsUtil.createChromeOptions(disableLoadImage, headless, MitmServer.getInstance().getHttpsProxy(), userAgent));
 	}
 	
+	public static final ChromeAjaxHookDriver newNoHookInstance(boolean disableLoadImage,boolean headless,String userAgent) {
+		log.warn("你启动的是没有钩子功能的浏览器");
+		return new ChromeAjaxHookDriver(ChromeOptionsUtil.createChromeOptions(disableLoadImage, headless, null, userAgent));
+	}
+	
 	public ChromeAjaxHookDriver(ChromeOptions options) {
 		super(options);
 		manage().timeouts().setScriptTimeout(30, TimeUnit.SECONDS);//脚步执行超时
@@ -200,7 +205,7 @@ public class ChromeAjaxHookDriver extends ChromeDriver implements Runnable{
 			if (url != null && url.startsWith("http")) {
 				reInject();
 			}
-			sleep(1000);
+			sleep(500);
 		}
 	}
 	

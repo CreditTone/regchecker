@@ -9,7 +9,6 @@ import com.jisucloud.deepsearch.selenium.mitm.HookTracker;
 import io.netty.handler.codec.http.DefaultHttpResponse;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
-import io.netty.handler.codec.http.HttpResponseDecoder;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import lombok.extern.slf4j.Slf4j;
 import net.lightbody.bmp.util.HttpMessageContents;
@@ -62,8 +61,7 @@ public class PengJinSuoSpider implements PapaSpider {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector("#imgObj");
-				img.click();
-				Thread.sleep(1000);
+				chromeDriver.mouseClick(img);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -76,9 +74,11 @@ public class PengJinSuoSpider implements PapaSpider {
 
 	@Override
 	public boolean checkTelephone(String account) {
-		HookTracker hookTracker = HookTracker.builder().addUrl("login/phoneCheckFindPwd.do").isPOST().build();
+		HookTracker hookTracker = HookTracker.builder()
+				.addUrl("login/phoneCheckFindPwd")
+				.isPOST().build();
 		try {
-			chromeDriver = ChromeAjaxHookDriver.newInstance(false, false, CHROME_USER_AGENT);
+			chromeDriver = ChromeAjaxHookDriver.newInstance(false, true, CHROME_USER_AGENT);
 			chromeDriver.get("http://www.penging.com/findPwd.do");
 			chromeDriver.addAjaxHook(new AjaxHook() {
 				
@@ -94,7 +94,7 @@ public class PengJinSuoSpider implements PapaSpider {
 				public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
 					if (contents.getTextContents().contains("SMSSendType")) {//要发短信了
 						HttpResponse httpResponse = new DefaultHttpResponse(request.protocolVersion(), HttpResponseStatus.NO_CONTENT);
-						System.out.println("打断发短信");
+						//System.out.println("打断发短信");
 						return httpResponse;
 					}
 					return null;
@@ -112,10 +112,14 @@ public class PengJinSuoSpider implements PapaSpider {
 				validate.clear();
 				validate.sendKeys(code);
 				chromeDriver.reInject();
-				chromeDriver.findElementById("showTxt").click();
+				chromeDriver.mouseClick(chromeDriver.findElementById("showTxt"));
 				Thread.sleep(3000);
 				if (vcodeSuc) {
 					break;
+				}
+				if (chromeDriver.checkElement("a[class='xubox_yes xubox_botton1']")) {
+					System.out.println("点击确定");
+					chromeDriver.mouseClick(chromeDriver.findElementByCssSelector("a[class='xubox_yes xubox_botton1']"));
 				}
 			}
 		} catch (Exception e) {
