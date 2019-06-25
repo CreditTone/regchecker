@@ -35,7 +35,7 @@ public class HookTracker {
 				return true;
 			}
 		}
-		log.warn("false urls:"+urls+" originalUrl:"+originalUrl);
+		//log.warn("false urls:"+urls+" originalUrl:"+originalUrl);
 		return false;
 	}
 	

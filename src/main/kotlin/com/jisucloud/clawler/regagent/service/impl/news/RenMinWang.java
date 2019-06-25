@@ -1,10 +1,9 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl.news;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -16,68 +15,58 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class CaoLiaoQrSpider implements PapaSpider {
+public class RenMinWang implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
-
 	@Override
 	public String message() {
-		return "草料二维码是国内专业的二维码服务提供商,提供二维码生成,美化,印制,管理,统计等服务,帮助企业通过二维码展示信息并采集线下数据,提升营销和管理效率。";
+		return "人民网,是世界十大报纸之一《人民日报》建设的以新闻为主的大型网上信息发布平台,也是互联网上最大的中文和多语种新闻网站之一。作为国家重点新闻网站。";
 	}
 
 	@Override
 	public String platform() {
-		return "cli";
+		return "people";
 	}
 
 	@Override
 	public String home() {
-		return "cli.com";
+		return "people.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "草料二维码";
+		return "人民网";
 	}
+
 
 	@Override
 	public String[] tags() {
-		return new String[] {"工具"};
+		return new String[] {"新闻", "资讯"};
 	}
 
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new BaiduSpider().checkTelephone("13925306966"));
-//		System.out.println(new BaiduSpider().checkTelephone("13925306960"));
-//	}
+	public static void main(String[] args) throws InterruptedException {
+		System.out.println(new RenMinWang().checkTelephone("18210538000"));
+		System.out.println(new RenMinWang().checkTelephone("18210538513"));
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {
-		if (account.length() != 11) {
-			return false;
-		}
 		try {
-			String url = "https://user.cli.im/join/check_account";
-			FormBody formBody = new FormBody
-	                .Builder()
-	                .add("tel", account)
-	                .build();
+			String url = "http://sso.people.com.cn/u/reg/checkPhoneNum?phoneNum="+account+"&_="+System.currentTimeMillis()+"&type=";
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "user.cli.im")
-					.addHeader("Referer", "https://cli.im/")
-					.post(formBody)
+					.addHeader("Host", "sso.people.com.cn")
+					.addHeader("Referer", "http://sso.people.com.cn/u/reg?appCode=&fromUrl=")
 					.build();
-			Response response = okHttpClient.newCall(request)
-					.execute();
+			Response response = okHttpClient.newCall(request).execute();
 			String res = StringUtil.unicodeToString(response.body().string());
-			if (res.contains("已注册")) {
+			if (res.contains("false")) {
 				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
 		}
 		return false;
 	}

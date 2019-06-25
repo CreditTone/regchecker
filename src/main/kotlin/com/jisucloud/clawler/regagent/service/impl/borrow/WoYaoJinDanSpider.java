@@ -1,8 +1,7 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl.borrow;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -17,61 +16,58 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class ZiRuSpider implements PapaSpider {
+public class WoYaoJinDanSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
-
+	
 	@Override
 	public String message() {
-		return "高品质租房品牌“自如”，旗下“自如友家”“自如寓”两大产品，数万间公寓。自如承诺：3天不满意全额退款！信仰生活的人，迟早与自如相遇！自如是最高品质的租房信息|价格|网站。";
+		return "我要金蛋 深圳市伯利滋财富在线我要借款 信息披露 安全中心 关于我们平台公告更多 项目真实 保证项目真实,为理性投资者搭建一个透明安全的平台 投资保障 资金专户管理,国资背景第三方支付通道。";
 	}
 
 	@Override
 	public String platform() {
-		return "ziroom";
+		return "51jindan";
 	}
 
 	@Override
 	public String home() {
-		return "ziroom.com";
+		return "51jindan.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "自如租房";
+		return "我要金蛋";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"房产", "租房" , "租房中介"};
+		return new String[] {"P2P", "借贷"};
 	}
 
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new ZiRuSpider().checkTelephone("13844441111"));
-//		System.out.println(new ZiRuSpider().checkTelephone("18210538513"));
-//	}
+	public static void main(String[] args) throws InterruptedException {
+		System.out.println(new WoYaoJinDanSpider().checkTelephone("15985268904"));
+		System.out.println(new WoYaoJinDanSpider().checkTelephone("18210538513"));
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "http://passport.ziroom.com/account/register/verify-account.html";
+			String url = "https://www.51jindan.com/service/person/checkMobileIfRegister";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("phone", account)
-	                .add("", "")
+	                .add("mobile", account)
 	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "passport.ziroom.com")
-					.addHeader("Referer", "http://www.ziroom.com/")
+					.addHeader("Host", "www.51jindan.com")
+					.addHeader("Referer", "https://www.51jindan.com")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			JSONObject result = JSON.parseObject(response.body().string());
-			if (result.getJSONObject("resp").getBooleanValue("exist")) {
-				return true;
-			}
+			String res = StringUtil.unicodeToString(response.body().string());
+			return res.contains("已被注册");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
