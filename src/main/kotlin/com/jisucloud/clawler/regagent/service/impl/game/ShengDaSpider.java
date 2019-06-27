@@ -1,6 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.game;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
 import me.kagura.JJsoup;
@@ -17,7 +18,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-@Component
+@UsePapaSpider
 public class ShengDaSpider implements PapaSpider {
 
 	private Session session = JJsoup.newSession();

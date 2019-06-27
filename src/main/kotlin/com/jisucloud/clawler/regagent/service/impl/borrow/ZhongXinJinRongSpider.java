@@ -2,6 +2,7 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.http.OKHttpUtil;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.deepsearch.selenium.Ajax;
 import com.jisucloud.deepsearch.selenium.AjaxListener;
 import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
@@ -22,7 +23,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-@Component
+@UsePapaSpider
 public class ZhongXinJinRongSpider implements PapaSpider {
 
 	private boolean checkTel = false;

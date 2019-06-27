@@ -42,10 +42,11 @@ public class ChromeOptionsUtil {
 	
 	public static ChromeOptions createChromeOptions(boolean disableLoadImage,boolean headless,HttpsProxy proxy,String userAgent) {
 		ChromeOptions options = new ChromeOptions();
-		if (System.getProperty("os.name").toLowerCase().indexOf("linux") >= 0) {
+		boolean isLinux = System.getProperty("os.name").toLowerCase().indexOf("linux") >= 0;
+		if (isLinux) {
 			options.setBinary("/usr/bin/google-chrome");
 		}
-		if (headless) {
+		if (isLinux || headless) {
 			options.addArguments("--headless");// headless mode
 		}
 		options.addArguments("--disable-gpu");

@@ -2,7 +2,6 @@ package com.jisucloud.clawler.regagent.controller
 
 import com.alibaba.fastjson.JSON
 import com.jisucloud.clawler.regagent.entity.Info
-import com.jisucloud.clawler.regagent.service.CheckService
 import com.jisucloud.clawler.regagent.service.TorIDCardSearchService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.redis.core.StringRedisTemplate

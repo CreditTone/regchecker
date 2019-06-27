@@ -3,6 +3,7 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
 import me.kagura.JJsoup;
 import me.kagura.Session;
@@ -15,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-@Component
+@UsePapaSpider
 public class JuZiFenqiSpider implements PapaSpider {
 
     @Override

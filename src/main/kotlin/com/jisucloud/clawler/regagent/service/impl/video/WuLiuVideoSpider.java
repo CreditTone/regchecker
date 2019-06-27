@@ -1,23 +1,16 @@
 package com.jisucloud.clawler.regagent.service.impl.video;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
 import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
-@Component
+@UsePapaSpider
 public class WuLiuVideoSpider implements PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;

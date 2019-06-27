@@ -1,6 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 import com.jisucloud.deepsearch.selenium.Ajax;
 import com.jisucloud.deepsearch.selenium.AjaxListener;
@@ -15,7 +16,7 @@ import java.util.Map;
 import java.util.Random;
 
 @Slf4j
-//@Component
+//@UsePapaSpider
 public class ZhongYeXingRongSpider implements PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;

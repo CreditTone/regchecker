@@ -1,6 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.shop;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
 import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
@@ -9,10 +10,9 @@ import java.util.Map;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.springframework.stereotype.Component;
 
 @Slf4j
-@Component
+@UsePapaSpider
 public class BenlaiShenghuoSpider implements PapaSpider {
 	
 	private ChromeAjaxListenDriver chromeDriver;

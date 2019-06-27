@@ -1,6 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
 import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 @Slf4j
-@Component
+@UsePapaSpider
 public class PengJinSuoSpider implements PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;

@@ -1,6 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.life;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
 import com.jisucloud.deepsearch.selenium.HeadlessUtil;
@@ -13,7 +14,7 @@ import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Component;
 
 @Slf4j
-@Component
+@UsePapaSpider
 public class MeiTuanSpider implements PapaSpider {
 	
 	private ChromeAjaxListenDriver chromeDriver;

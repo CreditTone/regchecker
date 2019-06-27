@@ -5,8 +5,9 @@ import com.jisucloud.clawler.regagent.service.PapaSpider
 import com.jisucloud.clawler.regagent.util.JJsoupUtil
 import org.jsoup.Connection
 import org.springframework.stereotype.Component
+import com.jisucloud.clawler.regagent.service.UsePapaSpider
 
-@Component
+@UsePapaSpider
 class NanXingSiRenYiShengService : PapaSpider {
     override fun tags() = arrayOf("医疗");
     override fun home() = "ranknowcn.com"

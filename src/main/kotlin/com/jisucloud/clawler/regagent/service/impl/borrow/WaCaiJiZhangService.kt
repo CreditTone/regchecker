@@ -5,7 +5,7 @@
 //import org.jsoup.Connection
 //import org.springframework.stereotype.Component
 //
-//@Component
+//@UsePapaSpider
 //class WaCaiJiZhangService : PapaSpider {
 //    override fun tags(): Map<String, Array<String>> {
 //        return mapOf(

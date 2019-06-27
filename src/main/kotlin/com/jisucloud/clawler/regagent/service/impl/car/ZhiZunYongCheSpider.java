@@ -1,6 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.car;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 @Slf4j
-@Component
+@UsePapaSpider
 public class ZhiZunYongCheSpider implements PapaSpider {
 
 	@Override

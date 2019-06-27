@@ -1,6 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
@@ -20,7 +21,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
+@UsePapaSpider
 @Slf4j
 public class YuanBaoPuSpider implements PapaSpider {
 

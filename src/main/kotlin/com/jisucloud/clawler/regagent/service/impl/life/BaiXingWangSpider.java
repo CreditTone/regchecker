@@ -1,6 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.life;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
 import me.kagura.JJsoup;
@@ -16,6 +17,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 @Slf4j
+@UsePapaSpider
 public class BaiXingWangSpider implements PapaSpider {
 	
 	private Session session = JJsoup.newSession();

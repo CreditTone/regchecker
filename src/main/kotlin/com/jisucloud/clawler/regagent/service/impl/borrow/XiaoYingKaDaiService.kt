@@ -7,8 +7,9 @@ import org.springframework.stereotype.Component
 import java.util.*
 import kotlin.random.Random
 import kotlin.random.nextULong
+import com.jisucloud.clawler.regagent.service.UsePapaSpider
 
-@Component
+@UsePapaSpider
 class XiaoYingKaDaiService : PapaSpider {
     override fun tags() = arrayOf("借贷" , "p2p");
     //https://sj.qq.com/myapp/detail.htm?apkName=com.xiaoying.cardloan

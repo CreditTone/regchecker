@@ -1,21 +1,19 @@
 package com.jisucloud.clawler.regagent.service.impl.game;
 
-import com.jisucloud.clawler.regagent.http.PersistenceCookieJar;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 @Slf4j
+@UsePapaSpider
 public class XuebaoSpider implements PapaSpider {
 	
 	private ChromeDriver chromeDriver;

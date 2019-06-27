@@ -38,7 +38,6 @@ class TorIDCardSearchService {
                             "数据库编号" -> map.put("db_id", split[1])
                             else -> ""
                         }
-
                     }
                     return@run map
                 }

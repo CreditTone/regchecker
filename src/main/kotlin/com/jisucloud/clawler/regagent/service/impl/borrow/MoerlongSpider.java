@@ -1,6 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
@@ -20,9 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-@Component
+@UsePapaSpider
 @Slf4j
-//无效
 public class MoerlongSpider implements PapaSpider {
 
 	@Override

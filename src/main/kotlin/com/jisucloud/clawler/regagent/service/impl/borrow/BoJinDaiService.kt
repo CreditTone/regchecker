@@ -6,8 +6,9 @@ import me.kagura.JJsoup
 import org.jsoup.Connection
 import org.springframework.stereotype.Component
 import java.util.*
+import com.jisucloud.clawler.regagent.service.UsePapaSpider
 
-@Component
+@UsePapaSpider
 class BoJinDaiService : PapaSpider {
     override fun tags() = arrayOf("理财", "P2P", "借贷")
 

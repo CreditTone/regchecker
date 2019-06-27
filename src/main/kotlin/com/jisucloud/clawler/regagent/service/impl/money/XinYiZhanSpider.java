@@ -1,6 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.money;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import org.jsoup.nodes.Document;
 import org.springframework.util.FileCopyUtils;
 
 @Slf4j
+@UsePapaSpider
 public class XinYiZhanSpider implements PapaSpider {
 	
 	private Session session = JJsoup.newSession();

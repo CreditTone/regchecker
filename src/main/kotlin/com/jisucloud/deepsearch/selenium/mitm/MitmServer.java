@@ -151,7 +151,7 @@ public class MitmServer implements RequestFilter,ResponseFilter {
 		if (results != null) {
 			HttpResponse httpResponse = null;
 			for (AjaxHook ajaxHook : results) {
-				if (ajaxHook.getHookTracker() == null || ajaxHook.getHookTracker().isHookTracker(contents, messageInfo)) {
+				if (ajaxHook.getHookTracker() == null || ajaxHook.getHookTracker().isHookTracker(contents, messageInfo, 1)) {
 					log.info("hook requst:" + messageInfo.getOriginalUrl());
 					httpResponse = ajaxHook.filterRequest(request, contents, messageInfo);
 				}
@@ -175,7 +175,7 @@ public class MitmServer implements RequestFilter,ResponseFilter {
 		List<AjaxHook> results = getHookers(cloudId);
 		if (results != null) {
 			for (AjaxHook ajaxHook : results) {
-				if (ajaxHook.getHookTracker() == null || ajaxHook.getHookTracker().isHookTracker(contents, messageInfo)) {
+				if (ajaxHook.getHookTracker() == null || ajaxHook.getHookTracker().isHookTracker(contents, messageInfo, 2)) {
 					log.info("hook response:" + messageInfo.getOriginalUrl());
 					ajaxHook.filterResponse(response, contents, messageInfo);
 				}

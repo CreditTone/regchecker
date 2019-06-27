@@ -117,8 +117,7 @@ public class ChromeAjaxHookDriver extends ChromeDriver {
 	}
 	
 	public byte[] screenshot(WebElement webElement) throws Exception {
-		byte[] body = webElement.getScreenshotAs(OutputType.BYTES);
-		return body;
+		return webElement.getScreenshotAs(OutputType.BYTES);
 	}
 	
 	public void mouseClick(WebElement webElement) throws Exception {

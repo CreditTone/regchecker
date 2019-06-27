@@ -7,8 +7,9 @@ import org.jsoup.Jsoup
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import java.util.*
+import com.jisucloud.clawler.regagent.service.UsePapaSpider
 
-@Component
+@UsePapaSpider
 class TaxItsService : PapaSpider {
     override fun tags() = arrayOf("个税", "工作");
 

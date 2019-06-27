@@ -1,6 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.money;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-@Component
+@UsePapaSpider
 public class ZhongGuoRenMinBaoXianSpider implements PapaSpider {
 
 	private ChromeDriver chromeDriver;

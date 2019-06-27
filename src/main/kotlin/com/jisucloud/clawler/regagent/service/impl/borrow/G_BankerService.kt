@@ -4,8 +4,9 @@ import com.jisucloud.clawler.regagent.service.PapaSpider
 import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.springframework.stereotype.Component
+import com.jisucloud.clawler.regagent.service.UsePapaSpider
 
-@Component
+@UsePapaSpider
 class G_BankerService : PapaSpider {
     override fun tags() = arrayOf("理财", "黄金投资")
 

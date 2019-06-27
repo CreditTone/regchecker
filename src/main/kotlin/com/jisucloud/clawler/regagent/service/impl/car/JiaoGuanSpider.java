@@ -3,6 +3,7 @@ package com.jisucloud.clawler.regagent.service.impl.car;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import me.kagura.Session;
 import org.jsoup.Connection;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
+@UsePapaSpider
 public class JiaoGuanSpider implements PapaSpider {
 
     @Override

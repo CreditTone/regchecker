@@ -1,17 +1,15 @@
 package com.jisucloud.clawler.regagent.service.impl.work;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.deepsearch.selenium.Ajax;
 import com.jisucloud.deepsearch.selenium.AjaxListener;
 import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
 import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
-import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
 import java.util.Map;
 
-@Component
+@UsePapaSpider
 public class QiXinBaoSpider implements PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;

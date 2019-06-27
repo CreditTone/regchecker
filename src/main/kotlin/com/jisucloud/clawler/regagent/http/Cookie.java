@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service;
+package com.jisucloud.clawler.regagent.http;
 
 import java.util.Date;
 

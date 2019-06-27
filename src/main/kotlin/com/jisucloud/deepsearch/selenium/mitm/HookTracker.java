@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
+import io.netty.handler.codec.http.HttpRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,11 +25,65 @@ public class HookTracker {
 	
 	private String method;
 	
-	public boolean isHookTracker(HttpMessageContents contents, HttpMessageInfo messageInfo) {
+	private String requestContentType;
+	
+	private String responseContentType;
+	
+	private String getRequestContentType(HttpRequest httpRequest) {
+		Set<String> names = httpRequest.headers().names();
+		for (String name : names) {
+			if (name.equalsIgnoreCase("content-type") || name.equalsIgnoreCase("contentyype")) {
+				return httpRequest.headers().get(name);
+			}
+		}
+		return "7VIchKqVt8UzlpJO";
+	}
+	
+	private String getResponseContentType(HttpMessageContents contents) {
+		return contents.getContentType();
+	}
+	
+	private boolean matchRequestContentType(HttpRequest httpRequest) {
+		if (requestContentType == null) {
+			return true;
+		}
+		String getRequestContentType = getRequestContentType(httpRequest).toLowerCase();
+		return getRequestContentType.contains(requestContentType) || requestContentType.contains(getRequestContentType);
+	}
+	
+	private boolean matchResponseContentType(HttpMessageContents contents) {
+		if (responseContentType == null) {
+			return true;
+		}
+		String getResponseContentType = getResponseContentType(contents).toLowerCase();
+		return responseContentType.contains(getResponseContentType) || getResponseContentType.contains(responseContentType);
+	}
+	
+	/**
+	 * 
+	 * @param contents
+	 * @param messageInfo
+	 * @param requestOrResponse 1 request ,2 response
+	 * @return
+	 */
+	public boolean isHookTracker(HttpMessageContents contents, HttpMessageInfo messageInfo, int requestOrResponse) {
 		String originalUrl = messageInfo.getOriginalUrl();
 		String rmethod = messageInfo.getOriginalRequest().method().name();
 		if (method != null && !method.equalsIgnoreCase(rmethod)) {
 			return false;
+		}
+		if (requestContentType != null && responseContentType != null && requestOrResponse == 2) {
+			if (!matchRequestContentType(messageInfo.getOriginalRequest()) || !matchResponseContentType(contents)) {
+				return false;
+			}
+		}else if (requestContentType != null && requestOrResponse == 1) {
+			if (!matchRequestContentType(messageInfo.getOriginalRequest())) {
+				return false;
+			}
+		}else if (responseContentType != null && requestOrResponse == 2) {
+			if (!matchResponseContentType(contents)) {
+				return false;
+			}
 		}
 		for (String url : urls) {
 			if (url.contains(originalUrl) || originalUrl.contains(url)) {
@@ -62,6 +117,16 @@ public class HookTracker {
 		
 		public HookTrackerBuilder isPOST() {
 			method = "POST";
+			return this;
+		}
+		
+		public HookTrackerBuilder requestContentType(String requestContentType) {
+			this.requestContentType = requestContentType.toLowerCase();
+			return this;
+		}
+		
+		public HookTrackerBuilder responseContentType(String responseContentType) {
+			this.responseContentType = responseContentType.toLowerCase();
 			return this;
 		}
 	}

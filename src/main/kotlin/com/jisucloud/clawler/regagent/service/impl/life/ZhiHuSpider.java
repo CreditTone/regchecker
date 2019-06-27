@@ -1,6 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.life;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.util.OCRDecode;
 import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
 import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
 import com.jisucloud.deepsearch.selenium.mitm.HookTracker;
@@ -11,12 +12,12 @@ import lombok.extern.slf4j.Slf4j;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
-import org.springframework.stereotype.Component;
+import org.openqa.selenium.WebElement;
 
 import java.util.Map;
 
 @Slf4j
-@Component
+//@Component
 public class ZhiHuSpider implements PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;
@@ -47,16 +48,32 @@ public class ZhiHuSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"社区", "知识"};
 	}
+	
+	private String getImgCode() {
+		for (int i = 0 ; i < 3; i++) {
+			try {
+				WebElement img = chromeDriver.findElementByCssSelector(".Captcha-englishImg");
+				img.click();
+				Thread.sleep(2000);
+				byte[] body = chromeDriver.screenshot(img);
+				return OCRDecode.decodeImageCode(body);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return "";
+	}
 
 	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new ZhiHuSpider().checkTelephone("13910252000"));
-		System.out.println(new ZhiHuSpider().checkTelephone("18210538513"));
+		System.out.println(new ZhiHuSpider().checkTelephone("13910252000"));
+//		System.out.println(new ZhiHuSpider().checkTelephone("18210538513"));
 	}
 	
 	@Override
 	public boolean checkTelephone(String account) {
 		HookTracker hookTracker = HookTracker.builder()
 				.addUrl("api/v3/oauth/sign_in")
+				.responseContentType("application/json")
 				.isPOST().build();
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);
@@ -66,12 +83,14 @@ public class ZhiHuSpider implements PapaSpider {
 				
 				@Override
 				public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+					System.out.println(contents.getTextContents());
 					vcodeSuc = true;
 					checkTel = contents.getTextContents().equals("密码错误");
 				}
 				
 				@Override
 				public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+					System.out.println(messageInfo.getOriginalRequest().headers().names());
 					return null;
 				}
 
@@ -82,9 +101,21 @@ public class ZhiHuSpider implements PapaSpider {
 			});
 			chromeDriver.keyboardInput(chromeDriver.findElementByCssSelector(".SignContainer-inner input[name='username']"), account);
 			chromeDriver.keyboardInput(chromeDriver.findElementByCssSelector(".SignContainer-inner input[name='password']"), "x210nsadc2nk");
-			//判断是否弹出验证码
-			chromeDriver.mouseClick(chromeDriver.findElementByCssSelector("button[type='submit']"));
 			Thread.sleep(3000);
+			for (int i = 0; i < 5; i++) {
+				//判断是否弹出验证码
+				if (chromeDriver.checkElement("input[name='captcha']")) {
+					String imgCode = getImgCode();
+					WebElement captcha = chromeDriver.findElementByCssSelector("input[name='captcha']");
+					captcha.clear();
+					captcha.sendKeys(imgCode);
+				}
+				chromeDriver.mouseClick(chromeDriver.findElementByCssSelector("button[type='submit']"));
+				Thread.sleep(5000);
+				if (vcodeSuc) {
+					break;
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

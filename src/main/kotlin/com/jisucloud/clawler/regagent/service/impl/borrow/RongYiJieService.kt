@@ -4,8 +4,9 @@ import com.jisucloud.clawler.regagent.service.PapaSpider
 import com.jisucloud.clawler.regagent.util.JJsoupUtil
 import org.jsoup.Connection
 import org.springframework.stereotype.Component
+import com.jisucloud.clawler.regagent.service.UsePapaSpider
 
-@Component
+@UsePapaSpider
 class RongYiJieService : PapaSpider {
     override fun tags() = arrayOf("借贷" , "p2p");
 

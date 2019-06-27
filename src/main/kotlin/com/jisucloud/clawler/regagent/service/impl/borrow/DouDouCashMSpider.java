@@ -3,6 +3,8 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
+
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -12,7 +14,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-@Component
+@UsePapaSpider
 public class DouDouCashMSpider implements PapaSpider {
 
     private OkHttpClient okHttpClient = new OkHttpClient.Builder()

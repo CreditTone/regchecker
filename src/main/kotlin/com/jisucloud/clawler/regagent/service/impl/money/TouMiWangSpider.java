@@ -1,6 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.money;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 import com.jisucloud.deepsearch.selenium.Ajax;
 import com.jisucloud.deepsearch.selenium.AjaxListener;
@@ -22,7 +23,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-@Component
+@UsePapaSpider
 public class TouMiWangSpider implements PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;

@@ -1,6 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.video;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import lombok.extern.slf4j.Slf4j;
@@ -13,9 +14,9 @@ import java.util.Map;
 
 import org.jsoup.Connection;
 import org.jsoup.Connection.Method;
-import org.springframework.util.FileCopyUtils;
 
 @Slf4j
+@UsePapaSpider
 public class MangGuoTVSpider implements PapaSpider {
 	
 	private Session session = JJsoup.newSession();

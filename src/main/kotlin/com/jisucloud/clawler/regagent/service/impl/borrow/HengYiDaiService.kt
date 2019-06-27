@@ -9,8 +9,9 @@ import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.DESKeySpec
+import com.jisucloud.clawler.regagent.service.UsePapaSpider
 
-@Component
+@UsePapaSpider
 class HengYiDaiService : PapaSpider {
     override fun tags() = arrayOf("借贷" , "p2p");
 

@@ -3,6 +3,7 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import org.jsoup.Connection;
 import org.jsoup.Connection.Method;
 
 @Slf4j
+//@UsePapaSpider
 public class PaiPaiDaiSpider implements PapaSpider {
 	
 	private Session session = JJsoup.newSession();

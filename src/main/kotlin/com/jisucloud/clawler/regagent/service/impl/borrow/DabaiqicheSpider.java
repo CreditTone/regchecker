@@ -3,6 +3,7 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import lombok.extern.slf4j.Slf4j;
@@ -17,9 +18,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
 @Slf4j
-//无效
 public class DabaiqicheSpider implements PapaSpider {
 
 	@Override
@@ -47,10 +46,10 @@ public class DabaiqicheSpider implements PapaSpider {
 		return new String[] {"P2P", "消费分期" , "借贷"};
 	}
 
-//	public static void main(String[] args) {
-//		System.out.println(new DabaiqicheSpider().checkTelephone("18210538513"));
-//		System.out.println(new DabaiqicheSpider().checkTelephone("18210538577"));
-//	}
+	public static void main(String[] args) {
+		System.out.println(new DabaiqicheSpider().checkTelephone("18210538513"));
+		System.out.println(new DabaiqicheSpider().checkTelephone("18210538577"));
+	}
 
 	private Map<String, String> getHeader() {
 		Map<String, String> headers = new HashMap<>();
@@ -87,7 +86,6 @@ public class DabaiqicheSpider implements PapaSpider {
 		for (int i = 0; i < 5; i++) {//最大尝试5次
 			try {
 				String url = "https://passport.qufenqi.com/i/resetloginpass/setaccount";
-				System.out.println(url);
 				String imgcode = getImgCode(session);
 				Connection.Response response = session.connect(url)
 						.method(Method.POST)
