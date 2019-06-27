@@ -15,29 +15,29 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class AiAiYiSpider implements PapaSpider {
+public class _39JianKangSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "爱爱医是面向医务人员的医学、药学专业知识与经验交流平台，并为医生提供国家医学考试中心信息服务的专业医学网站。";
+		return "39健康网,专业的健康资讯门户网站,中国优质医疗保健信息与在线健康服务平台,医疗保健类网站杰出代表,荣获中国标杆品牌称号。提供专业、完善的健康信息服务,包括疾病。";
 	}
 
 	@Override
 	public String platform() {
-		return "iiyi";
+		return "39jk";
 	}
 
 	@Override
 	public String home() {
-		return "iiyi.com";
+		return "39.net";
 	}
 
 	@Override
 	public String platformName() {
-		return "爱爱医";
+		return "39健康网";
 	}
 
 	@Override
@@ -45,29 +45,30 @@ public class AiAiYiSpider implements PapaSpider {
 		return new String[] {"健康运动", "医疗", "生活应用" , "挂号" , "用药"};
 	}
 
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new AiAiYiSpider().checkTelephone("13910252045"));
-//		System.out.println(new AiAiYiSpider().checkTelephone("18210538513"));
-//	}
+	public static void main(String[] args) throws InterruptedException {
+		System.out.println(new _39JianKangSpider().checkTelephone("13910200000"));
+		System.out.println(new _39JianKangSpider().checkTelephone("18210538513"));
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://account.iiyi.com/index/checkbind";
+			String url = "https://my.39.net/UserService.asmx/CheckPhoneReg";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("bind", account)
+	                .add("phone", account)
+	                .add("pid", "0")
 	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", CHROME_USER_AGENT)
-					.addHeader("Host", "account.iiyi.com")
-					.addHeader("Referer", "https://account.iiyi.com/register?referer=https%3A%2F%2Fwww.iiyi.com%2F")
+					.addHeader("Host", "my.39.net")
+					.addHeader("Referer", "https://my.39.net/passport/reg.aspx?ref=http://www.39.net/")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
 			String res = response.body().string();
 			res = StringUtil.unicodeToString(res);
-			if (res.contains("已被使用")) {
+			if (res.contains("已存在")) {
 				return true;
 			}
 		} catch (Exception e) {

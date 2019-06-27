@@ -12,6 +12,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 
+import com.jisucloud.deepsearch.selenium.HttpsProxy;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -36,6 +38,10 @@ public class ChromeAjaxHookDriver extends ChromeDriver {
 	public static final ChromeAjaxHookDriver newNoHookInstance(boolean disableLoadImage,boolean headless,String userAgent) {
 		log.warn("你启动的是没有钩子功能的浏览器");
 		return new ChromeAjaxHookDriver(ChromeOptionsUtil.createChromeOptions(disableLoadImage, headless, null, userAgent));
+	}
+	
+	public static final ChromeAjaxHookDriver newInstanceWithRandomProxy(boolean disableLoadImage,boolean headless,String userAgent) {
+		return new ChromeAjaxHookDriver(ChromeOptionsUtil.createChromeOptions(disableLoadImage, headless, ChromeOptionsUtil.httpsProxy, userAgent));
 	}
 	
 	public ChromeAjaxHookDriver(ChromeOptions options) {

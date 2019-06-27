@@ -25,9 +25,10 @@ public class CheckValidPapaSpider implements PapaSpiderTester.PapaSpiderTestList
 	private static Set<Class<? extends PapaSpider>> TEST_SUCCESS_PAPASPIDERS = new HashSet<>();
 	private static Set<Class<? extends PapaSpider>> TEST_FAILURE_PAPASPIDERS = new HashSet<>();
 	private static Set<Class<? extends PapaSpider>> NOUSE_PAPASPIDERS = new HashSet<>();
+	
 
 	@PostConstruct
-	private void init() {
+	private void init() throws Exception {
 		Set<Class<? extends PapaSpider>> papaSpiders = new HashSet<>();
 		try {
 			String basePackage = "com.jisucloud.clawler.regagent.service.impl";
@@ -51,10 +52,19 @@ public class CheckValidPapaSpider implements PapaSpiderTester.PapaSpiderTestList
 			for (Class<?> clz : NOUSE_PAPASPIDERS) {
 				log.info(clz.getName());
 			}
+			log.info("开始测试......");
 			PapaSpiderTester papaSpiderTester = new PapaSpiderTester();
 			papaSpiderTester.testing(papaSpiders, this);
+			log.info("开始完成，成功" + TEST_SUCCESS_PAPASPIDERS.size() + "个，失败" + TEST_FAILURE_PAPASPIDERS.size() + "个。");
+			if (!TEST_FAILURE_PAPASPIDERS.isEmpty()) {
+				log.info("测试失败列表如下:");
+				for (Class<? extends PapaSpider> clz : TEST_FAILURE_PAPASPIDERS) {
+					log.info(clz.getName());
+				}
+			}
 		}catch(Exception e) {
 			log.warn("载入失败", e);
+			throw e;
 		}
 	}
 
@@ -72,11 +82,13 @@ public class CheckValidPapaSpider implements PapaSpiderTester.PapaSpiderTestList
 
 	@Override
 	public void testSuccess(Class<? extends PapaSpider> clz) {
+		log.info("测试成功:"+clz.getName());
 		TEST_SUCCESS_PAPASPIDERS.add(clz);
 	}
 
 	@Override
 	public void testFailure(Class<? extends PapaSpider> clz) {
+		log.info("测试失败:"+clz.getName());
 		TEST_FAILURE_PAPASPIDERS.add(clz);
 	}
 }
