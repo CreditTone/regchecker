@@ -7,9 +7,12 @@ import com.jisucloud.deepsearch.selenium.AjaxListener;
 import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
 import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 import lombok.extern.slf4j.Slf4j;
+
+import org.mockito.internal.util.collections.Sets;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
@@ -17,11 +20,11 @@ public class MinDaiService implements PapaSpider {
 
     private ChromeAjaxListenDriver chromeDriver;
     private boolean checkTel = false;
-
-//    public static void main(String[] args) throws InterruptedException {
-//        System.out.println(new MinDaiService().checkTelephone("18210538513"));
-//        System.out.println(new MinDaiService().checkTelephone("18369630455"));
-//    }
+    
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newSet("18369630455", "18210538513");
+	}
 
     @Override
     public String message() {

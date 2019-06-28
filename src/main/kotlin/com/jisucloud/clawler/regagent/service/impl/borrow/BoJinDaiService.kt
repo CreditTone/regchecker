@@ -6,10 +6,16 @@ import me.kagura.JJsoup
 import org.jsoup.Connection
 import org.springframework.stereotype.Component
 import java.util.*
+import org.mockito.internal.util.collections.Sets;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider
 
 @UsePapaSpider
 class BoJinDaiService : PapaSpider {
+	
+	override fun getTestTelephones() : Set<String> {
+		return Sets.newSet("13261165342", "18210538513");
+	}
+	
     override fun tags() = arrayOf("理财", "P2P", "借贷")
 
     override fun home() = "bjdp2p.com"

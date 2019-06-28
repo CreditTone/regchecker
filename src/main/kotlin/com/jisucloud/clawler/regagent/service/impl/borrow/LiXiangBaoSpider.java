@@ -10,10 +10,12 @@ import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.mockito.internal.util.collections.Sets;
 import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
@@ -48,10 +50,10 @@ public class LiXiangBaoSpider implements PapaSpider {
 		return new String[] {"P2P", "借贷"};
 	}
 
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new LiXiangBaoSpider().checkTelephone("13900002045"));
-//		System.out.println(new LiXiangBaoSpider().checkTelephone("18210538513"));
-//	}
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newSet("13900002045", "18210538513");
+	}
 	
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {

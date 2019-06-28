@@ -9,9 +9,11 @@ import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.mockito.internal.util.collections.Sets;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
@@ -44,11 +46,11 @@ public class HuaShengMiFuSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"P2P", "消费分期" , "借贷"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new HuaShengMiFuSpider().checkTelephone("13910252000"));
-//		System.out.println(new HuaShengMiFuSpider().checkTelephone("18210538513"));
-//	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newSet("13910252000", "18210538513");
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {

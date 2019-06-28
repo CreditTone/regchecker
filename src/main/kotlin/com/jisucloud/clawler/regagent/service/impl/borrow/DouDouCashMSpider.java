@@ -9,9 +9,12 @@ import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+
+import org.mockito.internal.util.collections.Sets;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @UsePapaSpider
@@ -37,6 +40,11 @@ public class DouDouCashMSpider implements PapaSpider {
     public String home() {
         return "ddcash.cn";
     }
+    
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newSet("15985268900", "18210538513");
+	}
 
     private String getRequestBody(String mobile) {
         JSONObject q = new JSONObject();

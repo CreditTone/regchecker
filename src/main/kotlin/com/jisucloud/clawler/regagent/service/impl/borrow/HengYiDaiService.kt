@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.kt
 
+import org.mockito.internal.util.collections.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider
 import com.jisucloud.clawler.regagent.util.JJsoupUtil
 import org.jsoup.Connection
@@ -13,6 +14,8 @@ import com.jisucloud.clawler.regagent.service.UsePapaSpider
 
 @UsePapaSpider
 class HengYiDaiService : PapaSpider {
+	
+	
     override fun tags() = arrayOf("借贷" , "p2p");
 
     override fun home(): String = "credithc.com"
@@ -87,6 +90,11 @@ class HengYiDaiService : PapaSpider {
         cipher.init(1, key, SecureRandom())
         return Base64.getEncoder().encodeToString(cipher.doFinal(data.toByteArray())).replace(Regex("[\\s]*"), "")
     }
+	
+	override fun getTestTelephones() : Set<String> {
+		return Sets.newSet("13261165342", "18210538513");
+	}
+
 
 }
 

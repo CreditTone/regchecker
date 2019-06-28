@@ -13,9 +13,11 @@ import me.kagura.Session;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.jsoup.Connection;
 import org.jsoup.Connection.Method;
+import org.mockito.internal.util.collections.Sets;
 
 @Slf4j
 //@UsePapaSpider
@@ -49,11 +51,11 @@ public class PaiPaiDaiSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"P2P", "消费分期" , "借贷"};
 	}
-
-//	public static void main(String[] args) {
-//		System.out.println(new PaiPaiDaiSpider().checkTelephone("18210538513"));
-//		System.out.println(new PaiPaiDaiSpider().checkTelephone("18210538577"));
-//	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newSet("15900068904", "18210538513");
+	}
 
 	private Map<String, String> getHeader() {
 		Map<String, String> headers = new HashMap<>();

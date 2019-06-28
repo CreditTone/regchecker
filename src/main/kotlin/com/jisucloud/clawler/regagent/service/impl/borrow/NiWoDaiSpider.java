@@ -18,6 +18,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import org.jsoup.Connection;
+import org.mockito.internal.util.collections.Sets;
 import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +26,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -62,12 +64,12 @@ public class NiWoDaiSpider implements PapaSpider {
 	
 	//暂时不能访问此页面，被反扒
 	public boolean success = false;//默认false
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new NiWoDaiSpider().checkTelephone("13879690000"));
-//		System.out.println(new NiWoDaiSpider().checkTelephone("18210538513"));
-//	}
 	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newSet("15900068904", "18210538513");
+	}
+
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {

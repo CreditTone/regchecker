@@ -8,9 +8,11 @@ import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.mockito.internal.util.collections.Sets;
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
@@ -42,12 +44,12 @@ public class HuRongBaoSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"P2P", "消费分期" , "借贷"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new HuRongBaoSpider().checkTelephone("15985268904"));
-//		System.out.println(new HuRongBaoSpider().checkTelephone("18210538513"));
-//	}
 	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newSet("15985268904", "18210538513");
+	}
+
 	private String getImgCode() {
 		if (!chromeDriver.checkElement("#captchaImg")) {
 			return "";

@@ -1,6 +1,7 @@
 package com.jisucloud.clawler.regagent.service;
 
 import java.util.Map;
+import java.util.Set;
 
 public interface PapaSpider {
 	
@@ -25,5 +26,6 @@ public interface PapaSpider {
     Map<String, String> getFields();
 
     String[] tags();
-
+    
+    Set<String> getTestTelephones();
 }

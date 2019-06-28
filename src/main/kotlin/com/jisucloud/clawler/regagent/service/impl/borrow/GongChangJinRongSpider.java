@@ -12,10 +12,12 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.mockito.internal.util.collections.Sets;
 import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
@@ -49,11 +51,10 @@ public class GongChangJinRongSpider implements PapaSpider {
 	}
 	
 
-	
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new GongChangJinRongSpider().checkTelephone("13879690000"));
-//		System.out.println(new GongChangJinRongSpider().checkTelephone("18210538513"));
-//	}
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newSet("13879690000", "18210538513");
+	}
 	
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {

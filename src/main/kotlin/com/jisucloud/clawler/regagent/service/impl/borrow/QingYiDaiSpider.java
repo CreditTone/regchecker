@@ -14,10 +14,12 @@ import lombok.extern.slf4j.Slf4j;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
+import org.mockito.internal.util.collections.Sets;
 import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
@@ -52,11 +54,11 @@ public class QingYiDaiSpider implements PapaSpider,AjaxHook {
 	public String[] tags() {
 		return new String[] {"P2P", "小微贷", "借贷"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new QingYiDaiSpider().checkTelephone("13910252045"));
-//		System.out.println(new QingYiDaiSpider().checkTelephone("18210538513"));
-//	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newSet("13910252045", "18210538513");
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {

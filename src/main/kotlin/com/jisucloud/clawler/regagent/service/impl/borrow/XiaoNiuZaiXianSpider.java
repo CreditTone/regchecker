@@ -10,10 +10,12 @@ import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.mockito.internal.util.collections.Sets;
 import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
@@ -25,34 +27,34 @@ public class XiaoNiuZaiXianSpider implements PapaSpider {
 
 	@Override
 	public String message() {
-		return "91旺财是九一金融旗下互联网网络借贷信息中介平台,北京市互联网金融行业协会副会长单位,中国互联网金融协会会员理事单位,公司法人许泽玮先生现任北京市互联网金融协会。";
+		return "小牛在线是中国线上智能金融服务平台,提供专业的P2P网贷服务,为出借人提供多种互联网金融服务项目,是中国社科院网贷评级A级平台,互联网金融平台首选小牛在线!";
 	}
 
 	@Override
 	public String platform() {
-		return "91wangcai";
+		return "xiaoniu88";
 	}
 
 	@Override
 	public String home() {
-		return "91wangcai.com";
+		return "xiaoniu88.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "91旺财";
+		return "小牛在线";
 	}
 
 	@Override
 	public String[] tags() {
 		return new String[] {"P2P", "借贷"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new XiaoNiuZaiXianSpider().checkTelephone("13910252045"));
-//		System.out.println(new XiaoNiuZaiXianSpider().checkTelephone("18210538513"));
-//	}
 	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newSet("13910252045", "18210538513");
+	}
+
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {

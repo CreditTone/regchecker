@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.kt
 
+import org.mockito.internal.util.collections.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider
 import com.jisucloud.clawler.regagent.util.JJsoupUtil
 import com.jisucloud.clawler.regagent.util.md5DigestAsHex
@@ -47,6 +48,9 @@ class XiaoYingKaDaiService : PapaSpider {
 
     }
 
+	override fun getTestTelephones() : Set<String> {
+		return Sets.newSet("18763623587", "18210538513");
+	}
 
 }
 

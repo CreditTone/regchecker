@@ -1,6 +1,5 @@
 package com.jisucloud.clawler.regagent.util;
 
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -25,8 +24,8 @@ public class PapaSpiderTester {
 			boolean success = false;
 			try {
 				PapaSpider instance =  clz.newInstance();
-				Set<String> testTels = new HashSet<>();
-				if (testTels.size() < 2) {
+				Set<String> testTels = instance.getTestTelephones();
+				if (testTels == null || testTels.size() < 2) {
 					log.warn("无法测试，"+clz.getName()+" 最低需要两个不同的比较号码。一个确认已经注册，一个确认没有注册。");
 					continue;
 				}
@@ -50,6 +49,38 @@ public class PapaSpiderTester {
 				}else {
 					papaSpiderTestListener.testFailure(clz);
 				}
+			}
+		}
+	}
+	
+	public void testingWithPrint(Class<? extends PapaSpider> clz) {
+		boolean success = false;
+		try {
+			PapaSpider instance =  clz.newInstance();
+			Set<String> testTels = instance.getTestTelephones();
+			if (testTels == null || testTels.size() < 2) {
+				log.warn("无法测试，"+clz.getName()+" 最低需要两个不同的比较号码。一个确认已经注册，一个确认没有注册。");
+				return;
+			}
+			//如果全为true或者全为false，证明测试失败
+			int trueCount = 0;
+			int falseCount = 0;
+			for (Iterator<String> iterator2 = testTels.iterator(); iterator2.hasNext();) {
+				String tel = iterator2.next();
+				if (instance.checkTelephone(tel)) {
+					trueCount ++;
+				}else {
+					falseCount ++;
+				}
+			}
+			success = (trueCount != 0 && falseCount != 0);
+		} catch (Exception e) {
+			log.warn("测试"+clz.getName()+"异常", e);
+		}finally {
+			if (success) {
+				log.info("测试成功:"+clz.getName());
+			}else {
+				log.info("测试失败:"+clz.getName());
 			}
 		}
 	}

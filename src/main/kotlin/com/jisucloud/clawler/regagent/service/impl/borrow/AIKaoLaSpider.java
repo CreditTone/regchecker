@@ -8,9 +8,11 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import org.mockito.internal.util.collections.Sets;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -44,11 +46,12 @@ public class AIKaoLaSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"P2P", "征信" , "借贷"};
 	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newSet("18611216720", "18210538513");
+	}
 
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new AIKaoLaSpider().checkTelephone("18611216720"));
-//		System.out.println(new AIKaoLaSpider().checkTelephone("18210538513"));
-//	}
 
 	@Override
 	public boolean checkTelephone(String account) {

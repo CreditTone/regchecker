@@ -11,10 +11,12 @@ import me.kagura.Session;
 
 import org.jsoup.Connection;
 import org.jsoup.Connection.Method;
+import org.mockito.internal.util.collections.Sets;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @UsePapaSpider
 @Slf4j
@@ -45,11 +47,11 @@ public class WangdaiZhijiaSpider implements PapaSpider {
 		return new String[] {"金融资讯", "贷超" , "借贷"};
 	}
 	
-//	public static void main(String[] args) {
-//		System.out.println(new WangdaiZhijiaSpider().checkTelephone("18210538513"));
-//		System.out.println(new WangdaiZhijiaSpider().checkTelephone("18210538577"));
-//	}
-
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newSet("18210538577", "18210538513");
+	}
+	
 	private Map<String, String> getHeader() {
 		Map<String, String> headers = new HashMap<>();
 		headers.put("User-Agent",

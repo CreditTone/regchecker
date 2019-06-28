@@ -8,6 +8,7 @@ import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import me.kagura.JJsoup;
 import me.kagura.Session;
 import org.jsoup.Connection;
+import org.mockito.internal.util.collections.Sets;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
@@ -15,6 +16,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 @UsePapaSpider
 public class JuZiFenqiSpider implements PapaSpider {
@@ -73,11 +75,11 @@ public class JuZiFenqiSpider implements PapaSpider {
 		return params;
 	}
 	
-//	 public static void main(String[] args) {
-//			System.out.println(new JuziFenqiSpider().checkTelephone("18210538513"));
-//			System.out.println(new JuziFenqiSpider().checkTelephone("18210538577"));
-//		}
-
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newSet("18210538577", "18210538513");
+	}
+	
     @Override
     public boolean checkTelephone(String account) {
         try {

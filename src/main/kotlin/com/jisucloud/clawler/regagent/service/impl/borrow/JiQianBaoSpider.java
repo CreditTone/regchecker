@@ -8,10 +8,12 @@ import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import me.kagura.Session;
 import org.jsoup.Connection;
 import org.jsoup.Connection.Method;
+import org.mockito.internal.util.collections.Sets;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @UsePapaSpider
 public class JiQianBaoSpider implements PapaSpider {
@@ -53,11 +55,11 @@ public class JiQianBaoSpider implements PapaSpider {
         params.put("channel", "9");
         return params;
     }
-
-//    public static void main(String[] args) {
-//		System.out.println(new jiQianBaoSpider().checkTelephone("18210538513"));
-//		System.out.println(new jiQianBaoSpider().checkTelephone("18210531111"));
-//	}
+    
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newSet("15985268900", "18210538513");
+	}
 
     @Override
     public boolean checkTelephone(String account) {

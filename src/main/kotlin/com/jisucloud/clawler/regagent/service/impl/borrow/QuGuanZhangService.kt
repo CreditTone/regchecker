@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.kt
 
+import org.mockito.internal.util.collections.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider
 import com.jisucloud.clawler.regagent.util.JJsoupUtil
 import org.jsoup.Connection
@@ -62,6 +63,10 @@ class QuGuanZhangService : PapaSpider {
     override fun getFields(): Map<String, String>? {
         return null
     }
+	
+	override fun getTestTelephones() : Set<String> {
+		return Sets.newSet("13261165342", "18210538513");
+	}
 
 }
 

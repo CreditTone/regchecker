@@ -6,10 +6,11 @@ import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import org.jsoup.Connection;
-import org.springframework.stereotype.Component;
+import org.mockito.internal.util.collections.Sets;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @UsePapaSpider
 public class SujieDaiSpider implements PapaSpider {
@@ -47,6 +48,11 @@ public class SujieDaiSpider implements PapaSpider {
         params.put("timestamp", System.currentTimeMillis() + "");
         return params;
     }
+    
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newSet("15985268900", "18210538513");
+	}
 
     @Override
     public boolean checkTelephone(String account) {

@@ -11,10 +11,12 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import org.mockito.internal.util.collections.Sets;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -48,11 +50,6 @@ public class _2345DaiKuanWangSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"贷超", "消费分期" , "借贷"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new _2345DaiKuanWangSpider().checkTelephone("13910252045"));
-//		System.out.println(new _2345DaiKuanWangSpider().checkTelephone("15161509916"));
-//	}
 
 	@Override
 	public boolean checkTelephone(String account) {
@@ -96,6 +93,11 @@ public class _2345DaiKuanWangSpider implements PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
+	}
+
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newSet("13910252000", "15161509916");
 	}
 
 }

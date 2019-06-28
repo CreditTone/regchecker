@@ -4,9 +4,11 @@ import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import org.jsoup.Connection;
+import org.mockito.internal.util.collections.Sets;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Set;
 
 @UsePapaSpider
 public class RenRenDaiService implements PapaSpider {
@@ -31,6 +33,11 @@ public class RenRenDaiService implements PapaSpider {
     public String platformName() {
         return "人人贷";
     }
+    
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newSet("15985268904", "18210538513");
+	}
 
     @Override
     public boolean checkTelephone(String account) {
