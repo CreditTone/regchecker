@@ -2,6 +2,7 @@ package com.jisucloud.clawler.regagent.service.impl.trip;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
@@ -11,6 +12,7 @@ import org.jsoup.Connection;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,6 +21,12 @@ public class Web12306Spider implements PapaSpider {
 
 
     private Map<String, String> fields = null;
+    
+    
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("19910002005", "18210538513");
+	}
 
     @Override
     public String message() {

@@ -6,12 +6,17 @@ import com.jisucloud.clawler.regagent.util.JJsoupUtil
 import org.jsoup.Connection
 import org.springframework.stereotype.Component
 import com.jisucloud.clawler.regagent.service.UsePapaSpider
+import com.google.common.collect.Sets
 
 @UsePapaSpider
 class NanXingSiRenYiShengService : PapaSpider {
     override fun tags() = arrayOf("医疗");
     override fun home() = "ranknowcn.com"
     //https://sj.qq.com/myapp/detail.htm?apkName=com.medapp.man
+	
+	override fun getTestTelephones() : Set<String> {
+		return Sets.newHashSet("13261165342", "18210538513" , "18210538510");
+	}
 
     override fun message(): String {
         return "男性私人医生是一款针对男生生理健康及相关专科类病症，提供免费在线咨询的健康类服务软件。集合上千家医院的在职医生和资源，自动分配所在地就近医院医生为您提供健康指导，免去挂号难，排队久的困扰，提问流程简单便捷，让您随时随地享受VIP健康咨询服务。(建议允许定位以便能准确分配到所在地医院)。"

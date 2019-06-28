@@ -12,9 +12,8 @@ import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.mockito.internal.util.collections.Sets;
+import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Set;
@@ -54,7 +53,7 @@ public class BiYouXinSpider implements PapaSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newSet("15985268904", "18210538513");
+		return Sets.newHashSet("15985268904", "18210538513");
 	}
 
 	private String getImgCode() {

@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.shop;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
@@ -11,6 +12,7 @@ import me.kagura.Session;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -47,11 +49,11 @@ public class ZhongLiangSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"购物" , "食品"};
 	}
-
-//	public static void main(String[] args) {
-//		System.out.println(new ZhongLiangSpider().checkTelephone("18779861101"));
-//		System.out.println(new ZhongLiangSpider().checkTelephone("18210538577"));
-//	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18779861101", "18210538513");
+	}
 
 	private Map<String, String> getHeader() {
 		Map<String, String> headers = new HashMap<>();

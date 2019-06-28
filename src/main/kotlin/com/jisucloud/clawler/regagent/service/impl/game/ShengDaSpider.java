@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.game;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -47,11 +49,11 @@ public class ShengDaSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"游戏"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new ShengDaSpider().checkTelephone("18210530000"));
-//		System.out.println(new ShengDaSpider().checkTelephone("18210538513"));
-//	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18210530000", "13269423806");
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {

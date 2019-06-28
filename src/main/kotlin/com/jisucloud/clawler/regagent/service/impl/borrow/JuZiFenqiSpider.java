@@ -8,7 +8,7 @@ import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import me.kagura.JJsoup;
 import me.kagura.Session;
 import org.jsoup.Connection;
-import org.mockito.internal.util.collections.Sets;
+import com.google.common.collect.Sets;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
@@ -77,7 +77,7 @@ public class JuZiFenqiSpider implements PapaSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newSet("18210538577", "18210538513");
+		return Sets.newHashSet("18210538577", "18210538513");
 	}
 	
     @Override

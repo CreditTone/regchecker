@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.deepsearch.selenium.mitm.MitmServer;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,7 +19,7 @@ public class PapaSpiderTester {
 		
 	}
 	
-	public void testing(Set<Class<? extends PapaSpider>> papaSpiders, PapaSpiderTestListener papaSpiderTestListener) {
+	public static void testing(Set<Class<? extends PapaSpider>> papaSpiders, PapaSpiderTestListener papaSpiderTestListener) {
 		for (Iterator<Class<? extends PapaSpider>> iterator = papaSpiders.iterator(); iterator.hasNext();) {
 			Class<? extends PapaSpider> clz = iterator.next();
 			boolean success = false;
@@ -39,6 +40,9 @@ public class PapaSpiderTester {
 					}else {
 						falseCount ++;
 					}
+					if (iterator2.hasNext()) {
+						instance =  clz.newInstance();
+					}
 				}
 				success = (trueCount != 0 && falseCount != 0);
 			} catch (Exception e) {
@@ -53,7 +57,11 @@ public class PapaSpiderTester {
 		}
 	}
 	
-	public void testingWithPrint(Class<? extends PapaSpider> clz) {
+	/**
+	 * 手工测试专用
+	 * @param clz
+	 */
+	public static void testingWithPrint(Class<? extends PapaSpider> clz) {
 		boolean success = false;
 		try {
 			PapaSpider instance =  clz.newInstance();
@@ -68,9 +76,14 @@ public class PapaSpiderTester {
 			for (Iterator<String> iterator2 = testTels.iterator(); iterator2.hasNext();) {
 				String tel = iterator2.next();
 				if (instance.checkTelephone(tel)) {
+					log.info(tel+"已注册"+instance.platformName());
 					trueCount ++;
 				}else {
+					log.info(tel+"未注册"+instance.platformName());
 					falseCount ++;
+				}
+				if (iterator2.hasNext()) {
+					instance =  clz.newInstance();
 				}
 			}
 			success = (trueCount != 0 && falseCount != 0);
@@ -82,6 +95,7 @@ public class PapaSpiderTester {
 			}else {
 				log.info("测试失败:"+clz.getName());
 			}
+			MitmServer.getInstance().stop();
 		}
 	}
 }

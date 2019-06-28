@@ -14,7 +14,7 @@ import org.jsoup.Connection.Method;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.mockito.internal.util.collections.Sets;
+import com.google.common.collect.Sets;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -54,7 +54,7 @@ public class MoerlongSpider implements PapaSpider {
 
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newSet("15985268004", "18210538513");
+		return Sets.newHashSet("15985268004", "18210538513");
 	}
 	
 	private Map<String, String> getHeader() {

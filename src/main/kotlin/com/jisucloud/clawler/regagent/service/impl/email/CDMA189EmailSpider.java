@@ -2,6 +2,7 @@ package com.jisucloud.clawler.regagent.service.impl.email;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.JJsoupUtil;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Set;
 
 @UsePapaSpider
 public class CDMA189EmailSpider implements PapaSpider {
@@ -77,6 +79,12 @@ public class CDMA189EmailSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"邮箱"};
 	}
+    
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("15010645316", "18210538513");
+	}
+
 
 
 }

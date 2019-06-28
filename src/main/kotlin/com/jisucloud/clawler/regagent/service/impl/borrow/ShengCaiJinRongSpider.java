@@ -10,7 +10,7 @@ import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.mockito.internal.util.collections.Sets;
+import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Component;
 
@@ -53,7 +53,7 @@ public class ShengCaiJinRongSpider implements PapaSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newSet("13910252045", "18210538513");
+		return Sets.newHashSet("13910252045", "18210538513");
 	}
 
 	private String getImgCode() {

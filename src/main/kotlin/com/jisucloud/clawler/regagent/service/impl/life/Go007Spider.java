@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.life;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
@@ -9,6 +10,7 @@ import me.kagura.Session;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.jsoup.Connection;
 
@@ -42,10 +44,10 @@ public class Go007Spider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"o2o", "生活休闲", "求职" , "招聘" , "房产家居"};
 	}
-
-	public static void main(String[] args) {
-		System.out.println(new Go007Spider().checkTelephone("18210538513"));
-		System.out.println(new Go007Spider().checkTelephone("18210538577"));
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("13925306966", "18210538513");
 	}
 
 	private Map<String, String> getHeader() {

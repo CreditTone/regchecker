@@ -5,13 +5,13 @@ import com.jisucloud.clawler.regagent.service.PapaSpider
 import com.jisucloud.clawler.regagent.util.JJsoupUtil
 import org.springframework.stereotype.Component
 import com.jisucloud.clawler.regagent.service.UsePapaSpider
-import org.mockito.internal.util.collections.Sets;
+import com.google.common.collect.Sets;
 
 @UsePapaSpider
 class DaZhiHuiService : PapaSpider {
 
 	override fun getTestTelephones(): Set<String> {
-		return Sets.newSet("18763623587", "18210538513");
+		return Sets.newHashSet("18763623587", "18210538513");
 	}
 
 	override fun tags() = arrayOf("理财", "炒股");

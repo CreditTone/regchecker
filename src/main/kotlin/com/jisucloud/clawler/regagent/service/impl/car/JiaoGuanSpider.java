@@ -2,6 +2,7 @@ package com.jisucloud.clawler.regagent.service.impl.car;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.JJsoupUtil;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @UsePapaSpider
 public class JiaoGuanSpider implements PapaSpider {
@@ -37,6 +39,11 @@ public class JiaoGuanSpider implements PapaSpider {
         headers.put("X-Requested-With", "XMLHttpRequest");
         return headers;
     }
+    
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18210530000", "18210538513");
+	}
 
     @Override
     public boolean checkTelephone(String account) {

@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.money;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.deepsearch.selenium.HeadlessUtil;
@@ -9,10 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
@@ -45,11 +45,11 @@ public class ZhongGuoRenMinBaoXianSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"理财", "保险"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new ZhongRenMinBaoXianSpider().checkTelephone("18210014444"));
-//		System.out.println(new ZhongRenMinBaoXianSpider().checkTelephone("18210538513"));
-//	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("15985268900", "18210538513");
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {

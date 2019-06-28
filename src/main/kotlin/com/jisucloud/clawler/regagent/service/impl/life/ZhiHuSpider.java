@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.life;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
@@ -15,6 +16,7 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 //@Component
@@ -63,11 +65,12 @@ public class ZhiHuSpider implements PapaSpider {
 		}
 		return "";
 	}
-
-	public static void main(String[] args) throws InterruptedException {
-		System.out.println(new ZhiHuSpider().checkTelephone("13910252000"));
-//		System.out.println(new ZhiHuSpider().checkTelephone("18210538513"));
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("13910252000", "18210538513");
 	}
+
 	
 	@Override
 	public boolean checkTelephone(String account) {

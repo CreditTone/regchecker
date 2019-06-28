@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.deepsearch.selenium.Ajax;
@@ -8,11 +9,6 @@ import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
 import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
-
-import org.mockito.internal.util.collections.Sets;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.interactions.Actions;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Set;
@@ -52,7 +48,7 @@ public class AiTouJinRongSpider implements PapaSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newSet("13910252000", "18210538513");
+		return Sets.newHashSet("13910252000", "18210538513");
 	}
 
 	@Override

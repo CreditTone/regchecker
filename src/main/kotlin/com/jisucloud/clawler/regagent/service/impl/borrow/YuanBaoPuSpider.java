@@ -2,21 +2,14 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import lombok.extern.slf4j.Slf4j;
 import me.kagura.JJsoup;
 import me.kagura.Session;
-import okhttp3.Request;
 
 import org.jsoup.Connection;
-import org.jsoup.Connection.Method;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.mockito.internal.util.collections.Sets;
-import org.springframework.stereotype.Component;
+import com.google.common.collect.Sets;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -54,7 +47,7 @@ public class YuanBaoPuSpider implements PapaSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newSet("18210538577", "18210538513");
+		return Sets.newHashSet("18210538577", "18210538513");
 	}
 
 	private Map<String, String> getHeader() {

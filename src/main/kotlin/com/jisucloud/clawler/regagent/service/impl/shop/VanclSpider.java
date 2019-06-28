@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.shop;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.deepsearch.selenium.Ajax;
@@ -9,6 +10,7 @@ import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
@@ -41,11 +43,11 @@ public class VanclSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"电商"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new VanclSpider().checkTelephone("18210538000"));
-//		System.out.println(new VanclSpider().checkTelephone("18210538513"));
-//	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18210530000", "18210538513");
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {

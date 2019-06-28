@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.work;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -48,11 +50,11 @@ public class Hunt007Spider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"求职" , "招聘" , "广东"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new Hunt007Spider().checkTelephone("13691032050"));
-//		System.out.println(new Hunt007Spider().checkTelephone("18210538511"));
-//	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("13691032050", "15700102860");
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {

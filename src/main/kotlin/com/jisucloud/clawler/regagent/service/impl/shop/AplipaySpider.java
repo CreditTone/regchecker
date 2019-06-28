@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.shop;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import org.openqa.selenium.WebElement;
 
@@ -48,12 +50,12 @@ public class AplipaySpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"购物" , "理财" , "借贷" , "消费分期" , "保险"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new AplipaySpider().checkTelephone("13879690000"));
-//		System.out.println(new AplipaySpider().checkTelephone("18210538513"));
-//	}
 	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18800000001", "18210538513");
+	}
+
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {

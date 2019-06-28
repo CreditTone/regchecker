@@ -2,6 +2,7 @@ package com.jisucloud.clawler.regagent.service.impl.health;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -46,13 +48,13 @@ public class YaoYaoYaoYiYapSpider implements PapaSpider {
 
 	@Override
 	public String[] tags() {
-		return new String[] {"购药"};
+		return new String[] {"购药" , "健康"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new YaoYaoYaoYiYapSpider().checkTelephone("13844441111"));
-//		System.out.println(new YaoYaoYaoYiYapSpider().checkTelephone("18210538513"));
-//	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("15901537458", "18210538513");
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {

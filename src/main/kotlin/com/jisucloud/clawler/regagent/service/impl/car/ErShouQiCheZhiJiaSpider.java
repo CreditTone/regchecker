@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.car;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -46,11 +48,11 @@ public class ErShouQiCheZhiJiaSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"二手车", "卖车", "买车"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new ErShouQiCheZhiJiaSpider().checkTelephone("13879690000"));
-//		System.out.println(new ErShouQiCheZhiJiaSpider().checkTelephone("18210538513"));
-//	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18210538577", "18210538513");
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {

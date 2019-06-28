@@ -2,6 +2,7 @@ package com.jisucloud.clawler.regagent.service.impl.life;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
@@ -14,6 +15,7 @@ import okhttp3.Response;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -47,11 +49,11 @@ public class ShuiDiXinYongSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"新闻咨询", "工具"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new ShuiDiXinYongSpider().checkTelephone("15970663703"));
-//		System.out.println(new ShuiDiXinYongSpider().checkTelephone("18210538513"));
-//	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("15970663703", "18210538513");
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {

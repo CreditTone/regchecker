@@ -6,7 +6,7 @@ import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import org.jsoup.Connection;
-import org.mockito.internal.util.collections.Sets;
+import com.google.common.collect.Sets;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,7 +51,7 @@ public class SujieDaiSpider implements PapaSpider {
     
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newSet("15985268900", "18210538513");
+		return Sets.newHashSet("15985268900", "18210538513");
 	}
 
     @Override

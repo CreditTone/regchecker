@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.video;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.StringUtil;
@@ -10,6 +11,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -43,11 +45,11 @@ public class LeTVSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"视频", "影音"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new LeTVSpider().checkTelephone("18720982607"));
-//		System.out.println(new LeTVSpider().checkTelephone("18210538513"));
-//	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18720982607", "18210538513");
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {

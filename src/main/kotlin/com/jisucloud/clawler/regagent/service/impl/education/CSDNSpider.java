@@ -2,6 +2,7 @@ package com.jisucloud.clawler.regagent.service.impl.education;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.JJsoupUtil;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -55,12 +57,11 @@ public class CSDNSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"新闻阅读","it资料"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new CSDNSpider().checkTelephone("13879690000"));
-//		Thread.sleep(3000);
-//		System.out.println(new CSDNSpider().checkTelephone("18210538513"));
-//	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18720982607", "18210538513");
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {

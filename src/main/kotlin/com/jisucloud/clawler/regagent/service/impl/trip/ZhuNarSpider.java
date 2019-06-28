@@ -3,6 +3,7 @@ package com.jisucloud.clawler.regagent.service.impl.trip;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.StringUtil;
@@ -14,6 +15,7 @@ import okhttp3.Response;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -49,11 +51,11 @@ public class ZhuNarSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"旅游" , "酒店"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new ZhuNarSpider().checkTelephone("13910252045"));
-//		System.out.println(new ZhuNarSpider().checkTelephone("18210538513"));
-//	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("13910252045", "18210538513");
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {

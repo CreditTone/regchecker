@@ -3,6 +3,7 @@ package com.jisucloud.clawler.regagent.service.impl.shop;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.util.Base64;
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
@@ -17,6 +18,7 @@ import okhttp3.Response;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -50,12 +52,12 @@ public class SiKuSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"购物" , "首饰" , "奢侈品"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new SiKuSpider().checkTelephone("18210538511"));
-//		System.out.println(new SiKuSpider().checkTelephone("18210538513"));
-//	}
 	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18515290710", "18210538513");
+	}
+
 	String cck = "";
 	
 	String getImageCode() {

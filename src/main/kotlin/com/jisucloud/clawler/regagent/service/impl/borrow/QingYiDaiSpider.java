@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
-import org.mockito.internal.util.collections.Sets;
+import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Component;
 
@@ -57,7 +57,7 @@ public class QingYiDaiSpider implements PapaSpider,AjaxHook {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newSet("13910252045", "18210538513");
+		return Sets.newHashSet("13910252045", "18210538513");
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
@@ -8,7 +9,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.mockito.internal.util.collections.Sets;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -49,7 +49,7 @@ public class AIKaoLaSpider implements PapaSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newSet("18611216720", "18210538513");
+		return Sets.newHashSet("18611216720", "18210538513");
 	}
 
 

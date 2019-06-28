@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.social;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
@@ -10,6 +11,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -41,13 +43,13 @@ public class NiceSpider implements PapaSpider {
 
 	@Override
 	public String[] tags() {
-		return new String[] {"单身交友"};
+		return new String[] {"交友" , "二手物品", "社区"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new NiceSpider().checkTelephone("18515290717"));
-//		System.out.println(new NiceSpider().checkTelephone("18210538513"));
-//	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18515290717", "18210538513");
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {

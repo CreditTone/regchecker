@@ -2,6 +2,7 @@ package com.jisucloud.clawler.regagent.service.impl.music;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @UsePapaSpider
@@ -31,12 +33,10 @@ public class KugouSpider implements PapaSpider {
 	public String platform() {
 		return "kugou";
 	}
-
-	private Map<String, String> getHeader() {
-		Map<String, String> headers = new HashMap<>();
-		headers.put("Host", "m.kugou.com");
-		headers.put("Referer", "http://m.kugou.com/forget.php?act=html&view=0");
-		return headers;
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("15985260000", "18210538513");
 	}
 
 	@Override

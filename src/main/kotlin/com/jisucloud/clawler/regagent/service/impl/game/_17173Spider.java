@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.game;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.StringUtil;
@@ -12,6 +13,7 @@ import okhttp3.Response;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -20,7 +22,7 @@ public class _17173Spider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
-
+	
 	@Override
 	public String message() {
 		return "17173是中国游戏第一门户站,全年365天保持不间断更新,您可以在这里获得专业的游戏新闻资讯,完善的游戏攻略专区,人气游戏论坛以及游戏测试账号等,是游戏玩家首选网络。";
@@ -45,11 +47,12 @@ public class _17173Spider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"游戏"};
 	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18720982607", "18210538513");
+	}
 
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new _17173Spider().checkTelephone("18720982607"));
-//		System.out.println(new _17173Spider().checkTelephone("18210538513"));
-//	}
 
 	@Override
 	public boolean checkTelephone(String account) {

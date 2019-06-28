@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.work;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.StringUtil;
@@ -12,6 +13,7 @@ import okhttp3.Response;
 
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -43,13 +45,13 @@ public class YouZanSpider implements PapaSpider {
 
 	@Override
 	public String[] tags() {
-		return new String[] {"saas", "生意"};
+		return new String[] {"saas", "生意" , "电商"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new YouZanSpider().checkTelephone("13043603313"));
-//		System.out.println(new YouZanSpider().checkTelephone("18210538513"));
-//	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18210538513", "13761090875");
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {

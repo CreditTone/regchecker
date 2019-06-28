@@ -4,7 +4,7 @@ import com.jisucloud.clawler.regagent.service.PapaSpider
 import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.springframework.stereotype.Component
-import org.mockito.internal.util.collections.Sets;
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider
 
 @UsePapaSpider
@@ -36,7 +36,7 @@ class G_BankerService : PapaSpider {
     override fun getFields() = null
 	
 	override fun getTestTelephones() : Set<String> {
-		return Sets.newSet("13261165342", "18210538513");
+		return Sets.newHashSet("13261165342", "18210538513");
 	}
 
 }

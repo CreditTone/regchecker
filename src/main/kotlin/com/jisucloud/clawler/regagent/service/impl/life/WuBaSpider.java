@@ -2,6 +2,7 @@ package com.jisucloud.clawler.regagent.service.impl.life;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.JJsoupUtil;
@@ -10,9 +11,15 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @UsePapaSpider
 public class WuBaSpider implements PapaSpider {
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18515290000", "18210538513");
+	}
 
     @Override
     public String message() {

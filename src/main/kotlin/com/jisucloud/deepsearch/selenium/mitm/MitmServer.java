@@ -28,10 +28,6 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 @Slf4j
 public class MitmServer implements RequestFilter,ResponseFilter {
 	
-	public static void main(String[] args) {
-		MitmServer.getInstance();
-	}
-	
 	private static Object locker = new Object();
 	
 	private Pattern cloudIdPattern = Pattern.compile("\\s+Cloud/([a-z0-9]+)");

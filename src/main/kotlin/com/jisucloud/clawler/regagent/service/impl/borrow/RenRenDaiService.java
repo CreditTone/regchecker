@@ -4,7 +4,7 @@ import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import org.jsoup.Connection;
-import org.mockito.internal.util.collections.Sets;
+import com.google.common.collect.Sets;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -36,7 +36,7 @@ public class RenRenDaiService implements PapaSpider {
     
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newSet("15985268904", "18210538513");
+		return Sets.newHashSet("15985268904", "18210538513");
 	}
 
     @Override

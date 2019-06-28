@@ -12,7 +12,7 @@ import me.kagura.Session;
 
 import org.jsoup.Connection;
 import org.jsoup.Connection.Method;
-import org.mockito.internal.util.collections.Sets;
+import com.google.common.collect.Sets;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Slf4j
+@UsePapaSpider
 public class DabaiqicheSpider implements PapaSpider {
 
 	@Override
@@ -50,7 +51,7 @@ public class DabaiqicheSpider implements PapaSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newSet("18210538577", "18210538513");
+		return Sets.newHashSet("18210538577", "18210538513");
 	}
 
 	private Map<String, String> getHeader() {

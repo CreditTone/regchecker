@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.social;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
@@ -10,6 +11,7 @@ import okhttp3.Response;
 
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -44,10 +46,10 @@ public class TianYaSpider implements PapaSpider {
 		return new String[] {"论坛" , "社交" , "校园"};
 	}
 
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new TianYaSpider().checkTelephone("18210538000"));
-//		System.out.println(new TianYaSpider().checkTelephone("18210538513"));
-//	}
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18810038000", "18210538513");
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {

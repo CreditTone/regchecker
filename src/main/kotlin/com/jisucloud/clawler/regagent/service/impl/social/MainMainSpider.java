@@ -2,6 +2,7 @@ package com.jisucloud.clawler.regagent.service.impl.social;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.JJsoupUtil;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 @UsePapaSpider
@@ -30,6 +32,11 @@ public class MainMainSpider implements PapaSpider {
     public String home() {
         return "taou.com";
     }
+    
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18210530000", "18210538513");
+	}
 
     private Map<String, String> getHeader() {
         Map<String, String> headers = new HashMap<>();

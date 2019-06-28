@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.game;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.StringUtil;
@@ -12,6 +13,7 @@ import okhttp3.Response;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -45,11 +47,11 @@ public class XYSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"游戏"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new XYSpider().checkTelephone("18720982607"));
-//		System.out.println(new XYSpider().checkTelephone("18210538513"));
-//	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18720982607", "13269423806");
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {

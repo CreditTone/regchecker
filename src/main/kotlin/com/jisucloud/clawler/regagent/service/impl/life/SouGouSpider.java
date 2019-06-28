@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.life;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
@@ -15,6 +16,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
@@ -48,12 +50,12 @@ public class SouGouSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"工具", "搜索引擎"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new SouGouSpider().checkTelephone("13910000000"));
-//		System.out.println(new SouGouSpider().checkTelephone("18210538513"));
-//	}
 	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("13910000000", "18210538513");
+	}
+
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {

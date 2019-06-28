@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.mockito.internal.util.collections.Sets;
+import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Component;
 
@@ -54,7 +54,7 @@ public class ZhiShangJinRongSpider implements PapaSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newSet("13910252045", "18210538513");
+		return Sets.newHashSet("13910252045", "18210538513");
 	}
 
 	private String getImgCode() {

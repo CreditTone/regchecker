@@ -2,17 +2,18 @@ package com.jisucloud.clawler.regagent.service.impl.life;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.OCRDecode;
+import com.jisucloud.clawler.regagent.util.PapaSpiderTester;
 import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.openqa.selenium.WebElement;
+import com.google.common.collect.Sets;
 
 import java.util.Map;
+import java.util.Set;
 
 @Slf4j
-//@UsePapaSpider  行为分析
+@UsePapaSpider
 public class LinkedinSpider implements PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;
@@ -42,40 +43,27 @@ public class LinkedinSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"招聘" , "职场" , "人脉"};
 	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("15985268900", "18210538513");
+	}
 
 	public static void main(String[] args) throws InterruptedException {
-		System.out.println(new LinkedinSpider().checkTelephone("13910252045"));
-		System.out.println(new LinkedinSpider().checkTelephone("18210538513"));
+		PapaSpiderTester.testingWithPrint(LinkedinSpider.class);
 	}
 	
-	private String getImgCode() {
-		for (int i = 0 ; i < 3; i++) {
-			try {
-				WebElement img = chromeDriver.findElementByCssSelector("#imgObj");
-				chromeDriver.mouseClick(img);
-				byte[] body = chromeDriver.screenshot(img);
-				return OCRDecode.decodeImageCode(body);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return "";
-	}
-	String code;
-
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = ChromeAjaxHookDriver.newInstanceWithRandomProxy(true, false, null);
-			chromeDriver.get("https://www.linkedin.com/uas/request-password-reset?trk=guest_homepage-basic_forgot_password");
+			chromeDriver = ChromeAjaxHookDriver.newIOSInstance(true, false);
+			chromeDriver.get("https://www.linkedin.com/uas/login?session_redirect=https%3A%2F%2Fcn%2Elinkedin%2Ecom%2Fin%2F%25E9%25A2%2586-%25E8%258B%25B1-5783b911a&amp;fromSignIn=true&trk=nav_header_signin");
 			Thread.sleep(1000);
-			chromeDriver.findElementById("username").sendKeys(account);
-			chromeDriver.findElementByCssSelector("#reset-password-submit-button").click();
+			chromeDriver.findElementById("username").sendKeys("+86"+account);
+			chromeDriver.findElementById("password").sendKeys("dx1mxa1la9");
+			chromeDriver.findElementByCssSelector("button[type='submit']").click();
 			Thread.sleep(3000);
-			String text = chromeDriver.findElementByCssSelector(".content__header").getText();
-			if (text.contains("选择密码修改方式")) {
-				return true;
-			}
+			return chromeDriver.checkElement("#error-for-password");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

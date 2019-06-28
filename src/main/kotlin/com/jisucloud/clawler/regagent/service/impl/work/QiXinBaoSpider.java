@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.work;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.deepsearch.selenium.Ajax;
@@ -8,6 +9,7 @@ import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
 import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import java.util.Map;
+import java.util.Set;
 
 @UsePapaSpider
 public class QiXinBaoSpider implements PapaSpider {
@@ -39,11 +41,12 @@ public class QiXinBaoSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"工具"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new QiXinBaoSpider().checkTelephone("18210538000"));
-//		System.out.println(new QiXinBaoSpider().checkTelephone("18210538513"));
-//	}
+	
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18210538513", "18210538000");
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {

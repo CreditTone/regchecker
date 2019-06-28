@@ -5,9 +5,15 @@ import com.jisucloud.clawler.regagent.util.JJsoupUtil
 import org.jsoup.Connection
 import org.springframework.stereotype.Component
 import com.jisucloud.clawler.regagent.service.UsePapaSpider
+import com.google.common.collect.Sets;
 
 @UsePapaSpider
 class ZhongAnBaoXianService : PapaSpider {
+	
+	override fun getTestTelephones(): Set<String> {
+		return Sets.newHashSet("13261165342", "18210538513");
+	}
+	
     override fun tags() = arrayOf("理财" , "保险");
 
     override fun home(): String = "zhongan.com"

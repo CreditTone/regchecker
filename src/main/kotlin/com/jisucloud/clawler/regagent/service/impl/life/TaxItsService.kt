@@ -8,10 +8,15 @@ import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import java.util.*
 import com.jisucloud.clawler.regagent.service.UsePapaSpider
+import com.google.common.collect.Sets
 
 @UsePapaSpider
 class TaxItsService : PapaSpider {
     override fun tags() = arrayOf("个税", "工作");
+	
+	override fun getTestTelephones() : Set<String> {
+		return Sets.newHashSet("13261165342", "18210538513" , "18210538510");
+	}
 
     //https://sj.qq.com/myapp/detail.htm?apkName=cn.gov.tax.its
     override fun message() = "个人所得税APP是由国家税务总局主办，为贯彻落实党中央、国务院提出的个人所得税综合与分类相结合的税制改革要求，为保障全国自然人纳税人能够及时享受税改红利，而推出的一款APP。"

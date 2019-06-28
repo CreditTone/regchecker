@@ -9,7 +9,7 @@ import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.mockito.internal.util.collections.Sets;
+import com.google.common.collect.Sets;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -49,7 +49,7 @@ public class JiaShiLiuSpider implements PapaSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newSet("15985268904", "18210538513");
+		return Sets.newHashSet("15985268904", "18210538513");
 	}
 
 	@Override

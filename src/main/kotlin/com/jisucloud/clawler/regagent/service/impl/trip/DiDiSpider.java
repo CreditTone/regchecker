@@ -2,14 +2,15 @@ package com.jisucloud.clawler.regagent.service.impl.trip;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import org.jsoup.Connection;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @UsePapaSpider
 public class DiDiSpider implements PapaSpider {
@@ -114,5 +115,10 @@ public class DiDiSpider implements PapaSpider {
     @Override
 	public String[] tags() {
 		return new String[] {"出行" , "打车" , "顺风车"};
+	}
+    
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18515290000", "18210538513");
 	}
 }

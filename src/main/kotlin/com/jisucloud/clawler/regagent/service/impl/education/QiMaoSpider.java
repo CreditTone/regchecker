@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.education;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -48,11 +50,11 @@ public class QiMaoSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"小说","电子书"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new QiMaoSpider().checkTelephone("18779861101"));
-//		System.out.println(new QiMaoSpider().checkTelephone("18210538513"));
-//	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18779861101", "18210538513");
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {

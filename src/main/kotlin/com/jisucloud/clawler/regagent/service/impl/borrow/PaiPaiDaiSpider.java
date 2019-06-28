@@ -17,7 +17,7 @@ import java.util.Set;
 
 import org.jsoup.Connection;
 import org.jsoup.Connection.Method;
-import org.mockito.internal.util.collections.Sets;
+import com.google.common.collect.Sets;
 
 @Slf4j
 //@UsePapaSpider
@@ -54,7 +54,7 @@ public class PaiPaiDaiSpider implements PapaSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newSet("15900068904", "18210538513");
+		return Sets.newHashSet("15900068904", "18210538513");
 	}
 
 	private Map<String, String> getHeader() {

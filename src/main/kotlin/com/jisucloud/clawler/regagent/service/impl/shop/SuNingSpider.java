@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.shop;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.deepsearch.selenium.Ajax;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
@@ -43,13 +45,13 @@ public class SuNingSpider implements PapaSpider {
 
 	@Override
 	public String[] tags() {
-		return new String[] {"电商" , "电器"};
+		return new String[] {"购物" , "电器"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new SuNingSpider().checkTelephone("18210538513"));
-//		System.out.println(new SuNingSpider().checkTelephone("18210530000"));
-//	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18210530000", "18210538513");
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {

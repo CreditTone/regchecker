@@ -18,7 +18,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import org.jsoup.Connection;
-import org.mockito.internal.util.collections.Sets;
+import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Component;
 
@@ -67,7 +67,7 @@ public class NiWoDaiSpider implements PapaSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newSet("15900068904", "18210538513");
+		return Sets.newHashSet("15900068904", "18210538513");
 	}
 
 	private String getImgCode() {

@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.game;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.deepsearch.selenium.HeadlessUtil;
@@ -7,6 +8,7 @@ import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -42,11 +44,11 @@ public class XuebaoSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"游戏" ,"魔兽世界"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new XuebaoSpider().checkTelephone("18210538513"));
-//		System.out.println(new XuebaoSpider().checkTelephone("18210538511"));
-//	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18210538511", "13269423806");
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {

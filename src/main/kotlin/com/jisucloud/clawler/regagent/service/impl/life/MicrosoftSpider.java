@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.life;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
@@ -42,10 +44,10 @@ public class MicrosoftSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"软件服务" , "系统工具"};
 	}
-
-	public static void main(String[] args) throws InterruptedException {
-		System.out.println(new MicrosoftSpider().checkTelephone("13910252045"));
-		System.out.println(new MicrosoftSpider().checkTelephone("18210538513"));
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("13910252045", "18210538513");
 	}
 	
 	private String getImgCode() {

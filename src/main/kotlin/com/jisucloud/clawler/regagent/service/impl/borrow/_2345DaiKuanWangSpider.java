@@ -2,6 +2,7 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
@@ -10,9 +11,6 @@ import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
-import org.mockito.internal.util.collections.Sets;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Random;
@@ -97,7 +95,7 @@ public class _2345DaiKuanWangSpider implements PapaSpider {
 
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newSet("13910252000", "15161509916");
+		return Sets.newHashSet("13910252000", "15161509916");
 	}
 
 }

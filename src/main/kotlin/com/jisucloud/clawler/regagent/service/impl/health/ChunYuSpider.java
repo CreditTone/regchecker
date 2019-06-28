@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.health;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
@@ -12,6 +13,7 @@ import okhttp3.Response;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -45,11 +47,11 @@ public class ChunYuSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"健康运动", "医疗", "生活应用" , "挂号" , "用药"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new ChunYuSpider().checkTelephone("13910252045"));
-//		System.out.println(new ChunYuSpider().checkTelephone("13910252040"));
-//	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("13910252045", "18210538513");
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {

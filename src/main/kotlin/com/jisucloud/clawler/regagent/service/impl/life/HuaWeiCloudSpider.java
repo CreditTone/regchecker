@@ -2,6 +2,7 @@ package com.jisucloud.clawler.regagent.service.impl.life;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -9,13 +10,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class HuaWeiCloudSpider implements PapaSpider {
 
-
-    public static void main(String[] args) {
-        new HuaWeiCloudSpider().checkTelephone("18210538513");
-    }
 
     @Override
     public String message() {
@@ -26,6 +24,11 @@ public class HuaWeiCloudSpider implements PapaSpider {
     public String platform() {
         return "huawei";
     }
+    
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("13925306966", "18210538513");
+	}
 
     private Map<String, String> getHeader() {
         Map<String, String> headers = new HashMap<>();

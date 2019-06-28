@@ -9,7 +9,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.mockito.internal.util.collections.Sets;
+import com.google.common.collect.Sets;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -51,7 +51,7 @@ public class XinYongBaoSpider implements PapaSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newSet("13691032050", "18210538513");
+		return Sets.newHashSet("13691032050", "18210538513");
 	}
 
 	@Override

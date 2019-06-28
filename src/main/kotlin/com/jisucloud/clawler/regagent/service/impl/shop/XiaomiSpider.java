@@ -2,6 +2,7 @@ package com.jisucloud.clawler.regagent.service.impl.shop;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.JJsoupUtil;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @UsePapaSpider
 public class XiaomiSpider implements PapaSpider {
@@ -94,6 +96,11 @@ public class XiaomiSpider implements PapaSpider {
     @Override
 	public String[] tags() {
 		return new String[] {"电商" , "智能手机"};
+	}
+    
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18210530000", "18210538513");
 	}
 
 

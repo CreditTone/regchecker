@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.work;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
@@ -10,6 +11,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -43,11 +45,11 @@ public class MingPianQuanNengWangSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"工具" };
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new MingPianQuanNengWangSpider().checkTelephone("15011488781"));
-//		System.out.println(new MingPianQuanNengWangSpider().checkTelephone("18210538513"));
-//	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18210538513", "15011488781");
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {

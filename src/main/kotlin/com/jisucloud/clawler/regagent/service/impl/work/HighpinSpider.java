@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.work;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
@@ -10,6 +11,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -21,7 +23,7 @@ public class HighpinSpider implements PapaSpider {
 
 	@Override
 	public String message() {
-		return "【智联卓聘 highpin.cn】是智联招聘网旗下中高端人才招聘网站,整合全球1088个国家和地区40多个行业海量年薪10万以上的中高端职位。中高端人才求职、找工作,首选智联卓聘。";
+		return "智联卓聘highpin.cn是智联招聘网旗下中高端人才招聘网站,整合全球1088个国家和地区40多个行业海量年薪10万以上的中高端职位。中高端人才求职、找工作,首选智联卓聘。";
 	}
 
 	@Override
@@ -44,11 +46,12 @@ public class HighpinSpider implements PapaSpider {
 		return new String[] {"求职" , "招聘"};
 	}
 
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new HighpinSpider().checkTelephone("15700102866"));
-//		System.out.println(new HighpinSpider().checkTelephone("15700102860"));
-//	}
-
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("15700102866", "15700102860");
+	}
+	
 	@Override
 	public boolean checkTelephone(String account) {
 		try {

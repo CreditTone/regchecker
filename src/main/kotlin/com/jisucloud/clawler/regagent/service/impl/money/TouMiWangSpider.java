@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.money;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -54,11 +56,11 @@ public class TouMiWangSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"P2P", "理财"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new TouMiWangSpider().checkTelephone("15985268904"));
-//		System.out.println(new TouMiWangSpider().checkTelephone("18210538513"));
-//	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("15985268904", "18210538513");
+	}
 
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {

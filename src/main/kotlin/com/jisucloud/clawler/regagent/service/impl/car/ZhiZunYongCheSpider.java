@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.car;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.StringUtil;
@@ -8,9 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
@@ -40,11 +41,11 @@ public class ZhiZunYongCheSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"租车"};
 	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new ZhiZunYongCheSpider().checkTelephone("18720982607"));
-//		System.out.println(new ZhiZunYongCheSpider().checkTelephone("18210538513"));
-//	}
+	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18720982607", "18210538513");
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {

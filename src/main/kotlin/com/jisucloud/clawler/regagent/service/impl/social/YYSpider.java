@@ -2,6 +2,7 @@ package com.jisucloud.clawler.regagent.service.impl.social;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
@@ -13,6 +14,7 @@ import okhttp3.Response;
 
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -44,13 +46,13 @@ public class YYSpider implements PapaSpider {
 
 	@Override
 	public String[] tags() {
-		return new String[] {"娱乐" , "交友"};
+		return new String[] {"娱乐" , "交友" , "游戏" , "社区"};
 	}
 
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new YYSpider().checkTelephone("13844441111"));
-//		System.out.println(new YYSpider().checkTelephone("18210538513"));
-//	}
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18810038000", "18210538513");
+	}
 
 	@Override
 	public boolean checkTelephone(String account) {
