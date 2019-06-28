@@ -5,31 +5,35 @@ import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
+import com.jisucloud.clawler.regagent.util.PapaSpiderTester;
+import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
+import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
+import com.jisucloud.deepsearch.selenium.mitm.HookTracker;
 
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
-import me.kagura.JJsoup;
-import me.kagura.Session;
+import net.lightbody.bmp.util.HttpMessageContents;
+import net.lightbody.bmp.util.HttpMessageInfo;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.jsoup.Connection;
-import org.jsoup.Connection.Method;
+import org.openqa.selenium.WebElement;
+
 import com.google.common.collect.Sets;
 
 @Slf4j
-//@UsePapaSpider
-public class PaiPaiDaiSpider implements PapaSpider {
+@UsePapaSpider
+public class PaiPaiDaiSpider implements PapaSpider,AjaxHook {
 	
-	private Session session = JJsoup.newSession();
-	
-	private String token;
+	private ChromeAjaxHookDriver chromeDriver;
+	private boolean checkTel = false;
+	private boolean success = false;
 
 	@Override
 	public String message() {
-		return "拍拍贷-中国领先互联网金融P2P网贷平台 提供网络贷款，投资理财 小额贷款,短期贷款,个人贷款,无抵押贷款服务 拍拍贷理财借贷投资，获得高年收益率回报，超低门槛，超高收益.";
+		return "拍拍贷（ppdai.com）美国纽交所上市企业，与招商银行达成存管的平台，专注信用借款和优质出借服务11年，已服务千万用户。轻松借款，额度高，资金链透明，注册资本10亿元。出借风险分散，期限灵活，借款额度高至20万。";
 	}
 
 	@Override
@@ -49,72 +53,62 @@ public class PaiPaiDaiSpider implements PapaSpider {
 
 	@Override
 	public String[] tags() {
-		return new String[] {"P2P", "消费分期" , "借贷"};
+		return new String[] {"P2P", "借贷"};
 	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15900068904", "18210538513");
+		return Sets.newHashSet("13910250000", "18210538513");
 	}
-
-	private Map<String, String> getHeader() {
-		Map<String, String> headers = new HashMap<>();
-		headers.put("User-Agent",
-				"Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0");
-		headers.put("Host", "passport.ppdai.com");
-		headers.put("Referer", "https://passport.ppdai.com/resetPassword.html");
-		headers.put("X-Requested-With", "XMLHttpRequest");
-		return headers;
+	
+	public static void main(String[] args) {
+		PapaSpiderTester.testingWithPrint(PaiPaiDaiSpider.class);
 	}
 	
 	private String getImgCode() {
-		Connection.Response response;
-		String imageCodeUrl = "https://passport.ppdai.com/api/api/changemobile/password_codevalidation";
 		for (int i = 0 ; i < 3; i++) {
 			try {
-				response = session.connect(imageCodeUrl)
-						.method(Method.POST)
-						.data("undefined", "")
-						.data("transId", "")
-						.execute();
-				JSONObject imageCodeResult = JSON.parseObject(response.body());
-				String imageUrl = imageCodeResult.getJSONObject("extrainfo").getJSONObject("imgcode").getString("url");
-				token = imageCodeResult.getJSONObject("extrainfo").getJSONObject("imgcode").getString("token");
-				response = session.connect(imageUrl).execute();
-				if (response != null) {
-					byte[] body = response.bodyAsBytes();
-					return OCRDecode.decodeImageCode(body);
-				}
-			} catch (IOException e) {
+				chromeDriver.findElementByCssSelector(".changeCode").click();
+				WebElement img = chromeDriver.findElementByCssSelector("#CodeImg");
+				Thread.sleep(1000);
+				byte[] body = chromeDriver.screenshot(img);
+				return OCRDecode.decodeImageCode(body);
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		return "";
 	}
-	
+	String code;
+
 	@Override
 	public boolean checkTelephone(String account) {
-		for (int i = 0 ; i < 3; i++) {
-			try {
-				String url = "https://passport.ppdai.com/api/api/changemobile/password_step1";
-				Connection.Response response = session.connect(url)
-						.method(Method.POST)
-						.data("emailOrMobile", account)
-						.data("code", getImgCode())
-						.data("token", token)
-						.data("transId", "")
-						.headers(getHeader()).ignoreContentType(true).execute();
-				JSONObject result = JSON.parseObject(response.body());
-				if (result.getString("transid") != null) {
-					return true;
-				}else {
-					return false;
+		try {
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);
+			chromeDriver.addAjaxHook(this);
+			chromeDriver.get("https://passport.ppdai.com/resetPassword.html");
+			Thread.sleep(3000);
+			chromeDriver.findElementById("inputName1").sendKeys(account);
+			for (int i = 0; i < 5; i++) {
+				WebElement rapid = chromeDriver.findElementByCssSelector("#inputCode1");
+				rapid.clear();
+				String vcode = getImgCode();
+				chromeDriver.jsInput(rapid, vcode);
+				Thread.sleep(1000);
+				chromeDriver.mouseClick(chromeDriver.findElementByCssSelector("#validateBtn1"));
+				Thread.sleep(2000);
+				if (success) {
+					break;
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if (chromeDriver != null) {
+				chromeDriver.quit();
 			}
 		}
-		return false;
+		return checkTel;
 	}
 
 	@Override
@@ -125,6 +119,32 @@ public class PaiPaiDaiSpider implements PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
+	}
+
+	@Override
+	public HookTracker getHookTracker() {
+		return HookTracker.builder()
+				.addUrl("api/changemobile/password_step1")
+				.isPOST()
+				.build();
+	}
+
+	@Override
+	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		System.out.println("filterRequest:"+contents.getTextContents());
+		return null;
+	}
+
+	@Override
+	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		System.out.println(contents.getTextContents());
+		if (contents.isText() && contents.getTextContents().contains("验证码")) {
+			return;
+		}
+		success = true;
+		if (contents.isText() && contents.getTextContents().contains("transid\":\"")) {
+			checkTel = true;
+		}
 	}
 
 }
