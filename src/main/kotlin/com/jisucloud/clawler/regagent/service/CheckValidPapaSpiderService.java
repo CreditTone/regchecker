@@ -2,12 +2,12 @@ package com.jisucloud.clawler.regagent.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.annotation.PostConstruct;
 
@@ -22,30 +22,34 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ClassUtils;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.util.PapaSpiderTester;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class CheckValidPapaSpider implements PapaSpiderTester.PapaSpiderTestListener {
+public class CheckValidPapaSpiderService extends TimerTask implements PapaSpiderTester.PapaSpiderTestListener {
 	
-	private static Set<Class<? extends PapaSpider>> TEST_SUCCESS_PAPASPIDERS = new HashSet<>();
-	private static Set<Class<? extends PapaSpider>> TEST_FAILURE_PAPASPIDERS = new HashSet<>();
-	private static Set<Class<? extends PapaSpider>> NOUSE_PAPASPIDERS = new HashSet<>();
+	public static Set<Class<? extends PapaSpider>> TEST_SUCCESS_PAPASPIDERS = new HashSet<>();
+	public static Set<Class<? extends PapaSpider>> TEST_FAILURE_PAPASPIDERS = new HashSet<>();
+	public static Set<Class<? extends PapaSpider>> NOUSE_PAPASPIDERS = new HashSet<>();
 	
-	private JSONObject checkValidPapaSpiderResult = new JSONObject();
+	public static final String CHECK_VALIDPAPASPIDER_RESULT_FILE = "check_valid_papaspider_result.json";
+	
+	private Map<String,Long> checkValidPapaSpiderResult = new HashMap<>();
+	
+	private Timer timer = new Timer();
+	
+	private Set<Class<? extends PapaSpider>> preparedPapaSpiders = new HashSet<>();
 	
 
+	@SuppressWarnings("unchecked")
 	@PostConstruct
 	private void init() throws Exception {
-		File checkValidPapaSpiderResultFile = new File("checkValidPapaSpiderResult.json");
+		File checkValidPapaSpiderResultFile = new File(CHECK_VALIDPAPASPIDER_RESULT_FILE);
 		if (checkValidPapaSpiderResultFile.exists()) {
-			checkValidPapaSpiderResult = JSON.parseObject(FileUtils.readFileToString(checkValidPapaSpiderResultFile));
+			checkValidPapaSpiderResult = JSON.parseObject(FileUtils.readFileToString(checkValidPapaSpiderResultFile, "UTF-8"), HashMap.class);
 		}
-		Set<Class<? extends PapaSpider>> papaSpiders = new HashSet<>();
 		try {
 			String basePackage = "com.jisucloud.clawler.regagent.service.impl";
 			String searchPaths = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX
@@ -58,57 +62,46 @@ public class CheckValidPapaSpider implements PapaSpiderTester.PapaSpiderTestList
 				String className = metadataReader.getClassMetadata().getClassName();
 				Class<?> clz = Class.forName(className);
 				if (isPapaSpiderClass(clz) && isUsePapaSpider(clz)) {
-					papaSpiders.add((Class<? extends PapaSpider>) clz);
+					preparedPapaSpiders.add((Class<? extends PapaSpider>) clz);
 				}else if (isPapaSpiderClass(clz)) {
 					NOUSE_PAPASPIDERS.add((Class<? extends PapaSpider>) clz);
 				}
 			}
-			log.info("统计撞库结果，投入使用的" + papaSpiders.size() + "家，正在研发待投入使用的" + NOUSE_PAPASPIDERS.size() + "家。");
+			log.info("统计撞库结果，投入使用的" + preparedPapaSpiders.size() + "家，正在研发待投入使用的" + NOUSE_PAPASPIDERS.size() + "家。");
 			log.info("正在研发待列表如下：");
 			for (Class<?> clz : NOUSE_PAPASPIDERS) {
 				log.info(clz.getName());
 			}
-//			log.info("开始测试......");
-//			PapaSpiderTester.testing(papaSpiders, this);
-//			log.info("开始完成，成功" + TEST_SUCCESS_PAPASPIDERS.size() + "个，失败" + TEST_FAILURE_PAPASPIDERS.size() + "个。");
-//			if (!TEST_FAILURE_PAPASPIDERS.isEmpty()) {
-//				log.info("测试失败列表如下:");
-//				for (Class<? extends PapaSpider> clz : TEST_FAILURE_PAPASPIDERS) {
-//					log.info(clz.getName());
-//				}
-//			}
-			checkValidPapaSpiderResult.put("time", System.currentTimeMillis());
+			timer.schedule(this, 0, 24 * 3600 * 1000);
 		}catch(Exception e) {
 			log.warn("载入失败", e);
 			throw e;
 		}
 	}
 	
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	private void saveCheckValidPapaSpiderResult() throws IOException {
-		File checkValidPapaSpiderResultFile = new File("checkValidPapaSpiderResult.json");
-		JSONObject old = null;
-		if (checkValidPapaSpiderResultFile.exists()) {
-			old = JSON.parseObject(FileUtils.readFileToString(checkValidPapaSpiderResultFile , "UTF-8"));
-		}else {
-			old = new JSONObject();
-		}
-		if (checkValidPapaSpiderResult != null && !checkValidPapaSpiderResult.isEmpty()) {
-			
-		}
+		File checkValidPapaSpiderResultFile = new File(CHECK_VALIDPAPASPIDER_RESULT_FILE);
+		FileUtils.write(checkValidPapaSpiderResultFile, checkValidPapaSpiderResultFile.toString(), false);
 	}
 	
-	private boolean isCheckValidPapaSpiderResultInvalid(Class<? extends PapaSpider> clz) {
+	/**
+	 * 过去24内测试有效
+	 * @param clz
+	 * @return
+	 */
+	private boolean isCheckValidPapaSpiderResultValid(Class<? extends PapaSpider> clz) {
 		if (checkValidPapaSpiderResult.containsKey(clz.getName())) {
-			long lastCheckTime = checkValidPapaSpiderResult.getLongValue(clz.getName());
+			long lastCheckTime = checkValidPapaSpiderResult.get(clz.getName());
 			if (System.currentTimeMillis() - lastCheckTime < 3600 * 1000 * 24) {//24小时
-				return false;
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
 	public static void main(String[] args) throws Exception {
-		new CheckValidPapaSpider().init();
+		new CheckValidPapaSpiderService().init();
 	}
 
 	public static boolean isPapaSpiderClass(Class<?> clz) {
@@ -123,12 +116,44 @@ public class CheckValidPapaSpider implements PapaSpiderTester.PapaSpiderTestList
 	public void testSuccess(Class<? extends PapaSpider> clz) {
 		log.info("测试成功:"+clz.getName());
 		checkValidPapaSpiderResult.put(clz.getName(), System.currentTimeMillis());
+		if (TEST_FAILURE_PAPASPIDERS.contains(clz)) {
+			TEST_FAILURE_PAPASPIDERS.remove(clz);
+		}
 		TEST_SUCCESS_PAPASPIDERS.add(clz);
 	}
 
 	@Override
 	public void testFailure(Class<? extends PapaSpider> clz) {
 		log.info("测试失败:"+clz.getName());
+		if (TEST_SUCCESS_PAPASPIDERS.contains(clz)) {
+			log.info("移除撞库资格:"+clz.getName());
+			TEST_SUCCESS_PAPASPIDERS.remove(clz);
+		}
 		TEST_FAILURE_PAPASPIDERS.add(clz);
+	}
+
+	@Override
+	public void run() {
+		try {
+			log.info("开始测试......");
+			Set<Class<? extends PapaSpider>> needTestPapaSpiders = new HashSet<>();
+			for (Class<? extends PapaSpider> clz : needTestPapaSpiders) {
+				if (isCheckValidPapaSpiderResultValid(clz)) {
+					continue;
+				}
+				needTestPapaSpiders.add(clz);
+			}
+			PapaSpiderTester.testing(needTestPapaSpiders, this);
+			log.info("测试完成，成功" + TEST_SUCCESS_PAPASPIDERS.size() + "个，失败" + TEST_FAILURE_PAPASPIDERS.size() + "个。");
+			if (!TEST_FAILURE_PAPASPIDERS.isEmpty()) {
+				log.info("测试失败列表如下:");
+				for (Class<? extends PapaSpider> clz : TEST_FAILURE_PAPASPIDERS) {
+					log.info(clz.getName());
+				}
+			}
+			saveCheckValidPapaSpiderResult();
+		} catch (Exception e) {
+			log.warn("测试中断", e);
+		}
 	}
 }
