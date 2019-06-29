@@ -1,9 +1,12 @@
 package com.jisucloud.clawler.regagent.service;
 
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 public interface PapaSpider {
+	
+	public static final Random RANDOM = new Random();
 	
 	public static final String ANDROID_USER_AGENT = "Mozilla/5.0 (Linux; Android 7.0; PLUS Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Mobile Safari/537.36";
 	

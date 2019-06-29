@@ -3,23 +3,21 @@ package com.jisucloud.clawler.regagent.service.impl.shop;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.OCRDecode;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
+import com.jisucloud.clawler.regagent.util.PapaSpiderTester;
+import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
 
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 
 import org.openqa.selenium.WebElement;
 
 @Slf4j
-@UsePapaSpider
+//@UsePapaSpider 必须是非headless才能通过滑块验证
 public class AplipaySpider implements PapaSpider {
 	
-	private ChromeAjaxListenDriver chromeDriver;
+	private ChromeAjaxHookDriver chromeDriver;
 	
 	private boolean checkTelephone = false;
 	
@@ -51,62 +49,47 @@ public class AplipaySpider implements PapaSpider {
 		return new String[] {"购物" , "理财" , "借贷" , "消费分期" , "保险"};
 	}
 	
+//	@Override
+//	public Set<String> getTestTelephones() {
+//		return Sets.newHashSet("18800000001", "18210008013", "18210538513");
+//	}
+	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18800000001", "18210538513");
+		return Sets.newHashSet("18210008013", "18800000001");
 	}
-
-	private String getImgCode() {
-		for (int i = 0 ; i < 3; i++) {
-			try {
-				WebElement img = chromeDriver.findElementByCssSelector("img[title=点击图片刷新验证码]");
-				byte[] body = chromeDriver.screenshot(img);
-				return OCRDecode.decodeImageCode(body);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return "";
+	
+	
+	public static void main(String[] args) {
+		PapaSpiderTester.testingWithPrint(AplipaySpider.class);
 	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(false, null, null);
-			chromeDriver.quicklyVisit("https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&tn=monline_4_dg&wd=%E6%94%AF%E4%BB%98%E5%AE%9D&rn=5&oq=deep007&rsv_pq=e03caf7600120d11&rsv_t=3990P6z%2BSsvdOqD%2BiMIYugpgcAXsD45qWWKmBY%2FAzfLwOTQ52WTPgrSdZnhUXjG%2BC9Nz&rqlang=cn&rsv_enter=1&inputT=7235&rsv_sug3=56&rsv_sug1=27&rsv_sug7=100&rsv_sug2=0&rsv_sug4=8434");
+			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(false, false, CHROME_USER_AGENT);
+			chromeDriver.get("https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&tn=monline_4_dg&wd=%E6%94%AF%E4%BB%98%E5%AE%9D&rn=5&oq=deep007&rsv_pq=e03caf7600120d11&rsv_t=3990P6z%2BSsvdOqD%2BiMIYugpgcAXsD45qWWKmBY%2FAzfLwOTQ52WTPgrSdZnhUXjG%2BC9Nz&rqlang=cn&rsv_enter=1&inputT=7235&rsv_sug3=56&rsv_sug1=27&rsv_sug7=100&rsv_sug2=0&rsv_sug4=8434");
 			Thread.sleep(3000);
 			for (int i = 0; i < 1; i++) {
-				chromeDriver.get("https://auth.alipay.com/login/index.htm?needTransfer=true&goto=http://memberprod.alipay.com/account/reg/index.htm");
-				Thread.sleep(5000);
 				chromeDriver.get("https://accounts.alipay.com/console/querypwd/logonIdInputReset.htm?site=1&page_type=fullpage&scene_code=resetQueryPwd");
-				Thread.sleep(5000);
-				WebElement forgetAccount = chromeDriver.findElementByCssSelector("img[title=点击图片刷新验证码]");
-				WebElement checkcode = chromeDriver.findElementById("J-checkcode");
+				Thread.sleep(RANDOM.nextInt(5000));
 				WebElement accName = chromeDriver.findElementById("J-accName");
-				WebElement next = chromeDriver.findElementByCssSelector("input[class=ui-button-text]");
 				chromeDriver.keyboardInput(accName, account);
-				chromeDriver.keyboardInput(checkcode, new Random().nextInt(9) +"kx" +new Random().nextInt(5));
+				WebElement rdsSlideReset = chromeDriver.findElementById("J_rdsSlideResetBtn");
+				WebElement rdsSlideBtn = chromeDriver.findElementById("J_rdsSlideBtn");
+				chromeDriver.switchSlide(rdsSlideReset, rdsSlideBtn);
+				Thread.sleep(RANDOM.nextInt(3000));
+				WebElement next = chromeDriver.findElementByCssSelector("input[class=ui-button-text]");
 				chromeDriver.mouseClick(next);
-				forgetAccount = chromeDriver.findElementByCssSelector("img[title=点击图片刷新验证码]");
-				checkcode = chromeDriver.findElementById("J-checkcode");
-				accName = chromeDriver.findElementById("J-accName");
-				next = chromeDriver.findElementByCssSelector("input[class=ui-button-text]");
-				int tempNum = new Random().nextInt(2);
-				chromeDriver.keyboardClear(checkcode, 4);
-				for (int k = 0; k < tempNum; k ++) {
-					chromeDriver.mouseClick(forgetAccount);
+				Thread.sleep(RANDOM.nextInt(8000) + 5000);
+				if (chromeDriver.checkElement("div.alipay-xbox")) {
+					return true;
 				}
-				String imageCode = getImgCode();
-				chromeDriver.keyboardInput(checkcode, imageCode.toLowerCase());
-				Thread.sleep(3000);
-				chromeDriver.mouseClick(next);
-				Thread.sleep(8000);
 				String currentUrl = chromeDriver.getCurrentUrl();
+				System.out.println(currentUrl);
 				String pageSource = chromeDriver.getPageSource();
 				if (currentUrl.contains("queryStrategy.htm?")) {
 					return true;
-				}else if (pageSource.contains("请输入正确的验证码")){
-					continue;
 				}else if (pageSource.contains("该账户不存在，请重新输入")) {
 					return false;
 				}else if (pageSource.contains("暂时不能访问此页面")) {

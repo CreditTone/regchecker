@@ -122,15 +122,56 @@ public class ChromeAjaxHookDriver extends ChromeDriver {
 		}
 	}
 	
+	
+	public boolean switchSlide(WebElement rdsSlideReset, WebElement rdsSlideBtn) {
+		try {
+			int width = rdsSlideReset.getRect().width;
+			Actions actions = new Actions(this);
+			actions.moveByOffset(rdsSlideBtn.getLocation().x, rdsSlideBtn.getLocation().y).perform();
+			sleep(random.nextInt(1500));
+			actions.moveToElement(rdsSlideBtn);
+			sleep(random.nextInt(1500));
+			actions.clickAndHold(rdsSlideBtn).perform();
+			int toWidth = 0;
+			int floatY = 0;
+			while (true) {
+				int xOffset = random.nextInt(25) + 1;
+				int fy = random.nextInt(3);
+				if (floatY > 10) {
+					fy = - fy;
+				}
+				floatY += fy;
+				actions.moveByOffset(xOffset, floatY).perform();
+				toWidth += xOffset;
+				if (toWidth > width) {
+					sleep(random.nextInt(50));
+					actions.release().perform();
+					break;
+				}
+				sleep(random.nextInt(100));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
 	public byte[] screenshot(WebElement webElement) throws Exception {
 		return webElement.getScreenshotAs(OutputType.BYTES);
+	}
+	
+	public byte[] screenshot() throws Exception {
+		return getScreenshotAs(OutputType.BYTES);
 	}
 	
 	public void mouseClick(WebElement webElement) throws Exception {
 		Actions actions = new Actions(this);
 		actions.moveToElement(webElement).perform();
-		sleep(random.nextInt(1500));
-		actions.click().perform();
+		sleep(random.nextInt(800));
+		actions.clickAndHold(webElement).perform();
+		sleep(random.nextInt(300));
+		actions.release().perform();
 		sleep(random.nextInt(1500));
 	}
 	
@@ -138,7 +179,7 @@ public class ChromeAjaxHookDriver extends ChromeDriver {
 		mouseClick(webElement);
 		for (int k = 0; k < backSpace + random.nextInt(3); k++) {
 			webElement.sendKeys(Keys.BACK_SPACE);
-			sleep(random.nextInt(150));
+			sleep(random.nextInt(100));
 		}
 	}
 	
@@ -154,13 +195,13 @@ public class ChromeAjaxHookDriver extends ChromeDriver {
 		int prebackNums = random.nextInt(text.length() / 3);
 		for (int k = 0; k < text.length(); k++) {
 			webElement.sendKeys(String.valueOf(text.charAt(k)));
-			sleep(random.nextInt(500) + 300);
+			sleep(random.nextInt(300) + 300);
 			inputed ++;
 			int backNum = inputed >= 3 && backTimes <= prebackNums ?random.nextInt(3) : 0;
 			backTimes += backNum;
 			for (int i = 0; i < backNum; i++) {
 				webElement.sendKeys(Keys.BACK_SPACE);
-				sleep(random.nextInt(500) + 300);
+				sleep(random.nextInt(300) + 300);
 				k--;
 			}
 		}

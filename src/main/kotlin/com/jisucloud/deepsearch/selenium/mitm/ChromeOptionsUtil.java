@@ -1,6 +1,7 @@
 package com.jisucloud.deepsearch.selenium.mitm;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -53,6 +54,7 @@ public class ChromeOptionsUtil {
 		options.addArguments("--ignore-certificate-errors");
 		options.addArguments("--no-sandbox"); // Bypass OS security model
 		options.addArguments("--disable-dev-shm-usage");
+		options.setExperimentalOption("excludeSwitches", Arrays.asList("enable-automation"));//防止大平台检测selenium
 		if (userAgent == null) {
 			userAgent = CHROME_USER_AGENT;
 		}
@@ -65,12 +67,16 @@ public class ChromeOptionsUtil {
 				File extension = ChromeExtensionUtil.createProxyauthExtension(proxy.getServer(), proxy.getPort(), proxy.getUsername(), proxy.getPassword());
 				options.addExtensions(extension);
 			}else {
+				options.addArguments("--disable-extensions");
 				options.addArguments("proxy-server="+proxy.getServer()+":"+proxy.getPort());
 			}
+		}else {
+			options.addArguments("--disable-extensions");
 		}
 		Map<String, Object> prefs = new HashMap<String, Object>();
 		prefs.put(CapabilityType.ACCEPT_INSECURE_CERTS, true);
 		prefs.put("profile.default_content_settings.popups", 0);
+		prefs.put("profile.password_manager_enabled", false);
 		if (disableLoadImage) {
 			prefs.put("profile.managed_default_content_settings.images",2); //禁止下载加载图片
 		}
