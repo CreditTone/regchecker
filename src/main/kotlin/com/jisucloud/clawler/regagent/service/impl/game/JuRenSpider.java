@@ -7,25 +7,24 @@ import com.jisucloud.deepsearch.selenium.Ajax;
 import com.jisucloud.deepsearch.selenium.AjaxListener;
 import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
 import com.jisucloud.deepsearch.selenium.HeadlessUtil;
+import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
+import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
+import com.jisucloud.deepsearch.selenium.mitm.HookTracker;
 
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import net.lightbody.bmp.util.HttpMessageContents;
+import net.lightbody.bmp.util.HttpMessageInfo;
 
-import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class JuRenSpider implements PapaSpider {
+public class JuRenSpider implements PapaSpider,AjaxHook {
 
-	private ChromeAjaxListenDriver chromeDriver;
+	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 
 	@Override
@@ -61,42 +60,14 @@ public class JuRenSpider implements PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(true, null, "Mozilla/5.0 (Linux; Android 7.0; PLUS Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Mobile Safari/537.36");
+			chromeDriver = ChromeAjaxHookDriver.newAndroidInstance(true, true);
 			String url = "https://reg.ztgame.com/mobile";
-			chromeDriver.setAjaxListener(new AjaxListener() {
-				
-				@Override
-				public String matcherUrl() {
-					return "common/query?";
-				}
-				
-				@Override
-				public void ajax(Ajax ajax) throws Exception {
-					checkTel = ajax.getResponse().contains("账号已存在");
-				}
-				
-				@Override
-				public String[] blockUrl() {
-					return new String[] {"common/captcha?"};
-				}
-
-				@Override
-				public String fixPostData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-
-				@Override
-				public String fixGetData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-			});
+			chromeDriver.addAjaxHook(this);
 			chromeDriver.get(url);
-			Thread.sleep(3000);
+			Thread.sleep(2000);
 			chromeDriver.findElementByCssSelector("input[name=phone]").sendKeys(account);
 			chromeDriver.findElementByCssSelector("input[name=get_mpcode]").click();
-			Thread.sleep(3000);
+			Thread.sleep(2000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -115,6 +86,24 @@ public class JuRenSpider implements PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
+	}
+
+	@Override
+	public HookTracker getHookTracker() {
+		return HookTracker.builder().addUrl("common/query?").build();
+	}
+
+	@Override
+	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		if (messageInfo.getOriginalUrl().contains("common/sendmpcode")) {
+			return DEFAULT_HTTPRESPONSE;
+		}
+		return null;
+	}
+
+	@Override
+	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		checkTel = contents.getTextContents().contains("已存在");
 	}
 
 }

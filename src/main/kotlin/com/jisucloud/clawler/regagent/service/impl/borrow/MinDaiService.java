@@ -2,24 +2,30 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
-import com.jisucloud.deepsearch.selenium.Ajax;
-import com.jisucloud.deepsearch.selenium.AjaxListener;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
-import lombok.extern.slf4j.Slf4j;
+import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
+import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
+import com.jisucloud.deepsearch.selenium.mitm.HookTracker;
 
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
+import lombok.extern.slf4j.Slf4j;
+import net.lightbody.bmp.util.HttpMessageContents;
+import net.lightbody.bmp.util.HttpMessageInfo;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Sets;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class MinDaiService implements PapaSpider {
+public class MinDaiService implements PapaSpider,AjaxHook {
 
-    private ChromeAjaxListenDriver chromeDriver;
+	private ChromeAjaxHookDriver chromeDriver;
     private boolean checkTel = false;
+    private boolean suc = false;
     
 	@Override
 	public Set<String> getTestTelephones() {
@@ -54,42 +60,12 @@ public class MinDaiService implements PapaSpider {
     @Override
     public boolean checkTelephone(String account) {
         try {
-            chromeDriver = HeadlessUtil.getChromeDriver(true, null, "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36");
+            chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
             String url = "https://bank.mindai.com/password-find.html";
-            chromeDriver.setAjaxListener(new AjaxListener() {
-
-                @Override
-                public String matcherUrl() {
-                    return "api.mindai.com";
-                }
-
-                @Override
-                public void ajax(Ajax ajax) throws Exception {
-                    System.err.println(ajax.getResponse());
-                    //{code: "0000", message: "成功", data: {isRegistered: "0", req_num: 0}, timestamp: 1560244994914}
-                    checkTel = !ajax.getResponse().contains("isRegistered\":\"0\"");
-                }
-
-                @Override
-                public String[] blockUrl() {
-                    return new String[]{"common/captcha?"};
-                }
-
-				@Override
-				public String fixPostData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-
-				@Override
-				public String fixGetData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-            });
+            chromeDriver.addAjaxHook(this);
             chromeDriver.get(url);
-            Thread.sleep(3000);
-            chromeDriver.findElementByCssSelector("#userName").sendKeys("18701666062");
+            Thread.sleep(2000);
+            chromeDriver.findElementByCssSelector("#userName").sendKeys(account);
             chromeDriver.findElementByCssSelector("#imgCode").click();
             Thread.sleep(3000);
         } catch (Exception e) {
@@ -111,5 +87,32 @@ public class MinDaiService implements PapaSpider {
     public Map<String, String> getFields() {
         return null;
     }
+
+	@Override
+	public HookTracker getHookTracker() {
+		// TODO Auto-generated method stub
+		return HookTracker.builder().addUrl("https://api.mindai.com/").isPOST().requestContentType("application/x-www-form-urlencoded").responseContentType("application/json").build();
+	}
+
+	@Override
+	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		return null;
+	}
+
+	@Override
+	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		if (checkTel) {
+			return;
+		}
+		try {
+			JSONObject result = JSON.parseObject(contents.getTextContents());
+			String isRegistered = result.getJSONObject("data").getString("isRegistered");
+			if (isRegistered != null) {
+				suc = true;
+				checkTel = isRegistered.equals("1");
+			}
+		} catch (Exception e) {
+		}
+	}
 
 }

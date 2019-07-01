@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
@@ -10,7 +11,6 @@ import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.mockito.internal.util.collections.Sets;
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
@@ -54,7 +54,7 @@ public class AiTouZiSpider implements PapaSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newSet("13879580000", "18210538513");
+		return Sets.newHashSet("13879580000", "18210538513");
 	}
 	
 	private String getImgCode() {

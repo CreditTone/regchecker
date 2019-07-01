@@ -1,4 +1,5 @@
 HELP.md
+check_valid_papaspider_result.json
 /target/
 !.mvn/wrapper/maven-wrapper.jar
 

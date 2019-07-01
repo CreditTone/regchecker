@@ -3,14 +3,11 @@ package com.jisucloud.clawler.regagent.service.impl.game;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Set;
@@ -50,7 +47,7 @@ public class XYSpider implements PapaSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18720982607", "13269423806");
+		return Sets.newHashSet("18210538513", "13269423806");
 	}
 
 	@Override

@@ -52,7 +52,7 @@ public class BaiheWangSpider implements PapaSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18779861101", "18210538513");
+		return Sets.newHashSet("18700001101", "18210538513");
 	}
 
 	@Override

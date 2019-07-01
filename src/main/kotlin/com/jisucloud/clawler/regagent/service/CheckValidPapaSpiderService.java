@@ -22,6 +22,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ClassUtils;
 
 import com.alibaba.fastjson.JSON;
+import com.jisucloud.clawler.regagent.service.impl.borrow.GuoShuCaiFuSpider;
+import com.jisucloud.clawler.regagent.service.impl.borrow.JuAiCaiSpider;
+import com.jisucloud.clawler.regagent.service.impl.borrow.YiDaiWangSpider;
 import com.jisucloud.clawler.regagent.util.PapaSpiderTester;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +36,13 @@ public class CheckValidPapaSpiderService extends TimerTask implements PapaSpider
 	public static Set<Class<? extends PapaSpider>> TEST_SUCCESS_PAPASPIDERS = new HashSet<>();
 	public static Set<Class<? extends PapaSpider>> TEST_FAILURE_PAPASPIDERS = new HashSet<>();
 	public static Set<Class<? extends PapaSpider>> NOUSE_PAPASPIDERS = new HashSet<>();
+	public static Set<Class<? extends PapaSpider>> IGNORE_TEST_RESULT = new HashSet<>();
+	
+	static {
+		IGNORE_TEST_RESULT.add(JuAiCaiSpider.class);
+		IGNORE_TEST_RESULT.add(GuoShuCaiFuSpider.class);
+		IGNORE_TEST_RESULT.add(YiDaiWangSpider.class);
+	}
 	
 	public static final String CHECK_VALIDPAPASPIDER_RESULT_FILE = "check_valid_papaspider_result.json";
 	
@@ -82,7 +92,7 @@ public class CheckValidPapaSpiderService extends TimerTask implements PapaSpider
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	private void saveCheckValidPapaSpiderResult() throws IOException {
 		File checkValidPapaSpiderResultFile = new File(CHECK_VALIDPAPASPIDER_RESULT_FILE);
-		FileUtils.write(checkValidPapaSpiderResultFile, checkValidPapaSpiderResultFile.toString(), false);
+		FileUtils.write(checkValidPapaSpiderResultFile, JSON.toJSONString(checkValidPapaSpiderResult), false);
 	}
 	
 	/**
@@ -116,6 +126,10 @@ public class CheckValidPapaSpiderService extends TimerTask implements PapaSpider
 	public void testSuccess(Class<? extends PapaSpider> clz) {
 		log.info("测试成功:"+clz.getName());
 		checkValidPapaSpiderResult.put(clz.getName(), System.currentTimeMillis());
+		addTestSuccessResult(clz);
+	}
+
+	public void addTestSuccessResult(Class<? extends PapaSpider> clz) {
 		if (TEST_FAILURE_PAPASPIDERS.contains(clz)) {
 			TEST_FAILURE_PAPASPIDERS.remove(clz);
 		}
@@ -124,25 +138,35 @@ public class CheckValidPapaSpiderService extends TimerTask implements PapaSpider
 
 	@Override
 	public void testFailure(Class<? extends PapaSpider> clz) {
-		log.info("测试失败:"+clz.getName());
+		if (IGNORE_TEST_RESULT.contains(clz)) {
+			log.warn("忽略测试结果:"+clz.getName());
+			addTestSuccessResult(clz);
+		}else {
+			log.warn("测试失败:"+clz.getName());
+			addTestFailureResult(clz);
+		}
+	}
+
+	public void addTestFailureResult(Class<? extends PapaSpider> clz) {
 		if (TEST_SUCCESS_PAPASPIDERS.contains(clz)) {
 			log.info("移除撞库资格:"+clz.getName());
 			TEST_SUCCESS_PAPASPIDERS.remove(clz);
 		}
 		TEST_FAILURE_PAPASPIDERS.add(clz);
 	}
-
+	
 	@Override
 	public void run() {
 		try {
 			log.info("开始测试......");
 			Set<Class<? extends PapaSpider>> needTestPapaSpiders = new HashSet<>();
-			for (Class<? extends PapaSpider> clz : needTestPapaSpiders) {
+			for (Class<? extends PapaSpider> clz : preparedPapaSpiders) {
 				if (isCheckValidPapaSpiderResultValid(clz)) {
 					continue;
 				}
 				needTestPapaSpiders.add(clz);
 			}
+			//log.info("需要测试的列表:"+JSON.toJSONString(needTestPapaSpiders));
 			PapaSpiderTester.testing(needTestPapaSpiders, this);
 			log.info("测试完成，成功" + TEST_SUCCESS_PAPASPIDERS.size() + "个，失败" + TEST_FAILURE_PAPASPIDERS.size() + "个。");
 			if (!TEST_FAILURE_PAPASPIDERS.isEmpty()) {

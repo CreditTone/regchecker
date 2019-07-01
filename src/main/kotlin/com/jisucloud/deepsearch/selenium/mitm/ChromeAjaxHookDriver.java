@@ -12,8 +12,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 
-import com.jisucloud.deepsearch.selenium.HttpsProxy;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

@@ -3,7 +3,6 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 import com.jisucloud.clawler.regagent.http.OKHttpUtil;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -15,10 +14,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import com.google.common.collect.Sets;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
@@ -80,6 +77,7 @@ public class GuoShuCaiFuSpider implements PapaSpider {
 					.build();
 			response = okHttpClient.newCall(request).execute();
 			String res = response.body().string();
+			System.out.println(res);
 			if (!res.contains("账户不存在")) {
 				return true;
 			}

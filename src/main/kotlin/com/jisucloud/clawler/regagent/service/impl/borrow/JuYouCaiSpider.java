@@ -10,7 +10,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import com.google.common.collect.Sets;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Set;
@@ -51,7 +50,7 @@ public class JuYouCaiSpider implements PapaSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252045", "18210538513");
+		return Sets.newHashSet("13910002045", "18210538513");
 	}
 
 	@Override
@@ -76,7 +75,7 @@ public class JuYouCaiSpider implements PapaSpider {
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
 			String res = response.body().string();
-			if (res.contains("帐号或密码有误") || res.contains("帐号已锁定")) {
+			if (res.contains("帐号或密码") || res.contains("帐号已锁定")) {
 				return true;
 			}
 		} catch (Exception e) {

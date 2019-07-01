@@ -2,36 +2,22 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
-import com.jisucloud.deepsearch.selenium.Ajax;
-import com.jisucloud.deepsearch.selenium.AjaxListener;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
+import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
 
 import lombok.extern.slf4j.Slf4j;
-import me.kagura.JJsoup;
-import me.kagura.Session;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
-import org.jsoup.Connection;
 import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
-import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
 public class NiWoDaiSpider implements PapaSpider {
+	
+	private ChromeAjaxHookDriver chromeDriver;
 
 	@Override
 	public String message() {
@@ -57,8 +43,6 @@ public class NiWoDaiSpider implements PapaSpider {
 	public String[] tags() {
 		return new String[] {"P2P", "借贷"};
 	}
-	
-	private ChromeAjaxListenDriver chromeDriver;
 	
 	private boolean checkTelephone = false;
 	
@@ -88,26 +72,25 @@ public class NiWoDaiSpider implements PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(false, null, "Mozilla/5.0 (Linux; Android 7.0; PLUS Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Mobile Safari/537.36");
+			chromeDriver = ChromeAjaxHookDriver.newIOSInstance(false, true);
 //			chromeDriver.quicklyVisit("https://m.niwodai.com/home");
 			chromeDriver.get("https://m.niwodai.com/register/v2/wap/login/index");
 			Thread.sleep(2000);
 			chromeDriver.findElementById("username").sendKeys(account);
 			chromeDriver.findElementById("pwd").sendKeys("xkabdsd12ao");
-			WebElement next = chromeDriver.findElementById("userLoginBtn");
-			next.click();
-			Thread.sleep(1000);
 			for (int i = 0; i < 5; i++) {
-				String imageCode = getImgCode();
 				chromeDriver.findElementById("pwd").clear();
 				chromeDriver.findElementById("pwd").sendKeys("xkabdsd12ao");
-				WebElement imgCode = chromeDriver.findElementById("imgCode");
-				imgCode.clear();
-				imgCode.sendKeys(imageCode);
-				chromeDriver.reInject();
-				Thread.sleep(1000);
-				next.click();
+				if (chromeDriver.checkElement("#imgCode")) {
+					String imageCode = getImgCode();
+					WebElement imgCode = chromeDriver.findElementById("imgCode");
+					imgCode.clear();
+					imgCode.sendKeys(imageCode);
+				}
 				Thread.sleep(500);
+				WebElement next = chromeDriver.findElementById("userLoginBtn");
+				next.click();
+				Thread.sleep(1000);
 				String popText = chromeDriver.findElementByCssSelector("div[class='pop_s pop_show']").getText();
 				System.out.println(popText);
 				success = popText.contains("密码错误");

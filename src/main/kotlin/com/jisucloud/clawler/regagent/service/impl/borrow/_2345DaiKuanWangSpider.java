@@ -73,7 +73,7 @@ public class _2345DaiKuanWangSpider implements PapaSpider {
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			JSONObject result = JSON.parseObject(response.body().string());
+			JSONObject result = JSON.parseObject(response.body().string()).getJSONObject("result");
 			if (result.getBooleanValue("registered")) {
 				return true;
 			}
@@ -95,7 +95,7 @@ public class _2345DaiKuanWangSpider implements PapaSpider {
 
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252000", "15161509916");
+		return Sets.newHashSet("18210538513", "15161509916");
 	}
 
 }

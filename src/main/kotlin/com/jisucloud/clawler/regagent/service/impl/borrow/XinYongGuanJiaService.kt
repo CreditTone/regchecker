@@ -36,8 +36,7 @@ class XinYongGuanJiaService : PapaSpider {
                     .execute()
             //{"result":{"message":"对不起，当前手机号还未注册！","appName":"mapi","status":"error","code":"E2017K000000013","success":"false"}}
             val body = response.body()
-            println(platformName() + "官网接口返回：" + body)
-            return !body.contains("当前手机号还未注册")
+            return body.contains("密码错误")
         } catch (e: Exception) {
             e.printStackTrace()
             return false
@@ -56,10 +55,6 @@ class XinYongGuanJiaService : PapaSpider {
 	override fun getTestTelephones() : Set<String> {
 		return Sets.newHashSet("13261165342", "18210538513");
 	}
+	
 
 }
-
-//fun main(args: Array<String>) {
-//    val checkTelephone = XinYongGuanJiaService().checkTelephone("13261165342")
-//    println(checkTelephone)
-//}

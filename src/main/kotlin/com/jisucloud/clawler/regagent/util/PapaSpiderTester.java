@@ -4,6 +4,18 @@ import java.util.Iterator;
 import java.util.Set;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.impl.borrow.*;
+import com.jisucloud.clawler.regagent.service.impl.education.*;
+import com.jisucloud.clawler.regagent.service.impl.game.*;
+import com.jisucloud.clawler.regagent.service.impl.health.*;
+import com.jisucloud.clawler.regagent.service.impl.kt.BoJinDaiService;
+import com.jisucloud.clawler.regagent.service.impl.kt.HengYiDaiService;
+import com.jisucloud.clawler.regagent.service.impl.kt.JiMuService;
+import com.jisucloud.clawler.regagent.service.impl.kt.XiaoYingKaDaiService;
+import com.jisucloud.clawler.regagent.service.impl.life.QiHu360Spider;
+import com.jisucloud.clawler.regagent.service.impl.money.*;
+import com.jisucloud.clawler.regagent.service.impl.shop.*;
+import com.jisucloud.clawler.regagent.service.impl.social.*;
 import com.jisucloud.deepsearch.selenium.mitm.MitmServer;
 
 import lombok.extern.slf4j.Slf4j;
@@ -97,5 +109,28 @@ public class PapaSpiderTester {
 			}
 			MitmServer.getInstance().stop();
 		}
+	}
+	
+	public static void main(String[] args) {
+//		testingWithPrint(NiWoDaiSpider.class);
+//		testingWithPrint(XiaoYingKaDaiService.class);
+//		testingWithPrint(HengYiDaiService.class);
+//		testingWithPrint(LianZiDaiSpider.class);
+//		testingWithPrint(MinDaiService.class);
+//		testingWithPrint(PharmacySpider.class);
+//		testingWithPrint(WangdaiZhijiaSpider.class);
+//		testingWithPrint(XYSpider.class);
+//		testingWithPrint(ShangDeSpider.class);
+//		testingWithPrint(TianNaSpider.class);
+//		testingWithPrint(YiXinHuiMinSpider.class);
+//		testingWithPrint(JuRenSpider.class);
+//		testingWithPrint(BaiheWangSpider.class);
+//		testingWithPrint(JiMuService.class);
+//		testingWithPrint(DangDangWangSpider.class);
+//		testingWithPrint(BoJinDaiService.class);
+//		testingWithPrint(LanCaiWangSpider.class);
+//		testingWithPrint(YiDaiWangSpider.class);
+//		testingWithPrint(QiHu360Spider.class);
+//		testingWithPrint(_2345DaiKuanWangSpider.class);
 	}
 }

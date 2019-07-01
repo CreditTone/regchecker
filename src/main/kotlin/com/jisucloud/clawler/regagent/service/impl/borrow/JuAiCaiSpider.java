@@ -2,6 +2,7 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
+import com.jisucloud.clawler.regagent.util.PapaSpiderTester;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
@@ -9,7 +10,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import com.google.common.collect.Sets;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Set;
@@ -49,7 +49,11 @@ public class JuAiCaiSpider implements PapaSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252045", "18210538513");
+		return Sets.newHashSet("13910002045", "18210538513");
+	}
+	
+	public static void main(String[] args) {
+		PapaSpiderTester.testingWithPrint(JuAiCaiSpider.class);
 	}
 
 	@Override
@@ -63,7 +67,7 @@ public class JuAiCaiSpider implements PapaSpider {
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
 			String res = response.body().string();
-			return res.contains("0");
+			return !res.equals("1");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

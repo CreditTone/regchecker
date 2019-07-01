@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.openqa.selenium.WebElement;
-import org.springframework.stereotype.Component;
 
 @Slf4j
 @UsePapaSpider
@@ -73,9 +72,9 @@ public class MeiTuanSpider implements PapaSpider {
 			chromeDriver = HeadlessUtil.getChromeDriver(false, null, null);
 			chromeDriver.get("https://i.meituan.com/risk2/resetreq");
 			Thread.sleep(2000);
+			WebElement nameInputArea = chromeDriver.findElementByCssSelector("input[name='user']");
+			nameInputArea.sendKeys(account);
 			for (int i = 0 ; i < 5 ; i ++) {
-				WebElement nameInputArea = chromeDriver.findElementByCssSelector("input[name='user']");
-				nameInputArea.sendKeys(account);
 				WebElement captcha = chromeDriver.findElementByCssSelector("input[name='captcha']");
 				captcha.sendKeys(getImgCode());
 				chromeDriver.findElementByCssSelector("button[type='submit']").click();

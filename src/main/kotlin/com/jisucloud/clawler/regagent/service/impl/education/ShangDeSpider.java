@@ -10,9 +10,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -55,11 +52,6 @@ public class ShangDeSpider implements PapaSpider {
 	}
 
 
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new ShangDeSpider().checkTelephone("13691032050"));
-//		System.out.println(new ShangDeSpider().checkTelephone("18210538513"));
-//	}
-
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
@@ -75,7 +67,9 @@ public class ShangDeSpider implements PapaSpider {
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("true")) {
+			String res = response.body().string();
+			System.out.println(res);
+			if (res.contains("true")) {
 				return true;
 			}
 		} catch (Exception e) {

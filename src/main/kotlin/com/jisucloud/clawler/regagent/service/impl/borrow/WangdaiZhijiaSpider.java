@@ -7,12 +7,12 @@ import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 
 import lombok.extern.slf4j.Slf4j;
+import me.kagura.JJsoup;
 import me.kagura.Session;
 
 import org.jsoup.Connection;
 import org.jsoup.Connection.Method;
 import com.google.common.collect.Sets;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -72,7 +72,7 @@ public class WangdaiZhijiaSpider implements PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			Session session = JJsoupUtil.newProxySession();
+			Session session = JJsoup.newSession();
 			String url = "https://passport.wdzj.com/userInterface/verifyMobile";
 			Connection.Response response = session.connect(url)
 					.method(Method.POST)

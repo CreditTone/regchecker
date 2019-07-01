@@ -7,26 +7,26 @@ import com.jisucloud.deepsearch.selenium.Ajax;
 import com.jisucloud.deepsearch.selenium.AjaxListener;
 import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
 import com.jisucloud.deepsearch.selenium.HeadlessUtil;
+import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
+import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
+import com.jisucloud.deepsearch.selenium.mitm.HookTracker;
 
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import net.lightbody.bmp.util.HttpMessageContents;
+import net.lightbody.bmp.util.HttpMessageInfo;
 
-import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class TianawSpider implements PapaSpider {
+public class TianNaSpider implements PapaSpider,AjaxHook {
 
-	private ChromeAjaxListenDriver chromeDriver;
+	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
+	private boolean suc = false;
 	
 	@Override
 	public String message() {
@@ -61,44 +61,16 @@ public class TianawSpider implements PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(false, null, null);
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
+			chromeDriver.addAjaxHook(this);
 			String url = "https://tianaw.95505.cn/tacpc/#/login/updatepass";
-			chromeDriver.setAjaxListener(new AjaxListener() {
-				
-				@Override
-				public String matcherUrl() {
-					return "/customer_login/setPassword?jsonKey";
-				}
-				
-				@Override
-				public void ajax(Ajax ajax) throws Exception {
-					checkTel = !ajax.getResponse().contains("该用户未注册");
-				}
-				
-				@Override
-				public String[] blockUrl() {
-					return null;
-				}
-
-				@Override
-				public String fixPostData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-
-				@Override
-				public String fixGetData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-			});
 			chromeDriver.get(url);
-			Thread.sleep(5000);
+			Thread.sleep(3000);
 			chromeDriver.findElementById("'phoneNumber'").sendKeys(account);
 			chromeDriver.findElementById("password").sendKeys("wxy"+account);
 			chromeDriver.findElementById("checkPassword").sendKeys("wxy"+account);
 			chromeDriver.findElementByCssSelector("button[nztype=primary]").click();
-			Thread.sleep(3000);
+			Thread.sleep(2000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -117,6 +89,25 @@ public class TianawSpider implements PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
+	}
+
+	@Override
+	public HookTracker getHookTracker() {
+		// TODO Auto-generated method stub
+		return HookTracker.builder().addUrl("/customer_login/setPassword").isPOST().build();
+	}
+
+	@Override
+	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		// TODO Auto-generated method stub
+		checkTel = contents.getTextContents().contains("新密码设置成功");
+		suc = true;
 	}
 
 }

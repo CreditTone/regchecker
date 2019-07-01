@@ -63,9 +63,7 @@ public class MitmServer implements RequestFilter,ResponseFilter {
 		proxy.setTrustAllServers(true);
 		proxy.enableHarCaptureTypes(CaptureType.REQUEST_CONTENT, CaptureType.RESPONSE_CONTENT);
 		proxy.addRequestFilter(this);
-		log.info("addRequestFilter");
 		proxy.addResponseFilter(this);
-		log.info("addResponseFilter");
 		try {
 			proxy.start(BIND_PORT, InetAddress.getByName("0.0.0.0"));
 		} catch (UnknownHostException e) {

@@ -2,35 +2,30 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.jisucloud.clawler.regagent.http.PersistenceCookieJar;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
-import com.jisucloud.deepsearch.selenium.Ajax;
-import com.jisucloud.deepsearch.selenium.AjaxListener;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
+import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
+import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
+import com.jisucloud.deepsearch.selenium.mitm.HookTracker;
 
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import net.lightbody.bmp.util.HttpMessageContents;
+import net.lightbody.bmp.util.HttpMessageInfo;
 
 import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class YiXinHuiMinSpider implements PapaSpider {
+public class YiXinHuiMinSpider implements PapaSpider,AjaxHook {
 
-	private ChromeAjaxListenDriver chromeDriver;
+	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
 
@@ -82,49 +77,15 @@ public class YiXinHuiMinSpider implements PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(false, null, null);
-			chromeDriver.quicklyVisit("https://www.creditease.cn");
-			chromeDriver.quicklyVisit("https://www.creditease.cn/a/user/forgetPasswordStep1");
-			chromeDriver.addAjaxListener(new AjaxListener() {
-				
-				@Override
-				public String matcherUrl() {
-					return "user/checkMobile";
-				}
-				
-				@Override
-				public String[] blockUrl() {
-					return new String[] {"forgetPasswordStep2"};
-				}
-				
-				@Override
-				public void ajax(Ajax ajax) throws Exception {
-					JSONObject result = JSON.parseObject(ajax.getResponse());
-					int code = result.getIntValue("code");
-					if (code == 1003 || code == 0) {
-						vcodeSuc = true;
-						checkTel = result.getBooleanValue("success");
-					}
-				}
-
-				@Override
-				public String fixPostData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-
-				@Override
-				public String fixGetData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-			});
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
+			chromeDriver.get("https://www.creditease.cn");
+			chromeDriver.get("https://www.creditease.cn/a/user/forgetPasswordStep1");
+			chromeDriver.addAjaxHook(this);
 			chromeDriver.findElementById("mobile").sendKeys(account);
 			for (int i = 0; i < 5; i++) {
 				WebElement validate = chromeDriver.findElementById("validate");
 				validate.clear();
 				validate.sendKeys(getImgCode());
-				chromeDriver.reInject();
 				chromeDriver.findElementById("nextBtn").click();
 				Thread.sleep(3000);
 				if (vcodeSuc) {
@@ -149,6 +110,33 @@ public class YiXinHuiMinSpider implements PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
+	}
+
+	@Override
+	public HookTracker getHookTracker() {
+		// TODO Auto-generated method stub
+		return HookTracker.builder().addUrl("user/checkMobile").build();
+	}
+
+	@Override
+	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		if (messageInfo.getOriginalUrl().contains("forgetPasswordStep2")) {
+			return DEFAULT_HTTPRESPONSE;
+		}
+		return null;
+	}
+
+	@Override
+	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		try {
+			JSONObject result = JSON.parseObject(contents.getTextContents());
+			int code = result.getIntValue("code");
+			if (code == 1003 || code == 0) {
+				vcodeSuc = true;
+				checkTel = result.getBooleanValue("success");
+			}
+		} catch (Exception e) {
+		}
 	}
 
 }

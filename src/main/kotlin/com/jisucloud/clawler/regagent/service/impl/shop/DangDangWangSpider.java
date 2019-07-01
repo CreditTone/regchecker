@@ -3,25 +3,25 @@ package com.jisucloud.clawler.regagent.service.impl.shop;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.OCRDecode;
+import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
+import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
+import com.jisucloud.deepsearch.selenium.mitm.HookTracker;
 
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
-import me.kagura.JJsoup;
-import me.kagura.Session;
+import net.lightbody.bmp.util.HttpMessageContents;
+import net.lightbody.bmp.util.HttpMessageInfo;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.jsoup.Connection;
-import org.jsoup.Connection.Method;
-
 @Slf4j
 @UsePapaSpider
-public class DangDangWangSpider implements PapaSpider {
+public class DangDangWangSpider implements PapaSpider,AjaxHook {
 	
-	private Session session = JJsoup.newSession();
+	private ChromeAjaxHookDriver chromeDriver;
+	private boolean check = false;
 	
 	@Override
 	public String message() {
@@ -53,61 +53,23 @@ public class DangDangWangSpider implements PapaSpider {
 		return Sets.newHashSet("18210538577", "18210538513");
 	}
 
-	private Map<String, String> getHeader() {
-		Map<String, String> headers = new HashMap<>();
-		headers.put("User-Agent",
-				"Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0");
-		headers.put("Host", "safe.dangdang.com");
-		headers.put("Referer", "http://safe.dangdang.com/find_password.php");
-		headers.put("X-Requested-With", "XMLHttpRequest");
-		return headers;
-	}
-	
-	private String getImgCode() {
-		Connection.Response response;
-		String vcode = null;
-		for (int i = 0 ; i < 9; i++) {
-			try {
-				String imageUrl = "http://vcode.dangdang.com/show_vcode.php?t="+System.currentTimeMillis();
-				response = session.connect(imageUrl).headers(getHeader()).execute();
-				byte[] body = response.bodyAsBytes();
-				vcode = OCRDecode.decodeImageCode(body);
-				response = session.connect("http://safe.dangdang.com/p/check_img_vcode.php")
-						.method(Method.POST)
-						.headers(getHeader())
-						.data("txtVcode", vcode)
-						.execute();
-				if (response.body().contains("1002")) {
-					continue;
-				}else {
-					return vcode;
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return "";
-	}
-	
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "http://safe.dangdang.com/p/check_username_exist.php";
-			Connection.Response response = session.connect(url)
-					.method(Method.POST)
-					.data("txtUser", account)
-					.data("txtVcode", getImgCode())
-					.headers(getHeader()).ignoreContentType(true).execute();
-			String res = response.body();
-			if (res.contains("true")) {
-				return true;
-			}else {
-				return false;
-			}
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
+			chromeDriver.get("https://login.dangdang.com/register.php?returnurl=http://www.dangdang.com/");
+			chromeDriver.addAjaxHook(this);
+			chromeDriver.findElementById("txt_username").sendKeys(account);
+			chromeDriver.findElementById("txt_password").click();
+			Thread.sleep(1000);
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			if (chromeDriver != null) {
+				chromeDriver.quit();
+			}
 		}
-		return false;
+		return check;
 	}
 
 	@Override
@@ -118,6 +80,22 @@ public class DangDangWangSpider implements PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
+	}
+
+	@Override
+	public HookTracker getHookTracker() {
+		return HookTracker.builder().addUrl("mobile_checker.php").isPOST().build();
+	}
+
+	@Override
+	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		check = contents.getTextContents().contains("true");
 	}
 
 }

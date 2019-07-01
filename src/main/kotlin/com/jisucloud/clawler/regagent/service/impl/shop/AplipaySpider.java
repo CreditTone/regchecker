@@ -14,7 +14,7 @@ import java.util.Set;
 import org.openqa.selenium.WebElement;
 
 @Slf4j
-//@UsePapaSpider 必须是非headless才能通过滑块验证
+@UsePapaSpider
 public class AplipaySpider implements PapaSpider {
 	
 	private ChromeAjaxHookDriver chromeDriver;
