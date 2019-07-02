@@ -358,7 +358,11 @@ public final class LoggerFactory {
         Logger obj = iLoggerFactory.getLogger(name);
         if (obj != null) {
         		ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) obj;
-        		root.setLevel(ch.qos.logback.classic.Level.INFO);
+        		if (name.contains("proxy.impl.ClientToProxyConnection")) {
+        			root.setLevel(ch.qos.logback.classic.Level.WARN);
+        		}else {
+        			root.setLevel(ch.qos.logback.classic.Level.INFO);
+        		}
         }
         return obj;
     }
