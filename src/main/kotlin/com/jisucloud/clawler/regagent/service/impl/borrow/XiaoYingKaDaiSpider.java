@@ -6,11 +6,13 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import me.kagura.JJsoup;
 import me.kagura.Session;
 
+@UsePapaSpider
 public class XiaoYingKaDaiSpider implements PapaSpider {
 
 	@Override

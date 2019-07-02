@@ -69,7 +69,8 @@ public class DuoDuoJinRongSpider implements PapaSpider {
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("密码错误")) {
+			String res = response.body().string();
+			if (!res.contains("账号尚未注册") ) {
 				return true;
 			}
 		} catch (Exception e) {

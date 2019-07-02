@@ -8,13 +8,12 @@ import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import me.kagura.Session;
 import org.jsoup.Connection;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-@UsePapaSpider
+//@UsePapaSpider
 public class JiaoGuanSpider implements PapaSpider {
 
     @Override

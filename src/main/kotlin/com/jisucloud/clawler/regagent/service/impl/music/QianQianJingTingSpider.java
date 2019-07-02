@@ -75,8 +75,7 @@ public class QianQianJingTingSpider implements PapaSpider {
 			Response response = okHttpClient.newCall(request)
 					.execute();
 			JSONObject result = JSON.parseObject(response.body().string());
-			System.out.println(result);
-			if (!result.getString("error_msg").equalsIgnoreCase("ok")) {
+			if (result.getString("error_msg").contains("exists")) {
 				return true;
 			}
 		} catch (Exception e) {

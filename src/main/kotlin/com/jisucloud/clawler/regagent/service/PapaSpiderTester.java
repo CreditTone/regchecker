@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.impl.borrow.*;
+import com.jisucloud.clawler.regagent.service.impl.car.JiaoGuanSpider;
 import com.jisucloud.clawler.regagent.service.impl.education.*;
 import com.jisucloud.clawler.regagent.service.impl.game.*;
 import com.jisucloud.clawler.regagent.service.impl.health.*;
@@ -159,5 +160,8 @@ public class PapaSpiderTester {
 //		testingWithPrint(AiQiyiSpider.class);
 //		testingWithPrint(AplipaySpider.class);
 //		testingWithPrint(BaiduSpider.class);
+//		testingWithPrint(ZhongGuoHunBoHuiSpider.class);
+//		testingWithPrint(DuoDuoJinRongSpider.class);
+//		testingWithPrint(JiaoGuanSpider.class);
 	}
 }

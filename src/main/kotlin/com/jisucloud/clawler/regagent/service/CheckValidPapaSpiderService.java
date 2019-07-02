@@ -23,7 +23,9 @@ import org.springframework.util.ClassUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.jisucloud.clawler.regagent.service.impl.borrow.GuoShuCaiFuSpider;
+import com.jisucloud.clawler.regagent.service.impl.borrow.HuaShengMiFuSpider;
 import com.jisucloud.clawler.regagent.service.impl.borrow.JuAiCaiSpider;
+import com.jisucloud.clawler.regagent.service.impl.borrow.PingAnXiaoDaiSpdier;
 import com.jisucloud.clawler.regagent.service.impl.borrow.YiDaiWangSpider;
 import com.jisucloud.clawler.regagent.util.PapaSpiderTester;
 
@@ -44,6 +46,8 @@ public class CheckValidPapaSpiderService extends TimerTask implements PapaSpider
 		IGNORE_TEST_RESULT.add(JuAiCaiSpider.class);
 		IGNORE_TEST_RESULT.add(GuoShuCaiFuSpider.class);
 		IGNORE_TEST_RESULT.add(YiDaiWangSpider.class);
+		IGNORE_TEST_RESULT.add(PingAnXiaoDaiSpdier.class);
+		IGNORE_TEST_RESULT.add(HuaShengMiFuSpider.class);
 	}
 	
 	public static final String CHECK_VALIDPAPASPIDER_RESULT_FILE = "check_valid_papaspider_result.json";

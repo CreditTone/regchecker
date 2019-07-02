@@ -5,10 +5,13 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
+
 import org.jsoup.Connection;
 import me.kagura.JJsoup;
 import me.kagura.Session;
 
+@UsePapaSpider
 public class BoJinDaiSpider implements PapaSpider {
 
 	@Override

@@ -92,7 +92,7 @@ public class HengYiDaiSpider implements PapaSpider {
 
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252000", "18210538513");
+		return Sets.newHashSet("13910252000", "18210538513", "18210538511");
 	}
 
 	public String decrypt(String data) throws Exception {

@@ -53,7 +53,7 @@ public class ZhongGuoHunBoHuiSpider implements PapaSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13426345414", "18210538513");
+		return Sets.newHashSet("13426345414", "18210000000" , "18210538513");
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class ZhongGuoHunBoHuiSpider implements PapaSpider {
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
 			String res = StringUtil.unicodeToString(response.body().string());
-			if (res.contains("密码错误")) {
+			if (res.contains("10004")) {
 				return true;
 			}
 		} catch (Exception e) {
