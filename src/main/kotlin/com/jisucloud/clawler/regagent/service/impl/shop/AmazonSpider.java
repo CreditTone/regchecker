@@ -50,12 +50,12 @@ public class AmazonSpider implements PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(true, true, CHROME_USER_AGENT);
-			chromeDriver.get("https://www.amazon.cn/ap/signin?_encoding=UTF8&ignoreAuthState=1&openid.assoc_handle=cnflex&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.mode=checkid_setup&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.ns.pape=http%3A%2F%2Fspecs.openid.net%2Fextensions%2Fpape%2F1.0&openid.pape.max_auth_age=0&openid.return_to=https%3A%2F%2Fwww.amazon.cn%2F%3Fref_%3Dnav_ya_signin&switch_account=");
+			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(true, false, CHROME_USER_AGENT);
+			chromeDriver.getIgnoreTimeout("https://www.amazon.cn/ap/signin?_encoding=UTF8&ignoreAuthState=1&openid.assoc_handle=cnflex&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.mode=checkid_setup&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.ns.pape=http%3A%2F%2Fspecs.openid.net%2Fextensions%2Fpape%2F1.0&openid.pape.max_auth_age=0&openid.return_to=https%3A%2F%2Fwww.amazon.cn%2F%3Fref_%3Dnav_ya_signin&switch_account=");
+			chromeDriver.get("https://www.amazon.cn/ap/forgotpassword?showRememberMe=true&openid.pape.max_auth_age=0&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&pageId=cnflex&ignoreAuthState=1&openid.return_to=https%3A%2F%2Fwww.amazon.cn%2F%3Fref_%3Dnav_ya_signin&prevRID=GVMVNSZ1VG5ZH9RJSN0M&openid.assoc_handle=cnflex&openid.mode=checkid_setup&openid.ns.pape=http%3A%2F%2Fspecs.openid.net%2Fextensions%2Fpape%2F1.0&prepopulatedLoginId=&failedSignInCount=0&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&ubid=458-9069774-3735239");
 			Thread.sleep(2000);
 			chromeDriver.findElementById("ap_email").sendKeys(account);
-			chromeDriver.findElementById("ap_password").sendKeys("xas1223xahh");
-			chromeDriver.findElementById("signInSubmit").click();
+			chromeDriver.findElementById("continue").click();
 			Thread.sleep(3000);
 			String text = "";
 			if (chromeDriver.checkElement("#auth-warning-message-box")) {
@@ -63,9 +63,10 @@ public class AmazonSpider implements PapaSpider {
 			}else if (chromeDriver.checkElement("#auth-error-message-box")) {
 				text = chromeDriver.findElementById("auth-error-message-box").getText();
 			}
-			if (text.contains("密码不正确") || text.contains("请重新输入密码")) {
-				return true;
+			if (text.contains("无法核实")) {
+				return false;
 			}
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

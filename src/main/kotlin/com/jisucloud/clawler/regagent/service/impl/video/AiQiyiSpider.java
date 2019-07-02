@@ -1,14 +1,19 @@
 package com.jisucloud.clawler.regagent.service.impl.video;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
-import com.jisucloud.deepsearch.selenium.Ajax;
-import com.jisucloud.deepsearch.selenium.AjaxListener;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
+import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
+import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
+import com.jisucloud.deepsearch.selenium.mitm.HookTracker;
 
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
+import net.lightbody.bmp.util.HttpMessageContents;
+import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
 import java.util.Set;
@@ -17,9 +22,9 @@ import org.openqa.selenium.WebElement;
 
 @Slf4j
 @UsePapaSpider
-public class AiQiyiSpider implements PapaSpider {
+public class AiQiyiSpider implements PapaSpider,AjaxHook {
 	
-	private ChromeAjaxListenDriver chromeDriver;
+	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 
 	@Override
@@ -55,44 +60,14 @@ public class AiQiyiSpider implements PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(true, null, null);
-			chromeDriver.setAjaxListener(new AjaxListener() {
-				
-				@Override
-				public String matcherUrl() {
-					return "user/check_account.action";
-				}
-				
-				@Override
-				public void ajax(Ajax ajax) throws Exception {
-					checkTel = ajax.getResponse().contains("data\":true");
-				}
-
-				@Override
-				public String[] blockUrl() {
-					return null;
-				}
-
-				@Override
-				public String fixPostData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-
-				@Override
-				public String fixGetData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-			});
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
+			chromeDriver.addAjaxHook(this);
 			chromeDriver.get("http://www.iqiyi.com/iframe/loginreg?ver=1");
-			Thread.sleep(2000);
-			chromeDriver.findElementByLinkText("账号密码登录").click();
 			Thread.sleep(1000);
-			chromeDriver.findElementByLinkText("忘记密码").click();
-			Thread.sleep(1000);
-			chromeDriver.findElementByLinkText("短信登录").click();
-			Thread.sleep(1000);
+			chromeDriver.findElementByLinkText("其他方式登录").click();
+			Thread.sleep(500);
+			chromeDriver.findElementByCssSelector("a[class='other-way-item duanxin']").click();
+			Thread.sleep(500);
 			WebElement nameInputArea = chromeDriver.findElementByCssSelector("input[data-regbox='name']");
 			nameInputArea.sendKeys(account);
 			chromeDriver.findElementByLinkText("下一步").click();
@@ -115,6 +90,31 @@ public class AiQiyiSpider implements PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
+	}
+
+	@Override
+	public HookTracker getHookTracker() {
+		return HookTracker.builder().addUrl("user/check_account.action").addUrl("secure_send_cellphone_authcode").build();
+	}
+
+	@Override
+	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		// TODO Auto-generated method stub
+		if (messageInfo.getOriginalUrl().contains("secure_send_cellphone_authcode")) {
+			return DEFAULT_HTTPRESPONSE;
+		}
+		return null;
+	}
+
+	@Override
+	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		if (messageInfo.getOriginalUrl().contains("check_account")) {
+			try {
+				JSONObject rsJsonObject = JSON.parseObject(contents.getTextContents());
+				checkTel = rsJsonObject.getBooleanValue("data");
+			} catch (Exception e) {
+			}
+		}
 	}
 
 }

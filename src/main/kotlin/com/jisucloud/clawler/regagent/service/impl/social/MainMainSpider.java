@@ -9,16 +9,10 @@ import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
 import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
 import com.jisucloud.deepsearch.selenium.mitm.HookTracker;
 
-import io.netty.handler.codec.http.DefaultHttpResponse;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
-import io.netty.handler.codec.http.HttpResponseStatus;
-import me.kagura.JJsoup;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
-
-import org.jsoup.Connection;
-import org.openqa.selenium.WebElement;
 
 import java.util.Map;
 import java.util.Set;
@@ -107,7 +101,6 @@ public class MainMainSpider implements PapaSpider, AjaxHook {
 
 	@Override
 	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
-		System.out.println(contents.getTextContents());
 		try {
 			JSONObject result = JSON.parseObject(contents.getTextContents());
 			if (result.getString("result").equalsIgnoreCase("ok")

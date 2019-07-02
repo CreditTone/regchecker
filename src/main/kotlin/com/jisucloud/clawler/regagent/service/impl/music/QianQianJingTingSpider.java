@@ -12,7 +12,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Set;
@@ -76,6 +75,7 @@ public class QianQianJingTingSpider implements PapaSpider {
 			Response response = okHttpClient.newCall(request)
 					.execute();
 			JSONObject result = JSON.parseObject(response.body().string());
+			System.out.println(result);
 			if (!result.getString("error_msg").equalsIgnoreCase("ok")) {
 				return true;
 			}

@@ -10,9 +10,11 @@ import com.jisucloud.clawler.regagent.service.impl.game.*;
 import com.jisucloud.clawler.regagent.service.impl.health.*;
 import com.jisucloud.clawler.regagent.service.impl.life.*;
 import com.jisucloud.clawler.regagent.service.impl.money.*;
+import com.jisucloud.clawler.regagent.service.impl.music.QianQianJingTingSpider;
 import com.jisucloud.clawler.regagent.service.impl.news.*;
 import com.jisucloud.clawler.regagent.service.impl.shop.*;
 import com.jisucloud.clawler.regagent.service.impl.social.*;
+import com.jisucloud.clawler.regagent.service.impl.video.*;
 import com.jisucloud.clawler.regagent.service.impl.work.*;
 import com.jisucloud.deepsearch.selenium.mitm.MitmServer;
 
@@ -152,6 +154,10 @@ public class PapaSpiderTester {
 //		testingWithPrint(TaxItsSpider.class);
 //		testingWithPrint(RongYiJieSpider.class);
 //		testingWithPrint(XiaoYingKaDaiSpider.class);
-		testingWithPrint(XinYongGuanJiaSpider.class);
+//		testingWithPrint(XinYongGuanJiaSpider.class);
+//		testingWithPrint(QianQianJingTingSpider.class);
+//		testingWithPrint(AiQiyiSpider.class);
+//		testingWithPrint(AplipaySpider.class);
+//		testingWithPrint(BaiduSpider.class);
 	}
 }

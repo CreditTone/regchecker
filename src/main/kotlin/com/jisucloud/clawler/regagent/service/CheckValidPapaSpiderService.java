@@ -33,6 +33,8 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class CheckValidPapaSpiderService extends TimerTask implements PapaSpiderTester.PapaSpiderTestListener {
 	
+	public static final long RE_TEST_TIME = 3600 * 1000 * 24 * 3;
+	
 	public static Set<Class<? extends PapaSpider>> TEST_SUCCESS_PAPASPIDERS = new HashSet<>();
 	public static Set<Class<? extends PapaSpider>> TEST_FAILURE_PAPASPIDERS = new HashSet<>();
 	public static Set<Class<? extends PapaSpider>> NOUSE_PAPASPIDERS = new HashSet<>();
@@ -82,7 +84,7 @@ public class CheckValidPapaSpiderService extends TimerTask implements PapaSpider
 			for (Class<?> clz : NOUSE_PAPASPIDERS) {
 				log.info(clz.getName());
 			}
-			timer.schedule(this, 0, 24 * 3600 * 1000);
+			timer.schedule(this, 0, RE_TEST_TIME);
 		}catch(Exception e) {
 			log.warn("载入失败", e);
 			throw e;
@@ -103,7 +105,7 @@ public class CheckValidPapaSpiderService extends TimerTask implements PapaSpider
 	private boolean isCheckValidPapaSpiderResultValid(Class<? extends PapaSpider> clz) {
 		if (checkValidPapaSpiderResult.containsKey(clz.getName())) {
 			long lastCheckTime = checkValidPapaSpiderResult.get(clz.getName());
-			if (System.currentTimeMillis() - lastCheckTime < 3600 * 1000 * 24) {//24小时
+			if (System.currentTimeMillis() - lastCheckTime < RE_TEST_TIME) {//24小时
 				return true;
 			}
 		}

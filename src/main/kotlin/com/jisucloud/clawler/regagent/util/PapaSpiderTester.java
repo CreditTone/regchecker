@@ -30,6 +30,8 @@ public class PapaSpiderTester {
 	public static void testing(Set<Class<? extends PapaSpider>> papaSpiders, PapaSpiderTestListener papaSpiderTestListener) {
 		for (Iterator<Class<? extends PapaSpider>> iterator = papaSpiders.iterator(); iterator.hasNext();) {
 			Class<? extends PapaSpider> clz = iterator.next();
+			log.info("开始测试:"+clz.getName());
+			TimerRecoder timerRecoder = new TimerRecoder().start();
 			boolean success = false;
 			try {
 				PapaSpider instance =  clz.newInstance();
@@ -61,6 +63,7 @@ public class PapaSpiderTester {
 				}else {
 					papaSpiderTestListener.testFailure(clz);
 				}
+				log.info("结束测试:"+clz.getName()+",用时"+timerRecoder.getText());
 			}
 		}
 	}

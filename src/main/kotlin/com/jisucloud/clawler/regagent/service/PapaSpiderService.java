@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.jisucloud.clawler.regagent.http.OKHttpUtil;
 import com.jisucloud.clawler.regagent.util.CountableThreadPool;
+import com.jisucloud.clawler.regagent.util.TimerRecoder;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -87,7 +88,7 @@ public class PapaSpiderService extends Thread {
 		@Override
 		public void run() {
 			log.info("开始任务("+papaTask.getId()+")");
-			long startTime = System.currentTimeMillis();
+			TimerRecoder timerRecoder = new TimerRecoder().start();
 			int successCount = 0;
 			int failureCount = 0;
 			for (Class<? extends PapaSpider> clz : CheckValidPapaSpiderService.TEST_SUCCESS_PAPASPIDERS) {
@@ -107,11 +108,8 @@ public class PapaSpiderService extends Thread {
 					}
 				}
 			}
-			long endTime = System.currentTimeMillis();
-			long usedtime = endTime - startTime;
-			long second = usedtime / 1000 % 60;
-			long minute = usedtime / 1000 / 60;
-			log.info("任务("+papaTask.getId()+")结束。用时"+minute+"分"+second+"秒,成功撞库平台"+successCount+"个,失败"+failureCount+"个。");
+			String useTime = timerRecoder.getText();
+			log.info("任务("+papaTask.getId()+")结束。用时"+useTime+",成功撞库平台"+successCount+"个,失败"+failureCount+"个。");
 		}
 		
 		private void notifyTelephone(PapaSpider instance, boolean registed) {

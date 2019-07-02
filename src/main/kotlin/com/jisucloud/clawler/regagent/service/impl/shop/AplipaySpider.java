@@ -70,9 +70,12 @@ public class AplipaySpider implements PapaSpider {
 			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(false, false, CHROME_USER_AGENT);
 			chromeDriver.get("https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&tn=monline_4_dg&wd=%E6%94%AF%E4%BB%98%E5%AE%9D&rn=5&oq=deep007&rsv_pq=e03caf7600120d11&rsv_t=3990P6z%2BSsvdOqD%2BiMIYugpgcAXsD45qWWKmBY%2FAzfLwOTQ52WTPgrSdZnhUXjG%2BC9Nz&rqlang=cn&rsv_enter=1&inputT=7235&rsv_sug3=56&rsv_sug1=27&rsv_sug7=100&rsv_sug2=0&rsv_sug4=8434");
 			Thread.sleep(3000);
-			for (int i = 0; i < 1; i++) {
+			for (int i = 0; i < 3; i++) {
 				chromeDriver.get("https://accounts.alipay.com/console/querypwd/logonIdInputReset.htm?site=1&page_type=fullpage&scene_code=resetQueryPwd");
 				Thread.sleep(RANDOM.nextInt(5000));
+				if (!chromeDriver.checkElement("##J_rdsSlideResetBtn")) {
+					continue;
+				}
 				WebElement accName = chromeDriver.findElementById("J-accName");
 				chromeDriver.keyboardInput(accName, account);
 				WebElement rdsSlideReset = chromeDriver.findElementById("J_rdsSlideResetBtn");
