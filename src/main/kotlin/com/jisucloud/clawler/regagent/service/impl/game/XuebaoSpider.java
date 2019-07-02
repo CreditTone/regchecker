@@ -3,7 +3,7 @@ package com.jisucloud.clawler.regagent.service.impl.game;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
+import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,13 +12,12 @@ import java.util.Set;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.openqa.selenium.chrome.ChromeDriver;
 
 @Slf4j
 @UsePapaSpider
 public class XuebaoSpider implements PapaSpider {
 	
-	private ChromeDriver chromeDriver;
+	private ChromeAjaxHookDriver chromeDriver;
 
 	@Override
 	public String message() {
@@ -47,13 +46,13 @@ public class XuebaoSpider implements PapaSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538511", "13269423806");
+		return Sets.newHashSet("18210538513", "13269423806");
 	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(false, null, "Mozilla/5.0 (Linux; Android 7.0; PLUS Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Mobile Safari/537.36");
+			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(true, true, CHROME_USER_AGENT);
 			chromeDriver.get("https://www.battlenet.com.cn/login/zh/?ref=https://www.battlenet.com.cn/zh/&app=com-root");
 			Thread.sleep(2000);
 			chromeDriver.findElementById("accountName").sendKeys(account);

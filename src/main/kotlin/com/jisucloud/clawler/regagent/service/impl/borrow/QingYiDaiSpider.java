@@ -16,7 +16,6 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 
 import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Set;
@@ -27,7 +26,7 @@ public class QingYiDaiSpider implements PapaSpider,AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private byte[] gifImage = null;
-	private String decodeGif = "";
+	private String decode = "";
 	private boolean checkTel = false;
 
 	@Override
@@ -57,7 +56,21 @@ public class QingYiDaiSpider implements PapaSpider,AjaxHook {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252045", "18210538513");
+		return Sets.newHashSet("13910250045", "18210538513");
+	}
+	
+	private String getImgCode() {
+		for (int i = 0 ; i < 3; i++) {
+			try {
+				WebElement img = chromeDriver.findElementByCssSelector("#image");
+				chromeDriver.mouseClick(img);
+				byte[] body = chromeDriver.screenshot(img);
+				return OCRDecode.decodeImageCode(body);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return "";
 	}
 
 	@Override
@@ -65,15 +78,15 @@ public class QingYiDaiSpider implements PapaSpider,AjaxHook {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);
 			chromeDriver.get("https://www.qingyidai.com/usermanagement/backpassword.shtml");
-			Thread.sleep(3000);
-			chromeDriver.addAjaxHook(this);
+			Thread.sleep(1000);
 			chromeDriver.findElementById("inputPhone").sendKeys(account);
 			chromeDriver.findElementByCssSelector("div[class='control-row cl'] input[type='submit']").click();
-			Thread.sleep(5000);
+			Thread.sleep(2000);
 			for (int i = 0; i < 5; i++) {
+				decode = getImgCode();
 				WebElement validate = chromeDriver.findElementById("imgCodeInput");
 				validate.clear();
-				validate.sendKeys(decodeGif);
+				validate.sendKeys(decode);
 				chromeDriver.findElementByCssSelector(".pop-pay input.button").click();
 				Thread.sleep(3000);
 				if (chromeDriver.checkElement(".pop-pay")) {
@@ -105,6 +118,8 @@ public class QingYiDaiSpider implements PapaSpider,AjaxHook {
 	public Map<String, String> getFields() {
 		return null;
 	}
+	
+	
 
 	@Override
 	public HookTracker getHookTracker() {
@@ -121,7 +136,6 @@ public class QingYiDaiSpider implements PapaSpider,AjaxHook {
 	@Override
 	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
 		gifImage = contents.getBinaryContents();
-		System.out.println("捕获到gif");
 		new Thread() {
 			public void run() {
 				GifDecoder gifDecoder = new GifDecoder();
@@ -129,7 +143,7 @@ public class QingYiDaiSpider implements PapaSpider,AjaxHook {
 				int frameCount = gifDecoder.getFrameCount();
 				if (frameCount >= 2) {
 					byte[] frameBody = gifDecoder.getFrameAsBytes(1);
-					decodeGif = OCRDecode.decodeImageCode(frameBody);
+					decode = OCRDecode.decodeImageCode(frameBody);
 				}
 			};
 		}.start();

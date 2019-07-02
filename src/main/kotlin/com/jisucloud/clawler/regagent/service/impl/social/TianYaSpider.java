@@ -62,11 +62,7 @@ public class TianYaSpider implements PapaSpider {
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
 			String res = response.body().string();
-			if (res.contains("该用户名可用")) {
-				return false;
-			}else {
-				return true;
-			}
+			return res.contains("已被使用");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

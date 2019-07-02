@@ -17,7 +17,6 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 
 import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Set;

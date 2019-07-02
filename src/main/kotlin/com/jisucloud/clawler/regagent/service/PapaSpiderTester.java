@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.util;
+package com.jisucloud.clawler.regagent.service;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -8,10 +8,12 @@ import com.jisucloud.clawler.regagent.service.impl.borrow.*;
 import com.jisucloud.clawler.regagent.service.impl.education.*;
 import com.jisucloud.clawler.regagent.service.impl.game.*;
 import com.jisucloud.clawler.regagent.service.impl.health.*;
-import com.jisucloud.clawler.regagent.service.impl.life.QiHu360Spider;
+import com.jisucloud.clawler.regagent.service.impl.life.*;
 import com.jisucloud.clawler.regagent.service.impl.money.*;
+import com.jisucloud.clawler.regagent.service.impl.news.*;
 import com.jisucloud.clawler.regagent.service.impl.shop.*;
 import com.jisucloud.clawler.regagent.service.impl.social.*;
+import com.jisucloud.clawler.regagent.service.impl.work.*;
 import com.jisucloud.deepsearch.selenium.mitm.MitmServer;
 
 import lombok.extern.slf4j.Slf4j;
@@ -121,12 +123,35 @@ public class PapaSpiderTester {
 //		testingWithPrint(YiXinHuiMinSpider.class);
 //		testingWithPrint(JuRenSpider.class);
 //		testingWithPrint(BaiheWangSpider.class);
-//		testingWithPrint(JiMuService.class);
+//		testingWithPrint(JiMuSpider.class);
 //		testingWithPrint(DangDangWangSpider.class);
-//		testingWithPrint(BoJinDaiService.class);
+//		testingWithPrint(BoJinDaiSpider.class);
 //		testingWithPrint(LanCaiWangSpider.class);
 //		testingWithPrint(YiDaiWangSpider.class);
 //		testingWithPrint(QiHu360Spider.class);
 //		testingWithPrint(_2345DaiKuanWangSpider.class);
+//		testingWithPrint(YouYuanWangSpider.class);
+//		testingWithPrint(PingAnXiaoDaiSpdier.class);
+//		testingWithPrint(ChinahrSpider.class);
+//		testingWithPrint(MainMainSpider.class);
+//		testingWithPrint(HuaShengMiFuSpider.class);
+//		testingWithPrint(QingYiDaiSpider.class);
+//		testingWithPrint(PiPaSpider.class);
+//		testingWithPrint(QuGuanZhangSpider.class);
+//		testingWithPrint(HuXiuSpider.class);
+//		testingWithPrint(NanXingSiRenYiShengSpider.class);
+//		testingWithPrint(TianYaSpider.class);
+//		testingWithPrint(YYSpider.class);
+//		testingWithPrint(ZhongAnBaoXianSpider.class);
+//		testingWithPrint(DaZhiHuiSpider.class);
+//		testingWithPrint(AmazonSpider.class);
+//		testingWithPrint(XuebaoSpider.class);
+//		testingWithPrint(BaiXingWangSpider.class);
+//		testingWithPrint(HengYiDaiSpider.class);
+//		testingWithPrint(HuangJinQianBaoSpider.class);
+//		testingWithPrint(TaxItsSpider.class);
+//		testingWithPrint(RongYiJieSpider.class);
+//		testingWithPrint(XiaoYingKaDaiSpider.class);
+		testingWithPrint(XinYongGuanJiaSpider.class);
 	}
 }

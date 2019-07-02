@@ -162,6 +162,7 @@ public class CheckValidPapaSpiderService extends TimerTask implements PapaSpider
 			Set<Class<? extends PapaSpider>> needTestPapaSpiders = new HashSet<>();
 			for (Class<? extends PapaSpider> clz : preparedPapaSpiders) {
 				if (isCheckValidPapaSpiderResultValid(clz)) {
+					TEST_SUCCESS_PAPASPIDERS.add(clz);
 					continue;
 				}
 				needTestPapaSpiders.add(clz);
@@ -172,6 +173,12 @@ public class CheckValidPapaSpiderService extends TimerTask implements PapaSpider
 			if (!TEST_FAILURE_PAPASPIDERS.isEmpty()) {
 				log.info("测试失败列表如下:");
 				for (Class<? extends PapaSpider> clz : TEST_FAILURE_PAPASPIDERS) {
+					log.info(clz.getName());
+				}
+			}
+			if (!NOUSE_PAPASPIDERS.isEmpty()) {
+				log.info("正在研发待列表如下：");
+				for (Class<?> clz : NOUSE_PAPASPIDERS) {
 					log.info(clz.getName());
 				}
 			}

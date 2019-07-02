@@ -4,8 +4,6 @@ import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
-import com.jisucloud.deepsearch.selenium.Ajax;
-import com.jisucloud.deepsearch.selenium.AjaxListener;
 import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
 import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
@@ -15,7 +13,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.openqa.selenium.WebElement;
-import org.springframework.stereotype.Component;
 
 @Slf4j
 @UsePapaSpider

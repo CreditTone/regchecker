@@ -55,7 +55,7 @@ public class BaiXingWangSpider implements PapaSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15901530000", "18210538513");
+		return Sets.newHashSet("15101030000", "18210538513");
 	}
 
 	private Map<String, String> getHeader() {

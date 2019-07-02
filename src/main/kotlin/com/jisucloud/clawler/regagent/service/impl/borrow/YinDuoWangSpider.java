@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Set;

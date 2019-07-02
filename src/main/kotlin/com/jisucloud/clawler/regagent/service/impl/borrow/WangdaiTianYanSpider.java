@@ -1,25 +1,17 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import lombok.extern.slf4j.Slf4j;
 import me.kagura.JJsoup;
 import me.kagura.Session;
 
 import org.jsoup.Connection;
-import org.jsoup.Connection.Method;
 import com.google.common.collect.Sets;
-import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 
 @UsePapaSpider

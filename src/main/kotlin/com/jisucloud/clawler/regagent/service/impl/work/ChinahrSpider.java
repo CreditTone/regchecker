@@ -47,7 +47,7 @@ public class ChinahrSpider implements PapaSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18515290717", "18210538513");
+		return Sets.newHashSet("18515290000", "18210538513");
 	}
 
 	@Override
@@ -61,6 +61,7 @@ public class ChinahrSpider implements PapaSpider {
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
 			String res = response.body().string();
+			System.out.println(res);
 			if (res.contains("用户存在")) {
 				return true;
 			}

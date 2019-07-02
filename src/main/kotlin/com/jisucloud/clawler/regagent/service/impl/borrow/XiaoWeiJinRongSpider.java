@@ -12,7 +12,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import com.google.common.collect.Sets;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.HashMap;

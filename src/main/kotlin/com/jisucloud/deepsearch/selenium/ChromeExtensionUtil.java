@@ -17,6 +17,9 @@ public class ChromeExtensionUtil {
 		if (System.getProperty("os.name").toLowerCase().contains("mac")) {
 			WORK_PATH = "/Users/stephen/Downloads/";
 		}
+		if (System.getProperty("os.name").toLowerCase().contains("win")) {
+			WORK_PATH = "C:\\";
+		}
 	}
 	
 	public static File createProxyauthExtension(String host,int port,String username,String password) {

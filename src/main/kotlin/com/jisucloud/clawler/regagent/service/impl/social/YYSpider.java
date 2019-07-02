@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
+import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -20,9 +21,9 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @UsePapaSpider
 public class YYSpider implements PapaSpider {
-
-	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
-			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
+	
+	private ChromeAjaxHookDriver chromeDriver;
+	private boolean checkTel = false;
 
 	@Override
 	public String message() {
@@ -57,38 +58,24 @@ public class YYSpider implements PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://lgn.yy.com/lgn/oauth/x2/s/login_asyn.do";
-			FormBody formBody = new FormBody
-	                .Builder()
-	                .add("username", account)
-	                .add("pwdencrypt", "7860afdd76fc4f2739ec0a83042316475ede6661d3c15af6cee7c34b3cd864c70333580222482c6f297a984afddc541efec88a98385d364114d818b45119d97de9334ee571e62878c35f69524270e45b4ac0fa35d3aeebaebeb2421a46ffcd7bb335bd0b868fee1f52af0172d13a1d9c2d26506050199251190b5ed088f8828a")
-	                .add("oauth_token", "b07f31698b48f8a6459337ac223d20a35fa38518437a51a7971e6dd140412ad2b0729cf3fe92677b6d998eb42b604622")
-	                .add("denyCallbackURL", "http://www.yy.com/login/udbCallback?cancel=1")
-	                .add("UIStyle", "xelogin")
-	                .add("appid", "5719")
-	                .add("needVerify", "0")
-	                .add("mxc", "")
-	                .add("vk", "")
-	                .add("isRemMe", "1")
-	                .add("mmc", "")
-	                .add("vv", "")
-	                .add("hiido", "1")
-	                .build();
-			Request request = new Request.Builder().url(url)
-					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "lgn.yy.com")
-					.addHeader("Referer", "https://lgn.yy.com/lgn/oauth/authorize.do?oauth_token=b07f31698b48f8a6459337ac223d20a35fa38518437a51a7971e6dd140412ad2b0729cf3fe92677b6d998eb42b604622&denyCallbackURL=http://www.yy.com/login/udbCallback?cancel=1&cssid=5719&regCallbackURL=//www.yy.com/login/udbCallback&UIStyle=xelogin&rdm=0.7874779273128858")
-					.post(formBody)
-					.build();
-			Response response = okHttpClient.newCall(request).execute();
-			JSONObject result = JSON.parseObject(response.body().string());
-			if (result.getString("code").equals("1000010")) {
-				return true;
-			}
+			chromeDriver = ChromeAjaxHookDriver.newIOSInstance(true, true);
+			chromeDriver.manage().timeouts().setScriptTimeout(5, TimeUnit.SECONDS);
+			chromeDriver.manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS);
+			chromeDriver.getIgnoreTimeout("http://www.yy.com/h/38.html");
+			chromeDriver.getIgnoreTimeout("https://zc.yy.com/reg/udb/reg4udb.do?appid=5719&action=3&type=Mobile&mode=udb&fromadv=yy_0.cpuid_0.channel_0&busiurl=http%3A%2F%2Fwww.yy.com%2F3rdLogin%2Freg-login.html");
+			Thread.sleep(2000);
+			chromeDriver.findElementByCssSelector("input[node-name='inMobile']").sendKeys(account);
+			chromeDriver.findElementByCssSelector("input[node-name='inPassword']").click();
+			Thread.sleep(1000);
+			return chromeDriver.findElementByCssSelector("div[node-name='mobile'] .form_tip").getText().contains("已注册");
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			if (chromeDriver != null) {
+				chromeDriver.quit();
+			}
 		}
-		return false;
+		return checkTel;
 	}
 
 	@Override

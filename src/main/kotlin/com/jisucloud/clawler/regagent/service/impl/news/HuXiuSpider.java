@@ -74,7 +74,7 @@ public class HuXiuSpider implements PapaSpider {
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
 			String res = StringUtil.unicodeToString(response.body().string());
-			if (res.contains("1005")) {
+			if (res.contains("1005") || res.contains("true")) {
 				return true;
 			}
 		} catch (Exception e) {

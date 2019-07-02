@@ -13,6 +13,9 @@ import com.jisucloud.clawler.regagent.util.StringUtil;
 import com.jisucloud.deepsearch.selenium.ChromeExtensionUtil;
 import com.jisucloud.deepsearch.selenium.HttpsProxy;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class ChromeOptionsUtil {
 	
 	public static final String USER_AGENTID = "cloudId";
@@ -60,7 +63,9 @@ public class ChromeOptionsUtil {
 		options.setCapability(USER_AGENTID, cloudIdValue);
 		if (proxy != null) {
 			if (proxy.getUsername() != null && proxy.getPassword() != null) {
+				options.addArguments("--start-maximized");
 				File extension = ChromeExtensionUtil.createProxyauthExtension(proxy.getServer(), proxy.getPort(), proxy.getUsername(), proxy.getPassword());
+				log.info("createProxyauthExtension:" + extension.getAbsolutePath());
 				options.addExtensions(extension);
 			}else {
 				options.addArguments("--disable-extensions");

@@ -6,27 +6,23 @@ import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.PapaSpiderTester;
-import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
-import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
-import com.jisucloud.deepsearch.selenium.mitm.HookTracker;
-
-import io.netty.handler.codec.http.HttpRequest;
-import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
-import net.lightbody.bmp.util.HttpMessageContents;
-import net.lightbody.bmp.util.HttpMessageInfo;
-
+import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
-//@UsePapaSpider
-public class DaZhongDianPingSpider implements PapaSpider,AjaxHook {
+@UsePapaSpider
+public class DaZhongDianPingSpider implements PapaSpider {
 
-	private ChromeAjaxHookDriver chromeDriver;
-	private boolean checkTel = false;
-	private boolean success = false;
+	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
+			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
@@ -65,31 +61,24 @@ public class DaZhongDianPingSpider implements PapaSpider,AjaxHook {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, false);
-			chromeDriver.addAjaxHook(this);
-			chromeDriver.get("https://account.dianping.com/account/iframeLogin?callback=EasyLogin_frame_callback0&wide=false&protocol=https:&redir=https%3A%2F%2Fwww.dianping.com%2F##");
-			Thread.sleep(2000);
-			chromeDriver.findElementByCssSelector(".bottom-password-login").click();
-			Thread.sleep(500);
-			chromeDriver.findElementById("tab-account").click();
-			Thread.sleep(500);
-			chromeDriver.findElementById("account-textbox").sendKeys(account);
-			chromeDriver.findElementById("password-textbox").sendKeys("xa2jo29smxz");
-			for (int i = 0; i < 5; i++) {
-				chromeDriver.findElementByCssSelector("#login-button-account").click();
-				Thread.sleep(3000);
-				if (success) {
-					break;
-				}
-			}
+			String url = "https://m.dianping.com/account/ajax/unloginVerifyOldMobile";
+			String postdata = "mobile=86_"+account+"&dpid=&cx=&unlogin=true";
+			Request request = new Request.Builder().url(url)
+					.addHeader("User-Agent", ANDROID_USER_AGENT)
+					.addHeader("Host", "m.dianping.com")
+					.addHeader("Origin", "https://m.dianping.com")
+					.addHeader("X-Requested-With", "com.dianping.v1")
+					.addHeader("Referer", "https://m.dianping.com/account/unloginVerifyOldMobile")
+					.post(FormBody.create(MediaType.get("application/x-www-form-urlencoded"), postdata))
+					.build();
+			Response response = okHttpClient.newCall(request).execute();
+			String errorMsg = response.body().string();
+			JSONObject result = JSON.parseObject(errorMsg);
+			return result.getIntValue("code") == 200;
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
-			if (chromeDriver != null) {
-				chromeDriver.quit();
-			}
 		}
-		return checkTel;
+		return false;
 	}
 
 	@Override
@@ -100,39 +89,6 @@ public class DaZhongDianPingSpider implements PapaSpider,AjaxHook {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
-	}
-
-	@Override
-	public HookTracker getHookTracker() {
-		return HookTracker.builder()
-				.addUrl("account/ajax/checkRisk")
-				.addUrl("account/ajax/passwordLogin")
-				.isPOST()
-				.build();
-	}
-
-	@Override
-	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
-		return null;
-	}
-
-	@Override
-	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
-		if (messageInfo.getOriginalUrl().contains("account/ajax/checkRisk")) {
-			System.out.println(contents.getTextContents());
-			JSONObject result = JSON.parseObject(contents.getTextContents());
-			String riskLevel = result.getJSONObject("msg").getString("riskLevel");
-			if (!riskLevel.equals("0")) {
-				System.out.println("fix to 0");
-				result.getJSONObject("msg").put("riskLevel", "0");
-				System.out.println(result);
-				contents.setTextContents(result.toJSONString());
-			}
-		}else {
-			success = true;
-			checkTel = contents.getTextContents().contains("(105)");
-		}
-		
 	}
 
 }

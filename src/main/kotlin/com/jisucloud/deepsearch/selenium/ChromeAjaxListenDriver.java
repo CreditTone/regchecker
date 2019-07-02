@@ -22,6 +22,7 @@ import com.jisucloud.clawler.regagent.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Deprecated
 public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 	
 	public static final Random random = new Random();

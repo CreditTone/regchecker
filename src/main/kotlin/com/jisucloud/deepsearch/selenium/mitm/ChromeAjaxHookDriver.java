@@ -69,6 +69,14 @@ public class ChromeAjaxHookDriver extends ChromeDriver {
 		}
 	}
 	
+	public void getIgnoreTimeout(String url) {
+		try {
+			super.get(url);
+			log.info("visit:"+url);
+		}catch(Exception e){
+		}
+	}
+	
 	public boolean checkElement(String cssSelect) {
 		try {
 			return findElementByCssSelector(cssSelect).isDisplayed();
@@ -207,6 +215,23 @@ public class ChromeAjaxHookDriver extends ChromeDriver {
 	
 	public void jsInput(WebElement webElement, String text) throws Exception {
 		executeScript("arguments[0].value='"+text+"';", webElement);
+	}
+	
+	public void jsClick(WebElement webElement) throws Exception {
+		jsClick(webElement, false);
+	}
+	
+	public void jsClick(WebElement webElement, boolean async) throws Exception {
+		if (async) {
+			try {
+				executeAsyncScript("arguments[0].click();", webElement);
+				Thread.sleep(1000);
+			} catch (Exception e) {
+				log.warn("js点击出错", e);
+			}
+		}else {
+			executeScript("arguments[0].click();", webElement);
+		}
 	}
 
 	public static void main(String[] args) {
