@@ -17,6 +17,8 @@ public class PapaTask {
 	
 	private String callurl;
 	
+	private String name;
+	
 	private Set<String> needlessCheckPlatforms;
 	
 	public boolean isNeedlessCheck(String platform) {

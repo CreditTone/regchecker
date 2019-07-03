@@ -25,7 +25,7 @@ public class PapaController {
 	private PapaSpiderService papaSpiderService;
 	
 	@RequestMapping(value = "/rapeData", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public Object rapeData(@RequestParam(name = "tel") String tel, @RequestParam(name = "callurl") String callurl, @RequestParam(name = "needlessCheckPlatforms") String noCheckPlatform) {
+	public Object rapeData(@RequestParam(name = "tel") String tel,@RequestParam(name = "name" , required = false) String name, @RequestParam(name = "callurl") String callurl, @RequestParam(name = "needlessCheckPlatforms" , required = false, defaultValue = "") String noCheckPlatform) {
 		Set<String> needlessCheckPlatforms = new HashSet<>();
 		if (StringUtil.isValidString(noCheckPlatform)) {
 			String[] items = noCheckPlatform.split(",");
@@ -36,7 +36,7 @@ public class PapaController {
 				}
 			}
 		}
-		PapaTask papaTask = PapaTask.builder().id(UUID.randomUUID().toString()).telephone(tel).callurl(callurl).needlessCheckPlatforms(needlessCheckPlatforms).build();
+		PapaTask papaTask = PapaTask.builder().id(UUID.randomUUID().toString()).telephone(tel).callurl(callurl).name(name).needlessCheckPlatforms(needlessCheckPlatforms).build();
 		papaSpiderService.addPapaTask(papaTask);
 		return papaTask;
 	}
