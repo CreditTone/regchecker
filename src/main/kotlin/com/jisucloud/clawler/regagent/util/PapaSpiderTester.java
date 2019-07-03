@@ -6,9 +6,10 @@ import java.util.Set;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.impl.borrow.*;
 import com.jisucloud.clawler.regagent.service.impl.education.*;
+import com.jisucloud.clawler.regagent.service.impl.email.*;
 import com.jisucloud.clawler.regagent.service.impl.game.*;
 import com.jisucloud.clawler.regagent.service.impl.health.*;
-import com.jisucloud.clawler.regagent.service.impl.life.QiHu360Spider;
+import com.jisucloud.clawler.regagent.service.impl.life.*;
 import com.jisucloud.clawler.regagent.service.impl.money.*;
 import com.jisucloud.clawler.regagent.service.impl.shop.*;
 import com.jisucloud.clawler.regagent.service.impl.social.*;
@@ -59,11 +60,13 @@ public class PapaSpiderTester {
 				log.warn("测试"+clz.getName()+"异常", e);
 			}finally {
 				if (success) {
+					log.info("测试成功:"+clz.getName()+",用时"+timerRecoder.getText());
 					papaSpiderTestListener.testSuccess(clz);
 				}else {
+					log.info("测试失败:"+clz.getName()+",用时"+timerRecoder.getText());
 					papaSpiderTestListener.testFailure(clz);
 				}
-				log.info("结束测试:"+clz.getName()+",用时"+timerRecoder.getText());
+				
 			}
 		}
 	}
@@ -131,5 +134,6 @@ public class PapaSpiderTester {
 //		testingWithPrint(YiDaiWangSpider.class);
 //		testingWithPrint(QiHu360Spider.class);
 //		testingWithPrint(_2345DaiKuanWangSpider.class);
+//		testingWithPrint(ENet126EmailSpider.class);
 	}
 }

@@ -5,13 +5,14 @@ import java.util.Set;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.impl.borrow.*;
-import com.jisucloud.clawler.regagent.service.impl.car.JiaoGuanSpider;
+import com.jisucloud.clawler.regagent.service.impl.car.*;
 import com.jisucloud.clawler.regagent.service.impl.education.*;
+import com.jisucloud.clawler.regagent.service.impl.email.SohuEmailSpider;
 import com.jisucloud.clawler.regagent.service.impl.game.*;
 import com.jisucloud.clawler.regagent.service.impl.health.*;
 import com.jisucloud.clawler.regagent.service.impl.life.*;
 import com.jisucloud.clawler.regagent.service.impl.money.*;
-import com.jisucloud.clawler.regagent.service.impl.music.QianQianJingTingSpider;
+import com.jisucloud.clawler.regagent.service.impl.music.*;
 import com.jisucloud.clawler.regagent.service.impl.news.*;
 import com.jisucloud.clawler.regagent.service.impl.shop.*;
 import com.jisucloud.clawler.regagent.service.impl.social.*;
@@ -136,7 +137,6 @@ public class PapaSpiderTester {
 //		testingWithPrint(YouYuanWangSpider.class);
 //		testingWithPrint(PingAnXiaoDaiSpdier.class);
 //		testingWithPrint(ChinahrSpider.class);
-//		testingWithPrint(MainMainSpider.class);
 //		testingWithPrint(HuaShengMiFuSpider.class);
 //		testingWithPrint(QingYiDaiSpider.class);
 //		testingWithPrint(PiPaSpider.class);
@@ -163,5 +163,12 @@ public class PapaSpiderTester {
 //		testingWithPrint(ZhongGuoHunBoHuiSpider.class);
 //		testingWithPrint(DuoDuoJinRongSpider.class);
 //		testingWithPrint(JiaoGuanSpider.class);
+//		testingWithPrint(LiXiangBaoSpider.class);
+//		testingWithPrint(YinGuZaiXianSpider.class);
+//		testingWithPrint(AiQianJinSpider.class);
+//		testingWithPrint(MainMainSpider.class);
+//		testingWithPrint(ZhiHuSpider.class);
+//		testingWithPrint(TouTiaoSpider.class);
+//		testingWithPrint(ZhongGuoZhiWangSpider.class);
 	}
 }

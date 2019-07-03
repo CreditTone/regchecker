@@ -76,7 +76,7 @@ public class HuaShengMiFuSpider implements PapaSpider,AjaxHook {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);
 			chromeDriver.addAjaxHook(this);
 			String url = "https://www.yaoyuefu.com/default/login";
 			chromeDriver.get(url);

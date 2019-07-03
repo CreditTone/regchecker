@@ -3,25 +3,25 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
-import com.jisucloud.deepsearch.selenium.Ajax;
-import com.jisucloud.deepsearch.selenium.AjaxListener;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
+import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
+import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
+import com.jisucloud.deepsearch.selenium.mitm.HookTracker;
 
-import lombok.extern.slf4j.Slf4j;
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
+import net.lightbody.bmp.util.HttpMessageContents;
+import net.lightbody.bmp.util.HttpMessageInfo;
 
 import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Set;
 
-@Slf4j
-@UsePapaSpider
-public class LiXiangBaoSpider implements PapaSpider {
+//@UsePapaSpider
+public class LiXiangBaoSpider implements PapaSpider,AjaxHook {
 
-	private ChromeAjaxListenDriver chromeDriver;
+	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
 
@@ -73,51 +73,16 @@ public class LiXiangBaoSpider implements PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(false, null, null);
-			chromeDriver.quicklyVisit("https://www.id68.cn/member/common/login");
-			chromeDriver.addAjaxListener(new AjaxListener() {
-				
-				@Override
-				public String matcherUrl() {
-					return "member/common/actlogin";
-				}
-				
-				@Override
-				public String[] blockUrl() {
-					return null;
-				}
-				
-				@Override
-				public void ajax(Ajax ajax) throws Exception {
-					if (!ajax.getResponse().contains("验码错误")) {
-						vcodeSuc = true;
-						if (ajax.getResponse().contains("手机号码")) {
-							checkTel = false;
-						}else {
-							checkTel = ajax.getResponse().contains("密码错误") || ajax.getResponse().contains("密码已连续错误") || ajax.getResponse().contains("锁定");
-						}
-					}
-				}
-
-				@Override
-				public String fixPostData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-
-				@Override
-				public String fixGetData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-			});
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);
+			chromeDriver.get("https://www.id68.cn/member/common/login");
+			chromeDriver.addAjaxHook(this);
+			Thread.sleep(3000);
 			chromeDriver.findElementById("txtUser").sendKeys(account);
 			chromeDriver.findElementById("txtPwd").sendKeys("lvnqwnk12mcxn");
 			for (int i = 0; i < 5; i++) {
 				WebElement validate = chromeDriver.findElementById("txtCode");
 				validate.clear();
 				validate.sendKeys(getImgCode());
-				chromeDriver.reInject();
 				chromeDriver.findElementById("btnReg").click();
 				Thread.sleep(3000);
 				if (vcodeSuc) {
@@ -142,6 +107,27 @@ public class LiXiangBaoSpider implements PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
+	}
+
+	@Override
+	public HookTracker getHookTracker() {
+		// TODO Auto-generated method stub
+		return HookTracker.builder().addUrl("member/common/actlogin").build();
+	}
+
+	@Override
+	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		// TODO Auto-generated method stub
+		if (!contents.getTextContents().contains("验码错误")) {
+			vcodeSuc = true;
+			checkTel = contents.getTextContents().contains("密码已连续错误") || contents.getTextContents().contains("锁定");
+		}
 	}
 
 }

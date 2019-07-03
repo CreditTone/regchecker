@@ -8,9 +8,12 @@ import org.jsoup.Jsoup;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
+
 import org.jsoup.Connection;
 import org.springframework.http.MediaType;
 
+@UsePapaSpider
 public class TaxItsSpider implements PapaSpider {
 
 	@Override

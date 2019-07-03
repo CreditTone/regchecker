@@ -6,23 +6,28 @@ import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
-import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
 import com.jisucloud.deepsearch.selenium.mitm.HookTracker;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @UsePapaSpider
 public class MainMainSpider implements PapaSpider, AjaxHook {
 	
-	private ChromeAjaxHookDriver chromeDriver;
-	private boolean checkTel = false;
-	private boolean vcodeSuc = false;//验证码是否正确
+	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
+			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
+	
 	@Override
 	public String message() {
 		return "脉脉(maimai.cn),中国领先的职场实名社交平台,利用科学算法为职场人拓展人脉,降低商务社交门槛,实现各行各业交流合作。";
@@ -46,23 +51,24 @@ public class MainMainSpider implements PapaSpider, AjaxHook {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
-			chromeDriver.get("https://acc.maimai.cn/login");
-			chromeDriver.addAjaxHook(this);
-			Thread.sleep(1000);
-			chromeDriver.findElementByCssSelector(".switch_mode_button").click();
-			Thread.sleep(1000);
-			chromeDriver.findElementByClassName("loginPhoneInput").sendKeys(account);
-			chromeDriver.findElementByCssSelector(".getcode").click();
-			Thread.sleep(3000);
+			String postData = "info_type=2&account=%2B86-"+account+"&new_fr=1&password=213e321deqdasdasdasd&dev_type=3&imei=352284040670808";
+			String url = "https://open.taou.com/maimai/user/v3/login?u=&access_token=&version=4.5.8&ver_code=android_1135&channel=wdj&vc=19&udcode=572719103&push_permit=1&net=wifi";
+			Request request = new Request.Builder().url(url)
+					.addHeader("User-Agent", "Dalvik/1.6.0 (Linux; U; Android 4.4.2; 8692-A00 Build/KOT49H)/{QiKU 8692-A00}  [Android 4.4.2/19]/MaiMai 4.5.8(1135)")
+					.addHeader("Host", "open.taou.com")
+					.post(FormBody.create(MediaType.get("application/x-www-form-urlencoded"), postData))
+					.build();
+			Response response = okHttpClient.newCall(request)
+					.execute();
+			String res = response.body().string();
+			if (res.contains("User/Password") || res.contains("21009")) {
+				return true;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
-			if (chromeDriver != null) {
-				chromeDriver.quit();
-			}
 		}
-		return checkTel;
+		return false;
 	}
 
 	@Override
@@ -105,7 +111,6 @@ public class MainMainSpider implements PapaSpider, AjaxHook {
 			JSONObject result = JSON.parseObject(contents.getTextContents());
 			if (result.getString("result").equalsIgnoreCase("ok")
 				&& result.size() == 1) {
-				checkTel = true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -5,24 +5,23 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.service.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 
 import lombok.extern.slf4j.Slf4j;
+import me.kagura.JJsoup;
 
 import org.jsoup.Connection;
 
 import java.util.Map;
 import java.util.Set;
 
-@UsePapaSpider
+//@UsePapaSpider
 @Slf4j
 public class CMCC139EmailSpider implements PapaSpider {
 
     
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15010645316", "18210538513");
+		return Sets.newHashSet("12010000000", "18210538513");
 	}
 
 
@@ -44,8 +43,8 @@ public class CMCC139EmailSpider implements PapaSpider {
     @Override
     public boolean checkTelephone(String account) {
         try {
-            String url = "http://www.emailcamel.com/api/single/validate/?usr=guozhong@quicklyun.com&pwd=qqadmin&email=" + account + "@139.com";
-            Connection.Response response = JJsoupUtil.newProxySession().connect(url).ignoreContentType(true).execute();
+            String url = "http://www.emailcamel.com/api/single/validate/?usr=guozhong@quicklyun.com&pwd=qqadmin127&email=" + account + "@139.com";
+            Connection.Response response = JJsoup.newSession().connect(url).timeout(1000 * 30).ignoreContentType(true).execute();
             if (response != null) {
                 JSONObject result = JSON.parseObject(response.body());
                 System.out.println(result);

@@ -1,23 +1,17 @@
 package com.jisucloud.clawler.regagent.service.impl.email;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.JJsoupUtil;
-import org.jsoup.Connection;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Set;
 
 @UsePapaSpider
-public class SohuEmailSpider implements PapaSpider {
+public class SohuEmailSpider extends BasicEmailSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15010645316", "18210538513");
+		return Sets.newHashSet("13010010001", "18210538513");
 	}
 
 
@@ -36,32 +30,6 @@ public class SohuEmailSpider implements PapaSpider {
         return "mail.sohu.com";
     }
 
-    @Override
-    public boolean checkTelephone(String account) {
-        try {
-            String url = "http://www.emailcamel.com/api/single/validate/?usr=guozhong@quicklyun.com&pwd=qqadmin&email=" + account + "@sohu.com";
-            Connection.Response response = JJsoupUtil.newProxySession().connect(url)
-                    .ignoreContentType(true)
-                    .execute();
-            if (response != null) {
-                JSONObject result = JSON.parseObject(response.body());
-                System.out.println(result);
-                if ("success".equals(result.getString("verify_status"))) {
-                    if ("valid".equals(result.getString("verify_result"))) {
-                        return true;
-                    }
-                    if ("catch-all".equals(result.getString("verify_result"))) {
-                        return true;
-                    }
-                } else {
-                    System.out.println("emailcamel效验失败，请充值");
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("异常：" + e.getMessage());
-        }
-        return false;
-    }
 
     @Override
     public boolean checkEmail(String account) {
@@ -79,8 +47,8 @@ public class SohuEmailSpider implements PapaSpider {
     }
 
 
-    @Override
-  	public String[] tags() {
-  		return new String[] {"邮箱"};
-  	}
+	@Override
+	public String getEmail(String account) {
+		return account + "@sohu.com";
+	}
 }

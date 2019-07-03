@@ -1,23 +1,14 @@
 package com.jisucloud.clawler.regagent.service.impl.email;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.JJsoupUtil;
-import org.jsoup.Connection;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Set;
 
 @UsePapaSpider
-public class CDMA189EmailSpider implements PapaSpider {
+public class CDMA189EmailSpider extends BasicEmailSpider {
 
-    private final Logger log = LoggerFactory.getLogger(CDMA189EmailSpider.class);
 
     @Override
     public String message() {
@@ -40,32 +31,6 @@ public class CDMA189EmailSpider implements PapaSpider {
     }
 
     @Override
-    public boolean checkTelephone(String account) {
-        try {
-            String url = "http://www.emailcamel.com/api/single/validate/?usr=guozhong@quicklyun.com&pwd=qqadmin&email=" + account + "@189.cn";
-            Connection.Response response = JJsoupUtil.newProxySession().connect(url).ignoreContentType(true).execute();
-            System.err.println(response.body());
-            if (response != null) {
-                JSONObject result = JSON.parseObject(response.body());
-                System.out.println(result);
-                if ("success".equals(result.getString("verify_status"))) {
-                    if ("valid".equals(result.getString("verify_result"))) {
-                        return true;
-                    }
-                    if ("catch-all".equals(result.getString("verify_result"))) {
-                        return true;
-                    }
-                } else {
-                    log.error("emailcamel效验失败，请充值");
-                }
-            }
-        } catch (Exception e) {
-            log.error("checkTelephone异常----------", e);
-        }
-        return false;
-    }
-
-    @Override
     public boolean checkEmail(String account) {
         return false;
     }
@@ -83,6 +48,11 @@ public class CDMA189EmailSpider implements PapaSpider {
 	@Override
 	public Set<String> getTestTelephones() {
 		return Sets.newHashSet("15010645316", "18210538513");
+	}
+
+	@Override
+	public String getEmail(String account) {
+		return account + "@189.cn";
 	}
 
 

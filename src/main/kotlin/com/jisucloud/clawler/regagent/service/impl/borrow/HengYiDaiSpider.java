@@ -7,7 +7,10 @@ import org.jsoup.Connection;
 import javax.crypto.spec.DESKeySpec;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.PapaSpiderTester;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
+
+import lombok.extern.slf4j.Slf4j;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -22,6 +25,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 
+@Slf4j
 @UsePapaSpider
 public class HengYiDaiSpider implements PapaSpider {
 
@@ -65,6 +69,7 @@ public class HengYiDaiSpider implements PapaSpider {
 					"Mozilla/5.0 (Linux; U; Android 5.1.1; zh-cn; Nexus 5 Build/LMY48M) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30")
 					.data("jsonParams", encrypt(jsonParams)).method(Connection.Method.POST).execute().body();
 			body = decrypt(body);
+			log.info("body:"+body);
 			return body.contains("已注册");
 		} catch (Exception e) {
 			e.printStackTrace();

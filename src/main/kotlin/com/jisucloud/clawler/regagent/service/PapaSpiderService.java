@@ -91,7 +91,7 @@ public class PapaSpiderService extends Thread {
 			TimerRecoder timerRecoder = new TimerRecoder().start();
 			int successCount = 0;
 			int failureCount = 0;
-			for (Class<? extends PapaSpider> clz : CheckValidPapaSpiderService.TEST_SUCCESS_PAPASPIDERS) {
+			for (Class<? extends PapaSpider> clz : TestValidPapaSpiderService.TEST_SUCCESS_PAPASPIDERS) {
 				if (papaTask.getTelephone() != null) {
 					try {
 						PapaSpider instance = null;

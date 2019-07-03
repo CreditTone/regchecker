@@ -2,29 +2,25 @@ package com.jisucloud.clawler.regagent.service.impl.life;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.util.OCRDecode;
-import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
-import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
-import com.jisucloud.deepsearch.selenium.mitm.HookTracker;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
-import io.netty.handler.codec.http.HttpRequest;
-import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
-import net.lightbody.bmp.util.HttpMessageContents;
-import net.lightbody.bmp.util.HttpMessageInfo;
-
-import org.openqa.selenium.WebElement;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
-//@Component
+@UsePapaSpider
 public class ZhiHuSpider implements PapaSpider {
-
-	private ChromeAjaxHookDriver chromeDriver;
-	private boolean checkTel = false;
-	private boolean vcodeSuc = false;//验证码是否正确
+	
+	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
+			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
@@ -51,82 +47,38 @@ public class ZhiHuSpider implements PapaSpider {
 		return new String[] {"社区", "知识"};
 	}
 	
-	private String getImgCode() {
-		for (int i = 0 ; i < 3; i++) {
-			try {
-				WebElement img = chromeDriver.findElementByCssSelector(".Captcha-englishImg");
-				img.click();
-				Thread.sleep(2000);
-				byte[] body = chromeDriver.screenshot(img);
-				return OCRDecode.decodeImageCode(body);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return "";
-	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252000", "18210538513");
+		return Sets.newHashSet("13210538513", "18210538513");
 	}
 
 	
 	@Override
 	public boolean checkTelephone(String account) {
-		HookTracker hookTracker = HookTracker.builder()
-				.addUrl("api/v3/oauth/sign_in")
-				.responseContentType("application/json")
-				.isPOST().build();
 		try {
-			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);
-			chromeDriver.get("http://www.baidu.com/link?url=3cwo8FrfoIxRrxbMaEh8jzPwVHjjKRHHP_siJJBT-cS&wd=&eqid=851fddb5000085d3000000025d121f68");
-			chromeDriver.get("https://www.zhihu.com/signin?next=%2F");
-			chromeDriver.addAjaxHook(new AjaxHook() {
-				
-				@Override
-				public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
-					System.out.println(contents.getTextContents());
-					vcodeSuc = true;
-					checkTel = contents.getTextContents().equals("密码错误");
-				}
-				
-				@Override
-				public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
-					System.out.println(messageInfo.getOriginalRequest().headers().names());
-					return null;
-				}
-
-				@Override
-				public HookTracker getHookTracker() {
-					return hookTracker;
-				}
-			});
-			chromeDriver.keyboardInput(chromeDriver.findElementByCssSelector(".SignContainer-inner input[name='username']"), account);
-			chromeDriver.keyboardInput(chromeDriver.findElementByCssSelector(".SignContainer-inner input[name='password']"), "x210nsadc2nk");
-			Thread.sleep(3000);
-			for (int i = 0; i < 5; i++) {
-				//判断是否弹出验证码
-				if (chromeDriver.checkElement("input[name='captcha']")) {
-					String imgCode = getImgCode();
-					WebElement captcha = chromeDriver.findElementByCssSelector("input[name='captcha']");
-					captcha.clear();
-					captcha.sendKeys(imgCode);
-				}
-				chromeDriver.mouseClick(chromeDriver.findElementByCssSelector("button[type='submit']"));
-				Thread.sleep(5000);
-				if (vcodeSuc) {
-					break;
-				}
+			String postData = "phone_no=%2B86"+account;
+			String url = "https://api.zhihu.com/validate/register_form";
+			Request request = new Request.Builder().url(url)
+					.addHeader("User-Agent", "Futureve/4.16.0 Mozilla/5.0 (Linux; Android 4.4.2; 8692-A00 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36 Google-HTTP-Java-Client/1.22.0 (gzip)")
+					.addHeader("Host", "api.zhihu.com")
+					.addHeader("x-api-version", "3.0.51")
+					.addHeader("x-app-version", "6.3.0")
+					.addHeader("x-app-za", "OS=Android&Release=4.4.2&Model=8692-A00&VersionName=4.16.0&VersionCode=464&Width=480&Height=800&Installer=%E8%B1%8C%E8%B1%86%E8%8D%9A")
+					.addHeader("x-udid", "AHBvXQa4rQ9LBTr7Vyfhl81k0Si7WQHTwlk=")
+					.addHeader("x-app-local-unique-id", "1052694")
+					.post(FormBody.create(MediaType.get("application/x-www-form-urlencoded; charset=UTF-8"), postData))
+					.build();
+			Response response = okHttpClient.newCall(request)
+					.execute();
+			String res = response.body().string();
+			if (res.contains("已注册")) {
+				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
-			if (chromeDriver != null) {
-				chromeDriver.quit();
-			}
 		}
-		return checkTel;
+		return false;
 	}
 
 	@Override

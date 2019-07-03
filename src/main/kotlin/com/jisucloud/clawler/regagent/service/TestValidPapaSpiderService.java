@@ -27,13 +27,18 @@ import com.jisucloud.clawler.regagent.service.impl.borrow.HuaShengMiFuSpider;
 import com.jisucloud.clawler.regagent.service.impl.borrow.JuAiCaiSpider;
 import com.jisucloud.clawler.regagent.service.impl.borrow.PingAnXiaoDaiSpdier;
 import com.jisucloud.clawler.regagent.service.impl.borrow.YiDaiWangSpider;
+import com.jisucloud.clawler.regagent.service.impl.education.ZhongGuoZhiWangSpider;
+import com.jisucloud.clawler.regagent.service.impl.email.CDMA189EmailSpider;
+import com.jisucloud.clawler.regagent.service.impl.email.ENet126EmailSpider;
+import com.jisucloud.clawler.regagent.service.impl.email.Enet163EmailSpider;
+import com.jisucloud.clawler.regagent.service.impl.email.SohuEmailSpider;
 import com.jisucloud.clawler.regagent.util.PapaSpiderTester;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class CheckValidPapaSpiderService extends TimerTask implements PapaSpiderTester.PapaSpiderTestListener {
+public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderTester.PapaSpiderTestListener {
 	
 	public static final long RE_TEST_TIME = 3600 * 1000 * 24 * 3;
 	
@@ -47,7 +52,12 @@ public class CheckValidPapaSpiderService extends TimerTask implements PapaSpider
 		IGNORE_TEST_RESULT.add(GuoShuCaiFuSpider.class);
 		IGNORE_TEST_RESULT.add(YiDaiWangSpider.class);
 		IGNORE_TEST_RESULT.add(PingAnXiaoDaiSpdier.class);
-		IGNORE_TEST_RESULT.add(HuaShengMiFuSpider.class);
+		IGNORE_TEST_RESULT.add(ZhongGuoZhiWangSpider.class);
+		IGNORE_TEST_RESULT.add(SohuEmailSpider.class);
+		IGNORE_TEST_RESULT.add(CDMA189EmailSpider.class);
+		IGNORE_TEST_RESULT.add(ENet126EmailSpider.class);
+		IGNORE_TEST_RESULT.add(Enet163EmailSpider.class);
+		IGNORE_TEST_RESULT.add(SohuEmailSpider.class);
 	}
 	
 	public static final String CHECK_VALIDPAPASPIDER_RESULT_FILE = "check_valid_papaspider_result.json";
@@ -117,7 +127,7 @@ public class CheckValidPapaSpiderService extends TimerTask implements PapaSpider
 	}
 
 	public static void main(String[] args) throws Exception {
-		new CheckValidPapaSpiderService().init();
+		new TestValidPapaSpiderService().init();
 	}
 
 	public static boolean isPapaSpiderClass(Class<?> clz) {
@@ -130,8 +140,7 @@ public class CheckValidPapaSpiderService extends TimerTask implements PapaSpider
 
 	@Override
 	public void testSuccess(Class<? extends PapaSpider> clz) {
-		log.info("测试成功:"+clz.getName());
-		checkValidPapaSpiderResult.put(clz.getName(), System.currentTimeMillis());
+		//log.info("测试成功:"+clz.getName());
 		addTestSuccessResult(clz);
 	}
 
@@ -139,16 +148,17 @@ public class CheckValidPapaSpiderService extends TimerTask implements PapaSpider
 		if (TEST_FAILURE_PAPASPIDERS.contains(clz)) {
 			TEST_FAILURE_PAPASPIDERS.remove(clz);
 		}
+		checkValidPapaSpiderResult.put(clz.getName(), System.currentTimeMillis());
 		TEST_SUCCESS_PAPASPIDERS.add(clz);
 	}
 
 	@Override
 	public void testFailure(Class<? extends PapaSpider> clz) {
 		if (IGNORE_TEST_RESULT.contains(clz)) {
-			log.warn("忽略测试结果:"+clz.getName());
+			//log.warn("忽略测试结果:"+clz.getName());
 			addTestSuccessResult(clz);
 		}else {
-			log.warn("测试失败:"+clz.getName());
+			//log.warn("测试失败:"+clz.getName());
 			addTestFailureResult(clz);
 		}
 	}
