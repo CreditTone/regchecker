@@ -131,11 +131,16 @@ public class ChromeAjaxHookDriver extends ChromeDriver {
 	
 	public boolean switchSlide(WebElement rdsSlideReset, WebElement rdsSlideBtn) {
 		try {
+			//manage().window().maximize();
+			//manage().window().fullscreen();
 			int width = rdsSlideReset.getRect().width;
 			Actions actions = new Actions(this);
-			actions.moveByOffset(rdsSlideBtn.getLocation().x, rdsSlideBtn.getLocation().y).perform();
-			sleep(random.nextInt(1500));
-			actions.moveToElement(rdsSlideBtn);
+			try {
+				actions.moveToElement(rdsSlideBtn).perform();
+				sleep(random.nextInt(1500));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			sleep(random.nextInt(1500));
 			actions.clickAndHold(rdsSlideBtn).perform();
 			int toWidth = 0;

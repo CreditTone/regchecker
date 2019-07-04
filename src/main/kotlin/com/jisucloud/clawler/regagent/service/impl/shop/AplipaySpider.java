@@ -73,7 +73,7 @@ public class AplipaySpider implements PapaSpider {
 			for (int i = 0; i < 3; i++) {
 				chromeDriver.get("https://accounts.alipay.com/console/querypwd/logonIdInputReset.htm?site=1&page_type=fullpage&scene_code=resetQueryPwd");
 				Thread.sleep(RANDOM.nextInt(5000));
-				if (!chromeDriver.checkElement("##J_rdsSlideResetBtn")) {
+				if (!chromeDriver.checkElement("#J_rdsSlideResetBtn")) {
 					continue;
 				}
 				WebElement accName = chromeDriver.findElementById("J-accName");

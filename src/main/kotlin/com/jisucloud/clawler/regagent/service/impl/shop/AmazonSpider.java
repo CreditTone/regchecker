@@ -3,7 +3,6 @@ package com.jisucloud.clawler.regagent.service.impl.shop;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
 
 import lombok.extern.slf4j.Slf4j;

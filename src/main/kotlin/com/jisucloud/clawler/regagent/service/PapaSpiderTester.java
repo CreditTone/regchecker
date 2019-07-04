@@ -4,10 +4,13 @@ import java.util.Iterator;
 import java.util.Set;
 
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.impl._3c.KuaiKeJiSpider;
+import com.jisucloud.clawler.regagent.service.impl._3c.TaiPingYangMobileSpider;
+import com.jisucloud.clawler.regagent.service.impl._3c.ZealerTestSpider;
 import com.jisucloud.clawler.regagent.service.impl.borrow.*;
 import com.jisucloud.clawler.regagent.service.impl.car.*;
 import com.jisucloud.clawler.regagent.service.impl.education.*;
-import com.jisucloud.clawler.regagent.service.impl.email.SohuEmailSpider;
+import com.jisucloud.clawler.regagent.service.impl.email.*;
 import com.jisucloud.clawler.regagent.service.impl.game.*;
 import com.jisucloud.clawler.regagent.service.impl.health.*;
 import com.jisucloud.clawler.regagent.service.impl.life.*;
@@ -16,6 +19,7 @@ import com.jisucloud.clawler.regagent.service.impl.music.*;
 import com.jisucloud.clawler.regagent.service.impl.news.*;
 import com.jisucloud.clawler.regagent.service.impl.shop.*;
 import com.jisucloud.clawler.regagent.service.impl.social.*;
+import com.jisucloud.clawler.regagent.service.impl.trip.XiaoZhuSpider;
 import com.jisucloud.clawler.regagent.service.impl.video.*;
 import com.jisucloud.clawler.regagent.service.impl.work.*;
 import com.jisucloud.deepsearch.selenium.mitm.MitmServer;
@@ -170,5 +174,13 @@ public class PapaSpiderTester {
 //		testingWithPrint(ZhiHuSpider.class);
 //		testingWithPrint(TouTiaoSpider.class);
 //		testingWithPrint(ZhongGuoZhiWangSpider.class);
+//		testingWithPrint(CCTVSpider.class);
+//		testingWithPrint(KuaiFangSpider.class);
+//		testingWithPrint(ZealerTestSpider.class);
+//		testingWithPrint(_1HaoDianSpider.class);
+//		testingWithPrint(TaiPingYangMobileSpider.class);
+//		testingWithPrint(KuaiKeJiSpider.class);
+//		testingWithPrint(BossSpider.class);
+//		testingWithPrint(XiaoZhuSpider.class);
 	}
 }

@@ -1,17 +1,15 @@
-package com.jisucloud.clawler.regagent.service.impl.reader;
+package com.jisucloud.clawler.regagent.service.impl._3c;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Set;
@@ -19,59 +17,55 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class KongFuziSpider implements PapaSpider {
+public class ZealerTestSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "孔夫子旧书网是国内领先的古旧书交易平台,汇集全国各地13000家网上书店,50000家书摊,展示多达9000万种书籍;大量极具收藏价值的古旧珍本。";
+		return "自如评测是一个科技视频平台，于2012年11月8日正式上线，创始人兼 CEO 王自如和 ZEALER 坚持打造兼具行业洞察力与品质感的科技视频内容，输出「科技 Plus」生活主张。";
 	}
 
 	@Override
 	public String platform() {
-		return "kongfz";
+		return "zealer";
 	}
 
 	@Override
 	public String home() {
-		return "kongfz.com";
+		return "zealer.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "孔夫子旧书网";
+		return "自如评测";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"书城"};
+		return new String[] {"3c", "科技" ,"智能手机"};
 	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18660396405", "18210538513");
+		return Sets.newHashSet("15510257873", "18210538513");
 	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://login.kongfz.com/Pc/Verify/mobile";
-			FormBody formBody = new FormBody
-	                .Builder()
-	                .add("mobile", account)
-	                .add("smsBizType", "2")
-	                .build();
+			String url = "https://api.account.zealer.com/account/login/password";
+			String postData = "{\"account\":\""+account+"\",\"password\":\"dasdas1213123\"}";
 			Request request = new Request.Builder().url(url)
-					.addHeader("User-Agent", "Mozilla/5.0 (Linux; Android 7.0; PLUS Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Mobile Safari/537.36")
-					.addHeader("Host", "login.kongfz.com")
-					.addHeader("Referer", "http://www.kongfz.com/")
-					.post(formBody)
+					.addHeader("User-Agent", CHROME_USER_AGENT)
+					.addHeader("Host", "api.account.zealer.com")
+					.addHeader("Referer", "https://www.zealer.com/#/account/login")
+					.post(FormBody.create(MediaType.parse("application/json;charset=UTF-8"), postData))
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			String res = StringUtil.unicodeToString(response.body().string());
-			if (res.contains("已存在")) {
+			String res = response.body().string();
+			if (res.contains("41106")) {
 				return true;
 			}
 		} catch (Exception e) {

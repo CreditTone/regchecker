@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.reader;
+package com.jisucloud.clawler.regagent.service.impl.education;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
