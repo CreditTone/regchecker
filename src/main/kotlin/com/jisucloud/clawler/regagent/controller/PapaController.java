@@ -1,6 +1,8 @@
 package com.jisucloud.clawler.regagent.controller;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.service.PapaSpiderService;
 import com.jisucloud.clawler.regagent.service.PapaTask;
 import com.jisucloud.clawler.regagent.util.StringUtil;
@@ -38,7 +41,9 @@ public class PapaController {
 		}
 		PapaTask papaTask = PapaTask.builder().id(UUID.randomUUID().toString()).telephone(tel).callurl(callurl).name(name).needlessCheckPlatforms(needlessCheckPlatforms).build();
 		papaSpiderService.addPapaTask(papaTask);
-		return papaTask;
+		Map<String,Object> resp = new HashMap<>();
+		resp.put("id", papaTask.getId());
+		return resp;
 	}
 	
 }

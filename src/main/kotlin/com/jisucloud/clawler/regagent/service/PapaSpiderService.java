@@ -1,7 +1,10 @@
 package com.jisucloud.clawler.regagent.service;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
@@ -108,24 +111,39 @@ public class PapaSpiderService extends Thread {
 					}
 				}
 			}
+			finished();
 			String useTime = timerRecoder.getText();
 			log.info("任务("+papaTask.getId()+")结束。用时"+useTime+",成功撞库平台"+successCount+"个,失败"+failureCount+"个。");
 		}
 		
-		private void notifyTelephone(PapaSpider instance, boolean registed) {
-			String url = papaTask.getCallurl();
+		private void finished() {
 			Map<String,Object> result = new HashMap<>();
-			result.put("id", papaTask.getId());
-			result.put("tel", papaTask.getTelephone());
-			result.put("registed", registed);
-			result.put("platform", instance.platform());
-			result.put("platformName", instance.platformName());
-			result.put("message", instance.message());
+			result.put("method", "finished");
+			postResult(result);
+		}
+		
+		private void notifyTelephone(PapaSpider instance, boolean registed) {
+			Map<String,Object> result = new HashMap<>();
+			result.put("method", "notify");
 			Map<String, String> fields = instance.getFields();
 			if (fields == null) {
 				fields = new HashMap<>();
 			}
-			result.put("fields", fields);
+			Account data = Account.builder()
+				.username(papaTask.getTelephone())
+				.registed(registed)
+				.platform(instance.platform())
+				.platformName(instance.platformName())
+				.platformMsg(instance.message())
+				.addTag(instance.tags())
+				.fields(fields).build();
+			result.put("data", data);
+			postResult(result);
+		}
+
+		private void postResult(Map<String, Object> result) {
+			result.put("id", papaTask.getId());
+			String url = papaTask.getCallurl();
 			RequestBody requestBody = FormBody.create(MediaType.parse("application/json;charset=utf-8"), JSON.toJSONString(result));
 			Request request = new Request.Builder().url(url)
 					.post(requestBody)
