@@ -9,7 +9,6 @@ import me.kagura.Session;
 import org.jsoup.Connection;
 import org.jsoup.Connection.Method;
 import com.google.common.collect.Sets;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -12,7 +12,6 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import com.google.common.collect.Sets;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Random;
