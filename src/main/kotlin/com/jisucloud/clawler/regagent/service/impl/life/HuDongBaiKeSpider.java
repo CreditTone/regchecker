@@ -1,13 +1,10 @@
 package com.jisucloud.clawler.regagent.service.impl.life;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;

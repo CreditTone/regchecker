@@ -4,7 +4,6 @@ import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
-import com.jisucloud.clawler.regagent.util.StringUtil;
 import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
 import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
 import com.jisucloud.deepsearch.selenium.mitm.HookTracker;
@@ -22,30 +21,29 @@ import org.openqa.selenium.WebElement;
 
 @Slf4j
 @UsePapaSpider
-public class JinYuanBaoSpider implements PapaSpider,AjaxHook {
+public class ZhaoShangDaiSpider implements PapaSpider,AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
-	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
 
 	@Override
 	public String message() {
-		return "金元宝——创立于2013年,稳健运营5年的金融科技企业,获中科招商集团3000万战略投资,是国内知名的社交化金融投资服务平台,致力于产业金融。平台具备国家信息安全等级!";
+		return "招商贷-中天城投集团股份有限公司旗下核心互联网金融平台；招商贷中国西部领先的互联网金融平台，安全有保障的互联网金融平台，为投资人提供全方位安全、稳定的投资理财服务！";
 	}
 
 	@Override
 	public String platform() {
-		return "jyblc";
+		return "zhaoshangdai";
 	}
 
 	@Override
 	public String home() {
-		return "jyblc.com";
+		return "zhaoshangdai.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "金元宝";
+		return "招商贷";
 	}
 
 	@Override
@@ -56,10 +54,10 @@ public class JinYuanBaoSpider implements PapaSpider,AjaxHook {
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {
-				WebElement img = chromeDriver.findElementByCssSelector("#imgCode_login");
+				WebElement img = chromeDriver.findElementByCssSelector("#login_validCode");
 				chromeDriver.mouseClick(img);
 				byte[] body = chromeDriver.screenshot(img);
-				return OCRDecode.decodeImageCode(body, "n4");
+				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -70,18 +68,24 @@ public class JinYuanBaoSpider implements PapaSpider,AjaxHook {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
-			chromeDriver.get("https://jyblc.cn/pay/login?sess_id=1493349-a63c6cdfa6f7da22df9357b475ce");
-			chromeDriver.addAjaxHook(this);
+			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(false, true, CHROME_USER_AGENT);
+			chromeDriver.get("https://login.zhaoshangdai.com/cas/login?target_type=P2p&loginType=WEB&service=https%3A%2F%2Fwww.zhaoshangdai.com%3A443%2Fuser%2Faccount%2Fdetail.html");
 			Thread.sleep(2000);
-			chromeDriver.findElementByCssSelector("#login_tel").sendKeys(account);
-			chromeDriver.findElementByCssSelector("#login_pwd").sendKeys("sadas21p0");
+			chromeDriver.findElementByCssSelector("#username").sendKeys(account);
+			chromeDriver.findElementByCssSelector("#password").sendKeys("a21123as0a1");
 			for (int i = 0; i < 5; i++) {
-				WebElement login_imgcode = chromeDriver.findElementById("login_imgcode");
+				WebElement login_imgcode = chromeDriver.findElementById("captcha");
 				login_imgcode.clear();
 				login_imgcode.sendKeys(getImgCode());
-				chromeDriver.findElementByCssSelector("#login_submit").click();
+				chromeDriver.findElementByCssSelector("#login_btn").click();
 				Thread.sleep(3000);
+				if (chromeDriver.checkElement("#webmsg")) {
+					String webmsg = chromeDriver.findElementById("webmsg").getText();
+					if (!webmsg.contains("验证码")) {
+						vcodeSuc = true;
+					}
+					checkTel = webmsg.contains("密码") || webmsg.contains("锁定");
+				}
 				if (vcodeSuc) {
 					break;
 				}
@@ -114,22 +118,18 @@ public class JinYuanBaoSpider implements PapaSpider,AjaxHook {
 
 	@Override
 	public HookTracker getHookTracker() {
-		return HookTracker.builder().addUrl("pay/dologin").isPOST().build();
+		// TODO Auto-generated method stub
+		return HookTracker.builder().addUrl("checkExistMobile").isPOST().build();
 	}
 
 	@Override
 	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
 		return null;
 	}
-	
+	boolean checkTel;
 	@Override
 	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
-		String res = StringUtil.unicodeToString(contents.getTextContents());
-		if (!contents.getTextContents().contains("验证码不正确")) {
-			vcodeSuc = true;
-			checkTel = res.contains("密码错误，");
-		}
-		
+		checkTel = contents.getTextContents().contains("true");
 	}
 
 }

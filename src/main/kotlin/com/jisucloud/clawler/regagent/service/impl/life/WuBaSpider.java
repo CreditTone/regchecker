@@ -7,7 +7,6 @@ import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import org.jsoup.Connection;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;

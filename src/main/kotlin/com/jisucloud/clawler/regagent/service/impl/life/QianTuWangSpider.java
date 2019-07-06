@@ -1,10 +1,11 @@
-package com.jisucloud.clawler.regagent.service.impl.borrow;
+package com.jisucloud.clawler.regagent.service.impl.life;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 import com.jisucloud.clawler.regagent.util.StringUtil;
+import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
 import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
 import com.jisucloud.deepsearch.selenium.mitm.HookTracker;
@@ -22,65 +23,78 @@ import org.openqa.selenium.WebElement;
 
 @Slf4j
 @UsePapaSpider
-public class JinYuanBaoSpider implements PapaSpider,AjaxHook {
-
+public class QianTuWangSpider implements PapaSpider,AjaxHook {
+	
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
 
 	@Override
 	public String message() {
-		return "金元宝——创立于2013年,稳健运营5年的金融科技企业,获中科招商集团3000万战略投资,是国内知名的社交化金融投资服务平台,致力于产业金融。平台具备国家信息安全等级!";
+		return "千图网(www.58pic.com) 是专注免费设计素材下载的网站!提供矢量图素材,矢量背景图片,矢量图库,还有psd素材,PS素材,设计模板,设计素材,PPT素材,以及网页素材,网站。";
 	}
 
 	@Override
 	public String platform() {
-		return "jyblc";
+		return "58pic";
 	}
 
 	@Override
 	public String home() {
-		return "jyblc.com";
+		return "58pic.cn";
 	}
 
 	@Override
 	public String platformName() {
-		return "金元宝";
+		return "千图网";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"消费分期" , "p2p", "借贷"};
+		return new String[] {"工具", "海报设计"};
 	}
 	
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("13910000000", "18210538513");
+	}
+
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {
-				WebElement img = chromeDriver.findElementByCssSelector("#imgCode_login");
-				chromeDriver.mouseClick(img);
+				WebElement img = chromeDriver.findElementByCssSelector("#img-captcha2");
+				img.click();
+				Thread.sleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
-				return OCRDecode.decodeImageCode(body, "n4");
+				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		return "";
 	}
-	
+
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
-			chromeDriver.get("https://jyblc.cn/pay/login?sess_id=1493349-a63c6cdfa6f7da22df9357b475ce");
 			chromeDriver.addAjaxHook(this);
+			chromeDriver.get("https://www.58pic.com/login#");
 			Thread.sleep(2000);
-			chromeDriver.findElementByCssSelector("#login_tel").sendKeys(account);
-			chromeDriver.findElementByCssSelector("#login_pwd").sendKeys("sadas21p0");
-			for (int i = 0; i < 5; i++) {
-				WebElement login_imgcode = chromeDriver.findElementById("login_imgcode");
-				login_imgcode.clear();
-				login_imgcode.sendKeys(getImgCode());
-				chromeDriver.findElementByCssSelector("#login_submit").click();
+			chromeDriver.findElementById("parbox-toPhoneLogin").click();
+			Thread.sleep(2000);
+			chromeDriver.findElementById("pal-toAccountLoginBtn").click();
+			Thread.sleep(2000);
+			WebElement nameInputArea = chromeDriver.findElementByCssSelector("#account");
+			nameInputArea.sendKeys(account);
+			chromeDriver.findElementByCssSelector("#passwd").sendKeys("xas021na");
+			for (int i = 0 ; i < 5 ; i ++) {
+				if (chromeDriver.checkElement("#img-captcha2")) {
+					WebElement captcha = chromeDriver.findElementByCssSelector("#img-code2");
+					captcha.clear();
+					captcha.sendKeys(getImgCode());
+				}
+				chromeDriver.findElementByCssSelector("#submit-passwd").click();
 				Thread.sleep(3000);
 				if (vcodeSuc) {
 					break;
@@ -96,7 +110,6 @@ public class JinYuanBaoSpider implements PapaSpider,AjaxHook {
 		return checkTel;
 	}
 
-
 	@Override
 	public boolean checkEmail(String account) {
 		return false;
@@ -108,28 +121,25 @@ public class JinYuanBaoSpider implements PapaSpider,AjaxHook {
 	}
 
 	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538513", "15161509916");
-	}
-
-	@Override
 	public HookTracker getHookTracker() {
-		return HookTracker.builder().addUrl("pay/dologin").isPOST().build();
+		// TODO Auto-generated method stub
+		return HookTracker.builder().addUrl("loginByPasswdNew").isPOST().build();
 	}
 
 	@Override
 	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@Override
 	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		// TODO Auto-generated method stub
 		String res = StringUtil.unicodeToString(contents.getTextContents());
-		if (!contents.getTextContents().contains("验证码不正确")) {
+		if (!res.contains("验证码")) {
 			vcodeSuc = true;
-			checkTel = res.contains("密码错误，");
+			checkTel = res.contains("密码");
 		}
-		
 	}
 
 }

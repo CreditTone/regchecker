@@ -185,6 +185,9 @@ public class PapaSpiderTester {
 //		testingWithPrint(MaFengWoSpider.class);
 //		testingWithPrint(BookingSpider.class);
 //		testingWithPrint(HongXiaoBaoSpider.class);
-		testingWithPrint(JinYuanBaoSpider.class);
+//		testingWithPrint(JinYuanBaoSpider.class);
+//		testingWithPrint(QianTuWangSpider.class);
+//		testingWithPrint(YiQiXiuSpider.class);
+		testingWithPrint(ZhaoShangDaiSpider.class);
 	}
 }
