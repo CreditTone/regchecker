@@ -193,5 +193,13 @@ public class PapaSpiderTester {
 //		testingWithPrint(MeiPaiSpider.class);
 //		testingWithPrint(JuanPiSpider.class);
 //		testingWithPrint(MeiMeiTouZiSpider.class);
+//		testingWithPrint(GuangJinJinFuSpider.class);
+//		testingWithPrint(_168JinFuSpider.class);
+//		testingWithPrint(XiaoJinLiCaiSpider.class);
+//		testingWithPrint(ChengTieZaiRongSpider.class);
+//		testingWithPrint(QiLeRongSpider.class);
+//		testingWithPrint(TaiRanJinRongSpider.class);
+//		testingWithPrint(JuBaoPenSpider.class);
+//		testingWithPrint(HeJiaJinRongSpider.class);
 	}
 }
