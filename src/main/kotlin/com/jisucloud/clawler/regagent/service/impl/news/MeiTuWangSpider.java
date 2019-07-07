@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.shop;
+package com.jisucloud.clawler.regagent.service.impl.news;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
@@ -17,53 +17,46 @@ import java.util.Map;
 import java.util.Set;
 
 @Slf4j
-//@UsePapaSpider
-public class _1HaoDianSpider implements PapaSpider,AjaxHook {
+@UsePapaSpider
+public class MeiTuWangSpider implements PapaSpider,AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 
 	@Override
 	public String message() {
-		return "1号店(yhd.com)网上超市精选全球好货,提供休闲零食、母婴玩具、进口食品、服饰内衣,1号生鲜、家电家居、手机电脑、宠物用品等各个品类的优质商品。";
+		return "美图官网,提供美图手机(美图T9、美图V6、美图M8s、美图T8s)、相关配件的详细介绍及在线购买。同时也是美图秀秀、美颜相机、美拍等热门产品的官方网站。";
 	}
 
 	@Override
 	public String platform() {
-		return "yhd";
+		return "meitu";
 	}
 
 	@Override
 	public String home() {
-		return "yhd.com";
+		return "meitu.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "1号店";
+		return "美图秀秀";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"购物"};
+		return new String[] {"美图" , "美颜", "工具"};
 	}
 	
 	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13800000000", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, false);
+			chromeDriver.get("https://account.meitu.com/#!/login/");
 			chromeDriver.addAjaxHook(this);
-			chromeDriver.get("https://www.baidu.com/s?tn=monline_3_dg&wd=1%E5%8F%B7%E5%BA%97&rn=50&usm=4&ie=utf-8&rsv_cq=%E6%B7%98%E5%AE%9D&rsv_dl=0_right_recommends_merge_20826&cq=%E6%B7%98%E5%AE%9D&srcid=20910&rt=%E5%89%81%E6%89%8B%E5%85%9A%E4%BA%91%E9%9B%86%E7%9A%84%E7%BD%91%E7%AB%99&recid=20826&euri=3c2f2cd78147404892e933e512c306c2");
-			chromeDriver.get("http://www.baidu.com/link?url=cukjY5cX9qj1SRnBF9ETfeM0DVvfC1CUczwvyVc0wBa&wd=&eqid=eaf661e4000e2b5c000000025d21a5fb");
-			chromeDriver.get("https://passport.yhd.com/passport/register_input.do");
 			Thread.sleep(2000);
-			chromeDriver.findElementById("phone").sendKeys(account);
-			Thread.sleep(2000);
-			chromeDriver.findElementById("userName").click();
+			chromeDriver.findElementByCssSelector("input[placeholder='请输入手机号码']").sendKeys(account);
+			chromeDriver.findElementByCssSelector("input[type='password']").sendKeys("xas1231sad");
+			chromeDriver.findElementByCssSelector("button[class='Button submit form-submit']").click();
 			Thread.sleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -74,6 +67,7 @@ public class _1HaoDianSpider implements PapaSpider,AjaxHook {
 		}
 		return checkTel;
 	}
+
 
 	@Override
 	public boolean checkEmail(String account) {
@@ -86,23 +80,24 @@ public class _1HaoDianSpider implements PapaSpider,AjaxHook {
 	}
 
 	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18210538513", "15161509916");
+	}
+
+	@Override
 	public HookTracker getHookTracker() {
 		// TODO Auto-generated method stub
-		return HookTracker.builder().addUrl("register_check_phone.do").isPOST().build();
+		return HookTracker.builder().addUrl("oauth/access_token.json").isPOST().build();
 	}
 
 	@Override
 	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
-		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	boolean checkTel = false;
-
+	boolean checkTel;
 	@Override
 	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
-		System.out.println(contents.getTextContents());
-		checkTel = contents.getTextContents().contains("****");
+		checkTel = !contents.getTextContents().contains("还未被注册");
 	}
 
 }

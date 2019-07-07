@@ -1,10 +1,8 @@
-package com.jisucloud.clawler.regagent.service.impl.news;
+package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.PapaSpiderTester;
-import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -18,67 +16,51 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class HuXiuSpider implements PapaSpider {
+public class MeiMeiTouZiSpider implements PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "创办于2012年5月，虎嗅网是一个聚合优质创新信息与人群的新媒体平台。这个平台专注于贡献原创、深度、犀利优质的商业资讯、围绕创新创业的观点剖析与交流。";
+		return "美美投资是鹏润控股旗下理财平台,专业的风控系统全程提供支持,银行资金存管全程资金流转透明,为投资者提供全面安全的资金保障.不同期限产品自由选择,适合各种投资需求。";
 	}
 
 	@Override
 	public String platform() {
-		return "huxiu";
+		return "meme2c";
 	}
 
 	@Override
 	public String home() {
-		return "huxiu.com";
+		return "meme2c.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "虎嗅网";
+		return "美美投资";
 	}
-
 
 	@Override
 	public String[] tags() {
-		return new String[] {"新闻资讯"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18720982607", "18210538513");
-	}
-	
-	public static void main(String[] args) {
-		PapaSpiderTester.testingWithPrint(HuXiuSpider.class);
+		return new String[] {"p2p", "理财" , "借贷"};
 	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://m.huxiu.com/user_action/login";
+			String url = "https://www.meme2c.com/findpswd/getMobile";
 			FormBody formBody = new FormBody
 	                .Builder()
 	                .add("username", account)
-	                .add("password", "adasd1231")
-	                .add("country", "+86")
 	                .build();
 			Request request = new Request.Builder().url(url)
-					.addHeader("User-Agent", IOS_USER_AGENT)
-					.addHeader("Host", "m.huxiu.com")
-					.addHeader("Referer", "https://m.huxiu.com/user/login_sms")
+					.addHeader("User-Agent", CHROME_USER_AGENT)
+					.addHeader("Referer", "https://www.meme2c.com/findpswd/loginPassword")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			String res = StringUtil.unicodeToString(response.body().string());
-			if (res.contains("密码")) {
-				return true;
-			}
+			return response.body().string().contains("false");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -93,6 +75,11 @@ public class HuXiuSpider implements PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
+	}
+
+	@Override
+	public Set<String> getTestTelephones() {
+		return Sets.newHashSet("18210538513", "15161500000");
 	}
 
 }
