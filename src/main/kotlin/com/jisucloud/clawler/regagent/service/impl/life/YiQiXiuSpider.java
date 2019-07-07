@@ -16,7 +16,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class YiQiXiuSpider implements PapaSpider {
+public class YiQiXiuSpider extends PapaSpider {
 
 	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClientWithRandomProxy();
 

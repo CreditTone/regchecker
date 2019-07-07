@@ -25,7 +25,7 @@ import java.util.Set;
 
 @UsePapaSpider
 @Slf4j
-public class MoerlongSpider implements PapaSpider {
+public class MoerlongSpider extends PapaSpider {
 
 	@Override
 	public String message() {

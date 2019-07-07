@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 @UsePapaSpider
-public class QiXinBaoSpider implements PapaSpider {
+public class QiXinBaoSpider extends PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -86,8 +86,7 @@ public class QiXinBaoSpider implements PapaSpider {
 			chromeDriver.get("https://www.qixin.com/auth/login?return_url=%2F");
 			chromeDriver.findElementByCssSelector("input[placeholder=请输入手机号码]").sendKeys(account);
 			chromeDriver.findElementByCssSelector("input[placeholder=请输入密码]").sendKeys("xkaocgwicb123");
-			chromeDriver.findElementByLinkText("登录").click();
-			Thread.sleep(3000);
+			chromeDriver.findElementByLinkText("登录").click();smartSleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

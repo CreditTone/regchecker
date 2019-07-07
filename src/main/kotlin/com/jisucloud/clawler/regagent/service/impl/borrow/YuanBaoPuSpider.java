@@ -18,7 +18,7 @@ import java.util.Set;
 
 @UsePapaSpider
 @Slf4j
-public class YuanBaoPuSpider implements PapaSpider {
+public class YuanBaoPuSpider extends PapaSpider {
 
 	@Override
 	public String message() {

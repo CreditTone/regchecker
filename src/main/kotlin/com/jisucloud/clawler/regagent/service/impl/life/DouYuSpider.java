@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 //@UsePapaSpider  行为分析反扒
-public class DouYuSpider implements PapaSpider {
+public class DouYuSpider extends PapaSpider {
 
 	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClientWithRandomProxy();
 

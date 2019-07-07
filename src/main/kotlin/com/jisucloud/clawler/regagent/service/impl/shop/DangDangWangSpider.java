@@ -18,7 +18,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class DangDangWangSpider implements PapaSpider,AjaxHook {
+public class DangDangWangSpider extends PapaSpider implements AjaxHook{
 	
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean check = false;
@@ -60,8 +60,7 @@ public class DangDangWangSpider implements PapaSpider,AjaxHook {
 			chromeDriver.get("https://login.dangdang.com/register.php?returnurl=http://www.dangdang.com/");
 			chromeDriver.addAjaxHook(this);
 			chromeDriver.findElementById("txt_username").sendKeys(account);
-			chromeDriver.findElementById("txt_password").click();
-			Thread.sleep(1000);
+			chromeDriver.findElementById("txt_password").click();smartSleep(1000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

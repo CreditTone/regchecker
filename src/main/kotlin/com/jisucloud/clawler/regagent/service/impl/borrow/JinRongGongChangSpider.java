@@ -19,7 +19,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class JinRongGongChangSpider implements PapaSpider {
+public class JinRongGongChangSpider extends PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -59,8 +59,7 @@ public class JinRongGongChangSpider implements PapaSpider {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector("#valicodeImg");
-				img.click();
-				Thread.sleep(1000);
+				img.click();smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -109,8 +108,7 @@ public class JinRongGongChangSpider implements PapaSpider {
 			chromeDriver.findElementById("password").sendKeys("lvnqwnk12mcxn");
 			for (int i = 0; i < 5; i++) {
 				chromeDriver.reInject();
-				chromeDriver.findElementByCssSelector("input[class='g-btn-login bl']").click();
-				Thread.sleep(3000);
+				chromeDriver.findElementByCssSelector("input[class='g-btn-login bl']").click();smartSleep(3000);
 				if (vcodeSuc) {
 					break;
 				}

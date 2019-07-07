@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-public abstract class BasicEmailSpider implements PapaSpider {
+public abstract class BasicEmailSpider extends PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(30, TimeUnit.SECONDS).retryOnConnectionFailure(false).build();

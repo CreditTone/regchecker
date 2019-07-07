@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class ShengDaSpider implements PapaSpider {
+public class ShengDaSpider extends PapaSpider {
 
 	private Session session = JJsoup.newSession();
 
@@ -71,8 +71,7 @@ public class ShengDaSpider implements PapaSpider {
 					return true;
 				}else if (res.contains("recommendLoginType")) {
 					return false;
-				}
-				Thread.sleep(500);
+				}smartSleep(500);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -15,7 +15,7 @@ import org.openqa.selenium.WebElement;
 
 @Slf4j
 //@UsePapaSpider
-public class BossSpider implements PapaSpider {
+public class BossSpider extends PapaSpider {
 	
 	private ChromeAjaxHookDriver chromeDriver;
 	
@@ -62,23 +62,19 @@ public class BossSpider implements PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(false, false, CHROME_USER_AGENT);
-			Thread.sleep(3000);
+			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(false, false, CHROME_USER_AGENT);smartSleep(3000);
 			for (int i = 0; i < 3; i++) {
-				chromeDriver.get("https://login.zhipin.com/?ka=header-login");
-				Thread.sleep(RANDOM.nextInt(5000));
+				chromeDriver.get("https://login.zhipin.com/?ka=header-login");smartSleep(RANDOM.nextInt(5000));
 				WebElement accName = chromeDriver.findElementByCssSelector("input[name='account']");
 				chromeDriver.keyboardInput(accName, account);
 				WebElement accPass = chromeDriver.findElementByCssSelector("input[name='password']");
 				chromeDriver.keyboardInput(accPass, "1da0210x");
-//				Thread.sleep(60000);
+//smartSleep(60000);
 				WebElement rdsSlideReset = chromeDriver.findElementByCssSelector("div[class='nc_wrapper']");
 				WebElement rdsSlideBtn = chromeDriver.findElementByCssSelector("span[class='nc_iconfont btn_slide']");
-				chromeDriver.switchSlide(rdsSlideReset, rdsSlideBtn);
-				Thread.sleep(RANDOM.nextInt(3000));
+				chromeDriver.switchSlide(rdsSlideReset, rdsSlideBtn);smartSleep(RANDOM.nextInt(3000));
 				WebElement next = chromeDriver.findElementByCssSelector("button[type='submit']");
-				chromeDriver.mouseClick(next);
-				Thread.sleep(RANDOM.nextInt(8000) + 5000);
+				chromeDriver.mouseClick(next);smartSleep(RANDOM.nextInt(8000) + 5000);
 				break;
 //				if (chromeDriver.checkElement("div.alipay-xbox")) {
 //					return true;

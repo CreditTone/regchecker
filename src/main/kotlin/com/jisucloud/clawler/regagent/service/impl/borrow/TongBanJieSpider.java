@@ -22,7 +22,7 @@ import java.util.Set;
 
 @Slf4j
 //@UsePapaSpider
-public class TongBanJieSpider implements PapaSpider,AjaxHook {
+public class TongBanJieSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
@@ -86,8 +86,7 @@ public class TongBanJieSpider implements PapaSpider,AjaxHook {
 				WebElement authcode = chromeDriver.findElementById("authcode");
 				authcode.clear();
 				authcode.sendKeys(code);
-				chromeDriver.findElementById("login-btn").click();
-				Thread.sleep(3000);
+				chromeDriver.findElementById("login-btn").click();smartSleep(3000);
 				if (vcodeSuc) {
 					break;
 				}

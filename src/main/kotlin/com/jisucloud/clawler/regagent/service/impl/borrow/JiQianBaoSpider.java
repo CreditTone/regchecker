@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 @UsePapaSpider
-public class JiQianBaoSpider implements PapaSpider {
+public class JiQianBaoSpider extends PapaSpider {
 
 
     @Override

@@ -23,7 +23,7 @@ import org.openqa.selenium.WebElement;
 
 @Slf4j
 @UsePapaSpider
-public class QianTuWangSpider implements PapaSpider,AjaxHook {
+public class QianTuWangSpider extends PapaSpider implements AjaxHook{
 	
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
@@ -63,8 +63,7 @@ public class QianTuWangSpider implements PapaSpider,AjaxHook {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector("#img-captcha2");
-				img.click();
-				Thread.sleep(1000);
+				img.click();smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -79,12 +78,9 @@ public class QianTuWangSpider implements PapaSpider,AjaxHook {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
 			chromeDriver.addAjaxHook(this);
-			chromeDriver.get("https://www.58pic.com/login#");
-			Thread.sleep(2000);
-			chromeDriver.findElementById("parbox-toPhoneLogin").click();
-			Thread.sleep(2000);
-			chromeDriver.findElementById("pal-toAccountLoginBtn").click();
-			Thread.sleep(2000);
+			chromeDriver.get("https://www.58pic.com/login#");smartSleep(2000);
+			chromeDriver.findElementById("parbox-toPhoneLogin").click();smartSleep(2000);
+			chromeDriver.findElementById("pal-toAccountLoginBtn").click();smartSleep(2000);
 			WebElement nameInputArea = chromeDriver.findElementByCssSelector("#account");
 			nameInputArea.sendKeys(account);
 			chromeDriver.findElementByCssSelector("#passwd").sendKeys("xas021na");
@@ -94,8 +90,7 @@ public class QianTuWangSpider implements PapaSpider,AjaxHook {
 					captcha.clear();
 					captcha.sendKeys(getImgCode());
 				}
-				chromeDriver.findElementByCssSelector("#submit-passwd").click();
-				Thread.sleep(3000);
+				chromeDriver.findElementByCssSelector("#submit-passwd").click();smartSleep(3000);
 				if (vcodeSuc) {
 					break;
 				}

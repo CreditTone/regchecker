@@ -20,7 +20,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class BiYouXinSpider implements PapaSpider {
+public class BiYouXinSpider extends PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -60,8 +60,7 @@ public class BiYouXinSpider implements PapaSpider {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector("#valicodeImg");
-				img.click();
-				Thread.sleep(1000);
+				img.click();smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -110,8 +109,7 @@ public class BiYouXinSpider implements PapaSpider {
 			chromeDriver.findElementByCssSelector("input[type='tel']").sendKeys(account);
 			for (int i = 0; i < 5; i++) {
 				chromeDriver.reInject();
-				chromeDriver.findElementByCssSelector("input[type='password']").click();
-				Thread.sleep(3000);
+				chromeDriver.findElementByCssSelector("input[type='password']").click();smartSleep(3000);
 				if (vcodeSuc) {
 					break;
 				}

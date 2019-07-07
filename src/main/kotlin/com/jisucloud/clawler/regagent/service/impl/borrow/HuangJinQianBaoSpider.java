@@ -10,7 +10,7 @@ import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
 @UsePapaSpider
-public class HuangJinQianBaoSpider implements PapaSpider {
+public class HuangJinQianBaoSpider extends PapaSpider {
 
 	@Override
 	public String message() {

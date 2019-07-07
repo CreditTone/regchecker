@@ -16,7 +16,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class ZhongGuoRenMinBaoXianSpider implements PapaSpider {
+public class ZhongGuoRenMinBaoXianSpider extends PapaSpider {
 
 	private ChromeDriver chromeDriver;
 
@@ -55,11 +55,9 @@ public class ZhongGuoRenMinBaoXianSpider implements PapaSpider {
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = HeadlessUtil.getChromeDriver(true, null, "Mozilla/5.0 (Linux; Android 7.0; PLUS Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Mobile Safari/537.36");
-			chromeDriver.get("http://www.epicc.com.cn/newecenter/findPwd/find.do");
-			Thread.sleep(5000);
+			chromeDriver.get("http://www.epicc.com.cn/newecenter/findPwd/find.do");smartSleep(5000);
 			chromeDriver.findElementById("userName").sendKeys(account);
-			chromeDriver.findElementByClassName("js-input-next").click();
-			Thread.sleep(3000);
+			chromeDriver.findElementByClassName("js-input-next").click();smartSleep(3000);
 			Document doc = Jsoup.parse(chromeDriver.getPageSource());
 			if (doc.select("#userMobile").attr("value").contains("****")) {
 				return true;

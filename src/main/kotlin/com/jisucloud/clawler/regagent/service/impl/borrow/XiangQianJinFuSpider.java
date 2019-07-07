@@ -19,7 +19,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class XiangQianJinFuSpider implements PapaSpider {
+public class XiangQianJinFuSpider extends PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -59,8 +59,7 @@ public class XiangQianJinFuSpider implements PapaSpider {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector("#valicodeImg");
-				img.click();
-				Thread.sleep(1000);
+				img.click();smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -75,10 +74,8 @@ public class XiangQianJinFuSpider implements PapaSpider {
 		try {
 			chromeDriver = HeadlessUtil.getChromeDriver(true, null, null);
 			chromeDriver.get("https://www.xiangqianjinfu.com/login");
-			chromeDriver.findElementByCssSelector("input[class='el-input__inner']").sendKeys(account);
-			Thread.sleep(1000);
-			chromeDriver.mouseClick(chromeDriver.findElementByCssSelector(".login_submit"));
-			Thread.sleep(5000);
+			chromeDriver.findElementByCssSelector("input[class='el-input__inner']").sendKeys(account);smartSleep(1000);
+			chromeDriver.mouseClick(chromeDriver.findElementByCssSelector(".login_submit"));smartSleep(5000);
 			if (chromeDriver.checkElement(".login_submit") && chromeDriver.findElementByCssSelector(".login_submit").getText().contains("登录")) {
 				return true;
 			}

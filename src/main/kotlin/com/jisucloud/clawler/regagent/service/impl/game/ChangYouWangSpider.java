@@ -14,7 +14,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class ChangYouWangSpider implements PapaSpider {
+public class ChangYouWangSpider extends PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -83,11 +83,9 @@ public class ChangYouWangSpider implements PapaSpider {
 					return null;
 				}
 			});
-			chromeDriver.get(url);
-			Thread.sleep(3000);
+			chromeDriver.get(url);smartSleep(3000);
 			chromeDriver.findElementById("securityPhone").sendKeys(account);
-			chromeDriver.findElementById("passwd_phone").click();
-			Thread.sleep(3000);
+			chromeDriver.findElementById("passwd_phone").click();smartSleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

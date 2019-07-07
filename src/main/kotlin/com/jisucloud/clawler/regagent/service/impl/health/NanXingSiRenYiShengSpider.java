@@ -14,7 +14,7 @@ import com.google.common.collect.Sets;
 
 
 @UsePapaSpider
-public class NanXingSiRenYiShengSpider implements PapaSpider {
+public class NanXingSiRenYiShengSpider extends PapaSpider {
 
 	@Override
 	public String message() {

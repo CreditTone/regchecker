@@ -18,7 +18,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class BookingSpider implements PapaSpider,AjaxHook {
+public class BookingSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 
@@ -56,13 +56,10 @@ public class BookingSpider implements PapaSpider,AjaxHook {
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(true, false, CHROME_USER_AGENT);
-			chromeDriver.get("https://www.booking.com/?aid=334565;label=baidu-brandzone_booking-brand-list1&utm_source=baidu&utm_medium=brandzone&utm_campaign=title");
-			Thread.sleep(3000);
-			chromeDriver.findElementById("current_account").click();
-			Thread.sleep(3000);
+			chromeDriver.get("https://www.booking.com/?aid=334565;label=baidu-brandzone_booking-brand-list1&utm_source=baidu&utm_medium=brandzone&utm_campaign=title");smartSleep(3000);
+			chromeDriver.findElementById("current_account").click();smartSleep(3000);
 			chromeDriver.findElementByCssSelector("#phone").sendKeys("+86"+account);
-			chromeDriver.findElementByCssSelector("span.bui-button__text").click();
-			Thread.sleep(3000);
+			chromeDriver.findElementByCssSelector("span.bui-button__text").click();smartSleep(3000);
 			if (chromeDriver.getCurrentUrl().contains("sign-in/verify-phone")) {
 				return true;
 			}

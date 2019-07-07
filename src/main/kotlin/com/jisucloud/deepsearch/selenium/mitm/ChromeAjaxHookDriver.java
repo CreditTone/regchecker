@@ -109,8 +109,7 @@ public class ChromeAjaxHookDriver extends ChromeDriver {
 	@Override
 	public void close() {
 		try {
-			MitmServer.getInstance().removeHooks(cloudIdValue);
-			Thread.sleep(1000);
+			MitmServer.getInstance().removeHooks(cloudIdValue);Thread.sleep(1000);
 			super.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -120,8 +119,7 @@ public class ChromeAjaxHookDriver extends ChromeDriver {
 	@Override
 	public void quit() {
 		try {
-			MitmServer.getInstance().removeHooks(cloudIdValue);
-			sleep(1000);
+			MitmServer.getInstance().removeHooks(cloudIdValue);Thread.sleep(1000);
 			super.quit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -136,12 +134,10 @@ public class ChromeAjaxHookDriver extends ChromeDriver {
 			int width = rdsSlideReset.getRect().width;
 			Actions actions = new Actions(this);
 			try {
-				actions.moveToElement(rdsSlideBtn).perform();
-				sleep(random.nextInt(1500));
+				actions.moveToElement(rdsSlideBtn).perform();Thread.sleep(random.nextInt(1500));
 			} catch (Exception e) {
 				e.printStackTrace();
-			}
-			sleep(random.nextInt(1500));
+			}Thread.sleep(random.nextInt(1500));
 			actions.clickAndHold(rdsSlideBtn).perform();
 			int toWidth = 0;
 			int floatY = 0;
@@ -154,12 +150,10 @@ public class ChromeAjaxHookDriver extends ChromeDriver {
 				floatY += fy;
 				actions.moveByOffset(xOffset, floatY).perform();
 				toWidth += xOffset;
-				if (toWidth > width) {
-					sleep(random.nextInt(50));
+				if (toWidth > width) {Thread.sleep(random.nextInt(50));
 					actions.release().perform();
 					break;
-				}
-				sleep(random.nextInt(100));
+				}Thread.sleep(random.nextInt(100));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -178,19 +172,15 @@ public class ChromeAjaxHookDriver extends ChromeDriver {
 	
 	public void mouseClick(WebElement webElement) throws Exception {
 		Actions actions = new Actions(this);
-		actions.moveToElement(webElement).perform();
-		sleep(random.nextInt(800));
-		actions.clickAndHold(webElement).perform();
-		sleep(random.nextInt(300));
-		actions.release().perform();
-		sleep(random.nextInt(1500));
+		actions.moveToElement(webElement).perform();Thread.sleep(random.nextInt(800));
+		actions.clickAndHold(webElement).perform();Thread.sleep(random.nextInt(300));
+		actions.release().perform();Thread.sleep(random.nextInt(1500));
 	}
 	
 	public void keyboardClear(WebElement webElement, int backSpace) throws Exception {
 		mouseClick(webElement);
 		for (int k = 0; k < backSpace + random.nextInt(3); k++) {
-			webElement.sendKeys(Keys.BACK_SPACE);
-			sleep(random.nextInt(100));
+			webElement.sendKeys(Keys.BACK_SPACE);Thread.sleep(random.nextInt(100));
 		}
 	}
 	
@@ -205,14 +195,12 @@ public class ChromeAjaxHookDriver extends ChromeDriver {
 		int backTimes = 0;
 		int prebackNums = random.nextInt(text.length() / 3);
 		for (int k = 0; k < text.length(); k++) {
-			webElement.sendKeys(String.valueOf(text.charAt(k)));
-			sleep(random.nextInt(300) + 300);
+			webElement.sendKeys(String.valueOf(text.charAt(k)));Thread.sleep(random.nextInt(300) + 300);
 			inputed ++;
 			int backNum = inputed >= 3 && backTimes <= prebackNums ?random.nextInt(3) : 0;
 			backTimes += backNum;
 			for (int i = 0; i < backNum; i++) {
-				webElement.sendKeys(Keys.BACK_SPACE);
-				sleep(random.nextInt(300) + 300);
+				webElement.sendKeys(Keys.BACK_SPACE);Thread.sleep(random.nextInt(300) + 300);
 				k--;
 			}
 		}
@@ -229,8 +217,7 @@ public class ChromeAjaxHookDriver extends ChromeDriver {
 	public void jsClick(WebElement webElement, boolean async) throws Exception {
 		if (async) {
 			try {
-				executeAsyncScript("arguments[0].click();", webElement);
-				Thread.sleep(1000);
+				executeAsyncScript("arguments[0].click();", webElement);Thread.sleep(1000);
 			} catch (Exception e) {
 				log.warn("js点击出错", e);
 			}
@@ -243,8 +230,7 @@ public class ChromeAjaxHookDriver extends ChromeDriver {
 		ChromeAjaxHookDriver chromeDriver = null;
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);
-			chromeDriver.get("http://www.penging.com/findPwd.do");
-			Thread.sleep(60000);
+			chromeDriver.get("http://www.penging.com/findPwd.do");Thread.sleep(60000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

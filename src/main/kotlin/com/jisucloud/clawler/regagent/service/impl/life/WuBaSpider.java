@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 @UsePapaSpider
-public class WuBaSpider implements PapaSpider {
+public class WuBaSpider extends PapaSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {

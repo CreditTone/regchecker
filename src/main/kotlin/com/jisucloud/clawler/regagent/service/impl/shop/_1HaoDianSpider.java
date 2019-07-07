@@ -18,7 +18,7 @@ import java.util.Set;
 
 @Slf4j
 //@UsePapaSpider
-public class _1HaoDianSpider implements PapaSpider,AjaxHook {
+public class _1HaoDianSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 
@@ -59,12 +59,9 @@ public class _1HaoDianSpider implements PapaSpider,AjaxHook {
 			chromeDriver.addAjaxHook(this);
 			chromeDriver.get("https://www.baidu.com/s?tn=monline_3_dg&wd=1%E5%8F%B7%E5%BA%97&rn=50&usm=4&ie=utf-8&rsv_cq=%E6%B7%98%E5%AE%9D&rsv_dl=0_right_recommends_merge_20826&cq=%E6%B7%98%E5%AE%9D&srcid=20910&rt=%E5%89%81%E6%89%8B%E5%85%9A%E4%BA%91%E9%9B%86%E7%9A%84%E7%BD%91%E7%AB%99&recid=20826&euri=3c2f2cd78147404892e933e512c306c2");
 			chromeDriver.get("http://www.baidu.com/link?url=cukjY5cX9qj1SRnBF9ETfeM0DVvfC1CUczwvyVc0wBa&wd=&eqid=eaf661e4000e2b5c000000025d21a5fb");
-			chromeDriver.get("https://passport.yhd.com/passport/register_input.do");
-			Thread.sleep(2000);
-			chromeDriver.findElementById("phone").sendKeys(account);
-			Thread.sleep(2000);
-			chromeDriver.findElementById("userName").click();
-			Thread.sleep(3000);
+			chromeDriver.get("https://passport.yhd.com/passport/register_input.do");smartSleep(2000);
+			chromeDriver.findElementById("phone").sendKeys(account);smartSleep(2000);
+			chromeDriver.findElementById("userName").click();smartSleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

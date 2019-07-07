@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 @UsePapaSpider
-public class SujieDaiSpider implements PapaSpider {
+public class SujieDaiSpider extends PapaSpider {
 
     @Override
     public String message() {

@@ -15,7 +15,7 @@ import org.jsoup.nodes.Document;
 
 @Slf4j
 @UsePapaSpider
-public class BenlaiShenghuoSpider implements PapaSpider {
+public class BenlaiShenghuoSpider extends PapaSpider {
 	
 	private ChromeAjaxListenDriver chromeDriver;
 
@@ -53,12 +53,10 @@ public class BenlaiShenghuoSpider implements PapaSpider {
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = HeadlessUtil.getChromeDriver(true, null, null);
-			chromeDriver.get("https://m.benlai.com/showlogin?otherLogin=1&loginType=2&backType=&comeFromApp=0&afterUrl=");
-			Thread.sleep(2000);
+			chromeDriver.get("https://m.benlai.com/showlogin?otherLogin=1&loginType=2&backType=&comeFromApp=0&afterUrl=");smartSleep(2000);
 			chromeDriver.findElementById("customerID").sendKeys(account);
 			chromeDriver.findElementById("customerPwd").sendKeys("woxiaoxoa132");
-			chromeDriver.findElementById("loginBtn").click();
-			Thread.sleep(3000);
+			chromeDriver.findElementById("loginBtn").click();smartSleep(3000);
 			Document doc = Jsoup.parse(chromeDriver.getPageSource());
 			String res = doc.select("#baseErrorMsg").text();
 			if (res.contains("用户名不存在")) {

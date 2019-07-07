@@ -22,7 +22,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class TianNaSpider implements PapaSpider,AjaxHook {
+public class TianNaSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
@@ -64,13 +64,11 @@ public class TianNaSpider implements PapaSpider,AjaxHook {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
 			chromeDriver.addAjaxHook(this);
 			String url = "https://tianaw.95505.cn/tacpc/#/login/updatepass";
-			chromeDriver.get(url);
-			Thread.sleep(3000);
+			chromeDriver.get(url);smartSleep(3000);
 			chromeDriver.findElementById("'phoneNumber'").sendKeys(account);
 			chromeDriver.findElementById("password").sendKeys("wxy"+account);
 			chromeDriver.findElementById("checkPassword").sendKeys("wxy"+account);
-			chromeDriver.findElementByCssSelector("button[nztype=primary]").click();
-			Thread.sleep(2000);
+			chromeDriver.findElementByCssSelector("button[nztype=primary]").click();smartSleep(2000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

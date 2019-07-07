@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class XinYongBaoSpider implements PapaSpider {
+public class XinYongBaoSpider extends PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(20, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();

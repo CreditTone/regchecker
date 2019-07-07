@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class TouTiaoSpider implements PapaSpider {
+public class TouTiaoSpider extends PapaSpider {
 	
 	private static Map<String,String> datas = new HashMap<String, String>();
 	static {

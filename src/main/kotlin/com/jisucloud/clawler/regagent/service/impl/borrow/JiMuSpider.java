@@ -23,7 +23,7 @@ import java.util.*;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
 @UsePapaSpider
-public class JiMuSpider implements PapaSpider,AjaxHook {
+public class JiMuSpider extends PapaSpider implements AjaxHook{
 	
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
@@ -77,8 +77,7 @@ public class JiMuSpider implements PapaSpider,AjaxHook {
 				WebElement validate = chromeDriver.findElementById("Captcha");
 				validate.clear();
 				validate.sendKeys(code);
-				chromeDriver.mouseClick(chromeDriver.findElementById("goRegister"));
-				Thread.sleep(3000);
+				chromeDriver.mouseClick(chromeDriver.findElementById("goRegister"));smartSleep(3000);
 				if (vcodeSuc) {
 					break;
 				}

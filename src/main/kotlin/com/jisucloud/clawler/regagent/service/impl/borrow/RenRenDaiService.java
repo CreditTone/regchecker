@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 @UsePapaSpider
-public class RenRenDaiService implements PapaSpider {
+public class RenRenDaiService extends PapaSpider {
 
     @Override
     public String message() {

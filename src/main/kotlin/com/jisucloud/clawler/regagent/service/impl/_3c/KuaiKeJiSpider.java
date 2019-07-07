@@ -18,7 +18,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class KuaiKeJiSpider implements PapaSpider,AjaxHook {
+public class KuaiKeJiSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
@@ -58,12 +58,10 @@ public class KuaiKeJiSpider implements PapaSpider,AjaxHook {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newIOSInstance(true, true);
 			chromeDriver.addAjaxHook(this);
-			chromeDriver.get("http://passport.mydrivers.com/login.aspx");
-			Thread.sleep(2000);
+			chromeDriver.get("http://passport.mydrivers.com/login.aspx");smartSleep(2000);
 			chromeDriver.findElementById("txtusername").sendKeys(account);
 			chromeDriver.findElementById("txtpassword").sendKeys("xas12qw1dsadsa");
-			chromeDriver.findElementById("login").click();
-			Thread.sleep(3000);
+			chromeDriver.findElementById("login").click();smartSleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

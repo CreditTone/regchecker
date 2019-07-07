@@ -21,7 +21,7 @@ import org.jsoup.nodes.Document;
 
 @Slf4j
 @UsePapaSpider
-public class XinYiZhanSpider implements PapaSpider {
+public class XinYiZhanSpider extends PapaSpider {
 	
 	private Session session = JJsoup.newSession();
 	

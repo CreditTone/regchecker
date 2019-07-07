@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class RongBeiWangSpider implements PapaSpider {
+public class RongBeiWangSpider extends PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -98,8 +98,7 @@ public class RongBeiWangSpider implements PapaSpider {
 			chromeDriver.findElementById("mobile").sendKeys(account);
 			for (int i = 0; i < 5; i++) {
 				WebElement validate = chromeDriver.findElementById("captchapic");
-				validate.click();
-				Thread.sleep(3000);
+				validate.click();smartSleep(3000);
 				if (vcodeSuc) {
 					break;
 				}

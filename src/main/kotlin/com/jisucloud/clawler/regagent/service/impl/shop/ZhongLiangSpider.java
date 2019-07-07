@@ -21,7 +21,7 @@ import org.jsoup.Connection.Method;
 
 @Slf4j
 @UsePapaSpider
-public class ZhongLiangSpider implements PapaSpider {
+public class ZhongLiangSpider extends PapaSpider {
 	
 	private Session session = JJsoup.newSession();
 	

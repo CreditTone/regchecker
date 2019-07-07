@@ -18,7 +18,7 @@ import java.util.Set;
 
 @Slf4j
 //@UsePapaSpider
-public class ZhongYeXingRongSpider implements PapaSpider {
+public class ZhongYeXingRongSpider extends PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -58,8 +58,7 @@ public class ZhongYeXingRongSpider implements PapaSpider {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector(".form-control img");
-				img.click();
-				Thread.sleep(1000);
+				img.click();smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body, "ne5");
 			} catch (Exception e) {
@@ -74,8 +73,7 @@ public class ZhongYeXingRongSpider implements PapaSpider {
 		try {
 			chromeDriver = HeadlessUtil.getChromeDriver(false, null , ANDROID_USER_AGENT);
 			chromeDriver.get("https://www.zyxr.com/");
-			chromeDriver.get("https://www.zyxr.com/wap/?chl=bd-keyword-wap#/login?backUrl=https%3A%2F%2Fwww.zyxr.com%2Fwap%2F%3Fchl%3Dbd-keyword-wap%23%2Flogin");
-			Thread.sleep(3000);
+			chromeDriver.get("https://www.zyxr.com/wap/?chl=bd-keyword-wap#/login?backUrl=https%3A%2F%2Fwww.zyxr.com%2Fwap%2F%3Fchl%3Dbd-keyword-wap%23%2Flogin");smartSleep(3000);
 			chromeDriver.addAjaxListener(new AjaxListener() {
 				
 				@Override
@@ -115,8 +113,7 @@ public class ZhongYeXingRongSpider implements PapaSpider {
 				validate.clear();
 				validate.sendKeys(getImgCode());
 				chromeDriver.reInject();
-				chromeDriver.findElementById("button[class='btn btn-primary btn-block']").click();
-				Thread.sleep(3000);
+				chromeDriver.findElementById("button[class='btn btn-primary btn-block']").click();smartSleep(3000);
 				if (vcodeSuc) {
 					break;
 				}

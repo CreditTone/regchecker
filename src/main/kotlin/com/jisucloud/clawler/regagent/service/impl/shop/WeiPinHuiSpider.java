@@ -23,7 +23,7 @@ import java.util.Set;
 
 @Slf4j
 //@UsePapaSpider  按钮无法点击
-public class WeiPinHuiSpider implements PapaSpider,AjaxHook {
+public class WeiPinHuiSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
@@ -67,8 +67,7 @@ public class WeiPinHuiSpider implements PapaSpider,AjaxHook {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector("img.captcha-img");
-				chromeDriver.mouseClick(img);
-				Thread.sleep(1000);
+				chromeDriver.mouseClick(img);smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -84,27 +83,22 @@ public class WeiPinHuiSpider implements PapaSpider,AjaxHook {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newIOSInstance(false, false);
 			chromeDriver.addAjaxHook(this);
-			chromeDriver.get("https://mlogin.vip.com/asserts/password/recovered.html?userName=&mars_cid=1561281610453_c9b31eba9340ca92a42b8482c2c0b689&domainName=m.vip.com");
-			Thread.sleep(2000);
+			chromeDriver.get("https://mlogin.vip.com/asserts/password/recovered.html?userName=&mars_cid=1561281610453_c9b31eba9340ca92a42b8482c2c0b689&domainName=m.vip.com");smartSleep(2000);
 			Actions actions = new Actions(chromeDriver);
-			actions.sendKeys(Keys.F12).perform();
-			Thread.sleep(2000);
+			actions.sendKeys(Keys.F12).perform();smartSleep(2000);
 			chromeDriver.findElementByCssSelector("input[class='form-input J-user-phone']").sendKeys(account);
-			chromeDriver.mouseClick(chromeDriver.findElementByLinkText("下一步"));
-			Thread.sleep(3000);
+			chromeDriver.mouseClick(chromeDriver.findElementByLinkText("下一步"));smartSleep(3000);
 			for (int i = 0; i < 5; i++) {
 				if (chromeDriver.checkElement(".m-captcha-wrap")) {
 					String vcode = getImgCode();
 					WebElement rapid = chromeDriver.findElementByCssSelector("#J-captcha");
 					rapid.clear();
 					rapid.sendKeys(vcode);
-					chromeDriver.mouseClick(chromeDriver.findElementByCssSelector(".mg-dialog-foot button[data-index='1']"));
-					Thread.sleep(1000);
+					chromeDriver.mouseClick(chromeDriver.findElementByCssSelector(".mg-dialog-foot button[data-index='1']"));smartSleep(1000);
 					if (chromeDriver.checkElement("#J-captcha-error") && chromeDriver.findElementById("J-captcha-error").getText().contains("验证码")) {
 						continue;
 					}
-				}
-				Thread.sleep(2000);
+				}smartSleep(2000);
 				if (success) {
 					break;
 				}

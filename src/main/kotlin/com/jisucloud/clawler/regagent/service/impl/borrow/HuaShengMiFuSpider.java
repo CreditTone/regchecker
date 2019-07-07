@@ -22,7 +22,7 @@ import org.openqa.selenium.WebElement;
 
 @Slf4j
 @UsePapaSpider
-public class HuaShengMiFuSpider implements PapaSpider,AjaxHook {
+public class HuaShengMiFuSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
@@ -61,8 +61,7 @@ public class HuaShengMiFuSpider implements PapaSpider,AjaxHook {
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {
-				chromeDriver.findElementByCssSelector("#getcode_num p").click();
-				Thread.sleep(1000);
+				chromeDriver.findElementByCssSelector("#getcode_num p").click();smartSleep(1000);
 				WebElement img = chromeDriver.findElementByCssSelector("#show_code");
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
@@ -79,8 +78,7 @@ public class HuaShengMiFuSpider implements PapaSpider,AjaxHook {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);
 			chromeDriver.addAjaxHook(this);
 			String url = "https://www.yaoyuefu.com/default/login";
-			chromeDriver.get(url);
-			Thread.sleep(3000);
+			chromeDriver.get(url);smartSleep(3000);
 			chromeDriver.findElementByCssSelector("#mobile").sendKeys(account);
 			chromeDriver.findElementByCssSelector("#password").sendKeys("xas2130sxcna");
 			for (int i = 0; i < 5; i++) {
@@ -88,8 +86,7 @@ public class HuaShengMiFuSpider implements PapaSpider,AjaxHook {
 				WebElement token = chromeDriver.findElementById("p_token");
 				token.clear();
 				token.sendKeys(vcode);
-				chromeDriver.mouseClick(chromeDriver.findElementByCssSelector("#login"));
-				Thread.sleep(3000);
+				chromeDriver.mouseClick(chromeDriver.findElementByCssSelector("#login"));smartSleep(3000);
 				if (vcodeSuc) {
 					break;
 				}

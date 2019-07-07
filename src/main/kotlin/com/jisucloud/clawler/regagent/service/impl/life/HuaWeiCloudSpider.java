@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class HuaWeiCloudSpider implements PapaSpider {
+public class HuaWeiCloudSpider extends PapaSpider {
 
 
     @Override

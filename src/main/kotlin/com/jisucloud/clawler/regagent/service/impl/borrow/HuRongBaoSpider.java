@@ -16,7 +16,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class HuRongBaoSpider implements PapaSpider {
+public class HuRongBaoSpider extends PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	
@@ -57,8 +57,7 @@ public class HuRongBaoSpider implements PapaSpider {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector("#captchaImg");
-				img.click();
-				Thread.sleep(1000);
+				img.click();smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -72,8 +71,7 @@ public class HuRongBaoSpider implements PapaSpider {
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = HeadlessUtil.getChromeDriver(true, null, null);
-			chromeDriver.get("https://sso.hurbao.com/uc/login");
-			Thread.sleep(1000);
+			chromeDriver.get("https://sso.hurbao.com/uc/login");smartSleep(1000);
 			for (int i = 0; i < 5; i++) {
 				chromeDriver.findElementById("username").sendKeys(account);
 				chromeDriver.findElementById("password").sendKeys("lvnqwnk12mcxn");
@@ -81,8 +79,7 @@ public class HuRongBaoSpider implements PapaSpider {
 				if (chromeDriver.checkElement("#piccode")) {
 					chromeDriver.findElementById("piccode").sendKeys(code);
 				}
-				chromeDriver.findElementByCssSelector("a[class='login_btn f18']").click();
-				Thread.sleep(3000);
+				chromeDriver.findElementByCssSelector("a[class='login_btn f18']").click();smartSleep(3000);
 				String error_tip = chromeDriver.findElementById("error_tip").getText();
 				if (error_tip.contains("不存在")) {
 					return false;

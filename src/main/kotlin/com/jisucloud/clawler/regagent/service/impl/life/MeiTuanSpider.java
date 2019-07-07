@@ -16,7 +16,7 @@ import org.openqa.selenium.WebElement;
 
 @Slf4j
 @UsePapaSpider
-public class MeiTuanSpider implements PapaSpider {
+public class MeiTuanSpider extends PapaSpider {
 	
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -55,8 +55,7 @@ public class MeiTuanSpider implements PapaSpider {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector("span[class='refresh kv-v'] img");
-				img.click();
-				Thread.sleep(1000);
+				img.click();smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -70,15 +69,13 @@ public class MeiTuanSpider implements PapaSpider {
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = HeadlessUtil.getChromeDriver(false, null, null);
-			chromeDriver.get("https://i.meituan.com/risk2/resetreq");
-			Thread.sleep(2000);
+			chromeDriver.get("https://i.meituan.com/risk2/resetreq");smartSleep(2000);
 			WebElement nameInputArea = chromeDriver.findElementByCssSelector("input[name='user']");
 			nameInputArea.sendKeys(account);
 			for (int i = 0 ; i < 5 ; i ++) {
 				WebElement captcha = chromeDriver.findElementByCssSelector("input[name='captcha']");
 				captcha.sendKeys(getImgCode());
-				chromeDriver.findElementByCssSelector("button[type='submit']").click();
-				Thread.sleep(2000);
+				chromeDriver.findElementByCssSelector("button[type='submit']").click();smartSleep(2000);
 				String res = chromeDriver.getPageSource();
 				if (res.contains("验证码不正确")) {
 					continue;

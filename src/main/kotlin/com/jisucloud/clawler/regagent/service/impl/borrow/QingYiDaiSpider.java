@@ -22,7 +22,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class QingYiDaiSpider implements PapaSpider,AjaxHook {
+public class QingYiDaiSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private byte[] gifImage = null;
@@ -77,18 +77,15 @@ public class QingYiDaiSpider implements PapaSpider,AjaxHook {
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);
-			chromeDriver.get("https://www.qingyidai.com/usermanagement/backpassword.shtml");
-			Thread.sleep(1000);
+			chromeDriver.get("https://www.qingyidai.com/usermanagement/backpassword.shtml");smartSleep(1000);
 			chromeDriver.findElementById("inputPhone").sendKeys(account);
-			chromeDriver.findElementByCssSelector("div[class='control-row cl'] input[type='submit']").click();
-			Thread.sleep(2000);
+			chromeDriver.findElementByCssSelector("div[class='control-row cl'] input[type='submit']").click();smartSleep(2000);
 			for (int i = 0; i < 5; i++) {
 				decode = getImgCode();
 				WebElement validate = chromeDriver.findElementById("imgCodeInput");
 				validate.clear();
 				validate.sendKeys(decode);
-				chromeDriver.findElementByCssSelector(".pop-pay input.button").click();
-				Thread.sleep(3000);
+				chromeDriver.findElementByCssSelector(".pop-pay input.button").click();smartSleep(3000);
 				if (chromeDriver.checkElement(".pop-pay")) {
 					continue;
 				}

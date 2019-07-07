@@ -14,7 +14,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class VanclSpider implements PapaSpider {
+public class VanclSpider extends PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -83,12 +83,10 @@ public class VanclSpider implements PapaSpider {
 					return null;
 				}
 			});
-			chromeDriver.get("http://login.vancl.com/login/Login.aspx?http://www.vancl.com?http%3A%2F%2Fwww.vancl.com%2F");
-			Thread.sleep(3000);
+			chromeDriver.get("http://login.vancl.com/login/Login.aspx?http://www.vancl.com?http%3A%2F%2Fwww.vancl.com%2F");smartSleep(3000);
 			chromeDriver.findElementById("vanclUserName").sendKeys(account);
 			chromeDriver.findElementById("vanclPassword").sendKeys("dsadf312231xs");
-			chromeDriver.findElementById("vanclLogin").click();
-			Thread.sleep(3000);
+			chromeDriver.findElementById("vanclLogin").click();smartSleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

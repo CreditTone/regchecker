@@ -22,7 +22,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class JuRenSpider implements PapaSpider,AjaxHook {
+public class JuRenSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
@@ -63,11 +63,9 @@ public class JuRenSpider implements PapaSpider,AjaxHook {
 			chromeDriver = ChromeAjaxHookDriver.newAndroidInstance(true, true);
 			String url = "https://reg.ztgame.com/mobile";
 			chromeDriver.addAjaxHook(this);
-			chromeDriver.get(url);
-			Thread.sleep(2000);
+			chromeDriver.get(url);smartSleep(2000);
 			chromeDriver.findElementByCssSelector("input[name=phone]").sendKeys(account);
-			chromeDriver.findElementByCssSelector("input[name=get_mpcode]").click();
-			Thread.sleep(2000);
+			chromeDriver.findElementByCssSelector("input[name=get_mpcode]").click();smartSleep(2000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

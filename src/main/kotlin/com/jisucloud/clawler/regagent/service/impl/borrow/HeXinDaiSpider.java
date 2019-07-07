@@ -17,7 +17,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class HeXinDaiSpider implements PapaSpider {
+public class HeXinDaiSpider extends PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -87,11 +87,9 @@ public class HeXinDaiSpider implements PapaSpider {
 					return null;
 				}
 			});
-			chromeDriver.get(url);
-			Thread.sleep(3000);
+			chromeDriver.get(url);smartSleep(3000);
 			chromeDriver.findElementByCssSelector("input[id=registerPhone]").sendKeys(account);
-			chromeDriver.findElementByCssSelector("input[id=registerPwd]").click();
-			Thread.sleep(3000);
+			chromeDriver.findElementByCssSelector("input[id=registerPwd]").click();smartSleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

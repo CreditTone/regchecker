@@ -20,7 +20,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class SouGouSpider implements PapaSpider {
+public class SouGouSpider extends PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -60,8 +60,7 @@ public class SouGouSpider implements PapaSpider {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector("#valicodeImg");
-				img.click();
-				Thread.sleep(1000);
+				img.click();smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -75,14 +74,11 @@ public class SouGouSpider implements PapaSpider {
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = HeadlessUtil.getChromeDriver(true, null, null);
-			chromeDriver.quicklyVisit("https://www.sogou.com/qq?ru=https%3A%2F%2Fwww.sogou.com%2Flogin%2Fqq_login_callback_page_new.html%3Fxy%3Dhttps%26from%3Dhttps%253A%252F%252Fwww.sogou.com%252F");
-			Thread.sleep(3000);
+			chromeDriver.quicklyVisit("https://www.sogou.com/qq?ru=https%3A%2F%2Fwww.sogou.com%2Flogin%2Fqq_login_callback_page_new.html%3Fxy%3Dhttps%26from%3Dhttps%253A%252F%252Fwww.sogou.com%252F");smartSleep(3000);
 			chromeDriver.mouseClick(chromeDriver.findElementById("sogou_login"));
-			chromeDriver.keyboardInput(chromeDriver.findElementByCssSelector("input[class='grey']"), account);
-			Thread.sleep(1000);
+			chromeDriver.keyboardInput(chromeDriver.findElementByCssSelector("input[class='grey']"), account);smartSleep(1000);
 			String han = chromeDriver.getWindowHandle();
-			chromeDriver.findElementByCssSelector(".txt-02").click();
-			Thread.sleep(3000);
+			chromeDriver.findElementByCssSelector(".txt-02").click();smartSleep(3000);
 			chromeDriver.switchTo().window(han);
 			WebElement pwd1 = chromeDriver.findElementByCssSelector(".txt-02 #password_input_fake");
 			WebElement pwd2 = chromeDriver.findElementByCssSelector(".txt-02 #password_input");
@@ -90,8 +86,7 @@ public class SouGouSpider implements PapaSpider {
 			chromeDriver.jsInput(pwd2, "cas131231");
 			for (int i = 0; i < 5; i++) {
 				chromeDriver.reInject();
-				chromeDriver.findElementByCssSelector("a.login-btn1").click();
-				Thread.sleep(2000);
+				chromeDriver.findElementByCssSelector("a.login-btn1").click();smartSleep(2000);
 				String error1 = chromeDriver.findElementByCssSelector(".txt-01 p.error-p").getText();
 				String error2 = chromeDriver.findElementByCssSelector(".txt-02 p.error-p").getText();
 				if (error1.contains("未注册")) {

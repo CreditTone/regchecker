@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class LingYongDaiSpider implements PapaSpider {
+public class LingYongDaiSpider extends PapaSpider {
 
 	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
 	

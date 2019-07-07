@@ -19,7 +19,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class HouBenJinRongSpider implements PapaSpider {
+public class HouBenJinRongSpider extends PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -59,8 +59,7 @@ public class HouBenJinRongSpider implements PapaSpider {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector("#valicodeImg");
-				img.click();
-				Thread.sleep(1000);
+				img.click();smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -105,15 +104,12 @@ public class HouBenJinRongSpider implements PapaSpider {
 				public String fixGetData() {
 					return null;
 				}
-			});
-			Thread.sleep(1000);
+			});smartSleep(1000);
 			//chromeDriver.findElementByCssSelector("input[placeholder='请输入手机号']").sendKeys(account);
 			chromeDriver.jsInput(chromeDriver.findElementByCssSelector("input[placeholder='请输入手机号']"), account);
 			chromeDriver.jsInput(chromeDriver.findElementByCssSelector("input[placeholder='请输入图形验证码']"), "3579");
-			//chromeDriver.reInject();
-			Thread.sleep(3000);
-			chromeDriver.mouseClick(chromeDriver.findElementByCssSelector("input[class='step__btn']"));
-			Thread.sleep(3000);
+			//chromeDriver.reInject();smartSleep(3000);
+			chromeDriver.mouseClick(chromeDriver.findElementByCssSelector("input[class='step__btn']"));smartSleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

@@ -16,7 +16,7 @@ import org.openqa.selenium.WebElement;
 
 @Slf4j
 @UsePapaSpider
-public class UCSpider implements PapaSpider {
+public class UCSpider extends PapaSpider {
 	
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -56,8 +56,7 @@ public class UCSpider implements PapaSpider {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector("#captchaImg img");
-				img.click();
-				Thread.sleep(1000);
+				img.click();smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -71,8 +70,7 @@ public class UCSpider implements PapaSpider {
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = HeadlessUtil.getChromeDriver(false, null, null);
-			chromeDriver.get("https://api.open.uc.cn/cas/forgotpassword/forgotPasswordCommit?client_id=4&redirect_uri=http%3A%2F%2Fid.uc.cn%2F&display=pc&change_uid=0");
-			Thread.sleep(2000);
+			chromeDriver.get("https://api.open.uc.cn/cas/forgotpassword/forgotPasswordCommit?client_id=4&redirect_uri=http%3A%2F%2Fid.uc.cn%2F&display=pc&change_uid=0");smartSleep(2000);
 			WebElement nameInputArea = chromeDriver.findElementByCssSelector("#loginName");
 			nameInputArea.sendKeys(account);
 			for (int i = 0 ; i < 5 ; i ++) {
@@ -80,8 +78,7 @@ public class UCSpider implements PapaSpider {
 				captcha.clear();
 				captcha.sendKeys(getImgCode());
 				chromeDriver.reInject();
-				chromeDriver.findElementByCssSelector("#submit_btn").click();
-				Thread.sleep(3000);
+				chromeDriver.findElementByCssSelector("#submit_btn").click();smartSleep(3000);
 				if (chromeDriver.checkElement("#dForm2")) {
 					return true;
 				}

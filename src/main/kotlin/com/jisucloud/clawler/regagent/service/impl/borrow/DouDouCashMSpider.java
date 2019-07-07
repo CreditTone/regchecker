@@ -17,7 +17,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @UsePapaSpider
-public class DouDouCashMSpider implements PapaSpider {
+public class DouDouCashMSpider extends PapaSpider {
 
     private OkHttpClient okHttpClient = new OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS)

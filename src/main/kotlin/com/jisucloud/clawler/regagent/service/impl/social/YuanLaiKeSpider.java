@@ -21,7 +21,7 @@ import org.jsoup.Jsoup;
 
 @Slf4j
 @UsePapaSpider
-public class YuanLaiKeSpider implements PapaSpider {
+public class YuanLaiKeSpider extends PapaSpider {
 
 	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
 

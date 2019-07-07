@@ -18,7 +18,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class ShouEDaiSpider implements PapaSpider {
+public class ShouEDaiSpider extends PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 
@@ -56,8 +56,7 @@ public class ShouEDaiSpider implements PapaSpider {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector("#imc_verfication_code");
-				img.click();
-				Thread.sleep(1000);
+				img.click();smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -79,8 +78,7 @@ public class ShouEDaiSpider implements PapaSpider {
 				validate.clear();
 				validate.sendKeys(getImgCode());
 				chromeDriver.reInject();
-				chromeDriver.findElementByCssSelector(".verA2017_btnpcred").click();;
-				Thread.sleep(8000);
+				chromeDriver.findElementByCssSelector(".verA2017_btnpcred").click();;smartSleep(8000);
 				if (chromeDriver.checkElement("#huoqupw")) {
 					return true;
 				}

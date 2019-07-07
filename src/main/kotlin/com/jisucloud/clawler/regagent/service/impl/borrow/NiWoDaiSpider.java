@@ -15,7 +15,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class NiWoDaiSpider implements PapaSpider {
+public class NiWoDaiSpider extends PapaSpider {
 	
 	private ChromeAjaxHookDriver chromeDriver;
 
@@ -58,8 +58,7 @@ public class NiWoDaiSpider implements PapaSpider {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector("img#code");
-				img.click();
-				Thread.sleep(1000);
+				img.click();smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -74,8 +73,7 @@ public class NiWoDaiSpider implements PapaSpider {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newIOSInstance(false, true);
 //			chromeDriver.quicklyVisit("https://m.niwodai.com/home");
-			chromeDriver.get("https://m.niwodai.com/register/v2/wap/login/index");
-			Thread.sleep(2000);
+			chromeDriver.get("https://m.niwodai.com/register/v2/wap/login/index");smartSleep(2000);
 			chromeDriver.findElementById("username").sendKeys(account);
 			chromeDriver.findElementById("pwd").sendKeys("xkabdsd12ao");
 			for (int i = 0; i < 5; i++) {
@@ -86,11 +84,9 @@ public class NiWoDaiSpider implements PapaSpider {
 					WebElement imgCode = chromeDriver.findElementById("imgCode");
 					imgCode.clear();
 					imgCode.sendKeys(imageCode);
-				}
-				Thread.sleep(500);
+				}smartSleep(500);
 				WebElement next = chromeDriver.findElementById("userLoginBtn");
-				next.click();
-				Thread.sleep(1000);
+				next.click();smartSleep(1000);
 				String popText = chromeDriver.findElementByCssSelector("div[class='pop_s pop_show']").getText();
 				System.out.println(popText);
 				success = popText.contains("密码错误");

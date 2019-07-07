@@ -12,7 +12,7 @@ import me.kagura.JJsoup;
 import me.kagura.Session;
 
 @UsePapaSpider
-public class ZhongAnBaoXianSpider implements PapaSpider {
+public class ZhongAnBaoXianSpider extends PapaSpider {
 
 	@Override
 	public String message() {

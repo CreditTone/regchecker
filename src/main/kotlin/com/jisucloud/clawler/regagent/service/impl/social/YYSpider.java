@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class YYSpider implements PapaSpider {
+public class YYSpider extends PapaSpider {
 	
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
@@ -62,11 +62,9 @@ public class YYSpider implements PapaSpider {
 			chromeDriver.manage().timeouts().setScriptTimeout(5, TimeUnit.SECONDS);
 			chromeDriver.manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS);
 			chromeDriver.getIgnoreTimeout("http://www.yy.com/h/38.html");
-			chromeDriver.getIgnoreTimeout("https://zc.yy.com/reg/udb/reg4udb.do?appid=5719&action=3&type=Mobile&mode=udb&fromadv=yy_0.cpuid_0.channel_0&busiurl=http%3A%2F%2Fwww.yy.com%2F3rdLogin%2Freg-login.html");
-			Thread.sleep(2000);
+			chromeDriver.getIgnoreTimeout("https://zc.yy.com/reg/udb/reg4udb.do?appid=5719&action=3&type=Mobile&mode=udb&fromadv=yy_0.cpuid_0.channel_0&busiurl=http%3A%2F%2Fwww.yy.com%2F3rdLogin%2Freg-login.html");smartSleep(2000);
 			chromeDriver.findElementByCssSelector("input[node-name='inMobile']").sendKeys(account);
-			chromeDriver.findElementByCssSelector("input[node-name='inPassword']").click();
-			Thread.sleep(1000);
+			chromeDriver.findElementByCssSelector("input[node-name='inPassword']").click();smartSleep(1000);
 			return chromeDriver.findElementByCssSelector("div[node-name='mobile'] .form_tip").getText().contains("已注册");
 		} catch (Exception e) {
 			e.printStackTrace();

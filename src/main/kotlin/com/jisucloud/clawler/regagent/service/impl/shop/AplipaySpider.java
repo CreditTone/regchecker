@@ -15,7 +15,7 @@ import org.openqa.selenium.WebElement;
 
 @Slf4j
 @UsePapaSpider
-public class AplipaySpider implements PapaSpider {
+public class AplipaySpider extends PapaSpider {
 	
 	private ChromeAjaxHookDriver chromeDriver;
 	
@@ -68,11 +68,9 @@ public class AplipaySpider implements PapaSpider {
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(false, false, CHROME_USER_AGENT);
-			chromeDriver.get("https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&tn=monline_4_dg&wd=%E6%94%AF%E4%BB%98%E5%AE%9D&rn=5&oq=deep007&rsv_pq=e03caf7600120d11&rsv_t=3990P6z%2BSsvdOqD%2BiMIYugpgcAXsD45qWWKmBY%2FAzfLwOTQ52WTPgrSdZnhUXjG%2BC9Nz&rqlang=cn&rsv_enter=1&inputT=7235&rsv_sug3=56&rsv_sug1=27&rsv_sug7=100&rsv_sug2=0&rsv_sug4=8434");
-			Thread.sleep(3000);
+			chromeDriver.get("https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&tn=monline_4_dg&wd=%E6%94%AF%E4%BB%98%E5%AE%9D&rn=5&oq=deep007&rsv_pq=e03caf7600120d11&rsv_t=3990P6z%2BSsvdOqD%2BiMIYugpgcAXsD45qWWKmBY%2FAzfLwOTQ52WTPgrSdZnhUXjG%2BC9Nz&rqlang=cn&rsv_enter=1&inputT=7235&rsv_sug3=56&rsv_sug1=27&rsv_sug7=100&rsv_sug2=0&rsv_sug4=8434");smartSleep(3000);
 			for (int i = 0; i < 3; i++) {
-				chromeDriver.get("https://accounts.alipay.com/console/querypwd/logonIdInputReset.htm?site=1&page_type=fullpage&scene_code=resetQueryPwd");
-				Thread.sleep(RANDOM.nextInt(5000));
+				chromeDriver.get("https://accounts.alipay.com/console/querypwd/logonIdInputReset.htm?site=1&page_type=fullpage&scene_code=resetQueryPwd");smartSleep(RANDOM.nextInt(5000));
 				if (!chromeDriver.checkElement("#J_rdsSlideResetBtn")) {
 					continue;
 				}
@@ -80,11 +78,9 @@ public class AplipaySpider implements PapaSpider {
 				chromeDriver.keyboardInput(accName, account);
 				WebElement rdsSlideReset = chromeDriver.findElementById("J_rdsSlideResetBtn");
 				WebElement rdsSlideBtn = chromeDriver.findElementById("J_rdsSlideBtn");
-				chromeDriver.switchSlide(rdsSlideReset, rdsSlideBtn);
-				Thread.sleep(RANDOM.nextInt(3000));
+				chromeDriver.switchSlide(rdsSlideReset, rdsSlideBtn);smartSleep(RANDOM.nextInt(3000));
 				WebElement next = chromeDriver.findElementByCssSelector("input[class=ui-button-text]");
-				chromeDriver.mouseClick(next);
-				Thread.sleep(RANDOM.nextInt(8000) + 5000);
+				chromeDriver.mouseClick(next);smartSleep(RANDOM.nextInt(8000) + 5000);
 				if (chromeDriver.checkElement("div.alipay-xbox")) {
 					return true;
 				}

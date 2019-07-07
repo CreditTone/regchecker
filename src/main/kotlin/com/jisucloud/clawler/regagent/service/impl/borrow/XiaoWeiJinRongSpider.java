@@ -20,7 +20,7 @@ import java.util.Set;
 
 @UsePapaSpider
 @Slf4j
-public class XiaoWeiJinRongSpider implements PapaSpider {
+public class XiaoWeiJinRongSpider extends PapaSpider {
 
 	@Override
 	public String message() {

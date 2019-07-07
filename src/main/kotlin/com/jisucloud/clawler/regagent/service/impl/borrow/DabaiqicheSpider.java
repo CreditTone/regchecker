@@ -22,7 +22,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class DabaiqicheSpider implements PapaSpider {
+public class DabaiqicheSpider extends PapaSpider {
 
 	@Override
 	public String message() {

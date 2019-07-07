@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class WanTiKuSpider implements PapaSpider {
+public class WanTiKuSpider extends PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -60,12 +60,10 @@ public class WanTiKuSpider implements PapaSpider {
 		try {
 			chromeDriver = HeadlessUtil.getChromeDriver(false, null, null);
 			String url = "http://www.wantiku.com/login/";
-			chromeDriver.get(url);
-			Thread.sleep(3000);
+			chromeDriver.get(url);smartSleep(3000);
 			chromeDriver.findElementByCssSelector("input[name=UserName]").sendKeys(account);
 			chromeDriver.findElementByCssSelector("input[name=UserPass]").sendKeys("dsdsk92812ddddv");
-			chromeDriver.findElementByLinkText("登录").click();
-			Thread.sleep(3000);
+			chromeDriver.findElementByLinkText("登录").click();smartSleep(3000);
 			Document doc = Jsoup.parse(chromeDriver.getPageSource());
 			if (doc.select("div.tishi_wrong.fl.handle-pwd").text().contains("密码错误")) {
 				return true;

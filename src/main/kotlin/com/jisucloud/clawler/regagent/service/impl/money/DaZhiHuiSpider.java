@@ -16,7 +16,7 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 @UsePapaSpider
-public class DaZhiHuiSpider implements PapaSpider,AjaxHook {
+public class DaZhiHuiSpider extends PapaSpider implements AjaxHook{
 	
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
@@ -52,8 +52,7 @@ public class DaZhiHuiSpider implements PapaSpider,AjaxHook {
 			chromeDriver.get("https://i.gw.com.cn/UserCenter/page/account/forgetPass?source=1&redirect_uri=");
 			chromeDriver.addAjaxHook(this);
 			chromeDriver.findElementById("mobile").sendKeys(account);
-			chromeDriver.mouseClick(chromeDriver.findElementById("sendCode"));
-			Thread.sleep(3000);
+			chromeDriver.mouseClick(chromeDriver.findElementById("sendCode"));smartSleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

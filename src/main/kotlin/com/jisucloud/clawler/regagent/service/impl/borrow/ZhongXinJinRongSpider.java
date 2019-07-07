@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class ZhongXinJinRongSpider implements PapaSpider {
+public class ZhongXinJinRongSpider extends PapaSpider {
 
 	private boolean checkTel = false;
 	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();

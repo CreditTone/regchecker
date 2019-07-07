@@ -10,7 +10,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import com.google.common.collect.Sets;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Set;
@@ -18,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class BaiCaiJinRongSpider implements PapaSpider {
+public class BaiCaiJinRongSpider extends PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();

@@ -17,7 +17,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class ZhongGuoRenCaiWangSpider implements PapaSpider {
+public class ZhongGuoRenCaiWangSpider extends PapaSpider {
 
 	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
 

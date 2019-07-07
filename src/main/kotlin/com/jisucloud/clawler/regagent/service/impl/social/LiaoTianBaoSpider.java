@@ -15,7 +15,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class LiaoTianBaoSpider implements PapaSpider {
+public class LiaoTianBaoSpider extends PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -84,14 +84,11 @@ public class LiaoTianBaoSpider implements PapaSpider {
 					return null;
 				}
 			});
-			chromeDriver.get(url);
-			Thread.sleep(2000);
-			chromeDriver.findElementByLinkText("使用密码登录").click();
-			Thread.sleep(2000);
+			chromeDriver.get(url);smartSleep(2000);
+			chromeDriver.findElementByLinkText("使用密码登录").click();smartSleep(2000);
 			chromeDriver.findElementByCssSelector("input[placeholder='手机号']").sendKeys(account);
 			chromeDriver.findElementByCssSelector("input[placeholder='密码']").sendKeys("xoax2mxcndn");
-			chromeDriver.findElementByCssSelector("div.btn").click();
-			Thread.sleep(3000);
+			chromeDriver.findElementByCssSelector("div.btn").click();smartSleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

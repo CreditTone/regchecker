@@ -14,7 +14,7 @@ import org.jsoup.Connection;
 import org.springframework.http.MediaType;
 
 @UsePapaSpider
-public class TaxItsSpider implements PapaSpider {
+public class TaxItsSpider extends PapaSpider {
 
 	@Override
 	public String message() {

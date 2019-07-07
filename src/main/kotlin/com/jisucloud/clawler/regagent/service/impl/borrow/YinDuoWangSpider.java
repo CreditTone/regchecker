@@ -18,7 +18,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class YinDuoWangSpider implements PapaSpider {
+public class YinDuoWangSpider extends PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -58,8 +58,7 @@ public class YinDuoWangSpider implements PapaSpider {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector("#valicodeImg");
-				img.click();
-				Thread.sleep(1000);
+				img.click();smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -104,14 +103,12 @@ public class YinDuoWangSpider implements PapaSpider {
 					// TODO Auto-generated method stub
 					return null;
 				}
-			});
-			Thread.sleep(2000);
+			});smartSleep(2000);
 			chromeDriver.findElementById("mobile").sendKeys(account);
 			chromeDriver.findElementById("pwd").sendKeys("lvnqwnk12mcxn");
 			for (int i = 0; i < 5; i++) {
 				chromeDriver.reInject();
-				chromeDriver.findElementByCssSelector("div[class='login-btn userLogin login-btnactive']").click();
-				Thread.sleep(3000);
+				chromeDriver.findElementByCssSelector("div[class='login-btn userLogin login-btnactive']").click();smartSleep(3000);
 				if (vcodeSuc) {
 					break;
 				}

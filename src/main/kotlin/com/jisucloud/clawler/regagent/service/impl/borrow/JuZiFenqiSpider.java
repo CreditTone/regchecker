@@ -19,7 +19,7 @@ import java.util.Random;
 import java.util.Set;
 
 @UsePapaSpider
-public class JuZiFenqiSpider implements PapaSpider {
+public class JuZiFenqiSpider extends PapaSpider {
 
     @Override
     public String message() {

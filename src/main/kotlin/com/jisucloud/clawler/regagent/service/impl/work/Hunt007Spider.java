@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 @Slf4j
 @UsePapaSpider
-public class Hunt007Spider implements PapaSpider {
+public class Hunt007Spider extends PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(20, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();

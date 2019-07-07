@@ -22,7 +22,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class XinRongSpider implements PapaSpider,AjaxHook {
+public class XinRongSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
@@ -66,8 +66,7 @@ public class XinRongSpider implements PapaSpider,AjaxHook {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector(".valiPicCon #img-captcha");
-				chromeDriver.mouseClick(img);
-				Thread.sleep(1000);
+				chromeDriver.mouseClick(img);smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -83,8 +82,7 @@ public class XinRongSpider implements PapaSpider,AjaxHook {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);
 			chromeDriver.addAjaxHook(this);
-			chromeDriver.get("https://www.xinrong.com/2.0/login2.0.html");
-			Thread.sleep(3000);
+			chromeDriver.get("https://www.xinrong.com/2.0/login2.0.html");smartSleep(3000);
 			chromeDriver.findElementById("rapid-userName").sendKeys(account);
 			chromeDriver.findElementById("rapid-userPw").sendKeys("rapi1serPw");
 			for (int i = 0; i < 5; i++) {
@@ -94,8 +92,7 @@ public class XinRongSpider implements PapaSpider,AjaxHook {
 					rapid.clear();
 					rapid.sendKeys(vcode);
 				}
-				chromeDriver.findElementByCssSelector("input[class='submit ui-button']").click();
-				Thread.sleep(2000);
+				chromeDriver.findElementByCssSelector("input[class='submit ui-button']").click();smartSleep(2000);
 				if (success) {
 					break;
 				}

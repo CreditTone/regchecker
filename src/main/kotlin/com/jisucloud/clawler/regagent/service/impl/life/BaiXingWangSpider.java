@@ -20,7 +20,7 @@ import org.jsoup.nodes.Document;
 
 @Slf4j
 @UsePapaSpider
-public class BaiXingWangSpider implements PapaSpider {
+public class BaiXingWangSpider extends PapaSpider {
 	
 	private Session session = JJsoup.newSession();
 	

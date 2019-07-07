@@ -19,7 +19,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class MaiZiJinFuSpider implements PapaSpider {
+public class MaiZiJinFuSpider extends PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -59,8 +59,7 @@ public class MaiZiJinFuSpider implements PapaSpider {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector("#valicodeImg");
-				img.click();
-				Thread.sleep(1000);
+				img.click();smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -108,8 +107,7 @@ public class MaiZiJinFuSpider implements PapaSpider {
 			chromeDriver.findElementById("reg-form-mobile").sendKeys(account);
 			for (int i = 0; i < 5; i++) {
 				chromeDriver.reInject();
-				chromeDriver.findElementById("reg-form-captcha").click();
-				Thread.sleep(2000);
+				chromeDriver.findElementById("reg-form-captcha").click();smartSleep(2000);
 				if (vcodeSuc) {
 					break;
 				}

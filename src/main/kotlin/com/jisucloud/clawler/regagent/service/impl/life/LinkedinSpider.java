@@ -14,7 +14,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class LinkedinSpider implements PapaSpider {
+public class LinkedinSpider extends PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
@@ -57,12 +57,10 @@ public class LinkedinSpider implements PapaSpider {
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newIOSInstance(true, false);
-			chromeDriver.get("https://www.linkedin.com/uas/login?session_redirect=https%3A%2F%2Fcn%2Elinkedin%2Ecom%2Fin%2F%25E9%25A2%2586-%25E8%258B%25B1-5783b911a&amp;fromSignIn=true&trk=nav_header_signin");
-			Thread.sleep(1000);
+			chromeDriver.get("https://www.linkedin.com/uas/login?session_redirect=https%3A%2F%2Fcn%2Elinkedin%2Ecom%2Fin%2F%25E9%25A2%2586-%25E8%258B%25B1-5783b911a&amp;fromSignIn=true&trk=nav_header_signin");smartSleep(1000);
 			chromeDriver.findElementById("username").sendKeys("+86"+account);
 			chromeDriver.findElementById("password").sendKeys("dx1mxa1la9");
-			chromeDriver.findElementByCssSelector("button[type='submit']").click();
-			Thread.sleep(3000);
+			chromeDriver.findElementByCssSelector("button[type='submit']").click();smartSleep(3000);
 			return chromeDriver.checkElement("#error-for-password");
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 @UsePapaSpider
-public class DingDingSpider implements PapaSpider {
+public class DingDingSpider extends PapaSpider {
 
     private String name = "郭钟";
 

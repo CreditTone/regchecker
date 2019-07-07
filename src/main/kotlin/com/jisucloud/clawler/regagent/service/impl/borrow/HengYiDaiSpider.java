@@ -27,7 +27,7 @@ import java.security.spec.InvalidKeySpecException;
 
 @Slf4j
 @UsePapaSpider
-public class HengYiDaiSpider implements PapaSpider {
+public class HengYiDaiSpider extends PapaSpider {
 
 	@Override
 	public String message() {

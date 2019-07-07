@@ -18,7 +18,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class GuangJinJinFuSpider implements PapaSpider,AjaxHook {
+public class GuangJinJinFuSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 
@@ -52,12 +52,10 @@ public class GuangJinJinFuSpider implements PapaSpider,AjaxHook {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
 			chromeDriver.get("https://www.gzjkp2p.com/querytraninput.do");
-			chromeDriver.addAjaxHook(this);
-			Thread.sleep(2000);
+			chromeDriver.addAjaxHook(this);smartSleep(2000);
 			chromeDriver.findElementByCssSelector("#userName").sendKeys(account);
 			chromeDriver.findElementByCssSelector("#userRoleInvestor").click();
-			chromeDriver.findElementByLinkText("发送验证码").click();
-			Thread.sleep(3000);
+			chromeDriver.findElementByLinkText("发送验证码").click();smartSleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

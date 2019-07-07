@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 @UsePapaSpider
-public class XiaomiSpider implements PapaSpider {
+public class XiaomiSpider extends PapaSpider {
 
     @Override
     public String message() {

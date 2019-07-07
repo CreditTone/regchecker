@@ -17,7 +17,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class ShiTouSpider implements PapaSpider {
+public class ShiTouSpider extends PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -87,11 +87,9 @@ public class ShiTouSpider implements PapaSpider {
 				}
 			});
 			chromeDriver.get("http://www.baidu.com/link?url=MUS_n9bK5KgnJ1M6Y5VG2gT87k7wXd4ejxSLqLyPy-juNLIbe9TAgzlA5__aqaN5&wd=&eqid=cea493ff0001fbdc000000025cf8c6bf");
-			chromeDriver.get(url);
-			Thread.sleep(3000);
+			chromeDriver.get(url);smartSleep(3000);
 			chromeDriver.findElementByCssSelector("input[ng-model='user.loginName']").sendKeys(account);
-			chromeDriver.findElementByCssSelector("input[ng-model='user.password']").click();
-			Thread.sleep(3000);
+			chromeDriver.findElementByCssSelector("input[ng-model='user.password']").click();smartSleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

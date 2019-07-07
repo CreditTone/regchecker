@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Set;
 
 //@UsePapaSpider
-public class LiXiangBaoSpider implements PapaSpider,AjaxHook {
+public class LiXiangBaoSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
@@ -59,8 +59,7 @@ public class LiXiangBaoSpider implements PapaSpider,AjaxHook {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector("#imVcode");
-				img.click();
-				Thread.sleep(1000);
+				img.click();smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body, "n4");
 			} catch (Exception e) {
@@ -75,16 +74,14 @@ public class LiXiangBaoSpider implements PapaSpider,AjaxHook {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);
 			chromeDriver.get("https://www.id68.cn/member/common/login");
-			chromeDriver.addAjaxHook(this);
-			Thread.sleep(3000);
+			chromeDriver.addAjaxHook(this);smartSleep(3000);
 			chromeDriver.findElementById("txtUser").sendKeys(account);
 			chromeDriver.findElementById("txtPwd").sendKeys("lvnqwnk12mcxn");
 			for (int i = 0; i < 5; i++) {
 				WebElement validate = chromeDriver.findElementById("txtCode");
 				validate.clear();
 				validate.sendKeys(getImgCode());
-				chromeDriver.findElementById("btnReg").click();
-				Thread.sleep(3000);
+				chromeDriver.findElementById("btnReg").click();smartSleep(3000);
 				if (vcodeSuc) {
 					break;
 				}

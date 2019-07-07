@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Set;
 
 @UsePapaSpider
-public class QQSpider implements PapaSpider {
+public class QQSpider extends PapaSpider {
 
 
     @Override

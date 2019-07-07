@@ -21,7 +21,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class XiaoShuShiDaiSpider implements PapaSpider {
+public class XiaoShuShiDaiSpider extends PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -61,8 +61,7 @@ public class XiaoShuShiDaiSpider implements PapaSpider {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector("#valicodeImg");
-				img.click();
-				Thread.sleep(1000);
+				img.click();smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -116,8 +115,7 @@ public class XiaoShuShiDaiSpider implements PapaSpider {
 				validate.clear();
 				validate.sendKeys("6315");
 				chromeDriver.reInject();
-				chromeDriver.findElementById("get-captcha-btn").click();
-				Thread.sleep(3000);
+				chromeDriver.findElementById("get-captcha-btn").click();smartSleep(3000);
 				if (vcodeSuc) {
 					break;
 				}

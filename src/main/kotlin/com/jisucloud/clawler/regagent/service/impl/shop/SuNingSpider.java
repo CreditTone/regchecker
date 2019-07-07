@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @UsePapaSpider
-public class SuNingSpider implements PapaSpider {
+public class SuNingSpider extends PapaSpider {
 	
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -86,13 +86,10 @@ public class SuNingSpider implements PapaSpider {
 					return null;
 				}
 			});
-			chromeDriver.get("https://reg.suning.com/person.do?myTargetUrl=https%3A%2F%2Fwww.suning.com%2F");
-			Thread.sleep(2000);
-			chromeDriver.findElementByLinkText("同意并继续").click();
-			Thread.sleep(1000);
+			chromeDriver.get("https://reg.suning.com/person.do?myTargetUrl=https%3A%2F%2Fwww.suning.com%2F");smartSleep(2000);
+			chromeDriver.findElementByLinkText("同意并继续").click();smartSleep(1000);
 			chromeDriver.findElementById("mobileAlias").sendKeys(account);
-			chromeDriver.findElementById("sendSmsCode").click();
-			Thread.sleep(2000);
+			chromeDriver.findElementById("sendSmsCode").click();smartSleep(2000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

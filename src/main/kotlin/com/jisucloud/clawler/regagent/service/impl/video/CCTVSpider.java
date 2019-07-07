@@ -23,7 +23,7 @@ import org.openqa.selenium.WebElement;
 
 @Slf4j
 @UsePapaSpider
-public class CCTVSpider implements PapaSpider,AjaxHook {
+public class CCTVSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
@@ -63,8 +63,7 @@ public class CCTVSpider implements PapaSpider,AjaxHook {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector("#regcodeImg");
-				img.click();
-				Thread.sleep(1000);
+				img.click();smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -80,14 +79,12 @@ public class CCTVSpider implements PapaSpider,AjaxHook {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
 			chromeDriver.get("http://reg.cctv.com/forgetPassword/findPassword.action");
 			chromeDriver.addAjaxHook(this);
-			chromeDriver.findElementByCssSelector("#loginName").sendKeys(account);
-			Thread.sleep(500);
+			chromeDriver.findElementByCssSelector("#loginName").sendKeys(account);smartSleep(500);
 			for (int i = 0; i < 5; i++) {
 				String imcode = getImgCode();
 				WebElement nameInputArea = chromeDriver.findElementByCssSelector("#verificationCode");
 				nameInputArea.sendKeys(imcode);
-				chromeDriver.findElementByLinkText("下一步").click();
-				Thread.sleep(2000);
+				chromeDriver.findElementByLinkText("下一步").click();smartSleep(2000);
 				if (checkSuc) {
 					break;
 				}

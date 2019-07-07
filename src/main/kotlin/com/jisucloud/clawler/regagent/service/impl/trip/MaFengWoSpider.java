@@ -18,7 +18,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class MaFengWoSpider implements PapaSpider,AjaxHook {
+public class MaFengWoSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 
@@ -56,11 +56,9 @@ public class MaFengWoSpider implements PapaSpider,AjaxHook {
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(true, true, CHROME_USER_AGENT);
-			chromeDriver.get("https://passport.mafengwo.cn/regist-mobile.html");
-			Thread.sleep(2000);
+			chromeDriver.get("https://passport.mafengwo.cn/regist-mobile.html");smartSleep(2000);
 			chromeDriver.findElementByCssSelector("input[name='passport']").sendKeys(account);
-			chromeDriver.findElementByCssSelector("button[type='submit']").click();
-			Thread.sleep(3000);
+			chromeDriver.findElementByCssSelector("button[type='submit']").click();smartSleep(3000);
 			if (chromeDriver.checkElement("div[class='alert alert-danger']")) {
 				return true;
 			}

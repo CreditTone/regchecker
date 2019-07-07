@@ -21,7 +21,7 @@ import org.openqa.selenium.WebElement;
 
 @Slf4j
 @UsePapaSpider
-public class JuanPiSpider implements PapaSpider,AjaxHook {
+public class JuanPiSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	boolean vcodeSuc = false;
@@ -60,8 +60,7 @@ public class JuanPiSpider implements PapaSpider,AjaxHook {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector("#verify");
-				img.click();
-				Thread.sleep(1000);
+				img.click();smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -76,8 +75,7 @@ public class JuanPiSpider implements PapaSpider,AjaxHook {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
 			chromeDriver.addAjaxHook(this);
-			chromeDriver.get("https://user.juanpi.com/login?returnurl=https://user.juanpi.com/setting/regsuccess/rf/");
-			Thread.sleep(2000);
+			chromeDriver.get("https://user.juanpi.com/login?returnurl=https://user.juanpi.com/setting/regsuccess/rf/");smartSleep(2000);
 			chromeDriver.findElementById("account").sendKeys(account);
 			chromeDriver.findElementById("inter_code").sendKeys("asd90123das");
 			for (int i = 0; i < 5; i++) {
@@ -87,8 +85,7 @@ public class JuanPiSpider implements PapaSpider,AjaxHook {
 					code.clear();
 					code.sendKeys(vcode);
 				}
-				chromeDriver.findElementByCssSelector("input[type=submit]").click();
-				Thread.sleep(3000);
+				chromeDriver.findElementByCssSelector("input[type=submit]").click();smartSleep(3000);
 				if (vcodeSuc) {
 					break;
 				}

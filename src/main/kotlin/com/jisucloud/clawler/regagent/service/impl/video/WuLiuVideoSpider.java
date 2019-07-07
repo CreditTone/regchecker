@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class WuLiuVideoSpider implements PapaSpider {
+public class WuLiuVideoSpider extends PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 

@@ -23,7 +23,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class PengJinSuoSpider implements PapaSpider {
+public class PengJinSuoSpider extends PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
@@ -113,8 +113,7 @@ public class PengJinSuoSpider implements PapaSpider {
 				WebElement validate = chromeDriver.findElementById("CFY_NO");
 				validate.clear();
 				validate.sendKeys(code);
-				chromeDriver.mouseClick(chromeDriver.findElementById("showTxt"));
-				Thread.sleep(3000);
+				chromeDriver.mouseClick(chromeDriver.findElementById("showTxt"));smartSleep(3000);
 				if (vcodeSuc) {
 					break;
 				}

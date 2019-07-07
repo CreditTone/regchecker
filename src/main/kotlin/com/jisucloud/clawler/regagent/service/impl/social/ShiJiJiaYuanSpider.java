@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class ShiJiJiaYuanSpider implements PapaSpider {
+public class ShiJiJiaYuanSpider extends PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.proxy(Proxy.NO_PROXY)

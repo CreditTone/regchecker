@@ -22,7 +22,7 @@ import org.openqa.selenium.WebElement;
 
 @Slf4j
 @UsePapaSpider
-public class AiQiyiSpider implements PapaSpider,AjaxHook {
+public class AiQiyiSpider extends PapaSpider implements AjaxHook{
 	
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
@@ -62,16 +62,12 @@ public class AiQiyiSpider implements PapaSpider,AjaxHook {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
 			chromeDriver.addAjaxHook(this);
-			chromeDriver.get("http://www.iqiyi.com/iframe/loginreg?ver=1");
-			Thread.sleep(1000);
-			chromeDriver.findElementByLinkText("其他方式登录").click();
-			Thread.sleep(500);
-			chromeDriver.findElementByCssSelector("a[class='other-way-item duanxin']").click();
-			Thread.sleep(500);
+			chromeDriver.get("http://www.iqiyi.com/iframe/loginreg?ver=1");smartSleep(1000);
+			chromeDriver.findElementByLinkText("其他方式登录").click();smartSleep(500);
+			chromeDriver.findElementByCssSelector("a[class='other-way-item duanxin']").click();smartSleep(500);
 			WebElement nameInputArea = chromeDriver.findElementByCssSelector("input[data-regbox='name']");
 			nameInputArea.sendKeys(account);
-			chromeDriver.findElementByLinkText("下一步").click();
-			Thread.sleep(2000);
+			chromeDriver.findElementByLinkText("下一步").click();smartSleep(2000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

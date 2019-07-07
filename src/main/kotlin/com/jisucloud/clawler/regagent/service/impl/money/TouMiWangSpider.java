@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class TouMiWangSpider implements PapaSpider {
+public class TouMiWangSpider extends PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -66,8 +66,7 @@ public class TouMiWangSpider implements PapaSpider {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector("#captchaimg");
-				img.click();
-				Thread.sleep(1000);
+				img.click();smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -114,8 +113,7 @@ public class TouMiWangSpider implements PapaSpider {
 					// TODO Auto-generated method stub
 					return null;
 				}
-			});
-			Thread.sleep(3000);
+			});smartSleep(3000);
 			chromeDriver.findElementById("phone").sendKeys(account);
 			chromeDriver.findElementById("password").sendKeys("lvnqwnk12mcxn");
 			for (int i = 0; i < 5; i++) {
@@ -123,8 +121,7 @@ public class TouMiWangSpider implements PapaSpider {
 				validate.clear();
 				validate.sendKeys(getImgCode());
 				chromeDriver.reInject();
-				chromeDriver.findElementById("register_page_submit").click();
-				Thread.sleep(3000);
+				chromeDriver.findElementById("register_page_submit").click();smartSleep(3000);
 				if (vcodeSuc) {
 					break;
 				}

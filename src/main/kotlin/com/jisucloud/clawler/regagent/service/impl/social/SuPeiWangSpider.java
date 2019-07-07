@@ -20,7 +20,7 @@ import org.jsoup.nodes.Document;
 
 @Slf4j
 @UsePapaSpider
-public class SuPeiWangSpider implements PapaSpider {
+public class SuPeiWangSpider extends PapaSpider {
 
 	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
 

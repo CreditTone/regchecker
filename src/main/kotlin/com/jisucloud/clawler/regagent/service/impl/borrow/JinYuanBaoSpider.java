@@ -22,7 +22,7 @@ import org.openqa.selenium.WebElement;
 
 @Slf4j
 @UsePapaSpider
-public class JinYuanBaoSpider implements PapaSpider,AjaxHook {
+public class JinYuanBaoSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
@@ -72,16 +72,14 @@ public class JinYuanBaoSpider implements PapaSpider,AjaxHook {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
 			chromeDriver.get("https://jyblc.cn/pay/login?sess_id=1493349-a63c6cdfa6f7da22df9357b475ce");
-			chromeDriver.addAjaxHook(this);
-			Thread.sleep(2000);
+			chromeDriver.addAjaxHook(this);smartSleep(2000);
 			chromeDriver.findElementByCssSelector("#login_tel").sendKeys(account);
 			chromeDriver.findElementByCssSelector("#login_pwd").sendKeys("sadas21p0");
 			for (int i = 0; i < 5; i++) {
 				WebElement login_imgcode = chromeDriver.findElementById("login_imgcode");
 				login_imgcode.clear();
 				login_imgcode.sendKeys(getImgCode());
-				chromeDriver.findElementByCssSelector("#login_submit").click();
-				Thread.sleep(3000);
+				chromeDriver.findElementByCssSelector("#login_submit").click();smartSleep(3000);
 				if (vcodeSuc) {
 					break;
 				}

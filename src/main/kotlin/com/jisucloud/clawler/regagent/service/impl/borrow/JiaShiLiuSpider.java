@@ -17,7 +17,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class JiaShiLiuSpider implements PapaSpider {
+public class JiaShiLiuSpider extends PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -89,8 +89,7 @@ public class JiaShiLiuSpider implements PapaSpider {
 			});
 			chromeDriver.findElementById("phone").sendKeys(account);
 			chromeDriver.reInject();
-			chromeDriver.findElementByCssSelector("input[name='password']").click();
-			Thread.sleep(3000);
+			chromeDriver.findElementByCssSelector("input[name='password']").click();smartSleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

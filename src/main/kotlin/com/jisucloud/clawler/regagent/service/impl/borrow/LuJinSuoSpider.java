@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 
 @Slf4j
 @UsePapaSpider
-public class LuJinSuoSpider implements PapaSpider {
+public class LuJinSuoSpider extends PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private int times = 0;//成功尝试登录次数:验证码正确即成功
@@ -61,8 +61,7 @@ public class LuJinSuoSpider implements PapaSpider {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector("img.captcha_img");
-				img.click();
-				Thread.sleep(1000);
+				img.click();smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -118,19 +117,16 @@ public class LuJinSuoSpider implements PapaSpider {
 			identitycard.sendKeys(account);
 			WebElement password = chromeDriver.findElementByCssSelector("input[class='input-item password u-full']");
 			//chromeDriver.keyboardInput(password, "xkam2nxclasns1");
-			password.sendKeys("xkam2nxclasns1");
-			Thread.sleep(1000);
+			password.sendKeys("xkam2nxclasns1");smartSleep(1000);
 			chromeDriver.mouseClick(chromeDriver.findElementByClassName("Checkbox-left"));
 			for (int i = 0; i < 6; i++) {
 				if (chromeDriver.checkElement(".Dialog")) {
-					chromeDriver.findElementByCssSelector(".Dialog .flex-full").click();
-					Thread.sleep(1000);
+					chromeDriver.findElementByCssSelector(".Dialog .flex-full").click();smartSleep(1000);
 				}
 				WebElement validate = chromeDriver.findElementByCssSelector("input[class='css_input captcha u-full']");
 				chromeDriver.keyboardInput(validate, getImgCode());
 				chromeDriver.reInject();
-				chromeDriver.mouseClick(chromeDriver.findElementByCssSelector("div.next-b1"));
-				Thread.sleep(3000);
+				chromeDriver.mouseClick(chromeDriver.findElementByCssSelector("div.next-b1"));smartSleep(3000);
 				if (times >= 2) {
 					break;
 				}
@@ -141,12 +137,7 @@ public class LuJinSuoSpider implements PapaSpider {
 			if (chromeDriver != null) {
 				chromeDriver.quit();
 			}
-		}
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		}smartSleep(1000);
 		Matcher matcher = Pattern.compile("可以输入(\\d+)次").matcher(lastMsg);
 		if (matcher.find()) {
 			int dtimes = Integer.parseInt(matcher.group(1));

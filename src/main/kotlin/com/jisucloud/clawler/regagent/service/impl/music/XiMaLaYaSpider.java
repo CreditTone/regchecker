@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class XiMaLaYaSpider implements PapaSpider {
+public class XiMaLaYaSpider extends PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;
 
@@ -55,11 +55,9 @@ public class XiMaLaYaSpider implements PapaSpider {
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(true, true, null);
-			chromeDriver.get("https://www.ximalaya.com/passport/register");
-			Thread.sleep(2000);
+			chromeDriver.get("https://www.ximalaya.com/passport/register");smartSleep(2000);
 			chromeDriver.findElementById("userAccountPhone").sendKeys(account);
-			chromeDriver.findElementById("userPwdPhone").click();
-			Thread.sleep(2000);
+			chromeDriver.findElementById("userPwdPhone").click();smartSleep(2000);
 			String regErrTex = chromeDriver.findElementByCssSelector("div[class='regIcLt inl-b fr formItem'] p.regErrTex").getText();
 			if (regErrTex.contains("已注册")) {
 				return true;

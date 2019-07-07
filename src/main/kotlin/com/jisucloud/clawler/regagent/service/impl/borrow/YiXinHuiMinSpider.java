@@ -23,7 +23,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class YiXinHuiMinSpider implements PapaSpider,AjaxHook {
+public class YiXinHuiMinSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
@@ -63,8 +63,7 @@ public class YiXinHuiMinSpider implements PapaSpider,AjaxHook {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector("img[class='mid validateCode']");
-				img.click();
-				Thread.sleep(1000);
+				img.click();smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -86,8 +85,7 @@ public class YiXinHuiMinSpider implements PapaSpider,AjaxHook {
 				WebElement validate = chromeDriver.findElementById("validate");
 				validate.clear();
 				validate.sendKeys(getImgCode());
-				chromeDriver.findElementById("nextBtn").click();
-				Thread.sleep(3000);
+				chromeDriver.findElementById("nextBtn").click();smartSleep(3000);
 				if (vcodeSuc) {
 					break;
 				}

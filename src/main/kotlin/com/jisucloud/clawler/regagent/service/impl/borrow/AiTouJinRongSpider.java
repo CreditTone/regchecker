@@ -15,7 +15,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class AiTouJinRongSpider implements PapaSpider {
+public class AiTouJinRongSpider extends PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -87,10 +87,8 @@ public class AiTouJinRongSpider implements PapaSpider {
 					return null;
 				}
 			});
-			chromeDriver.findElementById("phone").sendKeys(account);
-			Thread.sleep(1000);
-			chromeDriver.findElementByCssSelector(".lf_selectbox li[role='4']").click();
-			Thread.sleep(3000);
+			chromeDriver.findElementById("phone").sendKeys(account);smartSleep(1000);
+			chromeDriver.findElementByCssSelector(".lf_selectbox li[role='4']").click();smartSleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

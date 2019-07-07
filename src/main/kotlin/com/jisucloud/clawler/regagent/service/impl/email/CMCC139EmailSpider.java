@@ -16,7 +16,7 @@ import java.util.Set;
 
 //@UsePapaSpider
 @Slf4j
-public class CMCC139EmailSpider implements PapaSpider {
+public class CMCC139EmailSpider extends PapaSpider {
 
     
 	@Override

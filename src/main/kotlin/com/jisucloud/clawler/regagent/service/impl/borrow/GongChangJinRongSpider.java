@@ -18,7 +18,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class GongChangJinRongSpider implements PapaSpider {
+public class GongChangJinRongSpider extends PapaSpider {
 	
 	private ChromeAjaxListenDriver chromeDriver;
 
@@ -57,8 +57,7 @@ public class GongChangJinRongSpider implements PapaSpider {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector("#kaptchaImage");
-				chromeDriver.mouseClick(img);
-				Thread.sleep(1000);
+				chromeDriver.mouseClick(img);smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -73,8 +72,7 @@ public class GongChangJinRongSpider implements PapaSpider {
 		try {
 			chromeDriver = HeadlessUtil.getChromeDriver(false, null, null);
 			chromeDriver.quicklyVisit("https://www.gongchangp2p.com");
-			chromeDriver.get("https://www.gongchangp2p.com/depository/retrieve/toRetrievePwd.shtml?userType=0");
-			Thread.sleep(2000);
+			chromeDriver.get("https://www.gongchangp2p.com/depository/retrieve/toRetrievePwd.shtml?userType=0");smartSleep(2000);
 			chromeDriver.keyboardInput(chromeDriver.findElementByCssSelector("input[id='phone']"), account);
 			for (int i = 0; i < 5; i++) {
 				String imageCode = getImgCode();
@@ -83,8 +81,7 @@ public class GongChangJinRongSpider implements PapaSpider {
 					chromeDriver.keyboardInput(codeInput, imageCode);
 				}
 				WebElement next = chromeDriver.findElementByCssSelector("input[id='next']");
-				chromeDriver.mouseClick(next);
-				Thread.sleep(3000);//Error_Tip-cnt
+				chromeDriver.mouseClick(next);smartSleep(3000);//Error_Tip-cnt
 				Document doc = Jsoup.parse(chromeDriver.getPageSource());
 				if (doc.select("#hs-findPsw-cont1").text().contains("确认新密码")) {
 					return true;

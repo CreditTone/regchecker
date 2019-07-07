@@ -14,7 +14,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class WoZaiZhaoNiSpider implements PapaSpider {
+public class WoZaiZhaoNiSpider extends PapaSpider {
 	
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -57,8 +57,7 @@ public class WoZaiZhaoNiSpider implements PapaSpider {
 			chromeDriver.quicklyVisit("http://www.95195.com");
 			chromeDriver.get("http://www.95195.com/user/reg/");
 			chromeDriver.findElementById("r_mobile").sendKeys(account);
-			chromeDriver.findElementById("nickname").click();
-			Thread.sleep(2000);
+			chromeDriver.findElementById("nickname").click();smartSleep(2000);
 			String text = chromeDriver.findElementById("mobile_explain").getText();
 			return text.contains("已经注册");
 		} catch (Exception e) {

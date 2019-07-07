@@ -17,7 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @UsePapaSpider
-public class Web12306Spider implements PapaSpider {
+public class Web12306Spider extends PapaSpider {
 
 
     private Map<String, String> fields = null;

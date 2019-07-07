@@ -11,7 +11,7 @@ import me.kagura.JJsoup;
 import org.jsoup.Connection;
 
 @UsePapaSpider
-public class PingAnXiaoDaiSpdier implements PapaSpider {
+public class PingAnXiaoDaiSpdier extends PapaSpider {
 
 	@Override
 	public String message() {

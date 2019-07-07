@@ -21,7 +21,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class MinDaiService implements PapaSpider,AjaxHook {
+public class MinDaiService extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
     private boolean checkTel = false;
@@ -63,11 +63,9 @@ public class MinDaiService implements PapaSpider,AjaxHook {
             chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
             String url = "https://bank.mindai.com/password-find.html";
             chromeDriver.addAjaxHook(this);
-            chromeDriver.get(url);
-            Thread.sleep(2000);
+            chromeDriver.get(url);smartSleep(2000);
             chromeDriver.findElementByCssSelector("#userName").sendKeys(account);
-            chromeDriver.findElementByCssSelector("#imgCode").click();
-            Thread.sleep(3000);
+            chromeDriver.findElementByCssSelector("#imgCode").click();smartSleep(3000);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

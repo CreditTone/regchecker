@@ -18,7 +18,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class MeiTuWangSpider implements PapaSpider,AjaxHook {
+public class MeiTuWangSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 
@@ -52,12 +52,10 @@ public class MeiTuWangSpider implements PapaSpider,AjaxHook {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, false);
 			chromeDriver.get("https://account.meitu.com/#!/login/");
-			chromeDriver.addAjaxHook(this);
-			Thread.sleep(2000);
+			chromeDriver.addAjaxHook(this);smartSleep(2000);
 			chromeDriver.findElementByCssSelector("input[placeholder='请输入手机号码']").sendKeys(account);
 			chromeDriver.findElementByCssSelector("input[type='password']").sendKeys("xas1231sad");
-			chromeDriver.findElementByCssSelector("button[class='Button submit form-submit']").click();
-			Thread.sleep(3000);
+			chromeDriver.findElementByCssSelector("button[class='Button submit form-submit']").click();smartSleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

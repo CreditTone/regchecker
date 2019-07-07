@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class XiaoZhuSpider implements PapaSpider,AjaxHook {
+public class XiaoZhuSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	boolean checkTel = false;
@@ -64,11 +64,9 @@ public class XiaoZhuSpider implements PapaSpider,AjaxHook {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
 			chromeDriver.addAjaxHook(this);
-			chromeDriver.get("http://www.xiaozhu.com/register?next=http%3A%2F%2Fwww.xiaozhu.com%2F%3Futm_source%3Dbaidu%26utm_medium%3Dcpc%26utm_content%3Dpinzhuan%26utm_term%3D%25E5%25B0%258F%25E7%258C%25AA%26utm_campaign%3DBDPZ");
-			Thread.sleep(3000);
+			chromeDriver.get("http://www.xiaozhu.com/register?next=http%3A%2F%2Fwww.xiaozhu.com%2F%3Futm_source%3Dbaidu%26utm_medium%3Dcpc%26utm_content%3Dpinzhuan%26utm_term%3D%25E5%25B0%258F%25E7%258C%25AA%26utm_campaign%3DBDPZ");smartSleep(3000);
 			chromeDriver.findElementById("input-mobile").sendKeys(account);
-			chromeDriver.findElementById("invitecode").click();
-			Thread.sleep(3000);
+			chromeDriver.findElementById("invitecode").click();smartSleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

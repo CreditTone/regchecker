@@ -4,7 +4,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-public interface PapaSpider {
+import co.paralleluniverse.fibers.Fiber;
+
+public abstract class PapaSpider {
 	
 	public static final Random RANDOM = new Random();
 	
@@ -14,21 +16,33 @@ public interface PapaSpider {
 	
 	public static final String CHROME_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0";
 
-    String message();
+	public abstract String message();
 
-    String platform();
+	public abstract String platform();
 
-    String home();
+	public abstract String home();
 
-    String platformName();
+	public abstract String platformName();
 
-    boolean checkTelephone(String account);
+	public abstract boolean checkTelephone(String account);
 
-    boolean checkEmail(String account);
+	public abstract boolean checkEmail(String account);
 
-    Map<String, String> getFields();
+	public abstract Map<String, String> getFields();
 
-    String[] tags();
+	public abstract String[] tags();
     
-    Set<String> getTestTelephones();
+	public abstract Set<String> getTestTelephones();
+    
+    public final void smartSleep(long millis) {
+    		try {
+    			if (Fiber.isCurrentFiber()) {
+    				Thread.sleep(millis);
+			} else {
+				Thread.sleep(millis);
+        		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
 }

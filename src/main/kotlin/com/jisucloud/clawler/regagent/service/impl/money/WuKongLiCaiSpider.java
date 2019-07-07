@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @UsePapaSpider
-public class WuKongLiCaiSpider implements PapaSpider {
+public class WuKongLiCaiSpider extends PapaSpider {
 	
 	private ChromeAjaxListenDriver chromeDriver;
 
@@ -54,12 +54,10 @@ public class WuKongLiCaiSpider implements PapaSpider {
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = HeadlessUtil.getChromeDriver(true, null, null);
-			chromeDriver.get("https://zhifu.wukonglicai.com//cphandle/login.htm");
-			Thread.sleep(2000);
+			chromeDriver.get("https://zhifu.wukonglicai.com//cphandle/login.htm");smartSleep(2000);
 			chromeDriver.findElementByCssSelector("input[name=mobile]").sendKeys(account);
 			chromeDriver.findElementByCssSelector("input[name=password]").sendKeys("casda12e12d");
-			chromeDriver.findElementById("bt").click();
-			Thread.sleep(3000);
+			chromeDriver.findElementById("bt").click();smartSleep(3000);
 			Document doc = Jsoup.parse(chromeDriver.getPageSource());
 			String res = doc.select("#message").text();
 			if (res.contains("密码不正确")) {

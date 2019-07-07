@@ -80,29 +80,22 @@ public class HeadlessUtil {
 					log.info("finish crawl:"+url);
 				}
 			};
-			mDriver.get("https://www.baidu.com");
-			Thread.sleep(1000);
+			mDriver.get("https://www.baidu.com");Thread.sleep(1000);
 			WebElement webElement = mDriver.findElement(By.cssSelector("a[name='tj_trxueshu']"));
 			if (webElement != null) {
 				webElement.click();
-			}
-			Thread.sleep(2000);
-			mDriver.get("https://www.baidu.com/baidu?wd=bj&tn=monline_4_dg&ie=utf-8&rn=10");
-			Thread.sleep(2000);
+			}Thread.sleep(2000);
+			mDriver.get("https://www.baidu.com/baidu?wd=bj&tn=monline_4_dg&ie=utf-8&rn=10");Thread.sleep(2000);
 			webElement = mDriver.findElement(By.cssSelector("a.opr-recommends-merge-mask"));
 			if (webElement != null) {
 				webElement.click();
-			}
-			Thread.sleep(2000);
+			}Thread.sleep(2000);
 			webElement = mDriver.findElement(By.cssSelector("div[class='result c-container ']"));
 			if (webElement != null) {
 				webElement.click();
-			}
-			Thread.sleep(2000);
-			mDriver.get("https://tieba.baidu.com/index.html");
-			Thread.sleep(2000);
-			mDriver.get("https://zhidao.baidu.com/");
-			Thread.sleep(2000);
+			}Thread.sleep(2000);
+			mDriver.get("https://tieba.baidu.com/index.html");Thread.sleep(2000);
+			mDriver.get("https://zhidao.baidu.com/");Thread.sleep(2000);
 			log.info("cookie get finish");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -144,10 +137,8 @@ public class HeadlessUtil {
 					}
 					log.info("finish crawl:"+url);
 				}
-			};
-			Thread.sleep(2000);
-			mDriver.get("https://m.baidu.com/from=1013966u/bd_page_type=1/ssid=0/uid=0/pu=usm%406%2Csz%40320_1001%2Cta%40iphone_2_8.1_19_6.2/baiduid=320270A5D5E182F4C40C7D0EC7862A94/w=0_10_/t=iphone/l=1/tc?clk_type=1&vit=osres&l=1&baiduid=320270A5D5E182F4C40C7D0EC7862A94&w=0_10_%E9%AB%98%E5%BE%B7&t=iphone&ref=www_iphone&from=1013966u&ssid=0&uid=0&lid=11468482634637600467&bd_page_type=1&pu=usm%406%2Csz%40320_1001%2Cta%40iphone_2_8.1_19_6.2&order=1&fm=alop&isAtom=1&waplogo=1&is_baidu=0&tj=www_normal_1_0_10_title&waput=6&cltj=normal_title&asres=1&nt=wnor&title=%E9%AB%98%E5%BE%B7%E5%9C%B0%E5%9B%BE&dict=-1&wd=&eqid=9f283c318e4f6800100000035cda6e4a&w_qd=IlPT2AEptyoA_ykw-vgc6PO&bdver=1&tcplug=1&sec=38527&di=b2c13fd33cfe7dae&bdenc=1&nsrc=IlPT2AEptyoA_yixCFOxCGZb8c3JV3T5ABfPNCFZAnSxokDyqRKdJNhZVmqeBSrFS-SlbTPL&clk_info=%7B%22srcid%22%3A1599%2C%22tplname%22%3A%22www_normal%22%2C%22t%22%3A1557818962625%2C%22xpath%22%3A%22div-article%22%7D");
-			Thread.sleep(5000);
+			};Thread.sleep(2000);
+			mDriver.get("https://m.baidu.com/from=1013966u/bd_page_type=1/ssid=0/uid=0/pu=usm%406%2Csz%40320_1001%2Cta%40iphone_2_8.1_19_6.2/baiduid=320270A5D5E182F4C40C7D0EC7862A94/w=0_10_/t=iphone/l=1/tc?clk_type=1&vit=osres&l=1&baiduid=320270A5D5E182F4C40C7D0EC7862A94&w=0_10_%E9%AB%98%E5%BE%B7&t=iphone&ref=www_iphone&from=1013966u&ssid=0&uid=0&lid=11468482634637600467&bd_page_type=1&pu=usm%406%2Csz%40320_1001%2Cta%40iphone_2_8.1_19_6.2&order=1&fm=alop&isAtom=1&waplogo=1&is_baidu=0&tj=www_normal_1_0_10_title&waput=6&cltj=normal_title&asres=1&nt=wnor&title=%E9%AB%98%E5%BE%B7%E5%9C%B0%E5%9B%BE&dict=-1&wd=&eqid=9f283c318e4f6800100000035cda6e4a&w_qd=IlPT2AEptyoA_ykw-vgc6PO&bdver=1&tcplug=1&sec=38527&di=b2c13fd33cfe7dae&bdenc=1&nsrc=IlPT2AEptyoA_yixCFOxCGZb8c3JV3T5ABfPNCFZAnSxokDyqRKdJNhZVmqeBSrFS-SlbTPL&clk_info=%7B%22srcid%22%3A1599%2C%22tplname%22%3A%22www_normal%22%2C%22t%22%3A1557818962625%2C%22xpath%22%3A%22div-article%22%7D");Thread.sleep(5000);
 			log.info("cookie get finish");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -189,10 +180,8 @@ public class HeadlessUtil {
 					}
 					log.info("finish crawl:"+url);
 				}
-			};
-			Thread.sleep(2000);
-			mDriver.get("https://m.tianyancha.com");
-			Thread.sleep(2000);
+			};Thread.sleep(2000);
+			mDriver.get("https://m.tianyancha.com");Thread.sleep(2000);
 			log.info("cookie get finish");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -235,10 +224,8 @@ public class HeadlessUtil {
 					}
 					log.info("finish crawl:"+url);
 				}
-			};
-			Thread.sleep(2000);
-			mDriver.get("https://m.dianping.com");
-			Thread.sleep(2000);
+			};Thread.sleep(2000);
+			mDriver.get("https://m.dianping.com");Thread.sleep(2000);
 			log.info("cookie get finish");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -280,12 +267,9 @@ public class HeadlessUtil {
 					}
 					log.info("finish crawl:"+url);
 				}
-			};
-			Thread.sleep(2000);
-			mDriver.get("https://mail.163.com/");
-			Thread.sleep(2000);
-			mDriver.get("http://reg.email.163.com");
-			Thread.sleep(2000);
+			};Thread.sleep(2000);
+			mDriver.get("https://mail.163.com/");Thread.sleep(2000);
+			mDriver.get("http://reg.email.163.com");Thread.sleep(2000);
 			log.info("cookie get finish");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -341,8 +325,7 @@ public class HeadlessUtil {
 	public static void main(String[] args) throws Exception {
 		HttpsProxy httpsProxy = new HttpsProxy("http-dyn.abuyun.com", 9020, "H6224X2YF291C2AD", "2EADA65DEE87F60C");
 		ChromeDriver chromeDriver = getChromeDriver(false, null, null);
-		chromeDriver.get("https://www.baidu.com/baidu?tn=monline_3_dg&ie=utf-8&wd=ip");
-		Thread.sleep(30 * 1000);
+		chromeDriver.get("https://www.baidu.com/baidu?tn=monline_3_dg&ie=utf-8&wd=ip");Thread.sleep(30 * 1000);
 		chromeDriver.quit();
 	}
 	

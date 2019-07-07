@@ -1,10 +1,7 @@
 package com.jisucloud.clawler.regagent.service;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
@@ -15,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.jisucloud.clawler.regagent.http.OKHttpUtil;
+import com.jisucloud.clawler.regagent.util.CountableFiberPool;
 import com.jisucloud.clawler.regagent.util.CountableThreadPool;
 import com.jisucloud.clawler.regagent.util.TimerRecoder;
 
@@ -37,7 +35,7 @@ public class PapaSpiderService extends Thread {
 	
 	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
 	
-	private CountableThreadPool countableThreadPool = new CountableThreadPool(50);
+	private CountableFiberPool countableThreadPool = new CountableFiberPool(500);
 	
 	@PostConstruct
 	private void init() {
@@ -60,22 +58,12 @@ public class PapaSpiderService extends Thread {
 		}
 	}
 	
-	private void waitIdleThread() {
-		while(countableThreadPool.getIdleThreadCount() <= 0) {
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
 	@Override
 	public void run() {
 		PapaTask papaTask = null;
 		while (true) {
 			papaTask = takePapaTask();
-			waitIdleThread();
+			countableThreadPool.waitIdleThread();
 			countableThreadPool.execute(new PapaSpiderRunnable(papaTask));
 		}
 	}

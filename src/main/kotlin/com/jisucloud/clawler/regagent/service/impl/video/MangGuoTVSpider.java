@@ -19,7 +19,7 @@ import org.jsoup.Connection.Method;
 
 @Slf4j
 @UsePapaSpider
-public class MangGuoTVSpider implements PapaSpider {
+public class MangGuoTVSpider extends PapaSpider {
 	
 	private Session session = JJsoup.newSession();
 	

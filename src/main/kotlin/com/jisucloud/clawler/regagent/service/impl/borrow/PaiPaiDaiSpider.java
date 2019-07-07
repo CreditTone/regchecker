@@ -25,7 +25,7 @@ import com.google.common.collect.Sets;
 
 @Slf4j
 @UsePapaSpider
-public class PaiPaiDaiSpider implements PapaSpider,AjaxHook {
+public class PaiPaiDaiSpider extends PapaSpider implements AjaxHook{
 	
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
@@ -69,8 +69,7 @@ public class PaiPaiDaiSpider implements PapaSpider,AjaxHook {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				chromeDriver.findElementByCssSelector(".changeCode").click();
-				WebElement img = chromeDriver.findElementByCssSelector("#CodeImg");
-				Thread.sleep(1000);
+				WebElement img = chromeDriver.findElementByCssSelector("#CodeImg");smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -86,17 +85,14 @@ public class PaiPaiDaiSpider implements PapaSpider,AjaxHook {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);
 			chromeDriver.addAjaxHook(this);
-			chromeDriver.get("https://passport.ppdai.com/resetPassword.html");
-			Thread.sleep(3000);
+			chromeDriver.get("https://passport.ppdai.com/resetPassword.html");smartSleep(3000);
 			chromeDriver.findElementById("inputName1").sendKeys(account);
 			for (int i = 0; i < 5; i++) {
 				WebElement rapid = chromeDriver.findElementByCssSelector("#inputCode1");
 				rapid.clear();
 				String vcode = getImgCode();
-				chromeDriver.jsInput(rapid, vcode);
-				Thread.sleep(1000);
-				chromeDriver.mouseClick(chromeDriver.findElementByCssSelector("#validateBtn1"));
-				Thread.sleep(2000);
+				chromeDriver.jsInput(rapid, vcode);smartSleep(1000);
+				chromeDriver.mouseClick(chromeDriver.findElementByCssSelector("#validateBtn1"));smartSleep(2000);
 				if (success) {
 					break;
 				}

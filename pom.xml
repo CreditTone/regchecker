@@ -27,7 +27,12 @@
 			<artifactId>guava</artifactId>
 			<version>23.0</version>
 		</dependency>
-
+		<!-- https://mvnrepository.com/artifact/co.paralleluniverse/quasar-core -->
+		<dependency>
+			<groupId>co.paralleluniverse</groupId>
+			<artifactId>quasar-core</artifactId>
+			<version>0.7.10</version>
+		</dependency>
 		<dependency>
 			<groupId>net.lightbody.bmp</groupId>
 			<artifactId>browsermob-core</artifactId>
@@ -148,6 +153,40 @@
 		<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
 		<testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
 		<plugins>
+			<!-- 协程插件 -->
+			<plugin>
+				<artifactId>maven-dependency-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId> <!-- Run with "mvn compile maven-dependency-plugin:properties exec:exec" -->
+				<configuration>
+					<mainClass>testgrp.QuasarHelloWorld</mainClass>
+					<workingDirectory>target/classes</workingDirectory>
+					<executable>java</executable>
+					<arguments>
+						<!-- Turn off before production -->
+						<argument>-Dco.paralleluniverse.fibers.verifyInstrumentation=true</argument>
+						<!-- Quasar Agent -->
+						<argument>-javaagent:${co.paralleluniverse:quasar-core:jar}</argument>
+						<!-- Classpath -->
+						<argument>-classpath</argument>
+						<classpath />
+						<!-- Main class -->
+						<argument>testgrp.QuasarIncreasingEchoApp</argument>
+					</arguments>
+				</configuration>
+			</plugin>
+			<!-- 要在测试期间运行quasar代理 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<argLine>-Dco.paralleluniverse.fibers.verifyInstrumentation=true</argLine>
+					<!-- Quasar Agent -->
+					<argLine>-javaagent:${co.paralleluniverse:quasar-core:jar}</argLine>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>

@@ -21,7 +21,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class ZhiShangJinRongSpider implements PapaSpider {
+public class ZhiShangJinRongSpider extends PapaSpider {
 
 	private ChromeAjaxListenDriver chromeDriver;
 	private boolean checkTel = false;
@@ -61,8 +61,7 @@ public class ZhiShangJinRongSpider implements PapaSpider {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector("#valicodeimg");
-				img.click();
-				Thread.sleep(1000);
+				img.click();smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -82,8 +81,7 @@ public class ZhiShangJinRongSpider implements PapaSpider {
 				WebElement validate = chromeDriver.findElementById("valicode");
 				validate.clear();
 				chromeDriver.keyboardInput(validate, getImgCode());
-				chromeDriver.findElementById("get_pwd_submit").click();
-				Thread.sleep(3000);
+				chromeDriver.findElementById("get_pwd_submit").click();smartSleep(3000);
 				if (chromeDriver.checkElement("#get_verty_btn")) {
 					return true;
 				}

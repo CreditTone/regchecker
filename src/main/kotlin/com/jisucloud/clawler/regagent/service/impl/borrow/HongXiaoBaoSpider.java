@@ -18,7 +18,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class HongXiaoBaoSpider implements PapaSpider,AjaxHook {
+public class HongXiaoBaoSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 
@@ -52,11 +52,9 @@ public class HongXiaoBaoSpider implements PapaSpider,AjaxHook {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
 			chromeDriver.get("https://www.hoomxb.com/forgot");
-			chromeDriver.addAjaxHook(this);
-			Thread.sleep(2000);
+			chromeDriver.addAjaxHook(this);smartSleep(2000);
 			chromeDriver.findElementByCssSelector("#J_mobile").sendKeys(account);
-			chromeDriver.findElementByCssSelector("#J_captcha").click();
-			Thread.sleep(3000);
+			chromeDriver.findElementByCssSelector("#J_captcha").click();smartSleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

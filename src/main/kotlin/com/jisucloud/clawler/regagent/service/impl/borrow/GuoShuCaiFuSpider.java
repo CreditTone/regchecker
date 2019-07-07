@@ -19,7 +19,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class GuoShuCaiFuSpider implements PapaSpider {
+public class GuoShuCaiFuSpider extends PapaSpider {
 
 	private boolean checkTel = false;
 	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();

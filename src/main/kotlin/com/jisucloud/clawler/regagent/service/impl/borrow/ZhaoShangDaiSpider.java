@@ -21,7 +21,7 @@ import org.openqa.selenium.WebElement;
 
 @Slf4j
 @UsePapaSpider
-public class ZhaoShangDaiSpider implements PapaSpider,AjaxHook {
+public class ZhaoShangDaiSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean vcodeSuc = false;//验证码是否正确
@@ -69,16 +69,14 @@ public class ZhaoShangDaiSpider implements PapaSpider,AjaxHook {
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(false, true, CHROME_USER_AGENT);
-			chromeDriver.get("https://login.zhaoshangdai.com/cas/login?target_type=P2p&loginType=WEB&service=https%3A%2F%2Fwww.zhaoshangdai.com%3A443%2Fuser%2Faccount%2Fdetail.html");
-			Thread.sleep(2000);
+			chromeDriver.get("https://login.zhaoshangdai.com/cas/login?target_type=P2p&loginType=WEB&service=https%3A%2F%2Fwww.zhaoshangdai.com%3A443%2Fuser%2Faccount%2Fdetail.html");smartSleep(2000);
 			chromeDriver.findElementByCssSelector("#username").sendKeys(account);
 			chromeDriver.findElementByCssSelector("#password").sendKeys("a21123as0a1");
 			for (int i = 0; i < 5; i++) {
 				WebElement login_imgcode = chromeDriver.findElementById("captcha");
 				login_imgcode.clear();
 				login_imgcode.sendKeys(getImgCode());
-				chromeDriver.findElementByCssSelector("#login_btn").click();
-				Thread.sleep(3000);
+				chromeDriver.findElementByCssSelector("#login_btn").click();smartSleep(3000);
 				if (chromeDriver.checkElement("#webmsg")) {
 					String webmsg = chromeDriver.findElementById("webmsg").getText();
 					if (!webmsg.contains("验证码")) {

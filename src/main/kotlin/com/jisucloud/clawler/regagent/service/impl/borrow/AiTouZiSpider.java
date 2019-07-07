@@ -18,7 +18,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class AiTouZiSpider implements PapaSpider {
+public class AiTouZiSpider extends PapaSpider {
 
 	@Override
 	public String message() {
@@ -64,8 +64,7 @@ public class AiTouZiSpider implements PapaSpider {
 				if (!img.isDisplayed()) {
 					return "";
 				}
-				img.click();
-				Thread.sleep(1000);
+				img.click();smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -114,8 +113,7 @@ public class AiTouZiSpider implements PapaSpider {
 					return null;
 				}
 			});
-			chromeDriver.get("https://www.itouzi.com/login");
-			Thread.sleep(2000);
+			chromeDriver.get("https://www.itouzi.com/login");smartSleep(2000);
 			chromeDriver.findElementByCssSelector("#pwd_login input[name='username']").sendKeys(account);
 			chromeDriver.findElementByCssSelector("#pwd_login input[name='password']").sendKeys("xasp12nxoanx89");
 			for (int i = 0; i < 5; i++) {
@@ -127,8 +125,7 @@ public class AiTouZiSpider implements PapaSpider {
 				}
 				chromeDriver.reInject();
 				WebElement next = chromeDriver.findElementByCssSelector("#pwd_login button[class='btn btn-block btn-auto btn-hue2 login']");
-				next.click();
-				Thread.sleep(15000);
+				next.click();smartSleep(15000);
 				if (success) {
 					break;
 				}

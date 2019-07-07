@@ -18,7 +18,7 @@ import java.util.Set;
 
 @Slf4j
 //@UsePapaSpider 行为反扒
-public class YinGuZaiXianSpider implements PapaSpider,AjaxHook {
+public class YinGuZaiXianSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
@@ -58,12 +58,10 @@ public class YinGuZaiXianSpider implements PapaSpider,AjaxHook {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, false);
 			String url = "https://www.yingujr.com/login";
-			chromeDriver.get(url);
-			Thread.sleep(6000);
+			chromeDriver.get(url);smartSleep(6000);
 			chromeDriver.findElementByCssSelector("input.account").sendKeys(account);
 			chromeDriver.findElementByCssSelector("input.password").sendKeys(account);
-			chromeDriver.mouseClick(chromeDriver.findElementByCssSelector("div.buttonBox"));
-			Thread.sleep(3000);
+			chromeDriver.mouseClick(chromeDriver.findElementByCssSelector("div.buttonBox"));smartSleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

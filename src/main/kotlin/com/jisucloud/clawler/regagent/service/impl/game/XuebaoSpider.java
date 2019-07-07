@@ -15,7 +15,7 @@ import org.jsoup.nodes.Document;
 
 @Slf4j
 @UsePapaSpider
-public class XuebaoSpider implements PapaSpider {
+public class XuebaoSpider extends PapaSpider {
 	
 	private ChromeAjaxHookDriver chromeDriver;
 
@@ -53,12 +53,10 @@ public class XuebaoSpider implements PapaSpider {
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(true, true, CHROME_USER_AGENT);
-			chromeDriver.get("https://www.battlenet.com.cn/login/zh/?ref=https://www.battlenet.com.cn/zh/&app=com-root");
-			Thread.sleep(2000);
+			chromeDriver.get("https://www.battlenet.com.cn/login/zh/?ref=https://www.battlenet.com.cn/zh/&app=com-root");smartSleep(2000);
 			chromeDriver.findElementById("accountName").sendKeys(account);
 			chromeDriver.findElementById("password").sendKeys("woxiaoxoa132");
-			chromeDriver.findElementById("submit").click();
-			Thread.sleep(3000);
+			chromeDriver.findElementById("submit").click();smartSleep(3000);
 			Document doc = Jsoup.parse(chromeDriver.getPageSource());
 			String res = doc.select("#display-errors").text();
 			if (res.contains("密码有误") || res.contains("密码")) {
