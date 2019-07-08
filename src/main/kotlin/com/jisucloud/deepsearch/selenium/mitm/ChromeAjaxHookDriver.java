@@ -54,6 +54,12 @@ public class ChromeAjaxHookDriver extends ChromeDriver {
 			MitmServer.getInstance().addAjaxHook(cloudIdValue, hook);
 		}
 	}
+	
+	public void hideElement(WebElement elm) {
+		if (elm != null) {
+			executeScript("arguments[0].style='display:none;';", elm);
+		}
+	}
 
 	@Override
 	public void get(String url) {

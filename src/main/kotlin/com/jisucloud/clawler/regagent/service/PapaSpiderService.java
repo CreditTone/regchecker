@@ -3,6 +3,7 @@ package com.jisucloud.clawler.regagent.service;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.PostConstruct;
 
@@ -13,9 +14,10 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.jisucloud.clawler.regagent.http.OKHttpUtil;
 import com.jisucloud.clawler.regagent.util.CountableFiberPool;
-import com.jisucloud.clawler.regagent.util.CountableThreadPool;
 import com.jisucloud.clawler.regagent.util.TimerRecoder;
 
+import co.paralleluniverse.fibers.SuspendExecution;
+import co.paralleluniverse.strands.Strand;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
@@ -35,7 +37,7 @@ public class PapaSpiderService extends Thread {
 	
 	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
 	
-	private CountableFiberPool countableThreadPool = new CountableFiberPool(500);
+	private CountableFiberPool fiberPool = new CountableFiberPool(20000);
 	
 	@PostConstruct
 	private void init() {
@@ -63,16 +65,19 @@ public class PapaSpiderService extends Thread {
 		PapaTask papaTask = null;
 		while (true) {
 			papaTask = takePapaTask();
-			countableThreadPool.waitIdleThread();
-			countableThreadPool.execute(new PapaSpiderRunnable(papaTask));
+			fiberPool.waitIdleThread();
+			fiberPool.execute(new PapaSpiderTaskRunnable(papaTask));
 		}
 	}
 	
-	public final class PapaSpiderRunnable implements Runnable {
+	public final class PapaSpiderTaskRunnable implements Runnable {
 		
+		private AtomicInteger successCount = new AtomicInteger();
+		private AtomicInteger failureCount = new AtomicInteger();
+		private int fiberSize = 0;
 		private PapaTask papaTask = null;
 		
-		public PapaSpiderRunnable(PapaTask papaTask) {
+		public PapaSpiderTaskRunnable(PapaTask papaTask) {
 			this.papaTask = papaTask;
 		}
 
@@ -80,28 +85,71 @@ public class PapaSpiderService extends Thread {
 		public void run() {
 			log.info("开始任务("+papaTask.getId()+")");
 			TimerRecoder timerRecoder = new TimerRecoder().start();
-			int successCount = 0;
-			int failureCount = 0;
 			for (Class<? extends PapaSpider> clz : TestValidPapaSpiderService.TEST_SUCCESS_PAPASPIDERS) {
-				if (papaTask.getTelephone() != null) {
-					try {
-						PapaSpider instance = null;
-						instance = clz.newInstance();
-						if (papaTask.isNeedlessCheck(instance.platform())) {
-							log.info("任务(" + papaTask.getId() + "),不需要撞库平台"+instance.platform());
-							continue;
-						}
-						notifyTelephone(instance, instance.checkTelephone(papaTask.getTelephone()));
-						successCount ++;
-					} catch (Exception e) {
-						failureCount ++;
-						log.warn("任务("+papaTask.getId()+")撞库"+clz.getName()+"失败", e);
-					}
-				}
+				fiberPool.waitIdleThread();
+				fiberSize ++;
+				fiberPool.execute(new PapaSpiderRunnable(papaTask, clz, successCount, failureCount));
 			}
-			finished();
+			waitCheckFinished();
 			String useTime = timerRecoder.getText();
 			log.info("任务("+papaTask.getId()+")结束。用时"+useTime+",成功撞库平台"+successCount+"个,失败"+failureCount+"个。");
+		}
+		
+		private void waitCheckFinished() {
+			while ((successCount.get() + failureCount.get()) < fiberSize) {
+				try {
+					Strand.sleep(1000);
+				} catch (SuspendExecution e) {
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	}
+	
+	/**
+	 * 具体撞库任务
+	 * @author stephen
+	 *
+	 */
+	public final class PapaSpiderRunnable implements Runnable {
+		
+		private PapaTask papaTask = null;
+		
+		private Class<? extends PapaSpider> papaSpiderClz;
+		
+		private AtomicInteger successCount = null;
+		private AtomicInteger failureCount = null;
+		
+		
+		public PapaSpiderRunnable(PapaTask papaTask, Class<? extends PapaSpider> papaSpiderClz,
+				AtomicInteger successCount, AtomicInteger failureCount) {
+			this.papaTask = papaTask;
+			this.papaSpiderClz = papaSpiderClz;
+			this.successCount = successCount;
+			this.failureCount = failureCount;
+		}
+
+		@Override
+		public void run() {
+			if (papaTask.getTelephone() != null) {
+				try {
+					PapaSpider instance = null;
+					instance = papaSpiderClz.newInstance();
+					if (papaTask.isNeedlessCheck(instance.platform())) {
+						log.info("任务(" + papaTask.getId() + "),不需要撞库平台"+instance.platform());
+						return;
+					}
+					notifyTelephone(instance, instance.checkTelephone(papaTask.getTelephone()));
+					successCount.incrementAndGet();
+				} catch (Exception e) {
+					failureCount.incrementAndGet();
+					log.warn("任务("+papaTask.getId()+")撞库"+papaSpiderClz.getName()+"失败", e);
+				}
+				finished();
+			}
 		}
 		
 		private void finished() {
@@ -151,7 +199,6 @@ public class PapaSpiderService extends Thread {
 				break;
 			}
 		}
-		
 	}
 	
 }

@@ -1,12 +1,9 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.google.common.collect.Sets;
+import com.jisucloud.clawler.regagent.http.OKHttpUtil;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.OCRDecode;
-import com.jisucloud.deepsearch.selenium.Ajax;
-import com.jisucloud.deepsearch.selenium.AjaxListener;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -17,14 +14,12 @@ import okhttp3.Response;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
 public class AiQianJinSpider extends PapaSpider {
 	
-	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
-			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
+	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClientWithRandomProxy();
 	
 	private boolean checkTelephone = false;
 	
@@ -74,6 +69,7 @@ public class AiQianJinSpider extends PapaSpider {
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
 			String reString = response.body().string();
+			System.out.println(reString);
 			return reString.contains("手机号已注册");
 		} catch (Exception e) {
 			e.printStackTrace();

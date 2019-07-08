@@ -6,6 +6,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import co.paralleluniverse.fibers.Fiber;
 import co.paralleluniverse.fibers.SuspendExecution;
+import co.paralleluniverse.strands.Strand;
 import co.paralleluniverse.strands.SuspendableRunnable;
 
 /**
@@ -40,8 +41,12 @@ public class CountableFiberPool{
 	public void setThread(int thread) {
 		threadNum = thread;
 	}
-
+	
 	public void execute(final Runnable runnable) {
+		execute(runnable, null);
+	}
+
+	public void execute(final Runnable runnable, FiberListener fiberListener) {
 		if (threadAlive.get() >= threadNum) {
 			try {
 				reentrantLock.lock();
@@ -65,9 +70,12 @@ public class CountableFiberPool{
 			@Override
 			public void run() throws SuspendExecution, InterruptedException {
 				try {
+					if (fiberListener != null) {
+						fiberListener.start(System.currentTimeMillis());
+					}
 					runnable.run();
 				}catch (Exception e) {
-//					e.printStackTrace();
+					e.printStackTrace();
 				} finally {
 					try {
 						reentrantLock.lock();
@@ -75,6 +83,9 @@ public class CountableFiberPool{
 						condition.signal();
 					} finally {
 						reentrantLock.unlock();
+					}
+					if (fiberListener != null) {
+						fiberListener.end(System.currentTimeMillis());
 					}
 				}
 			}
@@ -88,11 +99,19 @@ public class CountableFiberPool{
 	public void waitIdleThread() {
 		while(getIdleThreadCount() <= 0) {
 			try {
-				Thread.sleep(100);
+				Strand.sleep(10);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public static interface FiberListener {
+		
+		void start(long startTimeMillis);
+		
+		void end(long endTimeMillis);
+		
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -108,7 +127,7 @@ public class CountableFiberPool{
 					System.out.println(Fiber.currentFiber().getId() +" start " + start);
 					for (int j = 0; j < 50; j++) {
 						try {
-							Thread.sleep(10);
+							Strand.sleep(10);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -119,7 +138,7 @@ public class CountableFiberPool{
 			});
 		}
 		try {
-			Thread.sleep(10000 * 3);
+			Strand.sleep(10000 * 3);
 		} catch (Exception e) {
 		}
 		System.out.println(threadAlive.get());

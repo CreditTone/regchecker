@@ -3,13 +3,12 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
-import com.jisucloud.deepsearch.selenium.Ajax;
-import com.jisucloud.deepsearch.selenium.AjaxListener;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
+import com.jisucloud.clawler.regagent.util.StringUtil;
 import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
 import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
 import com.jisucloud.deepsearch.selenium.mitm.HookTracker;
 
+import co.paralleluniverse.strands.Strand;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -18,14 +17,13 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 
 import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Set;
 
 @Slf4j
-@UsePapaSpider
-public class HouBenJinRongSpider extends PapaSpider implements AjaxHook {
+//@UsePapaSpider 行为反扒
+public class YueShangDaiSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
@@ -33,22 +31,22 @@ public class HouBenJinRongSpider extends PapaSpider implements AjaxHook {
 
 	@Override
 	public String message() {
-		return "厚本金融(houbank.com)是专业的互联网借贷撮合平台,为出借人和借款人提供优质的互联网金融借贷信息中介服务,中华财险保证保险逐步覆盖平台资产。";
+		return "粤商贷是隶属于深圳前海斯坦德互联网金融服务有限公司的网贷信息中介平台,坚持合规经营,风控严谨,稳健运营,累计撮合交易金额37亿元,为客户带来1.35亿元收益。";
 	}
 
 	@Override
 	public String platform() {
-		return "houbank";
+		return "yesvion";
 	}
 
 	@Override
 	public String home() {
-		return "houbank.com";
+		return "yesvion.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "厚本金融";
+		return "粤商贷";
 	}
 
 	@Override
@@ -58,22 +56,44 @@ public class HouBenJinRongSpider extends PapaSpider implements AjaxHook {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252045", "18210538513");
+		return Sets.newHashSet("15900068904", "18210538513");
 	}
+
+	private String getImgCode() {
+		for (int i = 0 ; i < 3; i++) {
+			try {
+				WebElement img = chromeDriver.findElementByCssSelector("#imVcode");
+				chromeDriver.mouseClick(img);
+				byte[] body = chromeDriver.screenshot(img);
+				return OCRDecode.decodeImageCode(body, "n4");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return "";
+	}
+	String code;
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, false);
-			chromeDriver.get("http://www.baidu.com/link?url=dfL9ZPOGYGBiMGQ2RqQdw810qctmkrOMZm_IZoVE9VbbL9E1a1GOvQZhr2Xn0rbM&wd=&eqid=802dd3a500059a35000000025d061f5a");
-			chromeDriver.get("https://www.houbank.com/pro/account/forget");
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);
+			chromeDriver.get("https://www.yesvion.com/member/common/login/");
 			chromeDriver.addAjaxHook(this);
-			smartSleep(1000);
-			chromeDriver.jsInput(chromeDriver.findElementByCssSelector("input[placeholder='请输入手机号']"), account);
-			this.account = account;
-			chromeDriver.jsInput(chromeDriver.findElementByCssSelector("input[placeholder='请输入图形验证码']"), "3579");
-			chromeDriver.mouseClick(chromeDriver.findElementByCssSelector("input[class='step__btn']"));
-			smartSleep(3000);
+			Strand.sleep(2000);
+			chromeDriver.findElementById("txtUser").sendKeys(account);
+			chromeDriver.findElementById("txtPwd").sendKeys("xas2139aa0");
+			for (int i = 0; i < 5; i++) {
+				code = getImgCode();
+				WebElement validate = chromeDriver.findElementById("txtCode");
+				validate.clear();
+				validate.sendKeys(code);
+				chromeDriver.mouseClick(chromeDriver.findElementById("btnLogin"));
+				smartSleep(2000);
+				if (vcodeSuc) {
+					break;
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -96,24 +116,22 @@ public class HouBenJinRongSpider extends PapaSpider implements AjaxHook {
 
 	@Override
 	public HookTracker getHookTracker() {
-		return HookTracker.builder().addUrl("user/checkImageCode").isPOST().build();
+		return HookTracker.builder().addUrl("member/common/actlogin").isPOST().build();
 	}
-	
-	String account = "";
 
 	@Override
 	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
-		contents.setTextContents("{\"imgCod\":\"2586\",\"mobile\":\""+account+"\"}");
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
-		System.out.println(contents.getTextContents());
-		if (!contents.getTextContents().contains("验证码错误")) {
+		String res = StringUtil.unicodeToString(contents.getTextContents());
+		if (!res.contains("验证码")) {
 			vcodeSuc = true;
-			checkTel = contents.getTextContents().contains("图片验证码校验成功");
 		}
+		checkTel = res.contains("次登录") || res.contains("锁定");
 	}
 
 }

@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-@UsePapaSpider
+//@UsePapaSpider
 @Slf4j
 public class WangdaiZhijiaSpider extends PapaSpider {
 
@@ -48,7 +48,7 @@ public class WangdaiZhijiaSpider extends PapaSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538577", "18210538513");
+		return Sets.newHashSet("19910538500", "18210538513");
 	}
 	
 	private Map<String, String> getHeader() {
