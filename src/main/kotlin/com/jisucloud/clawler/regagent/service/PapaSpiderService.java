@@ -196,6 +196,7 @@ public class PapaSpiderService extends Thread {
 					log.warn("推送结果异常:"+papaTask.getId(), e);
 					continue;
 				}
+				log.info("推送结果成功:"+papaTask.getId() + "result:" + JSON.toJSONString(result));
 				break;
 			}
 		}
