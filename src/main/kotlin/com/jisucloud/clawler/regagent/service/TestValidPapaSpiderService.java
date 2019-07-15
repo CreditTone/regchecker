@@ -105,7 +105,7 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 	 * @return
 	 */
 	private boolean isCheckValidPapaSpiderResultValid(Class<? extends PapaSpider> clz) {
-		return redisTemplate.opsForValue().get(clz.getName()) != null;
+		return redisTemplate.hasKey(clz.getName()).booleanValue();
 	}
 
 	public static boolean isPapaSpiderClass(Class<?> clz) {
