@@ -1,23 +1,21 @@
 package com.jisucloud.clawler.regagent.service;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
 import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ClassUtils;
 
@@ -61,22 +59,17 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 		IGNORE_TEST_RESULT.add(BangBangTangSpider.class);
 	}
 	
-	public static final String CHECK_VALIDPAPASPIDER_RESULT_FILE = "check_valid_papaspider_result.json";
-	
-	private Map<String,Long> checkValidPapaSpiderResult = new HashMap<>();
-	
 	private Timer timer = new Timer();
 	
 	private Set<Class<? extends PapaSpider>> preparedPapaSpiders = new HashSet<>();
+	
+	@Autowired
+	private StringRedisTemplate redisTemplate;
 	
 
 	@SuppressWarnings("unchecked")
 	@PostConstruct
 	private void init() throws Exception {
-		File checkValidPapaSpiderResultFile = new File(CHECK_VALIDPAPASPIDER_RESULT_FILE);
-		if (checkValidPapaSpiderResultFile.exists()) {
-			checkValidPapaSpiderResult = JSON.parseObject(FileUtils.readFileToString(checkValidPapaSpiderResultFile, "UTF-8"), HashMap.class);
-		}
 		try {
 			String basePackage = "com.jisucloud.clawler.regagent.service.impl";
 			String searchPaths = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX
@@ -106,29 +99,13 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 		}
 	}
 	
-	@SuppressWarnings({ "unchecked", "deprecation" })
-	private void saveCheckValidPapaSpiderResult() throws IOException {
-		File checkValidPapaSpiderResultFile = new File(CHECK_VALIDPAPASPIDER_RESULT_FILE);
-		FileUtils.write(checkValidPapaSpiderResultFile, JSON.toJSONString(checkValidPapaSpiderResult), false);
-	}
-	
 	/**
 	 * 过去24内测试有效
 	 * @param clz
 	 * @return
 	 */
 	private boolean isCheckValidPapaSpiderResultValid(Class<? extends PapaSpider> clz) {
-		if (checkValidPapaSpiderResult.containsKey(clz.getName())) {
-			long lastCheckTime = checkValidPapaSpiderResult.get(clz.getName());
-			if (System.currentTimeMillis() - lastCheckTime < RE_TEST_TIME) {//24小时
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public static void main(String[] args) throws Exception {
-		new TestValidPapaSpiderService().init();
+		return redisTemplate.opsForValue().get(clz.getName()) != null;
 	}
 
 	public static boolean isPapaSpiderClass(Class<?> clz) {
@@ -149,7 +126,7 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 		if (TEST_FAILURE_PAPASPIDERS.contains(clz)) {
 			TEST_FAILURE_PAPASPIDERS.remove(clz);
 		}
-		checkValidPapaSpiderResult.put(clz.getName(), System.currentTimeMillis());
+		redisTemplate.opsForValue().set(clz.getName(), "true", RE_TEST_TIME, TimeUnit.MILLISECONDS);
 		TEST_SUCCESS_PAPASPIDERS.add(clz);
 	}
 
@@ -184,7 +161,8 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 				}
 				needTestPapaSpiders.add(clz);
 			}
-			//log.info("需要测试的列表:"+JSON.toJSONString(needTestPapaSpiders));
+			log.info("需要测试"+needTestPapaSpiders.size()+"个。");
+			log.info("需要测试的列表:"+JSON.toJSONString(needTestPapaSpiders));
 			PapaSpiderTester.testing(needTestPapaSpiders, this);
 			log.info("测试完成，成功" + TEST_SUCCESS_PAPASPIDERS.size() + "个，失败" + TEST_FAILURE_PAPASPIDERS.size() + "个。");
 			if (!TEST_FAILURE_PAPASPIDERS.isEmpty()) {
@@ -199,7 +177,6 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 					log.info(clz.getName());
 				}
 			}
-			saveCheckValidPapaSpiderResult();
 		} catch (Exception e) {
 			log.warn("测试中断", e);
 		}

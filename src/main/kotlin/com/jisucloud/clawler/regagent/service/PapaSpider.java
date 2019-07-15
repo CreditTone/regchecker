@@ -37,9 +37,9 @@ public abstract class PapaSpider {
 
 	public final void smartSleep(long millis) {
 		try {
-			long start = System.currentTimeMillis();
+			//long start = System.currentTimeMillis();
 			Strand.sleep(millis);
-			System.out.println(millis +" >休眠:" + (System.currentTimeMillis() - start));
+			//System.out.println(millis +" >休眠:" + (System.currentTimeMillis() - start));
 		} catch (SuspendExecution | InterruptedException e) {
 			e.printStackTrace();
 		}
