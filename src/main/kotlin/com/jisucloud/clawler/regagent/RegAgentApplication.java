@@ -17,7 +17,6 @@ public class RegAgentApplication {
 	public static void main(String[] args) {
 		SpringApplication application = new SpringApplication(RegAgentApplication.class);
 		JJsoupUtil.useProxy = false;
-		System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "");
 		application.run(args);
 		log.info("SpringApplication启动完成");
 	}

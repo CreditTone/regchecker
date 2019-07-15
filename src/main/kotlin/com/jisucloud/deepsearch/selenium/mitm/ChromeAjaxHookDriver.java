@@ -22,15 +22,15 @@ public class ChromeAjaxHookDriver extends ChromeDriver {
 	private String cloudIdValue = null;
 	
 	public static final ChromeAjaxHookDriver newChromeInstance(boolean disableLoadImage,boolean headless) {
-		return new ChromeAjaxHookDriver(ChromeOptionsUtil.createChromeOptions(disableLoadImage, headless, MitmServer.getInstance().getHttpsProxy(), ChromeOptionsUtil.CHROME_USER_AGENT));
+		return new ChromeAjaxHookDriver(ChromeOptionsUtil.createChromeOptions(disableLoadImage, headless, MitmServer.getInstance().getLocalMitmProxy(), ChromeOptionsUtil.CHROME_USER_AGENT));
 	}
 	
 	public static final ChromeAjaxHookDriver newAndroidInstance(boolean disableLoadImage,boolean headless) {
-		return new ChromeAjaxHookDriver(ChromeOptionsUtil.createChromeOptions(disableLoadImage, headless, MitmServer.getInstance().getHttpsProxy(), ChromeOptionsUtil.ANDROID_USER_AGENT));
+		return new ChromeAjaxHookDriver(ChromeOptionsUtil.createChromeOptions(disableLoadImage, headless, MitmServer.getInstance().getLocalMitmProxy(), ChromeOptionsUtil.ANDROID_USER_AGENT));
 	}
 	
 	public static final ChromeAjaxHookDriver newIOSInstance(boolean disableLoadImage,boolean headless) {
-		return new ChromeAjaxHookDriver(ChromeOptionsUtil.createChromeOptions(disableLoadImage, headless, MitmServer.getInstance().getHttpsProxy(), ChromeOptionsUtil.IOS_USER_AGENT));
+		return new ChromeAjaxHookDriver(ChromeOptionsUtil.createChromeOptions(disableLoadImage, headless, MitmServer.getInstance().getLocalMitmProxy(), ChromeOptionsUtil.IOS_USER_AGENT));
 	}
 	
 	public static final ChromeAjaxHookDriver newNoHookInstance(boolean disableLoadImage,boolean headless,String userAgent) {
@@ -39,7 +39,11 @@ public class ChromeAjaxHookDriver extends ChromeDriver {
 	}
 	
 	public static final ChromeAjaxHookDriver newInstanceWithRandomProxy(boolean disableLoadImage,boolean headless,String userAgent) {
-		return new ChromeAjaxHookDriver(ChromeOptionsUtil.createChromeOptions(disableLoadImage, headless, ChromeOptionsUtil.httpsProxy, userAgent));
+		return new ChromeAjaxHookDriver(ChromeOptionsUtil.createChromeOptions(disableLoadImage, headless, MitmServer.getInstance().getRandomMitmProxy(), userAgent));
+	}
+	
+	public static final ChromeAjaxHookDriver newInstanceWithGoogleProxy(boolean disableLoadImage,boolean headless,String userAgent) {
+		return new ChromeAjaxHookDriver(ChromeOptionsUtil.createChromeOptions(disableLoadImage, headless, MitmServer.getInstance().getGoogleMitmProxy(), userAgent));
 	}
 	
 	public ChromeAjaxHookDriver(ChromeOptions options) {
@@ -232,17 +236,20 @@ public class ChromeAjaxHookDriver extends ChromeDriver {
 		}
 	}
 
-	public static void main(String[] args) {
-		ChromeAjaxHookDriver chromeDriver = null;
-		try {
-			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);
-			chromeDriver.get("http://www.penging.com/findPwd.do");Thread.sleep(60000);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally {
-			if (chromeDriver != null) {
-				chromeDriver.quit();
+	public boolean switchToTab(String containsTitleChars) {
+		if (getTitle().contains(containsTitleChars)) {
+			return true;
+		}
+		String currentHandlerId = getWindowHandle();
+		for (String handlerId : getWindowHandles()) {
+			if (handlerId.equals(currentHandlerId)) {
+				continue;
+			}
+			String title = getTitle();
+			if (title.contains(containsTitleChars)) {
+				return true;
 			}
 		}
+		return false;
 	}
 }
