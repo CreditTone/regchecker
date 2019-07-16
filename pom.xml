@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
@@ -8,17 +7,38 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.1.4.RELEASE</version>
 	</parent>
-	<groupId>com.jisucloud.clawler</groupId>
-	<artifactId>regagent</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>RegAgent</name>
+	<groupId>com.jisucloud</groupId>
+	<artifactId>regchecker</artifactId>
+	<version>0.0.1</version>
 	<description>注册检测服务</description>
 
 	<properties>
 		<start-class>com.jisucloud.clawler.regagent.RegAgentApplication</start-class>
 		<skipTests>true</skipTests>
 		<java.version>1.8</java.version>
-		<kotlin.version>1.3.30</kotlin.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<pigx.version>1.6.2</pigx.version>
+		<spring-boot.version>2.0.4.RELEASE</spring-boot.version>
+		<spring-cloud.version>Finchley.SR1</spring-cloud.version>
+		<spring-platform.version>Cairo-SR3</spring-platform.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<monitor.version>2.0.2</monitor.version>
+		<hutool.version>4.1.13</hutool.version>
+		<mybatis-plus.version>3.0.2</mybatis-plus.version>
+		<kaptcha.version>0.0.9</kaptcha.version>
+		<swagger.version>2.9.2</swagger.version>
+		<elastic-job.version>2.0.0</elastic-job.version>
+		<curator.version>2.10.0</curator.version>
+		<velocity.version>1.7</velocity.version>
+		<lcn.version>4.1.0</lcn.version>
+		<jasypt.version>2.1.0</jasypt.version>
+		<elastic-job-lite.version>2.1.5</elastic-job-lite.version>
+		<security.oauth.version>2.3.3.RELEASE</security.oauth.version>
+		<jackson.modules>2.9.6</jackson.modules>
+		<docker.url>http://192.168.0.13:4243</docker.url>
+		<registry.url>192.168.0.13:5000</registry.url>
 	</properties>
 
 	<dependencies>
@@ -52,12 +72,11 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- existing LittleProxy dependency -->
-		<!-- <dependency> <groupId>org.littleshoot</groupId> <artifactId>littleproxy</artifactId> 
-			<version>1.1.2</version> </dependency> -->
-		<!-- new dependency on the MITM module -->
-		<!-- <dependency> <groupId>net.lightbody.bmp</groupId> <artifactId>mitm</artifactId> 
-			<version>2.1.4</version> </dependency> -->
+		<!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-core -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
@@ -96,11 +115,6 @@
 			<version>2.5.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.jetbrains.kotlinx</groupId>
-			<artifactId>kotlinx-coroutines-core</artifactId>
-			<version>1.2.1</version>
-		</dependency>
-		<dependency>
 			<groupId>com.squareup.okhttp3</groupId>
 			<artifactId>okhttp</artifactId>
 			<version>3.14.1</version>
@@ -117,18 +131,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.module</groupId>
-			<artifactId>jackson-module-kotlin</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jetbrains.kotlin</groupId>
-			<artifactId>kotlin-reflect</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jetbrains.kotlin</groupId>
-			<artifactId>kotlin-stdlib-jdk8</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -150,8 +152,8 @@
 
 	<build>
 		<finalName>${project.name}</finalName>
-		<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
-		<testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
+		<sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+		<testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
 		<plugins>
 			<!-- 协程插件 -->
 			<plugin>
@@ -182,6 +184,9 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>UTF-8</encoding>
 					<argLine>-Dco.paralleluniverse.fibers.verifyInstrumentation=true</argLine>
 					<!-- Quasar Agent -->
 					<argLine>-javaagent:${co.paralleluniverse:quasar-core:jar}</argLine>
@@ -202,66 +207,48 @@
 				</executions>
 
 			</plugin>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.jetbrains.kotlin</groupId>
-				<artifactId>kotlin-maven-plugin</artifactId>
-				<configuration>
-					<args>
-						<arg>-Xjsr305=strict</arg>
-					</args>
-					<compilerPlugins>
-						<plugin>spring</plugin>
-					</compilerPlugins>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>org.jetbrains.kotlin</groupId>
-						<artifactId>kotlin-maven-allopen</artifactId>
-						<version>${kotlin.version}</version>
-					</dependency>
-				</dependencies>
-			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
 				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<version>${spring-boot.version}</version>
 					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>
-											org.jetbrains.kotlin
-										</groupId>
-										<artifactId>
-											kotlin-maven-plugin
-										</artifactId>
-										<versionRange>
-											[1.3.30,)
-										</versionRange>
-										<goals>
-											<goal>compile</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
+						<finalName>${project.build.finalName}</finalName>
+					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<goal>repackage</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>pl.project13.maven</groupId>
+					<artifactId>git-commit-id-plugin</artifactId>
+				</plugin>
+				<plugin>
+					<groupId>com.spotify</groupId>
+					<artifactId>docker-maven-plugin</artifactId>
+					<version>0.4.12</version>
+					<configuration>
+						<imageName>${registry.url}/${project.name}:0.0.1</imageName>
+						<dockerHost>${docker.url}</dockerHost>
+						<dockerDirectory>${project.basedir}</dockerDirectory>
+						<resources>
+							<resource>
+								<targetPath>/</targetPath>
+								<directory>${project.build.directory}</directory>
+								<include>${project.build.finalName}.jar</include>
+							</resource>
+						</resources>
+						<serverId>docker-hub</serverId>
+						<registryUrl>https://index.docker.io/v1/</registryUrl>
 					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
-
 </project>

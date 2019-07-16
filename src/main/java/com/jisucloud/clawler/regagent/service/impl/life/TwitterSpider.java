@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Slf4j
-//@UsePapaSpider
+@UsePapaSpider
 public class TwitterSpider extends PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;
@@ -34,12 +34,12 @@ public class TwitterSpider extends PapaSpider {
 
 	@Override
 	public String platformName() {
-		return "美国在线";
+		return "Twitter";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"新闻" , "国外新闻"};
+		return new String[] {"社交" , "媒体", "微博"};
 	}
 	
 	@Override
@@ -51,14 +51,20 @@ public class TwitterSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = ChromeAjaxHookDriver.newInstanceWithGoogleProxy(true, true, CHROME_USER_AGENT);
+			chromeDriver = ChromeAjaxHookDriver.newInstanceWithGoogleProxy(true, false, CHROME_USER_AGENT);
 			chromeDriver.get("https://twitter.com/account/begin_password_reset?lang=zh-cn");
 			smartSleep(2000);
-			chromeDriver.findElementById("username").sendKeys("+86"+account);
-			chromeDriver.findElementByCssSelector("button[type='submit']").click();
+			chromeDriver.findElementByCssSelector("input[name='account_identifier']").sendKeys("+86"+account);
+			chromeDriver.findElementByCssSelector("input[value='搜索']").click();
 			smartSleep(3000);
-//			String uiHeaderTitle = chromeDriver.findElementByCssSelector("h2[class='uiHeaderTitle']").getText();
-//			return uiHeaderTitle.contains("重置密码");
+			if (chromeDriver.checkElement("div[class='PageHeader is-errored']")) {
+				String uiHeaderTitle = chromeDriver.findElementByCssSelector("div[class='PageHeader is-errored']").getText();
+				if (uiHeaderTitle.contains("关联了多个账号")) {
+					return true;
+				}
+				return !uiHeaderTitle.contains("无法使用该信息搜索你的账号");
+			}
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

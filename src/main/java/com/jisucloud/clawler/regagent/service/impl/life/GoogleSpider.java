@@ -3,18 +3,15 @@ package com.jisucloud.clawler.regagent.service.impl.life;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.OCRDecode;
 import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
 
 import lombok.extern.slf4j.Slf4j;
-
-import org.openqa.selenium.WebElement;
 
 import java.util.Map;
 import java.util.Set;
 
 @Slf4j
-//@UsePapaSpider
+@UsePapaSpider
 public class GoogleSpider extends PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;
@@ -50,30 +47,15 @@ public class GoogleSpider extends PapaSpider {
 		return Sets.newHashSet("13910002005", "18210538513");
 	}
 	
-	private String getImgCode() {
-		for (int i = 0 ; i < 3; i++) {
-			try {
-				WebElement img = chromeDriver.findElementByCssSelector("#imgObj");
-				chromeDriver.mouseClick(img);
-				byte[] body = chromeDriver.screenshot(img);
-				return OCRDecode.decodeImageCode(body);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return "";
-	}
-	String code;
-
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = ChromeAjaxHookDriver.newInstanceWithGoogleProxy(true, false, CHROME_USER_AGENT);
-			chromeDriver.get("https://accounts.google.com/signin/v2/identifier?biz=false&hl=zh-CN&continue=https%3A%2F%2Fwww.google.com.hk%2F&gmb=exp&flowName=GlifWebSignIn&flowEntry=ServiceLogin");
+			chromeDriver = ChromeAjaxHookDriver.newInstanceWithGoogleProxy(true, false, IOS_USER_AGENT);
+			chromeDriver.get("https://accounts.google.com/signin/v2/identifier?continue=https%3A%2F%2Fwww.youtube.com%2Fsignin%3Faction_handle_signin%3Dtrue%26app%3Ddesktop%26hl%3Dzh-CN%26next%3D%252F&hl=zh-CN&service=youtube&flowName=GlifWebSignIn&flowEntry=ServiceLogin");
 			smartSleep(1000);
 			chromeDriver.findElementById("identifierId").sendKeys("+86"+account);
 			chromeDriver.findElementByCssSelector("span[class='RveJvd snByac']").click();
-			smartSleep(3000);
+			smartSleep(60000);
 			if (chromeDriver.checkElement("#MemberNameError")) {
 				return true;
 			}

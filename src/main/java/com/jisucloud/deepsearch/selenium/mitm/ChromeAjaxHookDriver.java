@@ -12,6 +12,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 
+import com.alibaba.fastjson.JSON;
+import com.jisucloud.deepsearch.selenium.HttpsProxy;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -43,7 +46,9 @@ public class ChromeAjaxHookDriver extends ChromeDriver {
 	}
 	
 	public static final ChromeAjaxHookDriver newInstanceWithGoogleProxy(boolean disableLoadImage,boolean headless,String userAgent) {
-		return new ChromeAjaxHookDriver(ChromeOptionsUtil.createChromeOptions(disableLoadImage, headless, MitmServer.getInstance().getGoogleMitmProxy(), userAgent));
+		HttpsProxy googleProxy = MitmServer.getInstance().getGoogleMitmProxy();
+		log.info("set googleProxy:"+JSON.toJSONString(googleProxy));
+		return new ChromeAjaxHookDriver(ChromeOptionsUtil.createChromeOptions(disableLoadImage, headless, googleProxy, userAgent));
 	}
 	
 	public ChromeAjaxHookDriver(ChromeOptions options) {

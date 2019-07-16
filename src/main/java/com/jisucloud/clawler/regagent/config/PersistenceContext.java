@@ -14,7 +14,6 @@ public class PersistenceContext {
 	@Bean
 	@ConditionalOnMissingBean
 	public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) throws Exception {
-		System.out.println("stringRedisTemplate...............");
 		StringRedisTemplate template = new StringRedisTemplate();
 		template.setConnectionFactory(redisConnectionFactory);
 		return template;

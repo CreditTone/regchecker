@@ -221,6 +221,8 @@ public class PapaSpiderTester {
 //		testingWithPrint(EWeiDaiSpider.class);
 //		testingWithPrint(DaiDaiXingLongSpider.class);
 //		testingWithPrint(JuJinZiBenSpider.class);
-		testingWithPrint(FaceBookSpider.class);
+//		testingWithPrint(FaceBookSpider.class);
+		testingWithPrint(TwitterSpider.class);
+//		testingWithPrint(GoogleSpider.class);
 	}
 }
