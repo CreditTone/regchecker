@@ -2,14 +2,16 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
-import com.jisucloud.deepsearch.selenium.Ajax;
-import com.jisucloud.deepsearch.selenium.AjaxListener;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
+import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
+import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
+import com.jisucloud.deepsearch.selenium.mitm.HookTracker;
 
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
+import net.lightbody.bmp.util.HttpMessageContents;
+import net.lightbody.bmp.util.HttpMessageInfo;
 
 import org.openqa.selenium.WebElement;
 
@@ -17,8 +19,15 @@ import java.util.Map;
 import java.util.Set;
 
 @Slf4j
-@UsePapaSpider
-public class AiTouZiSpider extends PapaSpider {
+//@UsePapaSpider  图形验证码过于复杂
+public class AiTouZiSpider extends PapaSpider implements AjaxHook {
+	
+	private ChromeAjaxHookDriver chromeDriver;
+	
+	private boolean checkTelephone = false;
+	
+	//暂时不能访问此页面，被反扒
+	public boolean success = false;//默认false
 
 	@Override
 	public String message() {
@@ -45,12 +54,6 @@ public class AiTouZiSpider extends PapaSpider {
 		return new String[] {"P2P", "借贷"};
 	}
 	
-	private ChromeAjaxListenDriver chromeDriver;
-	
-	private boolean checkTelephone = false;
-	
-	//暂时不能访问此页面，被反扒
-	public boolean success = false;//默认false
 	
 	@Override
 	public Set<String> getTestTelephones() {
@@ -58,17 +61,18 @@ public class AiTouZiSpider extends PapaSpider {
 	}
 	
 	private String getImgCode() {
-		for (int i = 0 ; i < 3; i++) {
-			try {
-				WebElement img = chromeDriver.findElementByCssSelector("#pwd_login img[class='img-captch']");
-				if (!img.isDisplayed()) {
-					return "";
+		if (chromeDriver.checkElement("input[name='valicode']")) {
+			for (int i = 0 ; i < 3; i++) {
+				try {
+					//windows下图片未正确获取
+					WebElement img = chromeDriver.findElementByCssSelector("#pwd_login img[class='img-captch']");
+					img.click();
+					smartSleep(1000);
+					byte[] body = chromeDriver.screenshot(img);
+					return OCRDecode.decodeImageCode(body);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				img.click();smartSleep(1000);
-				byte[] body = chromeDriver.screenshot(img);
-				return OCRDecode.decodeImageCode(body);
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
 		}
 		return "";
@@ -77,43 +81,10 @@ public class AiTouZiSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(false, null, null);
-			chromeDriver.setAjaxListener(new AjaxListener() {
-				
-				@Override
-				public String matcherUrl() {
-					// TODO Auto-generated method stub
-					return "user/ajax/login";
-				}
-				
-				@Override
-				public String[] blockUrl() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-				
-				@Override
-				public void ajax(Ajax ajax) throws Exception {
-					if (ajax.getResponse().contains("code\":5") || ajax.getResponse().contains("账号或密码错误") || ajax.getResponse().contains("锁定")) {
-						success = true;
-						checkTelephone = ajax.getResponse().contains("次机会") || ajax.getResponse().contains("锁定");
-					}
-					
-				}
-
-				@Override
-				public String fixPostData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-
-				@Override
-				public String fixGetData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-			});
-			chromeDriver.get("https://www.itouzi.com/login");smartSleep(2000);
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);
+			chromeDriver.addAjaxHook(this);
+			chromeDriver.get("https://www.itouzi.com/login");
+			smartSleep(2000);
 			chromeDriver.findElementByCssSelector("#pwd_login input[name='username']").sendKeys(account);
 			chromeDriver.findElementByCssSelector("#pwd_login input[name='password']").sendKeys("xasp12nxoanx89");
 			for (int i = 0; i < 5; i++) {
@@ -123,9 +94,9 @@ public class AiTouZiSpider extends PapaSpider {
 					codeInput.clear();
 					codeInput.sendKeys(imageCode);
 				}
-				chromeDriver.reInject();
 				WebElement next = chromeDriver.findElementByCssSelector("#pwd_login button[class='btn btn-block btn-auto btn-hue2 login']");
-				next.click();smartSleep(15000);
+				next.click();
+				smartSleep(5000);
 				if (success) {
 					break;
 				}
@@ -149,6 +120,25 @@ public class AiTouZiSpider extends PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
+	}
+
+	@Override
+	public HookTracker getHookTracker() {
+		return HookTracker.builder().addUrl("user/ajax/login").build();
+	}
+
+	@Override
+	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		return null;
+	}
+
+	@Override
+	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		String responseText = contents.getTextContents();
+		if (responseText.contains("code\":5") || responseText.contains("账号或密码错误") || responseText.contains("锁定")) {
+			success = true;
+			checkTelephone = responseText.contains("次机会") || responseText.contains("锁定");
+		}
 	}
 
 }
