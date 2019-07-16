@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Slf4j
-@UsePapaSpider
+//@UsePapaSpider
 public class TwitterSpider extends PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;
@@ -64,7 +64,7 @@ public class TwitterSpider extends PapaSpider {
 				}
 				return !uiHeaderTitle.contains("无法使用该信息搜索你的账号");
 			}
-			return true;
+			return false;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

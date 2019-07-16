@@ -222,7 +222,9 @@ public class PapaSpiderTester {
 //		testingWithPrint(DaiDaiXingLongSpider.class);
 //		testingWithPrint(JuJinZiBenSpider.class);
 //		testingWithPrint(FaceBookSpider.class);
-		testingWithPrint(TwitterSpider.class);
+//		testingWithPrint(TwitterSpider.class);
 //		testingWithPrint(GoogleSpider.class);
+//		testingWithPrint(BaoXiangJinRongSpider.class);
+		testingWithPrint(LanCaiWangSpider.class);
 	}
 }

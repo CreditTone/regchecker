@@ -13,11 +13,9 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.jisucloud.clawler.regagent.http.OKHttpUtil;
-import com.jisucloud.clawler.regagent.util.CountableFiberPool;
+import com.jisucloud.clawler.regagent.util.CountableThreadPool;
 import com.jisucloud.clawler.regagent.util.TimerRecoder;
 
-import co.paralleluniverse.fibers.SuspendExecution;
-import co.paralleluniverse.strands.Strand;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
@@ -37,7 +35,7 @@ public class PapaSpiderService extends Thread {
 	
 	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
 	
-	private CountableFiberPool fiberPool = new CountableFiberPool(20000);
+	private CountableThreadPool fiberPool = new CountableThreadPool(20000);
 	
 	@PostConstruct
 	private void init() {
@@ -65,7 +63,11 @@ public class PapaSpiderService extends Thread {
 		PapaTask papaTask = null;
 		while (true) {
 			papaTask = takePapaTask();
+			log.info("waitIdleThread1:"+fiberPool.getIdleThreadCount());
+			log.info("waitIdleThread2:"+fiberPool.getThreadAlive());
+			log.info("waitIdleThread3:"+fiberPool.getThreadNum());
 			fiberPool.waitIdleThread();
+			log.info("执行任务:"+papaTask);
 			fiberPool.execute(new PapaSpiderTaskRunnable(papaTask));
 		}
 	}
@@ -98,10 +100,8 @@ public class PapaSpiderService extends Thread {
 		private void waitCheckFinished() {
 			while ((successCount.get() + failureCount.get()) < fiberSize) {
 				try {
-					Strand.sleep(1000);
-				} catch (SuspendExecution e) {
-					e.printStackTrace();
-				} catch (InterruptedException e) {
+					Thread.sleep(1000);
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}

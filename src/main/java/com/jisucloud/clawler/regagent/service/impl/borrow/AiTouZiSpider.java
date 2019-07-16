@@ -2,6 +2,7 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
 import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
@@ -19,7 +20,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Slf4j
-//@UsePapaSpider  图形验证码过于复杂
+@UsePapaSpider(exclude = true , excludeMsg = "图片验证码太复杂")
 public class AiTouZiSpider extends PapaSpider implements AjaxHook {
 	
 	private ChromeAjaxHookDriver chromeDriver;

@@ -12,34 +12,34 @@ import java.util.Set;
 
 @Slf4j
 //@UsePapaSpider
-public class GoogleSpider extends PapaSpider {
+public class YahooSpider extends PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 
 	@Override
 	public String message() {
-		return "谷歌是一家位于美国的跨国科技企业，业务包括互联网搜索、云计算、广告技术等，同时开发并提供大量基于互联网的产品与服务，其主要利润来自于AdWords等广告服务，被公认为全球最大的搜索引擎公司。";
+		return "雅虎（英文名称：Yahoo！，NASDAQ：YHOO）是美国著名的互联网门户网站，也是20世纪末互联网奇迹的创造者之一。其服务包括搜索引擎、电邮、新闻等，业务遍及24个国家和地区，为全球超过5亿的独立用户提供多元化的网络服务。同时也是一家全球性的因特网通讯、商贸及媒体公司。";
 	}
 
 	@Override
 	public String platform() {
-		return "google";
+		return "yahoo";
 	}
 
 	@Override
 	public String home() {
-		return "google.com";
+		return "yahoo.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "谷歌";
+		return "雅虎";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"软件服务" , "系统工具"};
+		return new String[] {"新闻" , "搜索引擎"};
 	}
 	
 	@Override
@@ -51,10 +51,10 @@ public class GoogleSpider extends PapaSpider {
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newInstanceWithGoogleProxy(true, false, IOS_USER_AGENT);
-			chromeDriver.get("https://accounts.google.com/signin/v2/identifier?continue=https%3A%2F%2Fwww.youtube.com%2Fsignin%3Faction_handle_signin%3Dtrue%26app%3Ddesktop%26hl%3Dzh-CN%26next%3D%252F&hl=zh-CN&service=youtube&flowName=GlifWebSignIn&flowEntry=ServiceLogin");
+			chromeDriver.get("https://login.yahoo.com/forgot?.intl=us&.lang=zh-CN&.src=fpctx&done=https%3A%2F%2Fwww.yahoo.com");
 			smartSleep(1000);
-			chromeDriver.findElementById("identifierId").sendKeys("+86"+account);
-			chromeDriver.findElementByCssSelector("span[class='RveJvd snByac']").click();
+			chromeDriver.findElementById("username").sendKeys("+86"+account);
+			chromeDriver.findElementByCssSelector("button[name='verifyYid']").click();
 			smartSleep(60000);
 			if (chromeDriver.checkElement("#MemberNameError")) {
 				return true;

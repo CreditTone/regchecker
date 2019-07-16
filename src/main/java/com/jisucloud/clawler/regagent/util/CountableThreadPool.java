@@ -7,111 +7,122 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
+
 /**
  * 可计数的线程池
  */
-public class CountableThreadPool implements Closeable{
-	
-	    private int threadNum;
+public class CountableThreadPool implements Closeable {
 
-	    private AtomicInteger threadAlive = new AtomicInteger();
+	private int threadNum;
 
-	    private ReentrantLock reentrantLock = new ReentrantLock();
+	private AtomicInteger threadAlive = new AtomicInteger();
 
-	    private Condition condition = reentrantLock.newCondition();
-	    
-	    private ThreadPoolExecutor executorService;
+	private ReentrantLock reentrantLock = new ReentrantLock();
 
-	    public CountableThreadPool(int threadNum) {
-	        executorService = (ThreadPoolExecutor) Executors.newCachedThreadPool();
-	        setThread(threadNum);
-	    }
+	private Condition condition = reentrantLock.newCondition();
 
-	    public int getThreadAlive() {
-	        return executorService.getActiveCount();
-	    }
+	private ThreadPoolExecutor executorService;
 
-	    public int getThreadNum() {
-	        return threadNum;
-	    }
-	    
-	    public void setThread(int thread){
-	    	threadNum = thread;
-	    	executorService.setMaximumPoolSize(threadNum * 3);
-	    }
+	public CountableThreadPool(int threadNum) {
+		executorService = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+		setThread(threadNum);
+	}
 
-	    public void execute(final Runnable runnable) {
-	        if (threadAlive.get() >= threadNum) {
-	            try {
-	                reentrantLock.lock();
-	                while (threadAlive.get() >= threadNum) {
-	                    try {
-	                        condition.await();
-	                    } catch (InterruptedException e) {
-	                    }
-	                }
-	            } finally {
-	                reentrantLock.unlock();
-	            }
-	        }
-	        threadAlive.incrementAndGet();
-	        executorService.execute(new Runnable() {
-	            @Override
-	            public void run() {
-	                try {
-	                    runnable.run();
-	                } finally {
-	                    try {
-	                        reentrantLock.lock();
-	                        threadAlive.decrementAndGet();
-	                        condition.signal();
-	                    } finally {
-	                        reentrantLock.unlock();
-	                    }
-	                }
-	            }
-	        });
-	    }
+	public int getThreadAlive() {
+		return executorService.getActiveCount();
+	}
 
-	    public boolean isShutdown() {
-	        return executorService.isShutdown();
-	    }
+	public int getThreadNum() {
+		return threadNum;
+	}
 
-	    public void shutdown() {
-	        executorService.shutdown();
-	    }
-	    
-	    public int getIdleThreadCount(){
-	    	return threadNum - getThreadAlive();
-	    }
+	public void setThread(int thread) {
+		threadNum = thread;
+		executorService.setMaximumPoolSize(threadNum * 3);
+	}
 
-		@Override
-		public void close()  {
-			executorService.shutdown();
+	public void waitIdleThread() {
+		while (getIdleThreadCount() <= 0) {
 			try {
-				while (!executorService.awaitTermination(1, TimeUnit.SECONDS)) {
-					//The thread pool has no closing
-				}
-			} catch (InterruptedException e) {
+				Thread.sleep(100);
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		
-		public static void main(String[] args) throws Exception {
-			CountableThreadPool pool = new CountableThreadPool(10);
-			pool.execute(new Runnable() {
-				
-				@Override
-				public void run() {
+	}
+
+	public void execute(final Runnable runnable) {
+		if (threadAlive.get() >= threadNum) {
+			try {
+				reentrantLock.lock();
+				while (threadAlive.get() >= threadNum) {
 					try {
-						Thread.sleep(1000);
+						condition.await();
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
 					}
 				}
-			});
-			Thread.sleep(100);
-			System.out.println(pool.executorService.getActiveCount());
+			} finally {
+				reentrantLock.unlock();
+			}
 		}
+		threadAlive.incrementAndGet();
+		executorService.execute(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					runnable.run();
+				} finally {
+					try {
+						reentrantLock.lock();
+						threadAlive.decrementAndGet();
+						condition.signal();
+					} finally {
+						reentrantLock.unlock();
+					}
+				}
+			}
+		});
+	}
+
+	public boolean isShutdown() {
+		return executorService.isShutdown();
+	}
+
+	public void shutdown() {
+		executorService.shutdown();
+	}
+
+	public int getIdleThreadCount() {
+		return threadNum - getThreadAlive();
+	}
+
+	@Override
+	public void close() {
+		executorService.shutdown();
+		try {
+			while (!executorService.awaitTermination(1, TimeUnit.SECONDS)) {
+				// The thread pool has no closing
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void main(String[] args) throws Exception {
+		CountableThreadPool pool = new CountableThreadPool(10);
+		pool.execute(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		Thread.sleep(100);
+		System.out.println(pool.executorService.getActiveCount());
+	}
 }

@@ -19,10 +19,10 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ClassUtils;
 
-import com.alibaba.fastjson.JSON;
 import com.jisucloud.clawler.regagent.service.impl.borrow.BangBangTangSpider;
 import com.jisucloud.clawler.regagent.service.impl.borrow.GuoShuCaiFuSpider;
 import com.jisucloud.clawler.regagent.service.impl.borrow.JuAiCaiSpider;
+import com.jisucloud.clawler.regagent.service.impl.borrow.LanCaiWangSpider;
 import com.jisucloud.clawler.regagent.service.impl.borrow.PingAnXiaoDaiSpdier;
 import com.jisucloud.clawler.regagent.service.impl.borrow.YiDaiWangSpider;
 import com.jisucloud.clawler.regagent.service.impl.education.ZhongGuoZhiWangSpider;
@@ -31,6 +31,7 @@ import com.jisucloud.clawler.regagent.service.impl.email.ENet126EmailSpider;
 import com.jisucloud.clawler.regagent.service.impl.email.Enet163EmailSpider;
 import com.jisucloud.clawler.regagent.service.impl.email.SohuEmailSpider;
 import com.jisucloud.clawler.regagent.util.PapaSpiderTester;
+import com.jisucloud.clawler.regagent.util.ReflectUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,6 +47,7 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 	public static Set<Class<? extends PapaSpider>> IGNORE_TEST_RESULT = new HashSet<>();
 	
 	static {
+		IGNORE_TEST_RESULT.add(LanCaiWangSpider.class);
 		IGNORE_TEST_RESULT.add(JuAiCaiSpider.class);
 		IGNORE_TEST_RESULT.add(GuoShuCaiFuSpider.class);
 		IGNORE_TEST_RESULT.add(YiDaiWangSpider.class);
@@ -92,7 +94,9 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 			for (Class<?> clz : NOUSE_PAPASPIDERS) {
 				log.info(clz.getName());
 			}
-			timer.schedule(this, 0, RE_TEST_TIME);
+			if (!System.getProperty("os.name").toLowerCase().contains("mac")) {
+				timer.schedule(this, 0, RE_TEST_TIME);
+			}
 		}catch(Exception e) {
 			log.warn("载入失败", e);
 			throw e;
@@ -113,9 +117,13 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 	}
 	
 	public static boolean isUsePapaSpider(Class<?> clz) {
-		return clz.isAnnotationPresent(UsePapaSpider.class);
+		if (ReflectUtil.isUsedAnnotate(UsePapaSpider.class, clz)) {
+			UsePapaSpider usePapaSpider = clz.getAnnotation(UsePapaSpider.class);
+			return !usePapaSpider.exclude();
+		}
+		return false;
 	}
-
+	
 	@Override
 	public void testSuccess(Class<? extends PapaSpider> clz) {
 		//log.info("测试成功:"+clz.getName());
@@ -155,14 +163,17 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 			log.info("开始测试......");
 			Set<Class<? extends PapaSpider>> needTestPapaSpiders = new HashSet<>();
 			for (Class<? extends PapaSpider> clz : preparedPapaSpiders) {
-				if (isCheckValidPapaSpiderResultValid(clz)) {
+				if (isCheckValidPapaSpiderResultValid(clz) || IGNORE_TEST_RESULT.contains(clz)) {
 					TEST_SUCCESS_PAPASPIDERS.add(clz);
 					continue;
 				}
 				needTestPapaSpiders.add(clz);
 			}
 			log.info("需要测试"+needTestPapaSpiders.size()+"个。");
-			log.info("需要测试的列表:"+JSON.toJSONString(needTestPapaSpiders));
+			log.info("需要测试的列表:");
+			for (Class<? extends PapaSpider> clz : needTestPapaSpiders) {
+				log.info(clz.getName());
+			}
 			PapaSpiderTester.testing(needTestPapaSpiders, this);
 			log.info("测试完成，成功" + TEST_SUCCESS_PAPASPIDERS.size() + "个，失败" + TEST_FAILURE_PAPASPIDERS.size() + "个。");
 			if (!TEST_FAILURE_PAPASPIDERS.isEmpty()) {
