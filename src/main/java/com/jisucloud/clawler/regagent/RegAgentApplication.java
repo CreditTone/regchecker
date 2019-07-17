@@ -1,5 +1,7 @@
 package com.jisucloud.clawler.regagent;
 
+import java.io.File;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -18,14 +20,19 @@ import lombok.extern.slf4j.Slf4j;
 public class RegAgentApplication {
 
 	public static void main(String[] args) {
+		File quasar_core_jar = new File("quasar-core-0.7.10.jar");
+		if (!quasar_core_jar.exists()) {
+			log.warn("请将quasar-core-0.7.10.jar放置在本程序所在目录下");
+			return;
+		}
 		if (args == null) {
-			args = new String[] {"-javaagent:/Users/stephen/.m2/repository/co/paralleluniverse/quasar-core/0.7.10/quasar-core-0.7.10.jar"};
+			args = new String[] {"-javaagent:"+quasar_core_jar.getAbsolutePath()};
 		}else {
 			String[] newArgs = new String[args.length + 1];
 			for (int i = 0; i < args.length; i++) {
 				newArgs[i] = args[i];
 			}
-			newArgs[newArgs.length - 1] = "-javaagent:/Users/stephen/.m2/repository/co/paralleluniverse/quasar-core/0.7.10/quasar-core-0.7.10.jar";
+			newArgs[newArgs.length - 1] = "-javaagent:"+quasar_core_jar.getAbsolutePath();
 			args = newArgs;
 		}
 		log.info("SpringApplication正在启动");
@@ -42,23 +49,13 @@ public class RegAgentApplication {
 			@Override
 			public void run() throws SuspendExecution, InterruptedException {
 				try {
-					log.info("协程测试成功......"+Fiber.isCurrentFiber());
+					log.info("协程测试:"+Fiber.isCurrentFiber());
 				}catch (Exception e) {
 					e.printStackTrace();
 				} finally {
 				}
 			}
 		}).start();
-		new Thread() {
-			public void run() {
-				try {
-					log.info("协程测试成功......"+Fiber.isCurrentFiber());
-				}catch (Exception e) {
-					e.printStackTrace();
-				} finally {
-				}
-			};
-		}.start();
 	}
 	
 }

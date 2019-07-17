@@ -30,9 +30,11 @@ import com.jisucloud.clawler.regagent.service.impl.email.CDMA189EmailSpider;
 import com.jisucloud.clawler.regagent.service.impl.email.ENet126EmailSpider;
 import com.jisucloud.clawler.regagent.service.impl.email.Enet163EmailSpider;
 import com.jisucloud.clawler.regagent.service.impl.email.SohuEmailSpider;
+import com.jisucloud.clawler.regagent.util.CountableFiberPool;
 import com.jisucloud.clawler.regagent.util.PapaSpiderTester;
 import com.jisucloud.clawler.regagent.util.ReflectUtil;
 
+import co.paralleluniverse.fibers.Fiber;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -46,7 +48,20 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 	public static Set<Class<? extends PapaSpider>> NOUSE_PAPASPIDERS = new HashSet<>();
 	public static Set<Class<? extends PapaSpider>> IGNORE_TEST_RESULT = new HashSet<>();
 	
+	private static final CountableFiberPool testCountableFiberPool = new CountableFiberPool(10);
+	
 	static {
+		testCountableFiberPool.execute(new Runnable() {
+			
+			@Override
+			public void run() {
+				if (Fiber.isCurrentFiber()) {
+					log.info("线程测试成功");
+				}else {
+					log.info("线程测试失败");
+				}
+			}
+		});
 		IGNORE_TEST_RESULT.add(LanCaiWangSpider.class);
 		IGNORE_TEST_RESULT.add(JuAiCaiSpider.class);
 		IGNORE_TEST_RESULT.add(GuoShuCaiFuSpider.class);
@@ -169,8 +184,7 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 				}
 				needTestPapaSpiders.add(clz);
 			}
-			log.info("需要测试"+needTestPapaSpiders.size()+"个。");
-			log.info("需要测试的列表:");
+			log.info("需要测试"+needTestPapaSpiders.size()+"个,列表如下:");
 			for (Class<? extends PapaSpider> clz : needTestPapaSpiders) {
 				log.info(clz.getName());
 			}

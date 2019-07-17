@@ -61,7 +61,6 @@ public class ChinahrSpider extends PapaSpider {
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
 			String res = response.body().string();
-			System.out.println(res);
 			if (res.contains("用户存在")) {
 				return true;
 			}

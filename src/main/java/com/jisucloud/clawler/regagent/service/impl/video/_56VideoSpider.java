@@ -1,7 +1,5 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl.video;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
@@ -14,63 +12,58 @@ import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
-
-import org.openqa.selenium.WebElement;
 
 @Slf4j
-@UsePapaSpider
-public class MtimeSpider extends PapaSpider implements AjaxHook {
-	
-	private ChromeAjaxHookDriver chromeDriver;
-	private boolean checkTel = false;
+@UsePapaSpider(exclude = true)
+public class _56VideoSpider extends PapaSpider implements AjaxHook {
 
+	private ChromeAjaxHookDriver chromeDriver;
+	private boolean check = false;
 
 	@Override
 	public String message() {
-		return "Mtime时光网,中国最专业的电影电视剧及影人资料库,这里有最新最专业的电影新闻,预告片,海报,写真和热门影评,同时提供电影院影讯查询,博客,相册和群组等服务,是电影粉丝的最佳电影社区。";
+		return "56网是中国原创视频网站,免费上传搞笑逗趣生活视频,观看优质丰富的特色节目,关注感兴趣的原创导演和美女解说,快速分享及评论互动。";
 	}
 
 	@Override
 	public String platform() {
-		return "mtime";
+		return "56";
 	}
 
 	@Override
 	public String home() {
-		return "mtime.com";
+		return "56.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "Mtime时光网";
+		return "56视频";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"娱乐", "影音", "追星"};
+		return new String[] {"影音", "视频", "MV"};
 	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252045", "18210538513");
+		return Sets.newHashSet("18515290717", "18210530000");
 	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, false);
-			chromeDriver.get("https://passport.mtime.com/member/signin/?redirectUrl=http%3A%2F%2Fwww.mtime.com%2F");
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
+			chromeDriver.get("http://www.56.com/");
 			chromeDriver.addAjaxHook(this);
-			chromeDriver.findElementById("reg_mobile").sendKeys(account);
-			chromeDriver.findElementById("reg_password").click();
-			smartSleep(3000);
+			chromeDriver.findElementByLinkText("注册");
+			smartSleep(2000);
+			chromeDriver.findElementByCssSelector("#regMobileAccount").sendKeys(account);
+			chromeDriver.findElementById("regPassWordA").click();
+			smartSleep(2000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -78,7 +71,7 @@ public class MtimeSpider extends PapaSpider implements AjaxHook {
 				chromeDriver.quit();
 			}
 		}
-		return checkTel;
+		return check;
 	}
 
 	@Override
@@ -93,22 +86,18 @@ public class MtimeSpider extends PapaSpider implements AjaxHook {
 
 	@Override
 	public HookTracker getHookTracker() {
-		return HookTracker.builder().addUrl("api/check_unique_loginname?").build();
+		return HookTracker.builder().addUrl("https://v4-passport.56.com/i/verify/mobile/bind").build();
 	}
 
 	@Override
 	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
-		try {
-			JSONObject result = JSON.parseObject(contents.getTextContents());
-			checkTel = result.getBooleanValue("exist");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		check = contents.getTextContents().contains("already has bind");
 	}
 
 }

@@ -14,10 +14,6 @@ import co.paralleluniverse.strands.SuspendableRunnable;
  */
 public class CountableFiberPool{
 	
-	static {
-		System.setProperty("co.paralleluniverse.fibers.verifyInstrumentation", "true");
-	}
-
 	private int threadNum;
 
 	private AtomicInteger threadAlive = new AtomicInteger();
@@ -42,11 +38,11 @@ public class CountableFiberPool{
 		threadNum = thread;
 	}
 	
-	public void execute(final Runnable runnable) {
-		execute(runnable, null);
+	public Fiber<Void> execute(final Runnable runnable) {
+		return execute(runnable, null);
 	}
 
-	public void execute(final Runnable runnable, FiberListener fiberListener) {
+	public Fiber<Void> execute(final Runnable runnable, FiberListener fiberListener) {
 		if (threadAlive.get() >= threadNum) {
 			try {
 				reentrantLock.lock();
@@ -61,7 +57,7 @@ public class CountableFiberPool{
 			}
 		}
 		threadAlive.incrementAndGet();
-		new Fiber<Void>("Caller", new SuspendableRunnable() {
+		Fiber<Void> fiber = new Fiber<Void>("Caller", new SuspendableRunnable() {
 			/**
 			 * 
 			 */
@@ -89,7 +85,9 @@ public class CountableFiberPool{
 					}
 				}
 			}
-		}).start();
+		});
+		fiber.start();
+		return fiber;
 	}
 
 	public int getIdleThreadCount() {

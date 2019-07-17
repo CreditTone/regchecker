@@ -1,10 +1,9 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl._3c;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
+import com.jisucloud.clawler.regagent.util.OCRDecode;
 import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
 import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
 import com.jisucloud.deepsearch.selenium.mitm.HookTracker;
@@ -14,62 +13,56 @@ import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebElement;
 
 @Slf4j
 @UsePapaSpider
-public class MtimeSpider extends PapaSpider implements AjaxHook {
+public class ShouJiZhongGuoSpider extends PapaSpider implements AjaxHook {
 	
 	private ChromeAjaxHookDriver chromeDriver;
-	private boolean checkTel = false;
-
 
 	@Override
 	public String message() {
-		return "Mtime时光网,中国最专业的电影电视剧及影人资料库,这里有最新最专业的电影新闻,预告片,海报,写真和热门影评,同时提供电影院影讯查询,博客,相册和群组等服务,是电影粉丝的最佳电影社区。";
+		return "手机中国是一个实现了专业、时尚、品位并重的新兴手机媒体。相对于传统手机媒体不同之处在于，手机中国不仅提供指导消费、倡导应用，同时还在引领着手机的时尚与品位。在专业端，手机中国提供售前指导，包括价格、选购、评测试用、新品消息等，同时还在时尚与品味端，提供全方位的服务。";
 	}
 
 	@Override
 	public String platform() {
-		return "mtime";
+		return "cnmo";
 	}
 
 	@Override
 	public String home() {
-		return "mtime.com";
+		return "cnmo.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "Mtime时光网";
+		return "手机中国";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"娱乐", "影音", "追星"};
+		return new String[] {"手机" , "媒体" , "评测"};
 	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252045", "18210538513");
+		return Sets.newHashSet("15985268900", "18210538513");
 	}
-
+	
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, false);
-			chromeDriver.get("https://passport.mtime.com/member/signin/?redirectUrl=http%3A%2F%2Fwww.mtime.com%2F");
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
 			chromeDriver.addAjaxHook(this);
-			chromeDriver.findElementById("reg_mobile").sendKeys(account);
-			chromeDriver.findElementById("reg_password").click();
+			chromeDriver.get("http://passport.cnmo.com/register/?backurl=http://www.cnmo.com/");
+			chromeDriver.findElementByCssSelector("#m_mobile").sendKeys(account);
+			chromeDriver.findElementById("m_uname").click();
 			smartSleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -78,7 +71,7 @@ public class MtimeSpider extends PapaSpider implements AjaxHook {
 				chromeDriver.quit();
 			}
 		}
-		return checkTel;
+		return ct;
 	}
 
 	@Override
@@ -93,22 +86,19 @@ public class MtimeSpider extends PapaSpider implements AjaxHook {
 
 	@Override
 	public HookTracker getHookTracker() {
-		return HookTracker.builder().addUrl("api/check_unique_loginname?").build();
+		return HookTracker.builder().addUrl("m=CheckMobileInuse").isPOST().build();
 	}
 
 	@Override
 	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
 		return null;
 	}
+	
+	boolean ct = false;
 
 	@Override
 	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
-		try {
-			JSONObject result = JSON.parseObject(contents.getTextContents());
-			checkTel = result.getBooleanValue("exist");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		ct = contents.getTextContents().contains("3");
 	}
 
 }

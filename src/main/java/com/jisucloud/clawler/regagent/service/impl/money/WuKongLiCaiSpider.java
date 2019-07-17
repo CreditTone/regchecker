@@ -3,8 +3,7 @@ package com.jisucloud.clawler.regagent.service.impl.money;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
+import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
 
 import lombok.extern.slf4j.Slf4j;
 import java.util.Map;
@@ -12,13 +11,12 @@ import java.util.Set;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.springframework.stereotype.Component;
 
 @Slf4j
 @UsePapaSpider
 public class WuKongLiCaiSpider extends PapaSpider {
 	
-	private ChromeAjaxListenDriver chromeDriver;
+	private ChromeAjaxHookDriver chromeDriver;
 
 	@Override
 	public String message() {
@@ -53,11 +51,13 @@ public class WuKongLiCaiSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(true, null, null);
-			chromeDriver.get("https://zhifu.wukonglicai.com//cphandle/login.htm");smartSleep(2000);
+			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(true, true, CHROME_USER_AGENT);
+			chromeDriver.get("https://zhifu.wukonglicai.com//cphandle/login.htm");
+			smartSleep(2000);
 			chromeDriver.findElementByCssSelector("input[name=mobile]").sendKeys(account);
 			chromeDriver.findElementByCssSelector("input[name=password]").sendKeys("casda12e12d");
-			chromeDriver.findElementById("bt").click();smartSleep(3000);
+			chromeDriver.findElementById("bt").click();
+			smartSleep(3000);
 			Document doc = Jsoup.parse(chromeDriver.getPageSource());
 			String res = doc.select("#message").text();
 			if (res.contains("密码不正确")) {

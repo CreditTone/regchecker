@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.borrow;
+package com.jisucloud.clawler.regagent.service.impl.money;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
@@ -14,58 +14,55 @@ import lombok.extern.slf4j.Slf4j;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
-import org.openqa.selenium.WebElement;
-
 import java.util.Map;
 import java.util.Set;
 
+import org.openqa.selenium.WebElement;
+
 @Slf4j
 @UsePapaSpider
-public class _91WangCaiSpider extends PapaSpider implements AjaxHook {
-
+public class KangTaiRenShouSpider extends PapaSpider implements AjaxHook {
+	
 	private ChromeAjaxHookDriver chromeDriver;
-	private boolean checkTel = false;
-	private boolean vcodeSuc = false;//验证码是否正确
 
 	@Override
 	public String message() {
-		return "91旺财是九一金融旗下互联网网络借贷信息中介平台,北京市互联网金融行业协会副会长单位,中国互联网金融协会会员理事单位,公司法人许泽玮先生现任北京市互联网金融协会。";
+		return "泰康人寿保险股份有限公司是中国大型保险金融服务集团，推荐优秀保险理财顾问，提供医疗保险，养老保险，健康保险，儿童保险，意外保险，教育金保险，大病保险等。";
 	}
 
 	@Override
 	public String platform() {
-		return "91wangcai";
+		return "taikang";
 	}
 
 	@Override
 	public String home() {
-		return "91wangcai.com";
+		return "taikang.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "91旺财";
+		return "泰康人寿";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
+		return new String[] {"理财" , "保险" , "健康保险" , "医疗保险"};
 	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252000", "18210538513");
+		return Sets.newHashSet("15985268900", "18210538513");
 	}
 	
-
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {
-				WebElement img = chromeDriver.findElementByCssSelector("#valicodeImg");
+				WebElement img = chromeDriver.findElementByCssSelector("#yzcode");
 				img.click();
 				smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
-				return OCRDecode.decodeImageCode(body);
+				return OCRDecode.decodeImageCode(body, "ne5");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -77,17 +74,18 @@ public class _91WangCaiSpider extends PapaSpider implements AjaxHook {
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
-			chromeDriver.get("https://www.91wangcai.com/user/to_login");
 			chromeDriver.addAjaxHook(this);
-			chromeDriver.findElementById("username").sendKeys(account);
-			chromeDriver.findElementById("pwd").sendKeys("lvnqwnk12mcxn");
+			chromeDriver.get("http://ecs.tk.cn/eservice/register/findpwd.jsp");
+			smartSleep(2000);
+			chromeDriver.findElementByCssSelector("#username").sendKeys(account);
 			for (int i = 0; i < 5; i++) {
-				WebElement validate = chromeDriver.findElementById("exa");
-				validate.clear();
-				validate.sendKeys(getImgCode());
-				chromeDriver.findElementById("login_btn").click();
+				String imageCode = getImgCode();
+				WebElement mark = chromeDriver.findElementByCssSelector("#mark");
+				mark.clear();
+				mark.sendKeys(imageCode);
+				chromeDriver.findElementByCssSelector("input[value='下一步']").click();
 				smartSleep(3000);
-				if (vcodeSuc) {
+				if (vs) {
 					break;
 				}
 			}
@@ -98,7 +96,7 @@ public class _91WangCaiSpider extends PapaSpider implements AjaxHook {
 				chromeDriver.quit();
 			}
 		}
-		return checkTel;
+		return ct;
 	}
 
 	@Override
@@ -113,19 +111,22 @@ public class _91WangCaiSpider extends PapaSpider implements AjaxHook {
 
 	@Override
 	public HookTracker getHookTracker() {
-		return HookTracker.builder().addUrl("oauth2/authorize").build();
+		return HookTracker.builder().addUrl("http://ecs.tk.cn/eservice/change/service").isPOST().build();
 	}
 
 	@Override
 	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
 		return null;
 	}
+	
+	boolean vs = false;
+	boolean ct = false;
 
 	@Override
 	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
-		if (!contents.getTextContents().contains("验证码错误")) {
-			vcodeSuc = true;
-			checkTel = contents.getTextContents().contains("密码错误") || contents.getTextContents().contains("锁定");
+		if (!contents.getTextContents().contains("验证码")) {
+			vs = true;
+			ct = contents.getTextContents().contains("member_mobile");
 		}
 	}
 

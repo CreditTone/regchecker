@@ -225,6 +225,21 @@ public class PapaSpiderTester {
 //		testingWithPrint(TwitterSpider.class);
 //		testingWithPrint(GoogleSpider.class);
 //		testingWithPrint(BaoXiangJinRongSpider.class);
-		testingWithPrint(LanCaiWangSpider.class);
+//		testingWithPrint(LanCaiWangSpider.class);
+//		testingWithPrint(AoYouSpider.class);
+//		testingWithPrint(TeambitionSpider.class);
+//		testingWithPrint(YugusoftSpider.class);
+//		testingWithPrint(MaoPuSheQuSpider.class);
+//		testingWithPrint(KangTaiRenShouSpider.class);
+//		testingWithPrint(KaiDiWangSpider.class);
+//		testingWithPrint(JiFengLunTanSpider.class);
+//		testingWithPrint(MuMaYiSpider.class);
+//		testingWithPrint(AllianzSpider.class);
+//		testingWithPrint(JiaYouBaoSpider.class);
+//		testingWithPrint(ShouJiZhongGuoSpider.class);
+//		testingWithPrint(ZhanKuSpider.class);
+//		testingWithPrint(ShiJueZhongGuoSpider.class);
+//		testingWithPrint(_56VideoSpider.class);
+		testingWithPrint(MeiZanChengSpider.class);
 	}
 }

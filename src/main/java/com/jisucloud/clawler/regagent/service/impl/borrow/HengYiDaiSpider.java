@@ -7,26 +7,20 @@ import org.jsoup.Connection;
 import javax.crypto.spec.DESKeySpec;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.service.PapaSpiderTester;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
 
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import me.kagura.JJsoup;
 import me.kagura.Session;
 
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.security.spec.InvalidKeySpecException;
 
 @Slf4j
-@UsePapaSpider
+@UsePapaSpider(exclude = true , excludeMsg = "windows下加密算法不适用")
 public class HengYiDaiSpider extends PapaSpider {
 
 	@Override
@@ -103,17 +97,23 @@ public class HengYiDaiSpider extends PapaSpider {
 	public String decrypt(String data) throws Exception {
 		String DES_KEY = "o9WL!惹@#8*3${'" + data + "'}D5m赢7&4(荡F*";
 		byte[] bytes = Base64.getDecoder().decode(data.replaceAll("[\\s]*", ""));
-		SecretKey key = SecretKeyFactory.getInstance("DES").generateSecret(new DESKeySpec(DES_KEY.getBytes()));
+		SecretKey key = generateSecret(DES_KEY);
 		Cipher cipher = Cipher.getInstance("DES");
-		cipher.init(2, key, new SecureRandom());
+		cipher.init(Cipher.DECRYPT_MODE, key, SecureRandom.getInstance("SHA1PRNG"));
 		return new String(cipher.doFinal(bytes));
+	}
+	
+	private SecretKey generateSecret(String des_key) throws Exception {
+		SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
+		DESKeySpec desKeySpec = new DESKeySpec(des_key.getBytes());
+		return keyFactory.generateSecret(desKeySpec);
 	}
 
 	public String encrypt(String data) throws Exception {
 		String DES_KEY = "o9WL!惹@#8*3${'" + data + "'}D5m赢7&4(荡F*";
 		SecretKey key = SecretKeyFactory.getInstance("DES").generateSecret(new DESKeySpec(DES_KEY.getBytes()));
 		Cipher cipher = Cipher.getInstance("DES");
-		cipher.init(1, key, new SecureRandom());
+		cipher.init(Cipher.ENCRYPT_MODE, key, SecureRandom.getInstance("SHA1PRNG"));
 		return Base64.getEncoder().encodeToString(cipher.doFinal(data.getBytes())).replaceAll("[\\s]+", "");
 	}
 

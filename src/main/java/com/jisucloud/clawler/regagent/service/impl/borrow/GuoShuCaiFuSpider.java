@@ -57,7 +57,7 @@ public class GuoShuCaiFuSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			okHttpClient.newCall(new Request.Builder().url("https://www.baidu.com/link?url=xGSj_vb0FEkwX3Mjy3J-bIsdUOaKYHQkShsBIYyBVffaIwS_-qLb5n01mBuzLXP2&wd=&eqid=b6b51d51001a87e4000000025cfe1047").build()).execute();
+			okHttpClient.newCall(new Request.Builder().url("https://www.baidu.com/link?url=xGSj_vb0FEkwX3Mjy3J-bIsdUOaKYHQkShsBIYyBVffaIwS_-qLb5n01mBuzLXP2&wd=&eqid=b6b51d51001a87e4000000025cfe1047").build()).execute().body().close();
 			String url = "https://www.goodsure.cn/home/login";
 			Response response = okHttpClient.newCall(new Request.Builder().url(url).build()).execute();
 			Document doc = Jsoup.parse(response.body().string());
@@ -77,7 +77,6 @@ public class GuoShuCaiFuSpider extends PapaSpider {
 					.build();
 			response = okHttpClient.newCall(request).execute();
 			String res = response.body().string();
-			System.out.println(res);
 			if (!res.contains("账户不存在")) {
 				return true;
 			}

@@ -66,7 +66,8 @@ public class AoYouSpider extends PapaSpider {
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("exist\":true")) {
+			String res = response.body().string();
+			if (res.contains("exist\":true") || res.contains("已存在")) {
 				return true;
 			}
 		} catch (Exception e) {

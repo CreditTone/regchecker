@@ -4,6 +4,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import co.paralleluniverse.strands.Strand;
+
 public abstract class PapaSpider {
 
 	public static final Random RANDOM = new Random();
@@ -34,9 +36,7 @@ public abstract class PapaSpider {
 
 	public final void smartSleep(long millis) {
 		try {
-			//long start = System.currentTimeMillis();
-			Thread.sleep(millis);
-			//System.out.println(millis +" >休眠:" + (System.currentTimeMillis() - start));
+			Strand.sleep(millis);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

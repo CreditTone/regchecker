@@ -3,13 +3,12 @@ package com.jisucloud.clawler.regagent.service.impl.money;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
+import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
 
 import lombok.extern.slf4j.Slf4j;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.Map;
 import java.util.Set;
@@ -18,7 +17,7 @@ import java.util.Set;
 @UsePapaSpider
 public class ZhongGuoRenMinBaoXianSpider extends PapaSpider {
 
-	private ChromeDriver chromeDriver;
+	private ChromeAjaxHookDriver chromeDriver;
 
 	@Override
 	public String message() {
@@ -54,10 +53,12 @@ public class ZhongGuoRenMinBaoXianSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(true, null, "Mozilla/5.0 (Linux; Android 7.0; PLUS Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Mobile Safari/537.36");
-			chromeDriver.get("http://www.epicc.com.cn/newecenter/findPwd/find.do");smartSleep(5000);
+			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(true, true, IOS_USER_AGENT);
+			chromeDriver.get("http://www.epicc.com.cn/newecenter/findPwd/find.do");
+			smartSleep(5000);
 			chromeDriver.findElementById("userName").sendKeys(account);
-			chromeDriver.findElementByClassName("js-input-next").click();smartSleep(3000);
+			chromeDriver.findElementByClassName("js-input-next").click();
+			smartSleep(3000);
 			Document doc = Jsoup.parse(chromeDriver.getPageSource());
 			if (doc.select("#userMobile").attr("value").contains("****")) {
 				return true;

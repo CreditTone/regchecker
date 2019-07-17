@@ -1,9 +1,10 @@
 package com.jisucloud.clawler.regagent.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.PostConstruct;
 
@@ -13,9 +14,11 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.jisucloud.clawler.regagent.http.OKHttpUtil;
-import com.jisucloud.clawler.regagent.util.CountableThreadPool;
+import com.jisucloud.clawler.regagent.util.CountableFiberPool;
 import com.jisucloud.clawler.regagent.util.TimerRecoder;
 
+import co.paralleluniverse.strands.Strand;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
@@ -35,7 +38,7 @@ public class PapaSpiderService extends Thread {
 	
 	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
 	
-	private CountableThreadPool fiberPool = new CountableThreadPool(20000);
+	private CountableFiberPool fiberPool = new CountableFiberPool(20000);
 	
 	@PostConstruct
 	private void init() {
@@ -63,9 +66,6 @@ public class PapaSpiderService extends Thread {
 		PapaTask papaTask = null;
 		while (true) {
 			papaTask = takePapaTask();
-			log.info("waitIdleThread1:"+fiberPool.getIdleThreadCount());
-			log.info("waitIdleThread2:"+fiberPool.getThreadAlive());
-			log.info("waitIdleThread3:"+fiberPool.getThreadNum());
 			fiberPool.waitIdleThread();
 			log.info("执行任务:"+papaTask);
 			fiberPool.execute(new PapaSpiderTaskRunnable(papaTask));
@@ -74,10 +74,9 @@ public class PapaSpiderService extends Thread {
 	
 	public final class PapaSpiderTaskRunnable implements Runnable {
 		
-		private AtomicInteger successCount = new AtomicInteger();
-		private AtomicInteger failureCount = new AtomicInteger();
-		private int fiberSize = 0;
 		private PapaTask papaTask = null;
+		//private List<Fiber<Void>> fibers = new ArrayList<>();
+		private List<PapaSpiderClassRunnable> runnables = new ArrayList<>();
 		
 		public PapaSpiderTaskRunnable(PapaTask papaTask) {
 			this.papaTask = papaTask;
@@ -88,22 +87,35 @@ public class PapaSpiderService extends Thread {
 			log.info("开始任务("+papaTask.getId()+")");
 			TimerRecoder timerRecoder = new TimerRecoder().start();
 			for (Class<? extends PapaSpider> clz : TestValidPapaSpiderService.TEST_SUCCESS_PAPASPIDERS) {
-				fiberPool.waitIdleThread();
-				fiberSize ++;
-				fiberPool.execute(new PapaSpiderRunnable(papaTask, clz, successCount, failureCount));
+				PapaSpiderClassRunnable papaSpiderClassRunnable = new PapaSpiderClassRunnable(papaTask, clz);
+				fiberPool.execute(papaSpiderClassRunnable);
+				runnables.add(papaSpiderClassRunnable);
 			}
-			waitCheckFinished();
+			log.info("任务("+papaTask.getId()+")，启动："+runnables.size()+"个协程.");
+			try {
+				waitCheckFinished();
+			} catch (Exception e) {
+				log.info("等待任务完成发生异常", e);
+			}
+			notifyFinished(papaTask);
 			String useTime = timerRecoder.getText();
-			log.info("任务("+papaTask.getId()+")结束。用时"+useTime+",成功撞库平台"+successCount+"个,失败"+failureCount+"个。");
+			log.info("任务("+papaTask.getId()+")结束。用时"+useTime+",成功撞库平台xx个,失败xx个。");
 		}
 		
-		private void waitCheckFinished() {
-			while ((successCount.get() + failureCount.get()) < fiberSize) {
-				try {
-					Thread.sleep(1000);
-				} catch (Exception e) {
-					e.printStackTrace();
+		private void waitCheckFinished() throws Exception {
+			while (true) {
+				boolean isDone = false;
+				for (PapaSpiderClassRunnable runnable : runnables) {
+					isDone = runnable.isDone();
+					if (!isDone) {
+						log.info("任务"+runnable.getPapaSpiderClz().getSimpleName()+"还未完成");
+						break;
+					}
 				}
+				if (isDone) {
+					break;
+				}
+				Strand.sleep(10000);
 			}
 		}
 		
@@ -114,22 +126,16 @@ public class PapaSpiderService extends Thread {
 	 * @author stephen
 	 *
 	 */
-	public final class PapaSpiderRunnable implements Runnable {
+	@Data
+	public final class PapaSpiderClassRunnable implements Runnable {
 		
 		private PapaTask papaTask = null;
-		
 		private Class<? extends PapaSpider> papaSpiderClz;
+		private boolean isDone = false;
 		
-		private AtomicInteger successCount = null;
-		private AtomicInteger failureCount = null;
-		
-		
-		public PapaSpiderRunnable(PapaTask papaTask, Class<? extends PapaSpider> papaSpiderClz,
-				AtomicInteger successCount, AtomicInteger failureCount) {
+		public PapaSpiderClassRunnable(PapaTask papaTask, Class<? extends PapaSpider> papaSpiderClz) {
 			this.papaTask = papaTask;
 			this.papaSpiderClz = papaSpiderClz;
-			this.successCount = successCount;
-			this.failureCount = failureCount;
 		}
 
 		@Override
@@ -142,63 +148,76 @@ public class PapaSpiderService extends Thread {
 						log.info("任务(" + papaTask.getId() + "),不需要撞库平台"+instance.platform());
 						return;
 					}
-					notifyTelephone(instance, instance.checkTelephone(papaTask.getTelephone()));
-					successCount.incrementAndGet();
+					notifyTelephone(papaTask, instance, instance.checkTelephone(papaTask.getTelephone()));
 				} catch (Exception e) {
-					failureCount.incrementAndGet();
 					log.warn("任务("+papaTask.getId()+")撞库"+papaSpiderClz.getName()+"失败", e);
 				}
-				finished();
 			}
+			isDone = true;
 		}
 		
-		private void finished() {
-			Map<String,Object> result = new HashMap<>();
-			result.put("method", "finished");
-			postResult(result);
-		}
-		
-		private void notifyTelephone(PapaSpider instance, boolean registed) {
-			Map<String,Object> result = new HashMap<>();
-			result.put("method", "notify");
-			Map<String, String> fields = instance.getFields();
-			if (fields == null) {
-				fields = new HashMap<>();
-			}
-			Account data = Account.builder()
-				.username(papaTask.getTelephone())
-				.registed(registed)
-				.platform(instance.platform())
-				.platformName(instance.platformName())
-				.platformMsg(instance.message())
-				.addTag(instance.tags())
-				.fields(fields).build();
-			result.put("data", data);
-			postResult(result);
+		public boolean isDone() {
+			return isDone;
 		}
 
-		private void postResult(Map<String, Object> result) {
-			result.put("id", papaTask.getId());
-			String url = papaTask.getCallurl();
-			RequestBody requestBody = FormBody.create(MediaType.parse("application/json;charset=utf-8"), JSON.toJSONString(result));
-			Request request = new Request.Builder().url(url)
-					.post(requestBody)
-					.build();
-			Response response = null;
-			for (int i = 0; i < 3; i++) {
-				try {
-					response = okHttpClient.newCall(request).execute();
-					if (response.code() != 200) {
-						log.warn("推送结果失败:"+papaTask.getId() + "status:" + response.code());
-						continue;
-					}
-				} catch (Exception e) {
-					log.warn("推送结果异常:"+papaTask.getId(), e);
+	}
+	
+	
+	private void notifyFinished(PapaTask papaTask) {
+		Map<String,Object> result = new HashMap<>();
+		result.put("method", "finished");
+		postResult(papaTask, result);
+	}
+	
+	private void notifyTelephone(PapaTask papaTask, PapaSpider instance, boolean registed) {
+		Map<String,Object> result = new HashMap<>();
+		result.put("method", "notify");
+		Map<String, String> fields = instance.getFields();
+		if (fields == null) {
+			fields = new HashMap<>();
+		}
+		Account data = Account.builder()
+			.username(papaTask.getTelephone())
+			.registed(registed)
+			.platform(instance.platform())
+			.platformName(instance.platformName())
+			.platformMsg(instance.message())
+			.addTag(instance.tags())
+			.fields(fields).build();
+		result.put("data", data);
+		postResult(papaTask, result);
+	}
+
+	private void postResult(PapaTask papaTask, Map<String, Object> result) {
+		result.put("id", papaTask.getId());
+		String url = papaTask.getCallurl();
+		RequestBody requestBody = FormBody.create(MediaType.parse("application/json;charset=utf-8"), JSON.toJSONString(result));
+		Request request = new Request.Builder().url(url)
+				.post(requestBody)
+				.build();
+		Response response = null;
+		for (int i = 0; i < 3; i++) {
+			try {
+				response = okHttpClient.newCall(request).execute();
+				if (response.code() != 200) {
+					log.warn("推送结果失败:"+papaTask.getId() + "status:" + response.code());
 					continue;
 				}
-				log.info("推送结果成功:"+papaTask.getId() + "result:" + JSON.toJSONString(result));
-				break;
+			} catch (Exception e) {
+				log.warn("推送结果异常:"+papaTask.getId(), e);
+				continue;
+			}finally {
+				if (response != null) {
+					response.body().close();
+				}
 			}
+			if (result.containsKey("data")) {
+				Map<String, Object> data = (Map<String, Object>) result.get("data");
+				log.info("推送结果成功:"+papaTask.getId() + ",platform:" + data.get("platform"));
+			}else {
+				log.info("推送结果成功:"+papaTask.getId() + ",data:" + result.get("data"));
+			}
+			break;
 		}
 	}
 	
