@@ -48,7 +48,7 @@ public class OCRDecode {
 				String body = response.body().string();
 				JSONObject result = JSON.parseObject(body);
 				if (result != null && result.containsKey("errCode") && result.getIntValue("errCode") == 0) {
-					log.info("decode:"+result.getString("v_code"));
+					log.debug("decode:"+result.getString("v_code"));
 					return result.getString("v_code");
 				}
 				log.warn(result.toJSONString());

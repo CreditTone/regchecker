@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
@@ -11,6 +13,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import okhttp3.Authenticator;
 import okhttp3.Credentials;
@@ -34,12 +37,34 @@ public class OKHttpUtil {
 
 		return ssfFactory;
 	}
+	
+	private static X509TrustManager createX509TrustManager() {
+		X509TrustManager trustManager = new X509TrustManager() {
 
-	@SuppressWarnings("deprecation")
+			@Override
+			public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public X509Certificate[] getAcceptedIssuers() {
+				 return new X509Certificate[0];
+			}
+	       };
+		return trustManager;
+	}
+
 	public static OkHttpClient createOkHttpClient() {
 		OkHttpClient.Builder builder = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 				.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).cookieJar(new PersistenceCookieJar());
-		builder.sslSocketFactory(createSSLSocketFactory());
+		builder.sslSocketFactory(createSSLSocketFactory(), createX509TrustManager());
 		builder.hostnameVerifier(new HostnameVerifier() {
 			@Override
 			public boolean verify(String hostname, SSLSession session) {
@@ -49,7 +74,6 @@ public class OKHttpUtil {
 		return builder.build();
 	}
 
-	@SuppressWarnings("deprecation")
 	public static OkHttpClient createOkHttpClientWithRandomProxy() {
 		OkHttpClient.Builder builder = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 				.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true)
@@ -66,7 +90,7 @@ public class OKHttpUtil {
 						return response.request().newBuilder().header("Proxy-Authorization", credential).build();
 					}
 				}).cookieJar(new PersistenceCookieJar());
-		builder.sslSocketFactory(createSSLSocketFactory());
+		builder.sslSocketFactory(createSSLSocketFactory(), createX509TrustManager());
 		builder.hostnameVerifier(new HostnameVerifier() {
 			@Override
 			public boolean verify(String hostname, SSLSession session) {

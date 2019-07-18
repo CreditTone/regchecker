@@ -48,20 +48,8 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 	public static Set<Class<? extends PapaSpider>> NOUSE_PAPASPIDERS = new HashSet<>();
 	public static Set<Class<? extends PapaSpider>> IGNORE_TEST_RESULT = new HashSet<>();
 	
-	private static final CountableFiberPool testCountableFiberPool = new CountableFiberPool(10);
 	
 	static {
-		testCountableFiberPool.execute(new Runnable() {
-			
-			@Override
-			public void run() {
-				if (Fiber.isCurrentFiber()) {
-					log.info("线程测试成功");
-				}else {
-					log.info("线程测试失败");
-				}
-			}
-		});
 		IGNORE_TEST_RESULT.add(LanCaiWangSpider.class);
 		IGNORE_TEST_RESULT.add(JuAiCaiSpider.class);
 		IGNORE_TEST_RESULT.add(GuoShuCaiFuSpider.class);
@@ -109,9 +97,7 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 			for (Class<?> clz : NOUSE_PAPASPIDERS) {
 				log.info(clz.getName());
 			}
-			if (!System.getProperty("os.name").toLowerCase().contains("mac")) {
-				timer.schedule(this, 0, RE_TEST_TIME);
-			}
+			timer.schedule(this, 0, RE_TEST_TIME);
 		}catch(Exception e) {
 			log.warn("载入失败", e);
 			throw e;
@@ -175,7 +161,6 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 	@Override
 	public void run() {
 		try {
-			log.info("开始测试......");
 			Set<Class<? extends PapaSpider>> needTestPapaSpiders = new HashSet<>();
 			for (Class<? extends PapaSpider> clz : preparedPapaSpiders) {
 				if (isCheckValidPapaSpiderResultValid(clz) || IGNORE_TEST_RESULT.contains(clz)) {
@@ -184,22 +169,25 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 				}
 				needTestPapaSpiders.add(clz);
 			}
-			log.info("需要测试"+needTestPapaSpiders.size()+"个,列表如下:");
-			for (Class<? extends PapaSpider> clz : needTestPapaSpiders) {
-				log.info(clz.getName());
-			}
-			PapaSpiderTester.testing(needTestPapaSpiders, this);
-			log.info("测试完成，成功" + TEST_SUCCESS_PAPASPIDERS.size() + "个，失败" + TEST_FAILURE_PAPASPIDERS.size() + "个。");
-			if (!TEST_FAILURE_PAPASPIDERS.isEmpty()) {
-				log.info("测试失败列表如下:");
-				for (Class<? extends PapaSpider> clz : TEST_FAILURE_PAPASPIDERS) {
+			if (!System.getProperty("os.name").toLowerCase().contains("mac")) {
+				log.info("开始测试......");
+				log.info("需要测试"+needTestPapaSpiders.size()+"个,列表如下:");
+				for (Class<? extends PapaSpider> clz : needTestPapaSpiders) {
 					log.info(clz.getName());
 				}
-			}
-			if (!NOUSE_PAPASPIDERS.isEmpty()) {
-				log.info("正在研发待列表如下：");
-				for (Class<?> clz : NOUSE_PAPASPIDERS) {
-					log.info(clz.getName());
+				PapaSpiderTester.testing(needTestPapaSpiders, this);
+				log.info("测试完成，成功" + TEST_SUCCESS_PAPASPIDERS.size() + "个，失败" + TEST_FAILURE_PAPASPIDERS.size() + "个。");
+				if (!TEST_FAILURE_PAPASPIDERS.isEmpty()) {
+					log.info("测试失败列表如下:");
+					for (Class<? extends PapaSpider> clz : TEST_FAILURE_PAPASPIDERS) {
+						log.info(clz.getName());
+					}
+				}
+				if (!NOUSE_PAPASPIDERS.isEmpty()) {
+					log.info("正在研发待列表如下：");
+					for (Class<?> clz : NOUSE_PAPASPIDERS) {
+						log.info(clz.getName());
+					}
 				}
 			}
 		} catch (Exception e) {

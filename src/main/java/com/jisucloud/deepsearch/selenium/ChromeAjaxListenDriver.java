@@ -19,6 +19,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
+import co.paralleluniverse.strands.Strand;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -147,8 +148,8 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 	
 	private void sleep(long mills) {
 		try {
-			Thread.sleep(mills);
-		} catch (InterruptedException e) {
+			Strand.sleep(mills);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -179,8 +180,8 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 		String id = Integer.toHexString(ajaxListener.hashCode());
 		if (!isXHRListener(id)) {
 			try {
-				Thread.sleep(300);
-			} catch (InterruptedException e) {
+				Strand.sleep(300);
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			executeScript("window.injectedListener['"+ id +"'] = '"+ajaxListener.matcherUrl()+"';");
@@ -193,8 +194,8 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 			if (ajaxListener.fixGetData() != null) {
 				executeScript("window.fixGetData['"+ ajaxListener.matcherUrl() +"'] = '"+ajaxListener.fixGetData()+"';");
 			}try {
-				Thread.sleep(300);
-			} catch (InterruptedException e) {
+				Strand.sleep(300);
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -242,8 +243,9 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 	@Override
 	public void close() {
 		quited = true;
-		try {Thread.sleep(1000);
-		} catch (InterruptedException e1) {
+		try {
+			Strand.sleep(1000);
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 		if (readAjaxQueueThread != null && readAjaxQueueThread.isAlive()) {
@@ -256,8 +258,9 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 	@Override
 	public void quit() {
 		quited = true;
-		try {Thread.sleep(1000);
-		} catch (InterruptedException e1) {
+		try {
+			Strand.sleep(1000);
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 		if (readAjaxQueueThread != null && readAjaxQueueThread.isAlive()) {
@@ -274,14 +277,14 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 	
 	public void mouseClick(WebElement webElement) throws Exception {
 		Actions actions = new Actions(this);
-		actions.moveToElement(webElement).perform();Thread.sleep(random.nextInt(1500));
-		actions.click().perform();Thread.sleep(random.nextInt(1500));
+		actions.moveToElement(webElement).perform();Strand.sleep(random.nextInt(1500));
+		actions.click().perform();Strand.sleep(random.nextInt(1500));
 	}
 	
 	public void keyboardClear(WebElement webElement, int backSpace) throws Exception {
 		mouseClick(webElement);
 		for (int k = 0; k < backSpace + random.nextInt(3); k++) {
-			webElement.sendKeys(Keys.BACK_SPACE);Thread.sleep(random.nextInt(150));
+			webElement.sendKeys(Keys.BACK_SPACE);Strand.sleep(random.nextInt(150));
 		}
 	}
 	
@@ -296,12 +299,12 @@ public class ChromeAjaxListenDriver extends ChromeDriver implements Runnable{
 		int backTimes = 0;
 		int prebackNums = random.nextInt(text.length() / 3);
 		for (int k = 0; k < text.length(); k++) {
-			webElement.sendKeys(String.valueOf(text.charAt(k)));Thread.sleep(random.nextInt(500) + 300);
+			webElement.sendKeys(String.valueOf(text.charAt(k)));Strand.sleep(random.nextInt(500) + 300);
 			inputed ++;
 			int backNum = inputed >= 3 && backTimes <= prebackNums ?random.nextInt(3) : 0;
 			backTimes += backNum;
 			for (int i = 0; i < backNum; i++) {
-				webElement.sendKeys(Keys.BACK_SPACE);Thread.sleep(random.nextInt(500) + 300);
+				webElement.sendKeys(Keys.BACK_SPACE);Strand.sleep(random.nextInt(500) + 300);
 				k--;
 			}
 		}

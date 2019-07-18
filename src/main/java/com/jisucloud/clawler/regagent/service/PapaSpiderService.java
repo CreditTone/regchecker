@@ -2,8 +2,10 @@ package com.jisucloud.clawler.regagent.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
@@ -15,8 +17,11 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.jisucloud.clawler.regagent.http.OKHttpUtil;
 import com.jisucloud.clawler.regagent.util.CountableFiberPool;
+import com.jisucloud.clawler.regagent.util.CountableThreadPool;
+import com.jisucloud.clawler.regagent.util.ReflectUtil;
 import com.jisucloud.clawler.regagent.util.TimerRecoder;
 
+import co.paralleluniverse.fibers.SuspendExecution;
 import co.paralleluniverse.strands.Strand;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -32,23 +37,26 @@ import okhttp3.Response;
 public class PapaSpiderService extends Thread {
 	
 	public static final String PAPATASK_QUEUE_KEY = "papatask_queue_key";
+	
+	private Set<String> taskIdFiler = new HashSet<String>();
 
 	@Autowired
 	private StringRedisTemplate redisTemplate;
 	
 	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
 	
-	private CountableFiberPool fiberPool = new CountableFiberPool(20000);
+	private CountableThreadPool trehadPool = new CountableThreadPool(1000);
 	
 	@PostConstruct
 	private void init() {
 		start();
 	}
 	
-	public void addPapaTask(PapaTask papaTask) {
-		if (papaTask != null) {
+	public synchronized void addPapaTask(PapaTask papaTask) {
+		if (papaTask != null && !taskIdFiler.contains(papaTask.getId())) {
 			log.warn("添加任务:"+papaTask);
 			redisTemplate.opsForList().rightPush(PAPATASK_QUEUE_KEY, JSON.toJSONString(papaTask));
+			taskIdFiler.add(papaTask.getId());
 		}
 	}
 	
@@ -66,9 +74,9 @@ public class PapaSpiderService extends Thread {
 		PapaTask papaTask = null;
 		while (true) {
 			papaTask = takePapaTask();
-			fiberPool.waitIdleThread();
+			trehadPool.waitIdleThread();
 			log.info("执行任务:"+papaTask);
-			fiberPool.execute(new PapaSpiderTaskRunnable(papaTask));
+			trehadPool.execute(new PapaSpiderTaskRunnable(papaTask));
 		}
 	}
 	
@@ -86,23 +94,38 @@ public class PapaSpiderService extends Thread {
 		public void run() {
 			log.info("开始任务("+papaTask.getId()+")");
 			TimerRecoder timerRecoder = new TimerRecoder().start();
-			for (Class<? extends PapaSpider> clz : TestValidPapaSpiderService.TEST_SUCCESS_PAPASPIDERS) {
-				PapaSpiderClassRunnable papaSpiderClassRunnable = new PapaSpiderClassRunnable(papaTask, clz);
-				fiberPool.execute(papaSpiderClassRunnable);
-				runnables.add(papaSpiderClassRunnable);
+			if (System.getProperty("os.name").toLowerCase().contains("mac")) {//开发模式只测试10个
+				log.info("开发模式只测试10个");
+				int nums = 0;
+				for (Class<? extends PapaSpider> clz : TestValidPapaSpiderService.TEST_SUCCESS_PAPASPIDERS) {
+					PapaSpiderClassRunnable papaSpiderClassRunnable = new PapaSpiderClassRunnable(papaTask, clz);
+					trehadPool.waitIdleThread();
+					trehadPool.execute(papaSpiderClassRunnable);
+					runnables.add(papaSpiderClassRunnable);
+					nums++;
+					if (nums >= 10) {
+						break;
+					}
+				}
+			}else {
+				log.info("生产模式");
+				for (Class<? extends PapaSpider> clz : TestValidPapaSpiderService.TEST_SUCCESS_PAPASPIDERS) {
+					PapaSpiderClassRunnable papaSpiderClassRunnable = new PapaSpiderClassRunnable(papaTask, clz);
+					trehadPool.execute(papaSpiderClassRunnable);
+					runnables.add(papaSpiderClassRunnable);
+				}
 			}
 			log.info("任务("+papaTask.getId()+")，启动："+runnables.size()+"个协程.");
-			try {
-				waitCheckFinished();
-			} catch (Exception e) {
-				log.info("等待任务完成发生异常", e);
-			}
+			waitCheckFinished();
 			notifyFinished(papaTask);
 			String useTime = timerRecoder.getText();
 			log.info("任务("+papaTask.getId()+")结束。用时"+useTime+",成功撞库平台xx个,失败xx个。");
 		}
 		
-		private void waitCheckFinished() throws Exception {
+		private void waitCheckFinished() {
+			if (runnables.isEmpty()) {
+				return;
+			}
 			while (true) {
 				boolean isDone = false;
 				for (PapaSpiderClassRunnable runnable : runnables) {
@@ -115,7 +138,11 @@ public class PapaSpiderService extends Thread {
 				if (isDone) {
 					break;
 				}
-				Strand.sleep(10000);
+				try {
+					Strand.sleep(10000);
+				} catch (Exception e) {
+					e.printStackTrace();
+				} 
 			}
 		}
 		
@@ -211,11 +238,11 @@ public class PapaSpiderService extends Thread {
 					response.body().close();
 				}
 			}
-			if (result.containsKey("data")) {
-				Map<String, Object> data = (Map<String, Object>) result.get("data");
-				log.info("推送结果成功:"+papaTask.getId() + ",platform:" + data.get("platform"));
+			if (result.containsKey("data") && ReflectUtil.isInstance(Account.class, result.get("data"))) {
+				Account data = (Account) result.get("data");
+				log.info("推送结果成功:"+papaTask.getId() + ",platform:" + data.getPlatform());
 			}else {
-				log.info("推送结果成功:"+papaTask.getId() + ",data:" + result.get("data"));
+				log.info("推送结果成功:"+papaTask.getId() + ",data:" + result);
 			}
 			break;
 		}
