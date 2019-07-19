@@ -5,6 +5,9 @@ import java.util.Random;
 import java.util.Set;
 
 import co.paralleluniverse.strands.Strand;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 public abstract class PapaSpider {
 
@@ -40,5 +43,13 @@ public abstract class PapaSpider {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static RequestBody createUrlEncodedForm(String content) {
+		return FormBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=utf-8"), content);
+	}
+	
+	public static RequestBody createJsonForm(String content) {
+		return FormBody.create(MediaType.parse("application/json;charset=utf-8"), content);
 	}
 }

@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 @UsePapaSpider
-public class WuBaSpider extends PapaSpider {
+public class _58Spider extends PapaSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {
@@ -27,7 +27,7 @@ public class WuBaSpider extends PapaSpider {
 
     @Override
     public String platform() {
-        return "58ganji";
+        return "58";
     }
 
     @Override
@@ -116,12 +116,12 @@ public class WuBaSpider extends PapaSpider {
 
     @Override
     public String platformName() {
-        return "58赶集";
+        return "58同城";
     }
 
     @Override
 	public String[] tags() {
-		return new String[] {"o2o", "生活休闲", "求职" , "招聘" , "房产家居"};
+		return new String[] {"o2o", "生活休闲", "求职" , "招聘" , "二手物品"};
 	}
 
 }

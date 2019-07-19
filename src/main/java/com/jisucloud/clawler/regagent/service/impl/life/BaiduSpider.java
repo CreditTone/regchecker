@@ -74,7 +74,6 @@ public class BaiduSpider extends PapaSpider {
 			Response response = okHttpClient.newCall(request)
 					.execute();
 			JSONObject result = JSON.parseObject(response.body().string());
-			System.out.println(result);
 			JSONObject data = result.getJSONObject("data");
 			if (data != null && (data.getBooleanValue("baidu") || data.getIntValue("up_status") == 1)) {
 				return true;

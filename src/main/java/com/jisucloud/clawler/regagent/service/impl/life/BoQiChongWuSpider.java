@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.education;
+package com.jisucloud.clawler.regagent.service.impl.life;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
@@ -16,61 +16,64 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class DuiAWangSpider extends PapaSpider {
+public class BoQiChongWuSpider extends PapaSpider {
 
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
+
 	@Override
 	public String message() {
-		return "对啊网|中国领先的移动互联网职业教育企业,提供职业技能类,学历类免费课程课程,在线系统班,在线题库,答疑社区,致力于帮助每一位在职人群重塑职业未来。";
+		return "波奇宠物网是属于宠物爱好者的综合型网站.这里是宠物猫，宠物狗等宠物爱好者们的集中地.也是包含宠物商城和宠物百科的专业网站.选择波奇宠物网,健康宠物生活从波奇开始.";
 	}
 
 	@Override
 	public String platform() {
-		return "duia";
+		return "boqii";
 	}
 
 	@Override
 	public String home() {
-		return "duia.com";
+		return "boqii.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "对啊网";
+		return "波奇宠物网";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"考试","学习","教育"};
+		return new String[] {"宠物"};
 	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15584382173", "18210538513");
+		return Sets.newHashSet("13771025665", "18210538513");
 	}
 
 	@Override
 	public boolean checkTelephone(String account) {
+		if (account.length() != 11) {
+			return false;
+		}
 		try {
-			String url = "https://sso.duia.com/register/validate-mobile";
+			String url = "http://www.boqii.com/site/User/ajaxCheckMobile";
 			FormBody formBody = new FormBody
 	                .Builder()
 	                .add("mobile", account)
 	                .build();
 			Request request = new Request.Builder().url(url)
-					.addHeader("User-Agent", "Mozilla/5.0 (Linux; Android 7.0; PLUS Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Mobile Safari/537.36")
-					.addHeader("Host", "sso.duia.com")
-					.addHeader("Referer", "https://sso.duia.com/g-p/wap/register?returnUrl=https%3A%2F%2Fmuc.duia.com%2Fuser")
+					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
+					.addHeader("Referer", "http://www.boqii.com/user/register")
 					.post(formBody)
 					.build();
-			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("已被注册")) {
-				return true;
-			}
+			Response response = okHttpClient.newCall(request)
+					.execute();
+			return response.body().string().contains("exists");
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
 		}
 		return false;
 	}
