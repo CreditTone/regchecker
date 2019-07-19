@@ -55,9 +55,12 @@ public class XiMaLaYaSpider extends PapaSpider {
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(true, true, null);
-			chromeDriver.get("https://www.ximalaya.com/passport/register");smartSleep(2000);
+			chromeDriver.get("https://www.ximalaya.com");
+			chromeDriver.get("https://www.ximalaya.com/passport/register");
+			smartSleep(2000);
 			chromeDriver.findElementById("userAccountPhone").sendKeys(account);
-			chromeDriver.findElementById("userPwdPhone").click();smartSleep(2000);
+			chromeDriver.findElementById("userPwdPhone").click();
+			smartSleep(2000);
 			String regErrTex = chromeDriver.findElementByCssSelector("div[class='regIcLt inl-b fr formItem'] p.regErrTex").getText();
 			if (regErrTex.contains("已注册")) {
 				return true;

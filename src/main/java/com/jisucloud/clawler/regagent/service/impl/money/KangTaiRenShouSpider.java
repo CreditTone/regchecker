@@ -111,7 +111,7 @@ public class KangTaiRenShouSpider extends PapaSpider implements AjaxHook {
 
 	@Override
 	public HookTracker getHookTracker() {
-		return HookTracker.builder().addUrl("http://ecs.tk.cn/eservice/change/service").isPOST().build();
+		return HookTracker.builder().addUrl("http://ecs.tk.cn/eservice/change/service").isPost().build();
 	}
 
 	@Override

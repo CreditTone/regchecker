@@ -240,6 +240,10 @@ public class PapaSpiderTester {
 //		testingWithPrint(ZhanKuSpider.class);
 //		testingWithPrint(ShiJueZhongGuoSpider.class);
 //		testingWithPrint(_56VideoSpider.class);
-		testingWithPrint(MeiZanChengSpider.class);
+//		testingWithPrint(MeiZanChengSpider.class);
+//		testingWithPrint(PharmacySpider.class);
+//		testingWithPrint(FengHuangJinRongSpider.class);
+//		testingWithPrint(DingDanHuiSpider.class);
+		testingWithPrint(QQSpider.class);
 	}
 }

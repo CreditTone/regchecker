@@ -85,7 +85,7 @@ public class MaFengWoSpider extends PapaSpider implements AjaxHook{
 	@Override
 	public HookTracker getHookTracker() {
 		// TODO Auto-generated method stub
-		return HookTracker.builder().addUrl("ConfirmUserForFindPwd.do").isPOST().build();
+		return HookTracker.builder().addUrl("ConfirmUserForFindPwd.do").isPost().build();
 	}
 
 	@Override

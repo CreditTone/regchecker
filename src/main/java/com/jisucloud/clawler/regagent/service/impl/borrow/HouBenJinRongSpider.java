@@ -96,7 +96,7 @@ public class HouBenJinRongSpider extends PapaSpider implements AjaxHook {
 
 	@Override
 	public HookTracker getHookTracker() {
-		return HookTracker.builder().addUrl("user/checkImageCode").isPOST().build();
+		return HookTracker.builder().addUrl("user/checkImageCode").isPost().build();
 	}
 	
 	String account = "";

@@ -83,7 +83,7 @@ public class DangDangWangSpider extends PapaSpider implements AjaxHook{
 
 	@Override
 	public HookTracker getHookTracker() {
-		return HookTracker.builder().addUrl("mobile_checker.php").isPOST().build();
+		return HookTracker.builder().addUrl("mobile_checker.php").isPost().build();
 	}
 
 	@Override

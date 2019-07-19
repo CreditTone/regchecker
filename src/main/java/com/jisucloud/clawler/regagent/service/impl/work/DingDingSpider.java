@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.JJsoupUtil;
 import com.jisucloud.clawler.regagent.util.PingyinUtil;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 import org.jsoup.Connection;
@@ -17,7 +16,7 @@ import java.util.Set;
 @UsePapaSpider
 public class DingDingSpider extends PapaSpider {
 
-    private String name = "郭钟";
+    private String name;
 
     @Override
     public String message() {

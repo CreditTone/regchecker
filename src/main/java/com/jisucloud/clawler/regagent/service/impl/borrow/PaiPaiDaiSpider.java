@@ -121,7 +121,7 @@ public class PaiPaiDaiSpider extends PapaSpider implements AjaxHook{
 	public HookTracker getHookTracker() {
 		return HookTracker.builder()
 				.addUrl("api/changemobile/password_step1")
-				.isPOST()
+				.isPost()
 				.build();
 	}
 

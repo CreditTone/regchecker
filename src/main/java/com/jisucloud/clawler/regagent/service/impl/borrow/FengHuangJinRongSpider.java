@@ -1,11 +1,11 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
-import com.jisucloud.deepsearch.selenium.Ajax;
-import com.jisucloud.deepsearch.selenium.AjaxListener;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
 import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
 import com.jisucloud.deepsearch.selenium.mitm.HookTracker;
@@ -16,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
-import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
@@ -24,7 +23,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class MaiZiJinFuSpider extends PapaSpider implements AjaxHook {
+public class FengHuangJinRongSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
@@ -32,22 +31,22 @@ public class MaiZiJinFuSpider extends PapaSpider implements AjaxHook {
 
 	@Override
 	public String message() {
-		return "麦子金服2009年成立，注册资本1.08亿，控股股东获海通证券旗下海通创新等机构战略投资，上海金融信息行业协会副会长单位，上海市互联网金融行业协会会员。严选高学历借款人群，小额分散。研发水滴风控，7重审核，接入多家知名大数据平台。上线银行存管，账户独立，资金隔离。";
+		return "凤凰金融是凤凰卫视集团为全球华人打造的智能投资理财平台，联合卓越的各类金融机构，深度挖掘优质金融资产，为用户提供优质、多元的投资理财产品和定制化的专业智能服务，打造更契合用户自身需求。";
 	}
 
 	@Override
 	public String platform() {
-		return "nonobank";
+		return "fengjr";
 	}
 
 	@Override
 	public String home() {
-		return "nonobank.com";
+		return "fengjr.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "麦子金服";
+		return "凤凰金融";
 	}
 
 	@Override
@@ -57,14 +56,16 @@ public class MaiZiJinFuSpider extends PapaSpider implements AjaxHook {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252045", "18210538513");
+		return Sets.newHashSet("15008276300", "18210538513");
 	}
+	
 
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				WebElement img = chromeDriver.findElementByCssSelector("#valicodeImg");
-				img.click();smartSleep(1000);
+				img.click();
+				smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
 				return OCRDecode.decodeImageCode(body);
 			} catch (Exception e) {
@@ -78,10 +79,15 @@ public class MaiZiJinFuSpider extends PapaSpider implements AjaxHook {
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
-			chromeDriver.get("https://www.nonobank.com/Register");
+			chromeDriver.get("https://www.fengjr.com/cn/");
 			chromeDriver.addAjaxHook(this);
-			chromeDriver.findElementById("reg-form-mobile").sendKeys(account);
-			chromeDriver.findElementById("reg-form-captcha").click();
+			chromeDriver.findElementByCssSelector("a[fen='pc_topbar_login_register_link']").click();
+			smartSleep(1000);
+			chromeDriver.findElementByClassName("password-login").click();
+			smartSleep(500);
+			chromeDriver.findElementById("loginName").sendKeys(account);
+			chromeDriver.findElementById("password").sendKeys("lvnqwnk12mcxn");
+			chromeDriver.findElementByCssSelector("#userLoginPwd .btn-submit").click();
 			smartSleep(2000);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -105,7 +111,7 @@ public class MaiZiJinFuSpider extends PapaSpider implements AjaxHook {
 
 	@Override
 	public HookTracker getHookTracker() {
-		return HookTracker.builder().addUrl("api/common/check/mobile").build();
+		return HookTracker.builder().addUrl("https://www.fengjr.com/common/node/login/pwd").isPost().build();
 	}
 
 	@Override
@@ -115,7 +121,13 @@ public class MaiZiJinFuSpider extends PapaSpider implements AjaxHook {
 
 	@Override
 	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
-		checkTel = contents.getTextContents().contains("已注册");
+		try {
+			JSONObject result = JSON.parseObject(contents.getTextContents());
+			JSONObject error = result.getJSONObject("error");
+			checkTel = error.getString("value").equals("8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

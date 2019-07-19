@@ -37,7 +37,7 @@ public class ChromeAjaxHookDriver extends ChromeDriver {
 	}
 	
 	public static final ChromeAjaxHookDriver newNoHookInstance(boolean disableLoadImage,boolean headless,String userAgent) {
-		log.warn("你启动的是没有钩子功能的浏览器");
+		log.debug("你启动的是没有钩子功能的浏览器");
 		return new ChromeAjaxHookDriver(ChromeOptionsUtil.createChromeOptions(disableLoadImage, headless, null, userAgent));
 	}
 	
@@ -47,7 +47,7 @@ public class ChromeAjaxHookDriver extends ChromeDriver {
 	
 	public static final ChromeAjaxHookDriver newInstanceWithGoogleProxy(boolean disableLoadImage,boolean headless,String userAgent) {
 		HttpsProxy googleProxy = MitmServer.getInstance().getGoogleMitmProxy();
-		log.info("set googleProxy:"+JSON.toJSONString(googleProxy));
+		log.debug("set googleProxy:"+JSON.toJSONString(googleProxy));
 		return new ChromeAjaxHookDriver(ChromeOptionsUtil.createChromeOptions(disableLoadImage, headless, googleProxy, userAgent));
 	}
 	
@@ -75,7 +75,7 @@ public class ChromeAjaxHookDriver extends ChromeDriver {
 		for (int i = 0 ; i < 3 ; i++) {
 			try {
 				super.get(url);
-				log.info("visit:"+url);
+				log.debug("visit:"+url);
 			}catch(Exception e){
 				e.printStackTrace();
 				continue;
@@ -87,7 +87,7 @@ public class ChromeAjaxHookDriver extends ChromeDriver {
 	public void getIgnoreTimeout(String url) {
 		try {
 			super.get(url);
-			log.info("visit:"+url);
+			log.debug("visit:"+url);
 		}catch(Exception e){
 		}
 	}

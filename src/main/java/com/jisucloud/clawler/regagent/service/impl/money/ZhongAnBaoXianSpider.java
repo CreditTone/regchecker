@@ -8,8 +8,6 @@ import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
-import me.kagura.JJsoup;
-import me.kagura.Session;
 
 @UsePapaSpider
 public class ZhongAnBaoXianSpider extends PapaSpider {

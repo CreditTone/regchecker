@@ -113,7 +113,7 @@ public class XiaoJinLiCaiSpider extends PapaSpider implements AjaxHook{
 	
 	HookTracker hookTracker = HookTracker.builder()
 			.addUrl("doLogin")
-			.isPOST().build();
+			.isPost().build();
 
 	@Override
 	public HookTracker getHookTracker() {

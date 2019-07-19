@@ -121,7 +121,7 @@ public class XinRongSpider extends PapaSpider implements AjaxHook{
 	public HookTracker getHookTracker() {
 		return HookTracker.builder()
 				.addUrl("/login/login.jso")
-				.isPOST()
+				.isPost()
 				.build();
 	}
 

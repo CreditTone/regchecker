@@ -115,7 +115,7 @@ public class HuaShengMiFuSpider extends PapaSpider implements AjaxHook{
 	@Override
 	public HookTracker getHookTracker() {
 		// TODO Auto-generated method stub
-		return HookTracker.builder().addUrl("default/user_login").isPOST().build();
+		return HookTracker.builder().addUrl("default/user_login").isPost().build();
 	}
 
 	@Override

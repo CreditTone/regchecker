@@ -87,7 +87,7 @@ public class JinTiWangSpider extends PapaSpider implements AjaxHook{
 	@Override
 	public HookTracker getHookTracker() {
 		// TODO Auto-generated method stub
-		return HookTracker.builder().addUrl("register_check_phone.do").isPOST().build();
+		return HookTracker.builder().addUrl("register_check_phone.do").isPost().build();
 	}
 
 	@Override

@@ -117,7 +117,7 @@ public class JuJinZiBenSpider extends PapaSpider implements AjaxHook {
 
 	@Override
 	public HookTracker getHookTracker() {
-		return HookTracker.builder().addUrl("api/user/login").isPOST().build();
+		return HookTracker.builder().addUrl("api/user/login").isPost().build();
 	}
 
 	@Override

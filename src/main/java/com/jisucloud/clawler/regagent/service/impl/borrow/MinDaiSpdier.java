@@ -21,7 +21,7 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class MinDaiService extends PapaSpider implements AjaxHook{
+public class MinDaiSpdier extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
     private boolean checkTel = false;
@@ -89,7 +89,7 @@ public class MinDaiService extends PapaSpider implements AjaxHook{
 	@Override
 	public HookTracker getHookTracker() {
 		// TODO Auto-generated method stub
-		return HookTracker.builder().addUrl("https://api.mindai.com/").isPOST().requestContentType("application/x-www-form-urlencoded").responseContentType("application/json").build();
+		return HookTracker.builder().addUrl("https://api.mindai.com/").isPost().requestContentType("application/x-www-form-urlencoded").responseContentType("application/json").build();
 	}
 
 	@Override

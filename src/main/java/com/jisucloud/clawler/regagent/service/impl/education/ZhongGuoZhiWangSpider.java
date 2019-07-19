@@ -4,6 +4,7 @@ import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -54,14 +55,19 @@ public class ZhongGuoZhiWangSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "http://my.cnki.net/mycnki/RealName/Server.aspx?mobile="+account+"&temp=741&operatetype=4";
+			String url = "http://my.cnki.net/elibregister/Server.aspx?mobile="+account+"&temp="+System.currentTimeMillis()+"&operatetype=3";
+			FormBody formBody = new FormBody
+	                .Builder()
+	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "my.cnki.net/mycnki")
-					.addHeader("Referer", "http://my.cnki.net/mycnki/RealName/FindPsd.aspx")
+					.addHeader("Host", "my.cnki.net")
+					.addHeader("Referer", "http://my.cnki.net/elibregister/commonRegister.aspx")
+					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			return response.body().string().contains("1");
+			String res = response.body().string();
+			return res.contains("2");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -84,7 +84,7 @@ public class HongXiaoBaoSpider extends PapaSpider implements AjaxHook{
 	@Override
 	public HookTracker getHookTracker() {
 		// TODO Auto-generated method stub
-		return HookTracker.builder().addUrl("checkExistMobile").isPOST().build();
+		return HookTracker.builder().addUrl("checkExistMobile").isPost().build();
 	}
 
 	@Override

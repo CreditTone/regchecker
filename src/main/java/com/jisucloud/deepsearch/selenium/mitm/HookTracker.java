@@ -115,7 +115,7 @@ public class HookTracker {
 			return this;
 		}
 		
-		public HookTrackerBuilder isPOST() {
+		public HookTrackerBuilder isPost() {
 			method = "POST";
 			return this;
 		}

@@ -118,7 +118,7 @@ public class QianTuWangSpider extends PapaSpider implements AjaxHook{
 	@Override
 	public HookTracker getHookTracker() {
 		// TODO Auto-generated method stub
-		return HookTracker.builder().addUrl("loginByPasswdNew").isPOST().build();
+		return HookTracker.builder().addUrl("loginByPasswdNew").isPost().build();
 	}
 
 	@Override

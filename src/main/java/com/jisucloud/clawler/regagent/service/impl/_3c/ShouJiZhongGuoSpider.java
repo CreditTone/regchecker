@@ -86,7 +86,7 @@ public class ShouJiZhongGuoSpider extends PapaSpider implements AjaxHook {
 
 	@Override
 	public HookTracker getHookTracker() {
-		return HookTracker.builder().addUrl("m=CheckMobileInuse").isPOST().build();
+		return HookTracker.builder().addUrl("m=CheckMobileInuse").isPost().build();
 	}
 
 	@Override

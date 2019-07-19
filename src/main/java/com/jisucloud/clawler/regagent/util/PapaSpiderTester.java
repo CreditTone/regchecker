@@ -60,10 +60,10 @@ public class PapaSpiderTester {
 				log.warn("测试"+clz.getName()+"异常", e);
 			}finally {
 				if (success) {
-					log.info("测试成功:"+clz.getName()+",用时"+timerRecoder.getText());
+					log.debug("测试成功:"+clz.getName()+",用时"+timerRecoder.getText());
 					papaSpiderTestListener.testSuccess(clz);
 				}else {
-					log.info("测试失败:"+clz.getName()+",用时"+timerRecoder.getText());
+					log.warn("测试失败:"+clz.getName()+",用时"+timerRecoder.getText());
 					papaSpiderTestListener.testFailure(clz);
 				}
 				

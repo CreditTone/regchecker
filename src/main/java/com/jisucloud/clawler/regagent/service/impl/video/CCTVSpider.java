@@ -111,7 +111,7 @@ public class CCTVSpider extends PapaSpider implements AjaxHook{
 
 	@Override
 	public HookTracker getHookTracker() {
-		return HookTracker.builder().addUrl("forgetPassword/checkLoginName.action").isPOST().build();
+		return HookTracker.builder().addUrl("forgetPassword/checkLoginName.action").isPost().build();
 	}
 
 	@Override

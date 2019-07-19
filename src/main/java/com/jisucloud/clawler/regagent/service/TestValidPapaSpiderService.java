@@ -30,11 +30,10 @@ import com.jisucloud.clawler.regagent.service.impl.email.CDMA189EmailSpider;
 import com.jisucloud.clawler.regagent.service.impl.email.ENet126EmailSpider;
 import com.jisucloud.clawler.regagent.service.impl.email.Enet163EmailSpider;
 import com.jisucloud.clawler.regagent.service.impl.email.SohuEmailSpider;
-import com.jisucloud.clawler.regagent.util.CountableFiberPool;
+import com.jisucloud.clawler.regagent.service.impl.social.QQSpider;
 import com.jisucloud.clawler.regagent.util.PapaSpiderTester;
 import com.jisucloud.clawler.regagent.util.ReflectUtil;
 
-import co.paralleluniverse.fibers.Fiber;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -62,6 +61,7 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 		IGNORE_TEST_RESULT.add(Enet163EmailSpider.class);
 		IGNORE_TEST_RESULT.add(SohuEmailSpider.class);
 		IGNORE_TEST_RESULT.add(BangBangTangSpider.class);
+		IGNORE_TEST_RESULT.add(QQSpider.class);
 	}
 	
 	private Timer timer = new Timer();
@@ -97,7 +97,7 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 			for (Class<?> clz : NOUSE_PAPASPIDERS) {
 				log.info(clz.getName());
 			}
-			timer.schedule(this, 0, RE_TEST_TIME);
+			timer.schedule(this, 0, 1800 * 1000);//半小时跑一遍
 		}catch(Exception e) {
 			log.warn("载入失败", e);
 			throw e;

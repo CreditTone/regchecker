@@ -3,22 +3,26 @@ package com.jisucloud.clawler.regagent.service.impl.health;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
+import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
+import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
+import com.jisucloud.deepsearch.selenium.mitm.HookTracker;
 
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import net.lightbody.bmp.util.HttpMessageContents;
+import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class PharmacySpider extends PapaSpider {
+public class PharmacySpider extends PapaSpider implements AjaxHook {
 
-	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
-			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
+	private ChromeAjaxHookDriver chromeDriver;
+	
+	private boolean checkTelephone = false;
 
 	@Override
 	public String message() {
@@ -47,26 +51,27 @@ public class PharmacySpider extends PapaSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15901537458", "18210538513");
+		return Sets.newHashSet("15008276300", "18210538513");
 	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://cn.pharmacyonline.com.au/api/member/check?username=" + account + "&method=get&_=" + System.currentTimeMillis();
-			Request request = new Request.Builder().url(url)
-					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "cn.pharmacyonline.com.au")
-					.addHeader("Referer", "https://cn.pharmacyonline.com.au/security/passwordforgotten?step=account")
-					.build();
-			Response response = okHttpClient.newCall(request).execute();
-			if (!response.body().string().contains("用户不存在")) {
-				return true;
-			}
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
+			chromeDriver.get("https://cn.pharmacyonline.com.au/security/passwordforgotten?step=account");
+			chromeDriver.addAjaxHook(this);
+			smartSleep(1000);
+			chromeDriver.findElementByCssSelector("input[name='username']").sendKeys(account);
+			chromeDriver.findElementByClassName("forgot-step-input").click();
+			smartSleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			if (chromeDriver != null) {
+				chromeDriver.quit();
+			}
 		}
-		return false;
+		return checkTelephone;
 	}
 
 	@Override
@@ -77,6 +82,21 @@ public class PharmacySpider extends PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
+	}
+
+	@Override
+	public HookTracker getHookTracker() {
+		return HookTracker.builder().addUrl("https://cn.pharmacyonline.com.au/api/member/check").isPost().build();
+	}
+
+	@Override
+	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		return null;
+	}
+
+	@Override
+	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		checkTelephone = contents.getTextContents().contains("cellphone");
 	}
 
 }

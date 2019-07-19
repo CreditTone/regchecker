@@ -117,7 +117,7 @@ public class DeZhongJinRongSpider extends PapaSpider implements AjaxHook{
 	@Override
 	public HookTracker getHookTracker() {
 		// TODO Auto-generated method stub
-		return HookTracker.builder().addUrl("login_check").isPOST().build();
+		return HookTracker.builder().addUrl("login_check").isPost().build();
 	}
 
 	@Override

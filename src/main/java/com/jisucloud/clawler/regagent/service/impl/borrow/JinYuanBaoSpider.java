@@ -112,7 +112,7 @@ public class JinYuanBaoSpider extends PapaSpider implements AjaxHook{
 
 	@Override
 	public HookTracker getHookTracker() {
-		return HookTracker.builder().addUrl("pay/dologin").isPOST().build();
+		return HookTracker.builder().addUrl("pay/dologin").isPost().build();
 	}
 
 	@Override

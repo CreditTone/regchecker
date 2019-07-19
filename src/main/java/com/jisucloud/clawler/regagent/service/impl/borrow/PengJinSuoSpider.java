@@ -78,7 +78,7 @@ public class PengJinSuoSpider extends PapaSpider {
 	public boolean checkTelephone(String account) {
 		HookTracker hookTracker = HookTracker.builder()
 				.addUrl("login/phoneCheckFindPwd")
-				.isPOST().build();
+				.isPost().build();
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
 			chromeDriver.get("http://www.penging.com/findPwd.do");

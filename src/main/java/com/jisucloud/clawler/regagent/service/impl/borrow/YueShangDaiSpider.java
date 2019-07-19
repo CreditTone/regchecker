@@ -116,7 +116,7 @@ public class YueShangDaiSpider extends PapaSpider implements AjaxHook{
 
 	@Override
 	public HookTracker getHookTracker() {
-		return HookTracker.builder().addUrl("member/common/actlogin").isPOST().build();
+		return HookTracker.builder().addUrl("member/common/actlogin").isPost().build();
 	}
 
 	@Override

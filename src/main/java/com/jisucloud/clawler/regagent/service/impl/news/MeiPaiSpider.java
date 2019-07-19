@@ -100,7 +100,7 @@ public class MeiPaiSpider extends PapaSpider implements AjaxHook{
 	@Override
 	public HookTracker getHookTracker() {
 		// TODO Auto-generated method stub
-		return HookTracker.builder().addUrl("oauth/access_token.json").isPOST().build();
+		return HookTracker.builder().addUrl("oauth/access_token.json").isPost().build();
 	}
 
 	@Override

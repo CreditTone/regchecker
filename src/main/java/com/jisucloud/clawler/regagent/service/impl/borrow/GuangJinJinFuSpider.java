@@ -85,7 +85,7 @@ public class GuangJinJinFuSpider extends PapaSpider implements AjaxHook{
 	@Override
 	public HookTracker getHookTracker() {
 		// TODO Auto-generated method stub
-		return HookTracker.builder().addUrl("sendForgetPwdSms.do").isPOST().build();
+		return HookTracker.builder().addUrl("sendForgetPwdSms.do").isPost().build();
 	}
 
 	@Override

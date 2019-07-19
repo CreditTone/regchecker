@@ -117,7 +117,7 @@ public class HaiRongYiSpider extends PapaSpider implements AjaxHook{
 
 	@Override
 	public HookTracker getHookTracker() {
-		return HookTracker.builder().addUrl("validateAndGetInfoByLoginName").isPOST().build();
+		return HookTracker.builder().addUrl("validateAndGetInfoByLoginName").isPost().build();
 	}
 
 	@Override

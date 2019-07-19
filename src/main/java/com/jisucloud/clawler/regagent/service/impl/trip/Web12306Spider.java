@@ -6,9 +6,8 @@ import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.service.UsePapaSpider;
 
-import me.kagura.JJsoup;
-import me.kagura.Session;
 import org.jsoup.Connection;
+import org.jsoup.Jsoup;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -85,7 +84,7 @@ public class Web12306Spider extends PapaSpider {
     @Override
     public boolean checkTelephone(String account) {
         try {
-            Session session = JJsoup.newSession();
+            Session session = Jsoup.newSession();
             session.connect("https://www.12306.cn/index/").execute().cookies();
             session.connect("https://kyfw.12306.cn/otn/regist/init").execute();
             Connection.Response response = session.connect("https://kyfw.12306.cn/otn/regist/getRandCode")

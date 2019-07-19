@@ -84,7 +84,7 @@ public class KuaiKeJiSpider extends PapaSpider implements AjaxHook{
 
 	@Override
 	public HookTracker getHookTracker() {
-		return HookTracker.builder().addUrl("v2/m/action/userlogin.aspx").isPOST().build();
+		return HookTracker.builder().addUrl("v2/m/action/userlogin.aspx").isPost().build();
 	}
 
 	@Override

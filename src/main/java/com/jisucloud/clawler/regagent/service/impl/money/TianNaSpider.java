@@ -92,7 +92,7 @@ public class TianNaSpider extends PapaSpider implements AjaxHook{
 	@Override
 	public HookTracker getHookTracker() {
 		// TODO Auto-generated method stub
-		return HookTracker.builder().addUrl("/customer_login/setPassword").isPOST().build();
+		return HookTracker.builder().addUrl("/customer_login/setPassword").isPost().build();
 	}
 
 	@Override
