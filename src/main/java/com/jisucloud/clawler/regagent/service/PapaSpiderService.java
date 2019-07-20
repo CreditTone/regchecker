@@ -15,7 +15,9 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
-import com.jisucloud.clawler.regagent.http.OKHttpUtil;
+import com.deep007.spiderbase.okhttp.OKHttpUtil;
+import com.jisucloud.clawler.regagent.i.Account;
+import com.jisucloud.clawler.regagent.i.PapaSpider;
 import com.jisucloud.clawler.regagent.util.CountableFiberPool;
 import com.jisucloud.clawler.regagent.util.CountableThreadPool;
 import com.jisucloud.clawler.regagent.util.ReflectUtil;

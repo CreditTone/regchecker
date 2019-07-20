@@ -1,26 +1,22 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.service.PapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
 import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
 import com.jisucloud.deepsearch.selenium.mitm.HookTracker;
 
-import io.netty.handler.codec.http.DefaultHttpResponse;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
-import io.netty.handler.codec.http.HttpResponseStatus;
-import me.kagura.JJsoup;
-import me.kagura.Session;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
-import org.jsoup.Connection;
 import org.openqa.selenium.WebElement;
 
 import java.util.*;
-import com.jisucloud.clawler.regagent.service.UsePapaSpider;
+
+import com.jisucloud.clawler.regagent.i.PapaSpider;
+import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 
 @UsePapaSpider
 public class JiMuSpider extends PapaSpider implements AjaxHook{

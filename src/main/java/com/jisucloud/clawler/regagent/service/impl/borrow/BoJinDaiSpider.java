@@ -4,16 +4,17 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.service.UsePapaSpider;
+import com.jisucloud.clawler.regagent.i.PapaSpider;
+import com.jisucloud.clawler.regagent.i.UsePapaSpider;
+import com.jisucloud.clawler.regagent.util.StringUtil;
 
-import org.jsoup.Connection;
-import me.kagura.JJsoup;
-import me.kagura.Session;
+import okhttp3.FormBody;
+import okhttp3.Request;
+import okhttp3.Response;
 
 @UsePapaSpider
 public class BoJinDaiSpider extends PapaSpider {
-
+	
 	@Override
 	public String message() {
 		// TODO Auto-generated method stub
@@ -41,14 +42,21 @@ public class BoJinDaiSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			Session session = JJsoup.newSession();
-			String body = session.connect("https://www.bjdp2p.com/checkPhone.page?phoneNumber=" + account)
-				.method(Connection.Method.POST)
-				.header("Referer", "https://www.bjdp2p.com/regist.page")
-				.header("X-Requested-With", "XMLHttpRequest")
-				.ignoreContentType(true)
-				.execute().body();
-			return body.contains("已存在");
+			String url = "https://www.bjdp2p.com/checkPhone.page?phoneNumber=" + account;
+			FormBody formBody = new FormBody
+	                .Builder()
+	                .build();
+			Request request = new Request.Builder().url(url)
+					.addHeader("User-Agent", CHROME_USER_AGENT)
+					.addHeader("Referer", "https://www.bjdp2p.com/regist.page")
+					.addHeader("X-Requested-With", "XMLHttpRequest")
+					.post(formBody)
+					.build();
+			Response response = okHttpClient.newCall(request).execute();
+			String res = StringUtil.unicodeToString(response.body().string());
+			if (res.contains("已存在")) {
+				return true;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

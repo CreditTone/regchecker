@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.news;
 
 import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.service.UsePapaSpider;
+import com.jisucloud.clawler.regagent.i.PapaSpider;
+import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
 import com.jisucloud.deepsearch.selenium.mitm.HookTracker;

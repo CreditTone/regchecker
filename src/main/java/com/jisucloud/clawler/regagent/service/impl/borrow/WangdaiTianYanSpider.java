@@ -1,13 +1,13 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
-import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.service.UsePapaSpider;
+import com.jisucloud.clawler.regagent.i.PapaSpider;
+import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
-import me.kagura.JJsoup;
-import me.kagura.Session;
+import okhttp3.Headers;
+import okhttp3.Request;
+import okhttp3.Response;
 
-import org.jsoup.Connection;
 import com.google.common.collect.Sets;
 
 import java.util.HashMap;
@@ -48,23 +48,24 @@ public class WangdaiTianYanSpider extends PapaSpider {
 		return Sets.newHashSet("18210538577", "18210538513");
 	}
 
-	private Map<String, String> getHeader() {
+	private Headers getHeader() {
 		Map<String, String> headers = new HashMap<>();
 		headers.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0");
 		headers.put("Host", "www.p2peye.com");
 		headers.put("Referer", "https://www.p2peye.com/member.php?mod=register");
 		headers.put("X-Requested-With", "XMLHttpRequest");
-		return headers;
+		return Headers.of(headers);
 	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			Session session = JJsoup.newSession();
 			String url = "https://www.p2peye.com/forum.php?mod=ajax&inajax=yes&infloat=register&handlekey=register&ajaxmenu=1&action=checkemobile_json&phonenum=" + account;
-			Connection.Response response = session.connect(url)
-					.headers(getHeader()).ignoreContentType(true).execute();
-			return response.body().contains("7053");
+			Request request = new Request.Builder().url(url)
+					.headers(getHeader())
+					.build();
+			Response response = okHttpClient.newCall(request).execute();
+			return response.body().string().contains("7053");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

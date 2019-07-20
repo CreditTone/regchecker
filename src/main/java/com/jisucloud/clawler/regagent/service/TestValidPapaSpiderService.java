@@ -19,6 +19,8 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ClassUtils;
 
+import com.jisucloud.clawler.regagent.i.PapaSpider;
+import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 import com.jisucloud.clawler.regagent.service.impl.borrow.BangBangTangSpider;
 import com.jisucloud.clawler.regagent.service.impl.borrow.GuoShuCaiFuSpider;
 import com.jisucloud.clawler.regagent.service.impl.borrow.JuAiCaiSpider;

@@ -1,20 +1,15 @@
 package com.jisucloud.clawler.regagent.service.impl.work;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.service.UsePapaSpider;
+import com.jisucloud.clawler.regagent.i.UsePapaSpider;
+import com.jisucloud.clawler.regagent.service.impl.email.BasicEmailSpider;
 import com.jisucloud.clawler.regagent.util.PingyinUtil;
-import com.jisucloud.clawler.regagent.util.StringUtil;
-import org.jsoup.Connection;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Set;
 
 @UsePapaSpider
-public class DingDingSpider extends PapaSpider {
+public class DingDingSpider extends BasicEmailSpider {
 
     private String name;
 
@@ -44,35 +39,6 @@ public class DingDingSpider extends PapaSpider {
 	}
 
     @Override
-    public boolean checkTelephone(String account) {
-        if (name != null && StringUtil.hasChinese(name)) {
-            String pingyin = PingyinUtil.toPinyin(name);
-            String email = pingyin + account.substring(account.length() - 4) + "@dingtalk.com";
-            try {
-                String url = "http://www.emailcamel.com/api/single/validate/?usr=guozhong@quicklyun.com&pwd=qqadmin&email=" + email;
-                Connection.Response response = JJsoupUtil.newProxySession().connect(url).execute();
-                if (response != null) {
-                    JSONObject result = JSON.parseObject(response.body());
-                    System.out.println(result);
-                    if ("success".equals(result.getString("verify_status"))) {
-                        if ("valid".equals(result.getString("verify_result"))) {
-                            return true;
-                        }
-                        if ("catch-all".equals(result.getString("verify_result"))) {
-                            return true;
-                        }
-                    } else {
-                        System.out.println("emailcamel效验失败，请充值");
-                    }
-                }
-            } catch (Exception e) {
-                System.out.println("异常：" + e.getMessage());
-            }
-        }
-        return false;
-    }
-
-    @Override
     public boolean checkEmail(String account) {
         return false;
     }
@@ -85,5 +51,12 @@ public class DingDingSpider extends PapaSpider {
     @Override
 	public String[] tags() {
 		return new String[] {"办公软件"};
+	}
+
+	@Override
+	public String getEmail(String account) {
+		 String pingyin = PingyinUtil.toPinyin(name);
+         String email = pingyin + account.substring(account.length() - 4) + "@dingtalk.com";
+		return email;
 	}
 }

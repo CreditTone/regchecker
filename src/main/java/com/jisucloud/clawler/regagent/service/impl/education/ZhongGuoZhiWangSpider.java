@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.education;
 
 import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.service.UsePapaSpider;
+import com.jisucloud.clawler.regagent.i.PapaSpider;
+import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;

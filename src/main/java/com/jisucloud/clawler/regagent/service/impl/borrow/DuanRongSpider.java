@@ -1,22 +1,17 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
-import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.service.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.OCRDecode;
+import com.jisucloud.clawler.regagent.i.PapaSpider;
+import com.jisucloud.clawler.regagent.i.UsePapaSpider;
+import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
-import me.kagura.JJsoup;
-import me.kagura.Session;
+import okhttp3.FormBody;
+import okhttp3.Headers;
 import okhttp3.Request;
+import okhttp3.Response;
 
-import org.jsoup.Connection;
-import org.jsoup.Connection.Method;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import com.google.common.collect.Sets;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -55,28 +50,32 @@ public class DuanRongSpider extends PapaSpider {
 		return Sets.newHashSet("18210538577", "18210538513");
 	}
 
-	private Map<String, String> getHeader() {
+	private Headers getHeader() {
 		Map<String, String> headers = new HashMap<>();
 		headers.put("User-Agent",
 				"Mozilla/5.0 (Linux; Android 7.0; PLUS Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Mobile Safari/537.36");
 		headers.put("Host", "m.duanrong.com");
 		headers.put("Referer", "https://m.duanrong.com/memberLogin");
 		headers.put("X-Requested-With", "XMLHttpRequest");
-		return headers;
+		return Headers.of(headers);
 	}
 	
 	@Override
 	public boolean checkTelephone(String account) {
+		String url = "https://m.duanrong.com/isExist";
 		try {
-			Session session = JJsoup.newSession();
-			String url = "https://m.duanrong.com/isExist";
-			Connection.Response response = session.connect(url)
-					.data("mobileNumber", account)
-					.method(Method.POST)
+			FormBody formBody = new FormBody
+	                .Builder()
+	                .add("mobileNumber", account)
+	                .build();
+			Request request = new Request.Builder().url(url)
 					.headers(getHeader())
-					.ignoreContentType(true).execute();
-			if (response != null) {
-				return response.body().contains("true");
+					.post(formBody)
+					.build();
+			Response response = okHttpClient.newCall(request).execute();
+			String res = StringUtil.unicodeToString(response.body().string());
+			if (res.contains("true")) {
+				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

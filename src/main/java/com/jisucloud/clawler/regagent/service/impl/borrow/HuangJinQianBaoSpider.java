@@ -6,8 +6,8 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 
 import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.service.UsePapaSpider;
+import com.jisucloud.clawler.regagent.i.PapaSpider;
+import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 
 @UsePapaSpider
 public class HuangJinQianBaoSpider extends PapaSpider {

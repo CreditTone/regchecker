@@ -3,17 +3,16 @@ package com.jisucloud.clawler.regagent.service.impl.car;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.service.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.JJsoupUtil;
-import me.kagura.Session;
+import com.jisucloud.clawler.regagent.i.PapaSpider;
+import com.jisucloud.clawler.regagent.i.UsePapaSpider;
+
 import org.jsoup.Connection;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-//@UsePapaSpider
+@UsePapaSpider(exclude = true)
 public class JiaoGuanSpider extends PapaSpider {
 
     @Override
@@ -46,38 +45,6 @@ public class JiaoGuanSpider extends PapaSpider {
 
     @Override
     public boolean checkTelephone(String account) {
-        try {
-            Session session = JJsoupUtil.newProxySession();
-            session.connect("https://www.12123.com/forget.html")
-                    .ignoreContentType(true)
-                    .execute();
-            Connection.Response execute = session.connect("https://www.12123.com/api/checkRegistered.json")
-                    .headers(getHeader())
-                    .header("Accept", "*/*")
-                    .header("Accept-Encoding", "gzip, deflate, br")
-                    .header("Accept-Language", "zh-CN,zh;q=0.9")
-                    .header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
-                    .header("Host", "www.12123.com")
-                    .header("Origin", "https://www.12123.com")
-                    .header("Referer", "https://www.12123.com/forget.html")
-                    .ignoreContentType(true)
-                    .data("mobile", account)
-                    .method(Connection.Method.POST)
-                    .execute();
-
-            if (execute != null) {
-                JSON result = (JSON) JSON.parse(execute.body());
-                System.out.println("12123www:" + result);
-                if (result instanceof JSONObject) {
-                    JSONObject obj = (JSONObject) result;
-                    if (obj.getBooleanValue("isExist")) {
-                        return true;
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         return false;
     }
 

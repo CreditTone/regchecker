@@ -2,18 +2,19 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.service.UsePapaSpider;
+import com.deep007.spiderbase.okhttp.OKHttpUtil;
+import com.jisucloud.clawler.regagent.i.PapaSpider;
+import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import lombok.extern.slf4j.Slf4j;
-import me.kagura.JJsoup;
-import me.kagura.Session;
+import okhttp3.FormBody;
+import okhttp3.Headers;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
-import org.jsoup.Connection;
-import org.jsoup.Connection.Method;
 import com.google.common.collect.Sets;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -23,6 +24,8 @@ import java.util.Set;
 @Slf4j
 @UsePapaSpider
 public class DabaiqicheSpider extends PapaSpider {
+	
+	OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
 
 	@Override
 	public String message() {
@@ -61,22 +64,12 @@ public class DabaiqicheSpider extends PapaSpider {
 		return headers;
 	}
 	
-	private Map<String, String> getParams(String mobile,String code) {
-        Map<String, String> params = new HashMap<>();
-        params.put("mobile", mobile);
-        params.put("imgcode", code);
-        return params;
-    }
 	
-	private String getImgCode(Session session) {
+	private String getImgCode() {
 		String img = "https://passport.qufenqi.com/verify/getimg?r=0."+System.currentTimeMillis();
-		Connection.Response response;
 		try {
-			response = session.connect(img).execute();
-			if (response != null) {
-				byte[] body = response.bodyAsBytes();
-				return OCRDecode.decodeImageCode(body);
-			}
+			byte[] body = okHttpClient.newCall(new Request.Builder().url(img).build()).execute().body().bytes();
+			return OCRDecode.decodeImageCode(body);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -85,17 +78,23 @@ public class DabaiqicheSpider extends PapaSpider {
 	
 	@Override
 	public boolean checkTelephone(String account) {
-		Session session = JJsoup.newSession();
+		String url = "https://passport.qufenqi.com/i/resetloginpass/setaccount";
 		for (int i = 0; i < 5; i++) {//最大尝试5次
 			try {
-				String url = "https://passport.qufenqi.com/i/resetloginpass/setaccount";
-				String imgcode = getImgCode(session);
-				Connection.Response response = session.connect(url)
-						.method(Method.POST)
-						.data(getParams(account, imgcode))
-						.headers(getHeader()).ignoreContentType(true).execute();
+
+				String imgcode = getImgCode();
+				FormBody formBody = new FormBody
+		                .Builder()
+		                .add("mobile", account)
+		                .add("imgcode", imgcode)
+		                .build();
+				Request request = new Request.Builder().url(url)
+						.headers(Headers.of(getHeader()))
+						.post(formBody)
+						.build();
+				Response response = okHttpClient.newCall(request).execute();
 				if (response != null ) {
-					JSONObject result = JSON.parseObject(response.body());
+					JSONObject result = JSON.parseObject(response.body().string());
 					log.info(result.toJSONString());
 					int code = result.getIntValue("code");
 					if (code == 1) {//未注册
@@ -108,9 +107,6 @@ public class DabaiqicheSpider extends PapaSpider {
 					continue;
 				}
 			} catch (Exception e) {
-				if (e.getMessage().contains("Read timed out")) {
-					return false;
-				}
 				e.printStackTrace();
 			}
 		}

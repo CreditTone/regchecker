@@ -2,9 +2,15 @@ package com.jisucloud.clawler.regagent.service.impl.trip;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.deep007.spiderbase.okhttp.OKHttpUtil;
 import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.service.UsePapaSpider;
+import com.jisucloud.clawler.regagent.i.PapaSpider;
+import com.jisucloud.clawler.regagent.i.UsePapaSpider;
+
+import okhttp3.FormBody;
+import okhttp3.Headers;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -12,13 +18,15 @@ import org.jsoup.Jsoup;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @UsePapaSpider
 public class Web12306Spider extends PapaSpider {
-
-
+	
+	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
+	
     private Map<String, String> fields = null;
     
     
@@ -42,71 +50,68 @@ public class Web12306Spider extends PapaSpider {
         return "12306.cn";
     }
 
-    private Map<String, String> getHeader() {
+    private Headers getHeader() {
         Map<String, String> headers = new HashMap<>();
         headers.put("Host", "kyfw.12306.cn");
         headers.put("Referer", "https://kyfw.12306.cn/otn/regist/init");
         headers.put("X-Requested-With", "XMLHttpRequest");
-        return headers;
+        return Headers.of(headers);
     }
 
-    private Map<String, String> getParams(String mobile, String email) {
-        Map<String, String> params = new HashMap<>();
-        params.put("loginUserDTO.user_name", "wx18910674321");
-        params.put("userDTO.password", "qqadmin127");
-        params.put("confirmPassWord", "qqadmin127");
-        params.put("loginUserDTO.id_type_code", "1");
-        params.put("idTypeRadio", "1");
-        params.put("loginUserDTO.name", "孙良成");
-        params.put("loginUserDTO.id_no", "320219196503306777");
-        params.put("loginUserDTO.GAT_valid_date_end", "");
-        params.put("userDTO.born_date", "");
-        params.put("userDTO.country_code", "CN");
-        params.put("userDTO.email", email);
-        params.put("userDTO.mobile_no", mobile);
-        params.put("passenger_type", "1");
-        params.put("studentInfoDTO.province_code", "1");
-        params.put("studentInfoDTO.school_code", "");
-        params.put("studentInfoDTO.school_name", "简码/汉字");
-        params.put("studentInfoDTO.department", "");
-        params.put("studentInfoDTO.school_class", "");
-        params.put("studentInfoDTO.student_no", "");
-        params.put("studentInfoDTO.school_system", "1");
-        params.put("studentInfoDTO.enter_year", "2019");
-        params.put("studentInfoDTO.preference_card_no", "");
-        params.put("studentInfoDTO.preference_from_station_name", "简码/汉字");
-        params.put("studentInfoDTO.preference_from_station_code", "");
-        params.put("studentInfoDTO.preference_to_station_name", "简码/汉字");
-        params.put("studentInfoDTO.preference_to_station_code", "");
-        return params;
+    private FormBody getParams(String mobile, String email) {
+        FormBody formBody = new FormBody
+                .Builder()
+        .add("loginUserDTO.user_name", "wx18910674321")
+        .add("userDTO.password", "qqadmin127")
+        .add("confirmPassWord", "qqadmin127")
+        .add("loginUserDTO.id_type_code", "1")
+        .add("idTypeRadio", "1")
+        .add("loginUserDTO.name", "孙良成")
+        .add("loginUserDTO.id_no", "320219196503306777")
+        .add("loginUserDTO.GAT_valid_date_end", "")
+        .add("userDTO.born_date", "")
+        .add("userDTO.country_code", "CN")
+        .add("userDTO.email", email)
+        .add("userDTO.mobile_no", mobile)
+        .add("passenger_type", "1")
+        .add("studentInfoDTO.province_code", "1")
+        .add("studentInfoDTO.school_code", "")
+        .add("studentInfoDTO.school_name", "简码/汉字")
+        .add("studentInfoDTO.department", "")
+        .add("studentInfoDTO.school_class", "")
+        .add("studentInfoDTO.student_no", "")
+        .add("studentInfoDTO.school_system", "1")
+        .add("studentInfoDTO.enter_year", "2019")
+        .add("studentInfoDTO.preference_card_no", "")
+        .add("studentInfoDTO.preference_from_station_name", "简码/汉字")
+        .add("studentInfoDTO.preference_from_station_code", "")
+        .add("studentInfoDTO.preference_to_station_name", "简码/汉字")
+        .add("studentInfoDTO.preference_to_station_code", "")
+        .build();
+        return formBody;
     }
 
     @Override
     public boolean checkTelephone(String account) {
         try {
-            Session session = Jsoup.newSession();
-            session.connect("https://www.12306.cn/index/").execute().cookies();
-            session.connect("https://kyfw.12306.cn/otn/regist/init").execute();
-            Connection.Response response = session.connect("https://kyfw.12306.cn/otn/regist/getRandCode")
-                    .data(getParams(account, ""))
-                    .headers(getHeader())
-                    .method(Connection.Method.POST)
-                    .execute();
-
-            if (response != null) {
-                JSONObject result = JSON.parseObject(response.body());
-                System.out.println(result);
-                if (result.getBooleanValue("status") == true) {
-                    String msg = result.getJSONObject("data").getString("msg");
-                    System.out.println("12306:" + account + ":" + result);
-                    if (msg != null && msg.contains("您输入的手机号码已被其他注册用户")) {
-                        Matcher matcher = Pattern.compile("其他注册用户（([^）]+)）使用").matcher(msg);
-                        if (matcher.find()) {
-                            fields = new HashMap<>();
-                            fields.put("name", matcher.group(1));
-                        }
-                        return true;
+        	okHttpClient.newCall(createRequest("https://www.12306.cn/index/")).execute().body().close();
+        	okHttpClient.newCall(createRequest("https://kyfw.12306.cn/otn/regist/init")).execute().body().close();
+			Request request = new Request.Builder().url("https://kyfw.12306.cn/otn/regist/getRandCode")
+					.headers(getHeader())
+					.post(getParams(account, ""))
+					.build();
+			JSONObject result = JSON.parseObject(okHttpClient.newCall(request).execute().body().string());
+            System.out.println(result);
+            if (result.getBooleanValue("status") == true) {
+                String msg = result.getJSONObject("data").getString("msg");
+                System.out.println("12306:" + account + ":" + result);
+                if (msg != null && msg.contains("您输入的手机号码已被其他注册用户")) {
+                    Matcher matcher = Pattern.compile("其他注册用户（([^）]+)）使用").matcher(msg);
+                    if (matcher.find()) {
+                        fields = new HashMap<>();
+                        fields.put("name", matcher.group(1));
                     }
+                    return true;
                 }
             }
         } catch (Exception e) {
@@ -117,32 +122,6 @@ public class Web12306Spider extends PapaSpider {
 
     @Override
     public boolean checkEmail(String account) {
-        try {
-            Session session = JJsoup.newSession();
-            session.connect("https://www.12306.cn/index/").ignoreContentType(true).execute();
-            session.connect("https://kyfw.12306.cn/otn/regist/init")
-                    .ignoreContentType(true)
-                    .execute();
-
-            Connection.Response response = session.connect("https://kyfw.12306.cn/otn/regist/getRandCode")
-                    .ignoreContentType(true)
-                    .method(Connection.Method.POST)
-                    .data(getParams("18700006333", account))
-                    .headers(getHeader())
-                    .execute();
-            if (response != null) {
-                JSONObject result = JSON.parseObject(response.body());
-                if (result.getBooleanValue("status") == true) {
-                    String msg = result.getJSONObject("data").getString("msg");
-                    System.out.println(account + ":" + msg);
-                    if (msg != null && msg.contains("account")) {
-                        return true;
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         return false;
     }
 

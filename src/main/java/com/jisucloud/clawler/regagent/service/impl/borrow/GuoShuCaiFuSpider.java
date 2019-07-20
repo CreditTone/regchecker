@@ -1,8 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
-import com.jisucloud.clawler.regagent.http.OKHttpUtil;
-import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.service.UsePapaSpider;
+import com.jisucloud.clawler.regagent.i.PapaSpider;
+import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -12,6 +11,8 @@ import okhttp3.Response;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+
+import com.deep007.spiderbase.okhttp.OKHttpUtil;
 import com.google.common.collect.Sets;
 
 import java.util.Map;

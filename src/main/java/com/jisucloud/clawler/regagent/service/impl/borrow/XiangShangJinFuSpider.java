@@ -1,11 +1,13 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
-import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.service.UsePapaSpider;
+import com.jisucloud.clawler.regagent.i.PapaSpider;
+import com.jisucloud.clawler.regagent.i.UsePapaSpider;
+import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
-import me.kagura.JJsoup;
-import me.kagura.Session;
+import okhttp3.FormBody;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import org.jsoup.Connection;
 import org.jsoup.Connection.Method;
@@ -51,17 +53,16 @@ public class XiangShangJinFuSpider extends PapaSpider {
 
 	@Override
 	public boolean checkTelephone(String account) {
+		String url = "https://www.xiangshang360.cn/xweb/register/checkMobile?mobile=" + account;
 		try {
-			String url = "https://www.xiangshang360.cn/xweb/register/checkMobile?mobile=" + account;
-			Session session = JJsoup.newSession();
-			Connection.Response response = session.connect(url)
-					.method(Method.POST)
+			Request request = new Request.Builder().url(url)
 					.header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
 					.header("Host", "www.xiangshang360.com")
 					.header("Referer", "https://www.xiangshang360.cn/xweb/logout")
-					.ignoreContentType(true)
-					.execute();
-			if (response.body().contains("已注册")) {
+					.build();
+			Response response = okHttpClient.newCall(request).execute();
+			String res = StringUtil.unicodeToString(response.body().string());
+			if (res.contains("已注册")) {
 				return true;
 			}
 		} catch (Exception e) {

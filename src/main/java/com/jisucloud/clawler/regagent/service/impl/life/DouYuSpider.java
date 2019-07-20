@@ -1,9 +1,9 @@
 package com.jisucloud.clawler.regagent.service.impl.life;
 
+import com.deep007.spiderbase.okhttp.OKHttpUtil;
 import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.http.OKHttpUtil;
-import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.service.UsePapaSpider;
+import com.jisucloud.clawler.regagent.i.PapaSpider;
+import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
 import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;

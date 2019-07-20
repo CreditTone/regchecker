@@ -2,13 +2,14 @@ package com.jisucloud.clawler.regagent.service.impl.health;
 
 import java.util.Map;
 import java.util.Set;
-import com.jisucloud.clawler.regagent.service.PapaSpider;
 
 import me.kagura.JJsoup;
 import me.kagura.Session;
 
 import org.jsoup.Connection;
-import com.jisucloud.clawler.regagent.service.UsePapaSpider;
+
+import com.jisucloud.clawler.regagent.i.PapaSpider;
+import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 import com.google.common.collect.Sets;
 

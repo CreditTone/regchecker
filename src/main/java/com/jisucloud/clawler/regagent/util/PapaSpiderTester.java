@@ -3,7 +3,7 @@ package com.jisucloud.clawler.regagent.util;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.jisucloud.clawler.regagent.service.PapaSpider;
+import com.jisucloud.clawler.regagent.i.PapaSpider;
 import com.jisucloud.clawler.regagent.service.impl.borrow.*;
 import com.jisucloud.clawler.regagent.service.impl.education.*;
 import com.jisucloud.clawler.regagent.service.impl.email.*;

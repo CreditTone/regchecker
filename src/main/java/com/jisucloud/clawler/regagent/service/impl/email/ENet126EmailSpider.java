@@ -1,14 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.email;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.service.UsePapaSpider;
-
-import me.kagura.JJsoup;
-
-import org.jsoup.Connection;
+import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 
 import java.util.Map;
 import java.util.Set;

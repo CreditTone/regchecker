@@ -7,8 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import com.jisucloud.clawler.regagent.util.JJsoupUtil;
-
 import co.paralleluniverse.fibers.Fiber;
 import co.paralleluniverse.fibers.SuspendExecution;
 import co.paralleluniverse.strands.SuspendableRunnable;
@@ -40,7 +38,6 @@ public class RegAgentApplication {
 //		Class clz = com.esotericsoftware.kryo.Serializer.class;
 //		System.out.println(clz.getName());
 		SpringApplication application = new SpringApplication(RegAgentApplication.class);
-		JJsoupUtil.useProxy = false;
 		application.run(args);
 		log.info("SpringApplication启动完成");
 		new Fiber<Void>("Caller", new SuspendableRunnable() {

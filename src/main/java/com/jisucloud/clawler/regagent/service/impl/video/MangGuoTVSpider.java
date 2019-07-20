@@ -1,27 +1,28 @@
 package com.jisucloud.clawler.regagent.service.impl.video;
 
+import com.deep007.spiderbase.okhttp.OKHttpUtil;
 import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.service.UsePapaSpider;
+import com.jisucloud.clawler.regagent.i.PapaSpider;
+import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import lombok.extern.slf4j.Slf4j;
-import me.kagura.JJsoup;
-import me.kagura.Session;
+import okhttp3.FormBody;
+import okhttp3.Headers;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.jsoup.Connection;
-import org.jsoup.Connection.Method;
 
 @Slf4j
 @UsePapaSpider
 public class MangGuoTVSpider extends PapaSpider {
 	
-	private Session session = JJsoup.newSession();
+	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
 	
 	@Override
 	public String message() {
@@ -53,26 +54,25 @@ public class MangGuoTVSpider extends PapaSpider {
 		return Sets.newHashSet("18720982607", "18210538513");
 	}
 
-	private Map<String, String> getHeader() {
+	private Headers getHeader() {
 		Map<String, String> headers = new HashMap<>();
 		headers.put("User-Agent",
 				"Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0");
 		headers.put("Host", "i.mgtv.com");
 		headers.put("Referer", "https://www.mgtv.com/");
 		headers.put("X-Requested-With", "XMLHttpRequest");
-		return headers;
+		return Headers.of(headers);
 	}
 	
 	private String getImgCode() {
-		Connection.Response response;
 		for (int i = 0 ; i < 3; i++) {
 			try {
 				String imageUrl = "https://i.mgtv.com/vcode?from=pcclient&time="+System.currentTimeMillis();
-				response = session.connect(imageUrl).headers(getHeader()).execute();
-				if (response != null) {
-					byte[] body = response.bodyAsBytes();
-					return OCRDecode.decodeImageCode(body);
-				}
+				Request request = new Request.Builder().url(imageUrl)
+						.headers(getHeader())
+						.build();
+				byte[] body = okHttpClient.newCall(request).execute().body().bytes();
+				return OCRDecode.decodeImageCode(body);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -82,19 +82,26 @@ public class MangGuoTVSpider extends PapaSpider {
 	
 	@Override
 	public boolean checkTelephone(String account) {
-		session.connect("https://www.mgtv.com/");
+		try {
+			okHttpClient.newCall(createRequest("https://www.mgtv.com/")).execute().body().close();
+		} catch (IOException e1) {
+		}
 		for (int i = 0 ; i < 6; i++) {
 			try {
 				String url = "https://i.mgtv.com/account/loginVerify";
-				Connection.Response response = session.connect(url)
-						.method(Method.POST)
-						.data("account", account)
-						.data("sub", "1")
-						.data("vcode", getImgCode())
-						.data("pwd", "13734bd8b64952f8732b11653fbb5a5e8e777a19306593078f3d071df2cd5fe9b7beaf51e02372e37ad87a5caf63d009d587dfc32fafcdada52d067153317c6453e937aafeba7b0b20d0c3eb2a73f92d04a838507dcb688fa9bd779ae6564d6187a33de2518aaef9903e014a104447f0bd712f6ce35fabe8919969467aeb7ab7")
-						.data("remember", "1")
-						.headers(getHeader()).ignoreContentType(true).execute();
-				String res = response.body();
+				FormBody formBody = new FormBody
+		                .Builder()
+						.add("account", account)
+						.add("sub", "1")
+						.add("vcode", getImgCode())
+						.add("pwd", "13734bd8b64952f8732b11653fbb5a5e8e777a19306593078f3d071df2cd5fe9b7beaf51e02372e37ad87a5caf63d009d587dfc32fafcdada52d067153317c6453e937aafeba7b0b20d0c3eb2a73f92d04a838507dcb688fa9bd779ae6564d6187a33de2518aaef9903e014a104447f0bd712f6ce35fabe8919969467aeb7ab7")
+						.add("remember", "1")
+		                .build();
+				Request request = new Request.Builder().url(url)
+						.headers(getHeader())
+						.post(formBody)
+						.build();
+				String res = okHttpClient.newCall(request).execute().body().string();
 				if (res.contains("code\":-125")) {//验证码错误
 					continue;
 				}

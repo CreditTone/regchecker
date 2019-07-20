@@ -3,14 +3,15 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 import java.util.Map;
 import java.util.Set;
 
-import org.jsoup.Connection;
 
 import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.service.UsePapaSpider;
+import com.jisucloud.clawler.regagent.i.PapaSpider;
+import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 
-import me.kagura.JJsoup;
-import me.kagura.Session;
+import okhttp3.FormBody;
+import okhttp3.Request;
+import okhttp3.Response;
+
 
 @UsePapaSpider
 public class RongYiJieSpider extends PapaSpider {
@@ -42,18 +43,18 @@ public class RongYiJieSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			Session session = JJsoup.newSession();
-			 String body = session.connect("http://www.casheasy.cn:8082/login?username="+account+"&password=j9gIeoM%2BIU9%2BySW3C8hhPA%3D%3D")
-                    .method(Connection.Method.POST)
-                    .ignoreContentType(true)
-                    .execute().body();
-            //{"body":null,"header":{"requestDate":"uQNfetqztYz9W8ee3yPrNQ\u003d\u003d","requestTime":"Vk0jgvEesOQ\u003d","requestId":null,"respCode":"84AwJuHl8ac\u003d","respMsg":"7ikiK/ueAXJ0F/Kl0m+5CFrwNKoE4fnA"}}
-            System.err.println(body);
-            return !body.contains("7ikiK/ueAXJ0F/Kl0m+5CFrwNKoE4fnA");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+			FormBody formBody = new FormBody
+	                .Builder()
+	                .build();
+			Request request = new Request.Builder().url("http://www.casheasy.cn:8082/login?username="+account+"&password=j9gIeoM%2BIU9%2BySW3C8hhPA%3D%3D")
+					.post(formBody)
+					.build();
+			Response response = okHttpClient.newCall(request).execute();
+			 return !response.body().string().contains("7ikiK/ueAXJ0F/Kl0m+5CFrwNKoE4fnA");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	@Override

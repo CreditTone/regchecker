@@ -1,15 +1,21 @@
-package com.jisucloud.clawler.regagent.service;
+package com.jisucloud.clawler.regagent.i;
 
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import com.deep007.spiderbase.okhttp.OKHttpUtil;
+
 import co.paralleluniverse.strands.Strand;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.RequestBody;
 
 public abstract class PapaSpider {
+	
+	protected static final OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
 
 	public static final Random RANDOM = new Random();
 
@@ -51,5 +57,10 @@ public abstract class PapaSpider {
 	
 	public static RequestBody createJsonForm(String content) {
 		return FormBody.create(MediaType.parse("application/json;charset=utf-8"), content);
+	}
+	
+	public static Request createRequest(String url) {
+		return new Request.Builder().url(url)
+				.build();
 	}
 }

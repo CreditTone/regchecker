@@ -2,12 +2,14 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.jisucloud.clawler.regagent.service.PapaSpider;
-import com.jisucloud.clawler.regagent.service.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.JJsoupUtil;
-import me.kagura.Session;
-import org.jsoup.Connection;
-import org.jsoup.Connection.Method;
+import com.jisucloud.clawler.regagent.i.PapaSpider;
+import com.jisucloud.clawler.regagent.i.UsePapaSpider;
+
+import okhttp3.FormBody;
+import okhttp3.Headers;
+import okhttp3.Request;
+import okhttp3.Response;
+
 import com.google.common.collect.Sets;
 
 import java.util.HashMap;
@@ -47,13 +49,6 @@ public class JiQianBaoSpider extends PapaSpider {
         return headers;
     }
     
-    private Map<String, String> getParams(String mobile) {
-        Map<String, String> params = new HashMap<>();
-        params.put("account", mobile);
-        params.put("password", "fccvbhgssqqq");
-        params.put("channel", "9");
-        return params;
-    }
     
 	@Override
 	public Set<String> getTestTelephones() {
@@ -63,27 +58,24 @@ public class JiQianBaoSpider extends PapaSpider {
     @Override
     public boolean checkTelephone(String account) {
         try {
-            Session session = JJsoupUtil.newProxySession();
-            Connection.Response response = session.connect("https://web.gzhaitui.cn/api/user2/login")
-                    .headers(getHeader())
-                    .data(getParams(account))
-                    .method(Method.POST)
-                    .ignoreContentType(true)
-                    .execute();
-
-            if (response != null) {
-                JSONObject result = JSON.parseObject(response.body());
-                System.out.println(result);
-                if (result.getString("msg").contains("密码错误")) {
-                    return true;
-                }
+			FormBody formBody = new FormBody
+	                .Builder()
+	                .add("account", account)
+	                .add("password", "fccvbhgssqqq")
+	                .add("channel", "9")
+	                .build();
+			Request request = new Request.Builder().url("https://web.gzhaitui.cn/api/user2/login")
+					.headers(Headers.of(getHeader()))
+					.post(formBody)
+					.build();
+			Response response = okHttpClient.newCall(request).execute();
+			JSONObject result = JSON.parseObject(response.body().string());
+			if (result.getString("msg").contains("密码错误")) {
+                return true;
             }
-        } catch (Exception e) {
-            if (e.getMessage().contains("Read timed out")) {
-                return false;
-            }
-            e.printStackTrace();
-        }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
         return false;
     }
 
