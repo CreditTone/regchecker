@@ -1,12 +1,11 @@
-package com.jisucloud.clawler.regagent.service.impl.education;
+package com.jisucloud.clawler.regagent.service.impl.game;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.i.PapaSpider;
 import com.jisucloud.clawler.regagent.i.UsePapaSpider;
+import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.FormBody;
-import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -15,51 +14,50 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class VipjrSpider extends PapaSpider {
+public class _99Spider extends PapaSpider {
 
 	@Override
 	public String message() {
-		return "vipJr青少儿在线教育致力于打造K12全学科在线教育平台,为5-18岁青少儿提供在线少儿英语学习、一对一英语口语、数学、编程、语文等多元化在线教学服务。";
+		return "99.com数字娱乐门户集游戏门户、社区互动于一体，通过游戏官网、互动社区等频道，向广大用户提供多元化的互动娱乐内容和服务。";
 	}
 
 	@Override
 	public String platform() {
-		return "vipjr";
+		return "99";
 	}
 
 	@Override
 	public String home() {
-		return "vipjr.com";
+		return "99.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "vipJr在线教育";
+		return "99游戏";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"家长", "在线教育"};
+		return new String[] {"游戏"};
 	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15161509916", "18210538513");
+		return Sets.newHashSet("15956434943", "18210538513");
 	}
-
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://passport.vipjr.com/api/loginpost?brandId=4";
+			String url = "https://aq.99.com/V3/Handler/Default.ashx";
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "passport.vipjr.com")
-					.addHeader("Referer", "https://passport.vipjr.com/member/tutorabc.html#/login")
-					.post(FormBody.create(MediaType.parse("application/json;charset=utf-8"), "{\"brandId\":4,\"account\":\""+account+"\",\"password\":\"vcghvkjh98y897\",\"sourceType\":\"vipjr-vipjr\"}"))
+					.addHeader("Referer", "https://aq.99.com/NDUser_Register_New.aspx")
+					.post(createUrlEncodedForm("Action=check_username&Business=register&UserName="+account+"&RegType=3&Rnd=0.5016176569401889"))
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("E400403")) {
+			String res = StringUtil.unicodeToString(response.body().string());
+			if (res.contains("已经存在")) {
 				return true;
 			}
 		} catch (Exception e) {
