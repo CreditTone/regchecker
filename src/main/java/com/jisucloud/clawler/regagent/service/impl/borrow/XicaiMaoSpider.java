@@ -6,8 +6,11 @@ import com.jisucloud.clawler.regagent.i.PapaSpider;
 import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
-import me.kagura.JJsoup;
-import me.kagura.Session;
+import okhttp3.FormBody;
+import okhttp3.Headers;
+import okhttp3.Request;
+import okhttp3.Response;
+
 import org.jsoup.Connection;
 import org.jsoup.Connection.Method;
 import com.google.common.collect.Sets;
@@ -52,7 +55,7 @@ public class XicaiMaoSpider extends PapaSpider {
 		return Sets.newHashSet("18210538577", "18210538513");
 	}
     
-    private Map<String, String> getHeader() {
+    private Headers getHeader() {
         Map<String, String> headers = new HashMap<>();
         headers.put("User-Agent", "okhttp/3.10.0");
         headers.put("Host", "passport.csaimall.com");
@@ -64,35 +67,31 @@ public class XicaiMaoSpider extends PapaSpider {
         headers.put("phoneModel", "4.4.2");
         headers.put("equipType", "ANDROID");
         headers.put("cstk", "noLogin");
-        return headers;
+        return Headers.of(headers);
     }
     
     @Override
     public boolean checkTelephone(String account) {
         try {
-            Session session = JJsoup.newSession();
-            Connection.Response response = session.connect("https://passport.csaimall.com/app/user/login.do")
-                    .headers(getHeader())
-                    .data("mobileIden", "ffffffff-feb1-ed81-ffff-ffffc7c725a4")
-                    .data("userName", account)
-                    .data("password", "93B055F731F9ABC6BB4DCC17A8B7131B")
-                    .data("mobileType", "8692-A00")
-                    //.data("", "{\"password\":\"93B055F731F9ABC6BB4DCC17A8B7131B\",\"userName\":\""+account+"\",\"mobileType\":\"8692-A00\",\"mobileIden\":\"ffffffff-feb1-ed81-ffff-ffffc7c725a4\"}")
-                    .method(Method.POST)
-                    .ignoreContentType(true)
-                    .execute();
-
+        	FormBody formBody = new FormBody
+	                .Builder()
+	                .add("mobileIden", "ffffffff-feb1-ed81-ffff-ffffc7c725a4")
+                    .add("userName", account)
+                    .add("password", "93B055F731F9ABC6BB4DCC17A8B7131B")
+                    .add("mobileType", "8692-A00")
+	                .build();
+        	Request request = new Request.Builder().url("https://passport.csaimall.com/app/user/login.do")
+        			.headers(getHeader())
+					.post(formBody)
+					.build();
+            Response response =okHttpClient.newCall(request).execute();
             if (response != null) {
-                JSONObject result = JSON.parseObject(response.body());
-                log.info("xicaimao:"+result);
+                JSONObject result = JSON.parseObject(response.body().string());
                 if (result.getString("resultMsg").equals("用户名或密码错误")) {
                     return true;
                 }
             }
         } catch (Exception e) {
-            if (e.getMessage().contains("Read timed out")) {
-                return false;
-            }
             e.printStackTrace();
         }
         return false;

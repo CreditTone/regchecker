@@ -6,7 +6,10 @@ import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.i.PapaSpider;
 import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 
-import org.jsoup.Connection;
+import okhttp3.FormBody;
+import okhttp3.Headers;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +38,7 @@ public class _58Spider extends PapaSpider {
         return "58.com";
     }
 
-    private Map<String, String> getHeader() {
+    private Headers getHeader() {
         Map<String, String> headers = new HashMap<>();
         headers.put("uid", "");
         headers.put("psdk-d", "android");
@@ -64,35 +67,36 @@ public class _58Spider extends PapaSpider {
         headers.put("http.protocol.cookie-policy", "compatibility");
         headers.put("uuid", "82dbd5ac-55bc-43df-919b-e94a2f65e86f");
         headers.put("Host", "passport.58.com");
-        return headers;
+        headers.put("User-Agent", "Dalvik/1.6.0 (Linux; U; Android 4.4.2; OPPO A59m Build/KOT49H)");
+        return Headers.of(headers);
     }
 
-    private Map<String, String> getParams(String mobile) {
-        Map<String, String> params = new HashMap<>();
-        params.put("rsakeyversion", "1");
-        params.put("isremember", "false");
-        params.put("username", mobile);
-        params.put("source", "58app-android");
-        params.put("validcodetype", "200");
-        params.put("password", "2rfshpHVyEA2JZeZiYMjBoBos-FjwwD0PaNWhWZkSXjY3qpM1VdyK0TroL3j41nfYHGSH3XFDiJSNxB829xIJQU2vaOSFQ2XewGOqhRJs-De3rCXhkv8H7TW3S51_drmnCT2L26Eu510JFuYc2xw2bgeDSBcl79dxEm2aWwe05IXRNeF6KcdTQ4YRy8IKmKY37kwnXThaudt-mT9605Va-eVLcMK2EErB5aDQoJzNEupNPaQfSUvX-H8HflrpCa_Lh0U068ZYHKFcys4pXgZHpEEz88WYYcDhgHInybVClhArgVPn_RfbzmsB_fFj6gmFSOu8EgKY4SFF5Qov5Tqd-dLrMrNJgjnD28SiekKCSCCpr0hrn8zhxdwQPcn8ib-aqPGeXfr2V_mpwbu3s3pdDpamwROveqq1Md-J6YOBW1QHfDYAw9MYKyqurxFXd9U330BKEnEO9Z5QWpK6e9Y0qLXRxT3AjYML-ZdNrNMN-4_LKTEyy0FoHTnY6G6vlk4AQ==");
-        params.put("vptype", "RSA2");
-        return params;
+    private FormBody getParams(String mobile) {
+        FormBody formBody = new FormBody
+                .Builder()
+                .add("rsakeyversion", "1")
+                .add("isremember", "false")
+                .add("username", mobile)
+                .add("source", "58app-android")
+                .add("validcodetype", "200")
+                .add("password", "2rfshpHVyEA2JZeZiYMjBoBos-FjwwD0PaNWhWZkSXjY3qpM1VdyK0TroL3j41nfYHGSH3XFDiJSNxB829xIJQU2vaOSFQ2XewGOqhRJs-De3rCXhkv8H7TW3S51_drmnCT2L26Eu510JFuYc2xw2bgeDSBcl79dxEm2aWwe05IXRNeF6KcdTQ4YRy8IKmKY37kwnXThaudt-mT9605Va-eVLcMK2EErB5aDQoJzNEupNPaQfSUvX-H8HflrpCa_Lh0U068ZYHKFcys4pXgZHpEEz88WYYcDhgHInybVClhArgVPn_RfbzmsB_fFj6gmFSOu8EgKY4SFF5Qov5Tqd-dLrMrNJgjnD28SiekKCSCCpr0hrn8zhxdwQPcn8ib-aqPGeXfr2V_mpwbu3s3pdDpamwROveqq1Md-J6YOBW1QHfDYAw9MYKyqurxFXd9U330BKEnEO9Z5QWpK6e9Y0qLXRxT3AjYML-ZdNrNMN-4_LKTEyy0FoHTnY6G6vlk4AQ==")
+                .add("vptype", "RSA2")
+                .build();
+       
+        return formBody;
     }
 
     @Override
     public boolean checkTelephone(String account) {
         try {
             String url = "https://passport.58.com/login/dologin";
-            Connection.Response response = JJsoupUtil.newProxySession().connect(url)
-                    .method(Connection.Method.POST)
-                    .data(getParams(account))
-                    .headers(getHeader())
-                    .ignoreContentType(true)
-                    .userAgent("Dalvik/1.6.0 (Linux; U; Android 4.4.2; OPPO A59m Build/KOT49H)")
-                    .execute();
+            Request request = new Request.Builder().url(url)
+        			.headers(getHeader())
+					.post(getParams(account))
+					.build();
+            Response response = okHttpClient.newCall(request).execute();
             if (response != null) {
-                JSONObject result = JSON.parseObject(response.body());
-                System.out.println(account + " 58:" + result);
+                JSONObject result = JSON.parseObject(response.body().string());
                 if (result.getIntValue("code") == 772) {
                     return true;
                 }

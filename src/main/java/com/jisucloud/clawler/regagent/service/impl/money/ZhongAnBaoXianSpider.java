@@ -1,6 +1,5 @@
 package com.jisucloud.clawler.regagent.service.impl.money;
 
-import org.jsoup.Connection;
 import java.util.Map;
 import java.util.Set;
 
@@ -8,6 +7,7 @@ import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.i.PapaSpider;
 import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 
+import okhttp3.Request;
 
 @UsePapaSpider
 public class ZhongAnBaoXianSpider extends PapaSpider {
@@ -38,19 +38,17 @@ public class ZhongAnBaoXianSpider extends PapaSpider {
 
 	@Override
 	public boolean checkTelephone(String account) {
-		 try {
-			 Session session = JJsoup.newSession();
-	            //此接口为老版本v1.1.1接口
-	            String body = session.connect("https://app.zhongan.com/za-clare/app/user/sendCaptcha")
-	                    .method(Connection.Method.POST)
-	                    .requestBody("{\"phoneNo\":\""+account+"\",\"type\":\"3\"}")
-	                    .header("Content-type", "application/json;charset=utf-8")
-	                    .execute().body();
-	            return !body.contains("账号不存在");
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            return false;
-	        }
+		try {
+			Request request = new Request.Builder().url("https://app.zhongan.com/za-clare/app/user/sendCaptcha")
+					.header("Content-type", "application/json;charset=utf-8")
+					.post(createJsonForm("{\"phoneNo\":\"" + account + "\",\"type\":\"3\"}")).build();
+			// 此接口为老版本v1.1.1接口
+			String body = okHttpClient.newCall(request).execute().body().string();
+			return !body.contains("账号不存在");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override

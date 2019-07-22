@@ -6,24 +6,22 @@ import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import lombok.extern.slf4j.Slf4j;
-import me.kagura.JJsoup;
-import me.kagura.Session;
+import okhttp3.FormBody;
+import okhttp3.Headers;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.Connection.Method;
 
 @Slf4j
 @UsePapaSpider
 public class ZhongLiangSpider extends PapaSpider {
-	
-	private Session session = JJsoup.newSession();
 	
 	@Override
 	public String message() {
@@ -55,23 +53,26 @@ public class ZhongLiangSpider extends PapaSpider {
 		return Sets.newHashSet("18779861101", "18210538513");
 	}
 
-	private Map<String, String> getHeader() {
+	private Headers getHeader() {
 		Map<String, String> headers = new HashMap<>();
 		headers.put("User-Agent",
 				"Mozilla/5.0 (Linux; Android 7.0; PLUS Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Mobile Safari/537.36");
 		headers.put("Host", "passport.m.womai.com");
 		headers.put("Referer", "https://passport.m.womai.com/passport/login.action");
 		headers.put("X-Requested-With", "XMLHttpRequest");
-		return headers;
+		return Headers.of(headers);
 	}
 	
 	private String getImgCode() {
-		Connection.Response response;
+		Response response;
 		String vcode = null;
 		try {
 			String imageUrl = "https://passport.m.womai.com/passport/generateIdentifyCode.action?codeType=0&r=0.09"+System.currentTimeMillis();
-			response = session.connect(imageUrl).headers(getHeader()).execute();
-			byte[] body = response.bodyAsBytes();
+			Request request = new Request.Builder().url(imageUrl)
+        			.headers(getHeader())
+					.build();
+			response = okHttpClient.newCall(request).execute();
+			byte[] body = response.body().bytes();
 			vcode = OCRDecode.decodeImageCode(body);
 			return vcode;
 		} catch (IOException e) {
@@ -83,20 +84,25 @@ public class ZhongLiangSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			session.connect("https://passport.m.womai.com/passport/login.action").execute();
+			get("https://passport.m.womai.com/passport/login.action").body().string();
 			String url = "https://passport.m.womai.com/passport/login.action";
 			for (int i = 0 ; i < 5 ; i ++) {
 				String code = getImgCode();
-				Connection.Response response = session.connect(url)
-						.method(Method.POST)
-						.data("username", account)
-						.data("password", "ckajk2mcjoos")
-						.data("_identifyingCode", code)
-						.data("identifyingCode", code)
-						.data("codeType", "0")
-						.data("mp", "")
-						.headers(getHeader()).ignoreContentType(true).execute();
-				String res = response.body();
+				FormBody formBody = new FormBody
+		                .Builder()
+		                .add("username", account)
+						.add("password", "ckajk2mcjoos")
+						.add("_identifyingCode", code)
+						.add("identifyingCode", code)
+						.add("codeType", "0")
+						.add("mp", "")
+		                .build();
+				Request request = new Request.Builder().url(url)
+	        			.headers(getHeader())
+	        			.post(formBody)
+						.build();
+				Response response = okHttpClient.newCall(request).execute();
+				String res = response.body().string();
 				Document doc = Jsoup.parse(res);
 				String error = doc.select(".m-error").text();
 				if (error.contains("验证码错误")) {

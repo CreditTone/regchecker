@@ -5,24 +5,21 @@ import com.jisucloud.clawler.regagent.i.PapaSpider;
 import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
-import me.kagura.JJsoup;
-import me.kagura.Session;
+import okhttp3.FormBody;
+import okhttp3.Headers;
+import okhttp3.Request;
+import okhttp3.Response;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.jsoup.Connection;
-import org.jsoup.Connection.Method;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 @Slf4j
 @UsePapaSpider
 public class BaiXingWangSpider extends PapaSpider {
-	
-	private Session session = JJsoup.newSession();
 	
 	private String token;
 	private String token2Value;
@@ -58,27 +55,26 @@ public class BaiXingWangSpider extends PapaSpider {
 		return Sets.newHashSet("15101030000", "18210538513");
 	}
 
-	private Map<String, String> getHeader() {
+	private Headers getHeader() {
 		Map<String, String> headers = new HashMap<>();
 		headers.put("User-Agent",
 				"Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0");
 		headers.put("Host", "passport.ppdai.com");
 		headers.put("Referer", "https://passport.ppdai.com/resetPassword.html");
 		headers.put("X-Requested-With", "XMLHttpRequest");
-		return headers;
+		return Headers.of(headers);
 	}
 	
 	private void getTokenCode() {
-		Connection.Response response;
+		Response response;
 		String imageCodeUrl = "http://www.baixing.com/oz/login###";
 		try {
-			response = session.connect(imageCodeUrl)
-					.execute();
-			Document doc = Jsoup.parse(response.body());
+			response = get(imageCodeUrl);
+			Document doc = Jsoup.parse(response.body().string());
 			token = doc.select("input[name=token]").attr("value");
 			token2Name = doc.select("input[name=token] ~ input").attr("name");
 			token2Value = doc.select("input[name=token] ~ input").attr("value");
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -88,14 +84,19 @@ public class BaiXingWangSpider extends PapaSpider {
 		try {
 			getTokenCode();
 			String url = "http://www.baixing.com/oz/login###";
-			Connection.Response response = session.connect(url)
-					.method(Method.POST)
-					.data("identity", account)
-					.data("token", token)
-					.data(token2Name, token2Value)
-					.data("password", "woxaomia133")
-					.headers(getHeader()).ignoreContentType(true).execute();
-			Document doc = Jsoup.parse(response.body());
+			FormBody formBody = new FormBody
+	                .Builder()
+	                .add("identity", account)
+					.add("token", token)
+					.add(token2Name, token2Value)
+					.add("password", "woxaomia133")
+	                .build();
+        	Request request = new Request.Builder().url(url)
+        			.headers(getHeader())
+					.post(formBody)
+					.build();
+			Response response = okHttpClient.newCall(request).execute();
+			Document doc = Jsoup.parse(response.body().string());
 			if (doc.select(".alert-error").text().contains("密码错误")) {
 				return true;
 			}else {

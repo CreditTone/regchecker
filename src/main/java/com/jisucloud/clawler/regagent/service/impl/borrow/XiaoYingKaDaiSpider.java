@@ -9,7 +9,6 @@ import com.jisucloud.clawler.regagent.i.PapaSpider;
 import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
-
 @UsePapaSpider
 public class XiaoYingKaDaiSpider extends PapaSpider {
 
@@ -39,21 +38,22 @@ public class XiaoYingKaDaiSpider extends PapaSpider {
 
 	@Override
 	public boolean checkTelephone(String account) {
-		  try {
-			  Session session = JJsoup.newSession();
-	            String macid = (new Random().nextLong()+"").substring(0, 15);
-	            String md5key = "xiaoyingkadai";
-	            		String kvs = md5key + "channel=10000298&language=zh-Hans-CN&mac_id="+macid+"&mobile="+account+"&os=android&os_version=5.1.1&soft_version=2.1.1&ut="+System.currentTimeMillis()+md5key;
-	            				String sign2 = StringUtil.getMD5(kvs);
-	            				
-	            String body = session.connect("https://cardloan.xiaoying.com/2.1/user/find_pwd_precheck?"+kvs.replaceAll(md5key, "")+"&sign=" + sign2)
-	                    .execute().body();
-	            return !body.contains("手机号不存在");
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            
-	        }
-		  return false;
+		try {
+
+			String macid = (new Random().nextLong() + "").substring(0, 15);
+			String md5key = "xiaoyingkadai";
+			String kvs = md5key + "channel=10000298&language=zh-Hans-CN&mac_id=" + macid + "&mobile=" + account
+					+ "&os=android&os_version=5.1.1&soft_version=2.1.1&ut=" + System.currentTimeMillis() + md5key;
+			String sign2 = StringUtil.getMD5(kvs);
+
+			String body = get("https://cardloan.xiaoying.com/2.1/user/find_pwd_precheck?"
+					+ kvs.replaceAll(md5key, "") + "&sign=" + sign2).body().string();
+			return !body.contains("手机号不存在");
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		return false;
 	}
 
 	@Override

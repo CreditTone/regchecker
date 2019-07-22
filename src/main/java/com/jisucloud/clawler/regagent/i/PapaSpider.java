@@ -1,5 +1,6 @@
 package com.jisucloud.clawler.regagent.i;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -12,10 +13,11 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public abstract class PapaSpider {
 	
-	protected static final OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
+	protected final OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
 
 	public static final Random RANDOM = new Random();
 
@@ -62,5 +64,9 @@ public abstract class PapaSpider {
 	public static Request createRequest(String url) {
 		return new Request.Builder().url(url)
 				.build();
+	}
+	
+	protected Response get(String url) throws Exception {
+		return okHttpClient.newCall(createRequest(url)).execute();
 	}
 }

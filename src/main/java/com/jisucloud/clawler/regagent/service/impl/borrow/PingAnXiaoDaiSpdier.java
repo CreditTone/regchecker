@@ -7,10 +7,7 @@ import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.i.PapaSpider;
 import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 
-import me.kagura.JJsoup;
-import org.jsoup.Connection;
-
-@UsePapaSpider
+@UsePapaSpider(exclude = true)
 public class PingAnXiaoDaiSpdier extends PapaSpider {
 
 	@Override
@@ -39,14 +36,14 @@ public class PingAnXiaoDaiSpdier extends PapaSpider {
 
 	@Override
 	public boolean checkTelephone(String account) {
-		try {
-			String body = JJsoup.newSession().connect("http://18.162.179.74:8080/zhita_daichao_app/app_login/pwdlogin").requestBody(
-					"phone="+account+"&pwd=shadiaoXX&company=%E5%80%9F%E5%90%A7&oneSourceName=%E5%B9%B3%E5%AE%89%E5%B0%8F%E9%A2%9D%E8%B4%B7&twoSourceName=yingyongbao")
-					.method(Connection.Method.POST).execute().body();
-			System.out.println(body);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+//			String body = JJsoup.newSession().connect("http://18.162.179.74:8080/zhita_daichao_app/app_login/pwdlogin").requestBody(
+//					"phone="+account+"&pwd=shadiaoXX&company=%E5%80%9F%E5%90%A7&oneSourceName=%E5%B9%B3%E5%AE%89%E5%B0%8F%E9%A2%9D%E8%B4%B7&twoSourceName=yingyongbao")
+//					.method(Connection.Method.POST).execute().body();
+//			System.out.println(body);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		return false;
 	}
 

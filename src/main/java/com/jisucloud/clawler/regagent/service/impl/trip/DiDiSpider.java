@@ -5,7 +5,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.i.PapaSpider;
 import com.jisucloud.clawler.regagent.i.UsePapaSpider;
-import org.jsoup.Connection;
+
+import okhttp3.FormBody;
+import okhttp3.Headers;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,8 +33,9 @@ public class DiDiSpider extends PapaSpider {
         return "didiglobal.com";
     }
 
-    private Map<String, String> getHeader() {
+    private Headers getHeader() {
         Map<String, String> headers = new HashMap<>();
+        headers.put("User-Agent", "Android/4.4.2 didihttp OneNet/2.1.0.81 com.sdu.didi.psnger/5.2.40");
         headers.put("didi-header-hint-content", "{\"utc_offset\":\"480\",\"lang\":\"zh-CN\",\"Cityid\":1,\"app_timeout_ms\":20000}");
         headers.put("Host", "open.taou.com");
         headers.put("TripCountry", "CN");
@@ -41,12 +46,11 @@ public class DiDiSpider extends PapaSpider {
         headers.put("Host", "epassport.diditaxi.com.cn");
         headers.put("_ddns_", "1");
         headers.put("wsgsig", "dd04-3HBHNGZXPUK3U3DbK6sLXYv4tMcQI7B8UZ58HbABh/lSUBpiOpOAU3c5V7uLw5zSR5tbvPpqtNyqs7XctcE1uoEQF7v73zwlnDHb4TEnDa3Cvpvxv8U/WJPul+QIsHv8fnqpyI9/ms2xzTgUn+p8v2zWtziKwTcTZ7KgwLpZtauizx1mnicx135nVCc7yqA+nsncx2Rtt+CNxq");
-        return headers;
+        return Headers.of(headers);
     }
 
-    private Map<String, String> getParams(String mobile) {
-        Map<String, String> params = new HashMap<>();
-        JSONObject q = new JSONObject();
+    private FormBody getParams(String mobile) {
+    	JSONObject q = new JSONObject();
         q.put("cell", mobile);
         q.put("api_version", "1.0.1");
         q.put("app_version", "5.2.40");
@@ -66,26 +70,23 @@ public class DiDiSpider extends PapaSpider {
         q.put("role", 1);
         q.put("scene", 7);
         q.put("appid", 10000);
-        params.put("q", q.toJSONString());
-        return params;
+    	FormBody formBody = new FormBody.Builder()
+        .add("q", q.toJSONString())
+        .build();
+        return formBody;
     }
 
     @Override
     public boolean checkTelephone(String account) {
         try {
             String url = "https://epassport.diditaxi.com.cn/passport/login/v5/getIdentity";
-
-            Connection.Response response = JJsoupUtil.newProxySession().connect(url)
-                    .userAgent("Android/4.4.2 didihttp OneNet/2.1.0.81 com.sdu.didi.psnger/5.2.40")
-                    .ignoreContentType(true)
-                    .method(Connection.Method.POST)
-                    .headers(getHeader())
-                    .data(getParams(account))
-                    .execute();
-
+            Request request = new Request.Builder().url(url)
+        			.headers(getHeader())
+        			.post(getParams(account))
+					.build();
+            Response response = okHttpClient.newCall(request).execute();
             if (response != null) {
-                JSONObject result = JSON.parseObject(response.body());
-                System.out.println(result);
+                JSONObject result = JSON.parseObject(response.body().string());
                 if (result.getIntValue("errno") == 0) {
                     return true;
                 }

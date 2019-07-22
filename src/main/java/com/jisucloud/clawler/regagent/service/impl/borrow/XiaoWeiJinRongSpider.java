@@ -4,14 +4,16 @@ import com.jisucloud.clawler.regagent.i.PapaSpider;
 import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
-import org.jsoup.Connection;
-import org.jsoup.Connection.Method;
+import okhttp3.FormBody;
+import okhttp3.Headers;
+import okhttp3.Request;
+import okhttp3.Response;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import com.google.common.collect.Sets;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -50,53 +52,54 @@ public class XiaoWeiJinRongSpider extends PapaSpider {
 		return Sets.newHashSet("18210538577", "18210538513");
 	}
 
-	private Map<String, String> getHeader() {
+	private Headers getHeader() {
 		Map<String, String> headers = new HashMap<>();
 		headers.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0");
 		headers.put("Host", "www.weloan.com");
 		headers.put("Referer", "https://www.weloan.com/login?urlSource=https://www.weloan.com/");
-		return headers;
+		return Headers.of(headers);
 	}
 
-	private String getToken(Session session) {
+	private String getToken() {
 		String home = "https://www.weloan.com/login?urlSource=https://www.weloan.com/";
-		Connection.Response response;
+		Response response;
 		try {
-			response = session.connect(home).execute();
+			response = get(home);
 			if (response != null) {
-				Document doc = Jsoup.parse(response.body());
+				Document doc = Jsoup.parse(response.body().string());
 				Element authenticityToken = doc.select("input[name=authenticityToken]").first();
 				if (authenticityToken != null) {
 					return authenticityToken.attr("value");
 				}
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-	private Map<String, String> getParams(Session session, String mobile) {
-		Map<String, String> params = new HashMap<>();
-		params.put("authenticityToken", getToken(session));
-		params.put("name", mobile);
-		params.put("returnUrl", "");
-		params.put("urlSource", "https://www.weloan.com/login?urlSource=https://www.weloan.com/");
-		params.put("password", "dwaixopa121129");
-		return params;
+	private FormBody getParams(String mobile) {
+		FormBody formBody = new FormBody
+                .Builder()
+                .add("authenticityToken", getToken())
+        		.add("name", mobile)
+        		.add("returnUrl", "")
+        		.add("urlSource", "https://www.weloan.com/login?urlSource=https://www.weloan.com/")
+        		.add("password", "dwaixopa121129")
+                .build();
+		return formBody;
 	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.weloan.com/login";
-			System.out.println(url);
-			Session session = JJsoupUtil.newProxySession();
-			Connection.Response response = session.connect(url).method(Method.POST).data(getParams(session, account))
-					.headers(getHeader()).ignoreContentType(true).execute();
-			if (response != null) {
-				return response.body().contains("您的账户信息有误");
-			}
+			Request request = new Request.Builder().url(url)
+					.headers(getHeader())
+					.post(getParams(account))
+					.build();
+			Response response = okHttpClient.newCall(request).execute();
+			return response.body().string().contains("您的账户信息有误");
 		} catch (Exception e) {
 			if (e.getMessage().contains("Read timed out")) {
 				return false;

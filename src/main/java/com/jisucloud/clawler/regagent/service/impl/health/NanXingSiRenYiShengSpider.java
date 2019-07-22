@@ -3,8 +3,7 @@ package com.jisucloud.clawler.regagent.service.impl.health;
 import java.util.Map;
 import java.util.Set;
 
-import me.kagura.JJsoup;
-import me.kagura.Session;
+import okhttp3.Request;
 
 import org.jsoup.Connection;
 
@@ -44,11 +43,10 @@ public class NanXingSiRenYiShengSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		 try {
-			 	Session session = JJsoup.newSession();
-	            String body = session.connect("http://new.medapp.ranknowcn.com/api/m.php?action=login&version=3.0")
-	                    .method(Connection.Method.POST)
-	                    .requestBody("password=oooooi&source=tencent&token=5cd0f47bdc43e&appid=3&switchType=0&deviceid=5cd0f47bdc43e&os=android&vocde=&age=unknown&imei=460383127194006&username="+account+"&version=3.19.0428.1&phonemodel=Nexus+5&mobileTel=&")
-	                    .execute().body();
+			 Request request = new Request.Builder().url("http://new.medapp.ranknowcn.com/api/m.php?action=login&version=3.0")
+						.post(createUrlEncodedForm("password=oooooi&source=tencent&token=5cd0f47bdc43e&appid=3&switchType=0&deviceid=5cd0f47bdc43e&os=android&vocde=&age=unknown&imei=460383127194006&username="+account+"&version=3.19.0428.1&phonemodel=Nexus+5&mobileTel=&"))
+						.build();
+	            String body = okHttpClient.newCall(request).execute().body().string();
 	            body = StringUtil.unicodeToString(body);
 	            return body.contains("密码错误");
 	        } catch (Exception e) {

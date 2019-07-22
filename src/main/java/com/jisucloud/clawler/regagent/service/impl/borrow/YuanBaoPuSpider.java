@@ -5,8 +5,10 @@ import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import lombok.extern.slf4j.Slf4j;
-import me.kagura.JJsoup;
-import me.kagura.Session;
+import okhttp3.FormBody;
+import okhttp3.Headers;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import org.jsoup.Connection;
 import com.google.common.collect.Sets;
@@ -50,26 +52,26 @@ public class YuanBaoPuSpider extends PapaSpider {
 		return Sets.newHashSet("18210538577", "18210538513");
 	}
 
-	private Map<String, String> getHeader() {
+	private Headers getHeader() {
 		Map<String, String> headers = new HashMap<>();
 		headers.put("User-Agent",
 				"Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0");
 		headers.put("Host", "www.yuanbaopu.com");
 		headers.put("Referer", "https://www.yuanbaopu.com/user/register.htm");
 		headers.put("X-Requested-With", "XMLHttpRequest");
-		return headers;
+		return Headers.of(headers);
 	}
 	
-	private String getImgCode(Session session) {
+	private String getImgCode() {
 		String img = "https://www.yuanbaopu.com/checkcode/service.htm?time="+System.currentTimeMillis();
-		Connection.Response response;
+		Response response;
 		try {
-			response = session.connect(img).execute();
+			response = get(img);
 			if (response != null) {
-				byte[] body = response.bodyAsBytes();
+				byte[] body = response.body().bytes();
 				return OCRDecode.decodeImageCode(body);
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -78,18 +80,13 @@ public class YuanBaoPuSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			Session session = JJsoup.newSession();
-			String url = "https://www.yuanbaopu.com/register/checkMobile.htm?fieldValue="+account+"&imgCode="+getImgCode(session);
-			System.out.println(url);
-			Connection.Response response = session.connect(url)
-					.headers(getHeader()).ignoreContentType(true).execute();
-			if (response != null) {
-				return response.body().contains("已被注册");
-			}
+			String url = "https://www.yuanbaopu.com/register/checkMobile.htm?fieldValue="+account+"&imgCode="+getImgCode();
+			Request request = new Request.Builder().url(url)
+					.headers(getHeader())
+					.build();
+			Response response = okHttpClient.newCall(request).execute();
+			return response.body().string().contains("已被注册");
 		} catch (Exception e) {
-			if (e.getMessage().contains("Read timed out")) {
-				return false;
-			}
 			e.printStackTrace();
 		}
 		return false;
