@@ -104,7 +104,6 @@ public class Web12306Spider extends PapaSpider {
             System.out.println(result);
             if (result.getBooleanValue("status") == true) {
                 String msg = result.getJSONObject("data").getString("msg");
-                System.out.println("12306:" + account + ":" + result);
                 if (msg != null && msg.contains("您输入的手机号码已被其他注册用户")) {
                     Matcher matcher = Pattern.compile("其他注册用户（([^）]+)）使用").matcher(msg);
                     if (matcher.find()) {

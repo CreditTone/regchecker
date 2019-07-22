@@ -3,13 +3,13 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 import com.jisucloud.clawler.regagent.i.PapaSpider;
 import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+
+import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
 
@@ -20,7 +20,7 @@ import java.util.Set;
 @UsePapaSpider
 public class GongChangJinRongSpider extends PapaSpider {
 	
-	private ChromeAjaxListenDriver chromeDriver;
+	private ChromeAjaxHookDriver chromeDriver;
 
 	@Override
 	public String message() {
@@ -70,9 +70,10 @@ public class GongChangJinRongSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(false, null, null);
-			chromeDriver.quicklyVisit("https://www.gongchangp2p.com");
-			chromeDriver.get("https://www.gongchangp2p.com/depository/retrieve/toRetrievePwd.shtml?userType=0");smartSleep(2000);
+			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(false, true, CHROME_USER_AGENT);
+			chromeDriver.get("https://www.gongchangp2p.com");
+			chromeDriver.get("https://www.gongchangp2p.com/depository/retrieve/toRetrievePwd.shtml?userType=0");
+			smartSleep(2000);
 			chromeDriver.keyboardInput(chromeDriver.findElementByCssSelector("input[id='phone']"), account);
 			for (int i = 0; i < 5; i++) {
 				String imageCode = getImgCode();

@@ -2,15 +2,21 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.deep077.spiderbase.selenium.mitm.AjaxHook;
+import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
+import com.deep077.spiderbase.selenium.mitm.HookTracker;
 import com.jisucloud.clawler.regagent.i.PapaSpider;
 import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 import com.jisucloud.deepsearch.selenium.Ajax;
 import com.jisucloud.deepsearch.selenium.AjaxListener;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
 import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
+import net.lightbody.bmp.util.HttpMessageContents;
+import net.lightbody.bmp.util.HttpMessageInfo;
 
 import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
@@ -20,9 +26,9 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class BiYouXinSpider extends PapaSpider {
+public class BiYouXinSpider extends PapaSpider implements AjaxHook {
 
-	private ChromeAjaxListenDriver chromeDriver;
+	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
 
@@ -73,43 +79,13 @@ public class BiYouXinSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(true, null, null);
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
 			chromeDriver.get("https://cms.biyouxinjr.com/userCenter/#/register");
-			chromeDriver.addAjaxListener(new AjaxListener() {
-				
-				@Override
-				public String matcherUrl() {
-					return "api/checkUserExist";
-				}
-				
-				@Override
-				public String[] blockUrl() {
-					return null;
-				}
-				
-				@Override
-				public void ajax(Ajax ajax) throws Exception {
-					vcodeSuc = true;
-					JSONObject result = JSON.parseObject(ajax.getResponse());
-					checkTel = result.getJSONObject("res_data").get("isExist").toString().equals("1");
-				}
-
-				@Override
-				public String fixPostData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-
-				@Override
-				public String fixGetData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-			});
+			chromeDriver.addAjaxHook(this);
 			chromeDriver.findElementByCssSelector("input[type='tel']").sendKeys(account);
 			for (int i = 0; i < 5; i++) {
-				chromeDriver.reInject();
-				chromeDriver.findElementByCssSelector("input[type='password']").click();smartSleep(3000);
+				chromeDriver.findElementByCssSelector("input[type='password']").click();
+				smartSleep(3000);
 				if (vcodeSuc) {
 					break;
 				}
@@ -132,6 +108,23 @@ public class BiYouXinSpider extends PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
+	}
+
+	@Override
+	public HookTracker getHookTracker() {
+		return HookTracker.builder().addUrl("api/checkUserExist").build();
+	}
+
+	@Override
+	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		return null;
+	}
+
+	@Override
+	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		vcodeSuc = true;
+		JSONObject result = JSON.parseObject(contents.getTextContents());
+		checkTel = result.getJSONObject("res_data").get("isExist").toString().equals("1");
 	}
 
 }

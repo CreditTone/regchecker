@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Slf4j
-@UsePapaSpider
+@UsePapaSpider(exclude = true, excludeMsg = "响应太慢")
 public class XiMaLaYaSpider extends PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;

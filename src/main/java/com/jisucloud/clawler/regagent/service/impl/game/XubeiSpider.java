@@ -9,56 +9,55 @@ import lombok.extern.slf4j.Slf4j;
 import okhttp3.Request;
 import okhttp3.Response;
 
-
 import java.util.Map;
 import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class _4399Spider extends PapaSpider {
+public class XubeiSpider extends PapaSpider {
 
 	@Override
 	public String message() {
-		return "4399是领先的小游戏专业网站,免费为你提供小游戏大全,4399洛克王国小游戏,双人小游戏,连连看小游戏,赛尔号,奥拉星,奥奇传说小游戏,造梦西游3等最新小游戏。";
+		return "虚贝网是国内专业便捷游戏租号借号平台，平台有5万个极品游戏账号供您选择，绝地求生租号、CF租号、LOL租号、王者荣耀租号、逆战租号、QQ飞车租号等端游手游均已开通，steam平台游戏抢先体验。";
 	}
 
 	@Override
 	public String platform() {
-		return "4399";
+		return "xubei";
 	}
 
 	@Override
 	public String home() {
-		return "4399.com";
+		return "xubei.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "4399游戏";
+		return "虚贝网";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"游戏"};
+		return new String[] {"游戏", "租号玩"};
 	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18720982607", "18210538513");
+		return Sets.newHashSet("15188533909", "18210538513");
 	}
+
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://ptlogin.4399.com/ptlogin/isExist.do?username="+account+"&appId=oauth&regMode=reg_phone&v=1";
+			String url = "http://passport-server.xubei.com/reg/isPhoneExist?mobile=" + account;
 			Request request = new Request.Builder().url(url)
-					.addHeader("User-Agent", "Mozilla/5.0 (Linux; Android 7.0; PLUS Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Mobile Safari/537.36")
-					.addHeader("Host", "ptlogin.4399.com")
-					.addHeader("Referer", "https://ptlogin.4399.com/oauth2/authorize.do")
+					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
+					.addHeader("Referer", "http://passport.xubei.com/register.html")
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
 			String res = StringUtil.unicodeToString(response.body().string());
-			if (res.contains("已被注册")) {
+			if (res.contains("已注册")) {
 				return true;
 			}
 		} catch (Exception e) {

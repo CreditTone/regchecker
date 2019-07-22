@@ -99,7 +99,7 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 			for (Class<?> clz : NOUSE_PAPASPIDERS) {
 				log.info(clz.getName());
 			}
-			timer.schedule(this, 0, 1800 * 1000);//半小时跑一遍
+			timer.schedule(this, 0, 1800 * 1000 * 8);//4小时跑一遍
 		}catch(Exception e) {
 			log.warn("载入失败", e);
 			throw e;
