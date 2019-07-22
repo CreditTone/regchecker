@@ -1,20 +1,27 @@
 package com.jisucloud.clawler.regagent.service.impl.work;
 
+import com.deep077.spiderbase.selenium.mitm.AjaxHook;
+import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
+import com.deep077.spiderbase.selenium.mitm.HookTracker;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.i.PapaSpider;
 import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 import com.jisucloud.deepsearch.selenium.Ajax;
 import com.jisucloud.deepsearch.selenium.AjaxListener;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
 import com.jisucloud.deepsearch.selenium.HeadlessUtil;
+
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
+import net.lightbody.bmp.util.HttpMessageContents;
+import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
 import java.util.Set;
 
 @UsePapaSpider
-public class QiXinBaoSpider extends PapaSpider {
+public class QiXinBaoSpider extends PapaSpider implements AjaxHook {
 
-	private ChromeAjaxListenDriver chromeDriver;
+	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	
 	@Override
@@ -51,42 +58,14 @@ public class QiXinBaoSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(true, null, null);
-			chromeDriver.setAjaxListener(new AjaxListener() {
-				@Override
-				public void ajax(Ajax ajax) throws Exception {
-					if (ajax.getResponse().contains("密码错误")) {
-						checkTel = true;
-					}
-				}
-
-				@Override
-				public String matcherUrl() {
-					return "api/user/login";
-				}
-				
-				@Override
-				public String[] blockUrl() {
-					return null;
-				}
-
-				@Override
-				public String fixPostData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-
-				@Override
-				public String fixGetData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-			});
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
+			chromeDriver.addAjaxHook(this);
 			//chromeDriver.get("https://www.qixin.com/");
 			chromeDriver.get("https://www.qixin.com/auth/login?return_url=%2F");
 			chromeDriver.findElementByCssSelector("input[placeholder=请输入手机号码]").sendKeys(account);
 			chromeDriver.findElementByCssSelector("input[placeholder=请输入密码]").sendKeys("xkaocgwicb123");
-			chromeDriver.findElementByLinkText("登录").click();smartSleep(3000);
+			chromeDriver.findElementByLinkText("登录").click();
+			smartSleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -105,6 +84,23 @@ public class QiXinBaoSpider extends PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
+	}
+
+	@Override
+	public HookTracker getHookTracker() {
+		return HookTracker.builder().addUrl("api/user/login").build();
+	}
+
+	@Override
+	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		return null;
+	}
+
+	@Override
+	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		if (contents.getTextContents().contains("密码错误")) {
+			checkTel = true;
+		}
 	}
 
 }

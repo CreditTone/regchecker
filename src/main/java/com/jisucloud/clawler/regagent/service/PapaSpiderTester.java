@@ -3,6 +3,7 @@ package com.jisucloud.clawler.regagent.service;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.deep077.spiderbase.selenium.mitm.MitmServer;
 import com.jisucloud.clawler.regagent.i.PapaSpider;
 import com.jisucloud.clawler.regagent.service.impl._3c.*;
 import com.jisucloud.clawler.regagent.service.impl.borrow.*;
@@ -20,7 +21,6 @@ import com.jisucloud.clawler.regagent.service.impl.social.*;
 import com.jisucloud.clawler.regagent.service.impl.trip.*;
 import com.jisucloud.clawler.regagent.service.impl.video.*;
 import com.jisucloud.clawler.regagent.service.impl.work.*;
-import com.jisucloud.deepsearch.selenium.mitm.MitmServer;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -116,6 +116,6 @@ public class PapaSpiderTester {
 	}
 	
 	public static void main(String[] args) {
-		testingWithPrint(XicaiMaoSpider.class);
+		testingWithPrint(DeZhongJinRongSpider.class);
 	}
 }

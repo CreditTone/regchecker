@@ -1,12 +1,12 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
+import com.deep077.spiderbase.selenium.mitm.AjaxHook;
+import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
+import com.deep077.spiderbase.selenium.mitm.HookTracker;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.i.PapaSpider;
 import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
-import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
-import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
-import com.jisucloud.deepsearch.selenium.mitm.HookTracker;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Slf4j
-@UsePapaSpider
+@UsePapaSpider(exclude = true , excludeMsg = "疑似黑客攻击")
 public class _91WangCaiSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
@@ -78,6 +78,7 @@ public class _91WangCaiSpider extends PapaSpider implements AjaxHook {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
 			chromeDriver.get("https://www.91wangcai.com/user/to_login");
+			smartSleep(2000);
 			chromeDriver.addAjaxHook(this);
 			chromeDriver.findElementById("username").sendKeys(account);
 			chromeDriver.findElementById("pwd").sendKeys("lvnqwnk12mcxn");

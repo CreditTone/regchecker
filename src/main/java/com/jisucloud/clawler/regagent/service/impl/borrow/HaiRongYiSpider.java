@@ -4,9 +4,6 @@ import com.jisucloud.clawler.regagent.i.PapaSpider;
 import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 import com.jisucloud.clawler.regagent.util.StringUtil;
-import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
-import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
-import com.jisucloud.deepsearch.selenium.mitm.HookTracker;
 
 import co.paralleluniverse.strands.Strand;
 import io.netty.handler.codec.http.HttpRequest;
@@ -15,6 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
+import com.deep077.spiderbase.selenium.mitm.AjaxHook;
+import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
+import com.deep077.spiderbase.selenium.mitm.HookTracker;
 import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
 

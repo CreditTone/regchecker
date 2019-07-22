@@ -1,5 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.game;
 
+import com.deep077.spiderbase.selenium.mitm.AjaxHook;
+import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
+import com.deep077.spiderbase.selenium.mitm.HookTracker;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.i.PapaSpider;
 import com.jisucloud.clawler.regagent.i.UsePapaSpider;
@@ -7,9 +10,6 @@ import com.jisucloud.deepsearch.selenium.Ajax;
 import com.jisucloud.deepsearch.selenium.AjaxListener;
 import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
 import com.jisucloud.deepsearch.selenium.HeadlessUtil;
-import com.jisucloud.deepsearch.selenium.mitm.AjaxHook;
-import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
-import com.jisucloud.deepsearch.selenium.mitm.HookTracker;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;

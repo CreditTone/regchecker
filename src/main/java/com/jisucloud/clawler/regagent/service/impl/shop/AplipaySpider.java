@@ -1,10 +1,10 @@
 package com.jisucloud.clawler.regagent.service.impl.shop;
 
+import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.i.PapaSpider;
 import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.PapaSpiderTester;
-import com.jisucloud.deepsearch.selenium.mitm.ChromeAjaxHookDriver;
 
 import lombok.extern.slf4j.Slf4j;
 

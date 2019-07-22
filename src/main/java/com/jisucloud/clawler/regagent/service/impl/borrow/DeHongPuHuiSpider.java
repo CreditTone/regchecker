@@ -21,9 +21,6 @@ import java.util.concurrent.TimeUnit;
 @UsePapaSpider
 public class DeHongPuHuiSpider extends PapaSpider {
 
-	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
-			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
-	
 	@Override
 	public String message() {
 		return "德鸿普惠综合金融服务商,是通过“互联网+金融”战略计划,依托移动互联网大数据为基础的,为微小企业和个人提供小额的金融借贷服务普惠金融的平台。";

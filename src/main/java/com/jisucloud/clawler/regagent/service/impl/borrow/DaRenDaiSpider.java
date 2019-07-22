@@ -19,9 +19,6 @@ import java.util.concurrent.TimeUnit;
 @UsePapaSpider
 public class DaRenDaiSpider extends PapaSpider {
 
-	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
-			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
-
 	@Override
 	public String message() {
 		return "达人贷是名校团队创立的专业P2P网络借贷平台,专注小微金融业务,自建小微资产业务团队和风控体系,银行资金存管,广东互联网金融协会成员,2018胡润新金融百强榜最具潜力P2P。";

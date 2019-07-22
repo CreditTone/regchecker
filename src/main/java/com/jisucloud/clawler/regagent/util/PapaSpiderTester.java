@@ -3,6 +3,7 @@ package com.jisucloud.clawler.regagent.util;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.deep077.spiderbase.selenium.mitm.MitmServer;
 import com.jisucloud.clawler.regagent.i.PapaSpider;
 import com.jisucloud.clawler.regagent.service.impl.borrow.*;
 import com.jisucloud.clawler.regagent.service.impl.education.*;
@@ -13,7 +14,6 @@ import com.jisucloud.clawler.regagent.service.impl.life.*;
 import com.jisucloud.clawler.regagent.service.impl.money.*;
 import com.jisucloud.clawler.regagent.service.impl.shop.*;
 import com.jisucloud.clawler.regagent.service.impl.social.*;
-import com.jisucloud.deepsearch.selenium.mitm.MitmServer;
 
 import lombok.extern.slf4j.Slf4j;
 
