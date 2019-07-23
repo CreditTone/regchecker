@@ -85,7 +85,6 @@ public class AplipaySpider extends PapaSpider {
 					return true;
 				}
 				String currentUrl = chromeDriver.getCurrentUrl();
-				System.out.println(currentUrl);
 				String pageSource = chromeDriver.getPageSource();
 				if (currentUrl.contains("queryStrategy.htm?")) {
 					return true;

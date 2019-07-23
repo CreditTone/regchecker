@@ -3,7 +3,6 @@ package com.jisucloud.clawler.regagent.service.impl.email;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.i.PapaSpider;
-import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
@@ -28,13 +27,16 @@ public abstract class BasicEmailSpider extends PapaSpider {
 
 	@Override
 	public boolean checkTelephone(String account) {
+		String email = getEmail(account);
+		if (email == null) {
+			return false;
+		}
 		try {
 			String url = "http://www.emailcamel.com/api/single/validate/?usr=guozhong@quicklyun.com&pwd=qqadmin127&email="
-					+ getEmail(account);
+					+ email;
 			Request request = new Request.Builder().url(url).build();
 			Response response = okHttpClient.newCall(request).execute();
 			JSONObject result = JSON.parseObject(response.body().string()).getJSONObject("result");
-			System.out.println(result);
 			if ("success".equals(result.getString("verify_status"))) {
 				if ("valid".equals(result.getString("verify_result"))) {
 					return true;

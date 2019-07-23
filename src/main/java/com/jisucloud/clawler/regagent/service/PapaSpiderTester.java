@@ -116,6 +116,6 @@ public class PapaSpiderTester {
 	}
 	
 	public static void main(String[] args) {
-		testingWithPrint(VipjrSpider.class);
+		testingWithPrint(QiHu360Spider.class);
 	}
 }

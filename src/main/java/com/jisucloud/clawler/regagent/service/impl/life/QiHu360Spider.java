@@ -1,25 +1,29 @@
 package com.jisucloud.clawler.regagent.service.impl.life;
 
+import com.deep077.spiderbase.selenium.mitm.AjaxHook;
+import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
+import com.deep077.spiderbase.selenium.mitm.HookTracker;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.i.PapaSpider;
 import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import net.lightbody.bmp.util.HttpMessageContents;
+import net.lightbody.bmp.util.HttpMessageInfo;
 
+import java.net.URLDecoder;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class QiHu360Spider extends PapaSpider {
-
-	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
-			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
-
+public class QiHu360Spider extends PapaSpider implements AjaxHook {
+	
+	private ChromeAjaxHookDriver chromeDriver;
+	private boolean checkTel = false;
+	
 
 	@Override
 	public String message() {
@@ -57,23 +61,21 @@ public class QiHu360Spider extends PapaSpider {
 			return false;
 		}
 		try {
-			String url = "https://login.360.cn/?callback=jQuery18309111090361054407_"+System.currentTimeMillis()+"&src=pcw_so&from=pcw_so&charset=UTF-8&requestScema=https&quc_sdk_version=6.7.0&quc_sdk_name=jssdk&o=User&m=checkmobile&mobile="+account+"&type=&_=" +System.currentTimeMillis();
-			Request request = new Request.Builder().url(url)
-					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "login.360.cn")
-					.addHeader("Referer", "https://www.so.com/?src=hao")
-					.build();
-			Response response = okHttpClient.newCall(request)
-					.execute();
-			String res = response.body().string();
-			if (res.contains("\\u624b\\u673a\\u53f7\\u5df2\\u88ab\\u4f7f\\u7528") || res.contains("手机号已被使用")) {
-				return true;
-			}
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
+			chromeDriver.addAjaxHook(this);
+			chromeDriver.get("http://i.360.cn/login");
+			chromeDriver.findElementByCssSelector("input[name='userName']").sendKeys(account);
+			chromeDriver.findElementByCssSelector("input[name='password']").sendKeys("msadfhi3jvo");
+			chromeDriver.findElementByCssSelector("input[class='quc-button-submit quc-button quc-button-primary']").click();
+			smartSleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
+			if (chromeDriver != null) {
+				chromeDriver.quit();
+			}
 		}
-		return false;
+		return checkTel;
 	}
 
 	@Override
@@ -84,6 +86,22 @@ public class QiHu360Spider extends PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
+	}
+
+	@Override
+	public HookTracker getHookTracker() {
+		return HookTracker.builder().addUrl("https://login.360.cn/").isPost().build();
+	}
+
+	@Override
+	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		return null;
+	}
+
+	@Override
+	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		String res = URLDecoder.decode(contents.getTextContents());
+		checkTel = res.contains("密码");
 	}
 
 }

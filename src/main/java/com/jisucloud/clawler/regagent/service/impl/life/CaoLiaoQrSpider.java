@@ -21,10 +21,6 @@ import java.util.concurrent.TimeUnit;
 @UsePapaSpider
 public class CaoLiaoQrSpider extends PapaSpider {
 
-	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
-			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
-
-
 	@Override
 	public String message() {
 		return "草料二维码是国内专业的二维码服务提供商,提供二维码生成,美化,印制,管理,统计等服务,帮助企业通过二维码展示信息并采集线下数据,提升营销和管理效率。";
