@@ -13,7 +13,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class CountableThreadPool implements Closeable {
 
-	private int threadNum;
+	private final int threadNum;
 
 	private AtomicInteger threadAlive = new AtomicInteger();
 
@@ -24,8 +24,10 @@ public class CountableThreadPool implements Closeable {
 	private ThreadPoolExecutor executorService;
 
 	public CountableThreadPool(int threadNum) {
+		this.threadNum = threadNum;
 		executorService = (ThreadPoolExecutor) Executors.newCachedThreadPool();
-		setThread(threadNum);
+		executorService.setMaximumPoolSize(threadNum * 2);
+		executorService.setCorePoolSize(10);
 	}
 
 	public int getThreadAlive() {
@@ -36,17 +38,16 @@ public class CountableThreadPool implements Closeable {
 		return threadNum;
 	}
 
-	public void setThread(int thread) {
-		threadNum = thread;
-		executorService.setMaximumPoolSize(threadNum * 3);
-	}
-
-	public void waitIdleThread() {
+	public void waitIdleThread() throws Exception {
+		long startTime = System.currentTimeMillis();
 		while (getIdleThreadCount() <= 0) {
 			try {
-				Thread.sleep(100);
+				Thread.sleep(1000);
 			} catch (Exception e) {
 				e.printStackTrace();
+			}
+			if (System.currentTimeMillis() - startTime > 1000 * 60 * 30) {
+				throw new Exception("超过半小时无可用线程,threadAlive:" + getThreadAlive());
 			}
 		}
 	}

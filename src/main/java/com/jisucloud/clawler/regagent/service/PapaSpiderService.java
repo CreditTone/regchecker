@@ -18,12 +18,10 @@ import com.alibaba.fastjson.JSON;
 import com.deep007.spiderbase.okhttp.OKHttpUtil;
 import com.jisucloud.clawler.regagent.i.Account;
 import com.jisucloud.clawler.regagent.i.PapaSpider;
-import com.jisucloud.clawler.regagent.util.CountableFiberPool;
 import com.jisucloud.clawler.regagent.util.CountableThreadPool;
 import com.jisucloud.clawler.regagent.util.ReflectUtil;
 import com.jisucloud.clawler.regagent.util.TimerRecoder;
 
-import co.paralleluniverse.fibers.SuspendExecution;
 import co.paralleluniverse.strands.Strand;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -76,7 +74,12 @@ public class PapaSpiderService extends Thread {
 		PapaTask papaTask = null;
 		while (true) {
 			papaTask = takePapaTask();
-			trehadPool.waitIdleThread();
+			try {
+				trehadPool.waitIdleThread();
+			} catch (Exception e) {
+				log.warn("takePapaTask等待线程超时,服务终止", e);
+				break;
+			}
 			log.info("执行任务:"+papaTask);
 			trehadPool.execute(new PapaSpiderTaskRunnable(papaTask));
 		}
@@ -101,7 +104,12 @@ public class PapaSpiderService extends Thread {
 				int nums = 0;
 				for (Class<? extends PapaSpider> clz : TestValidPapaSpiderService.TEST_SUCCESS_PAPASPIDERS) {
 					PapaSpiderClassRunnable papaSpiderClassRunnable = new PapaSpiderClassRunnable(papaTask, clz);
-					trehadPool.waitIdleThread();
+					try {
+						trehadPool.waitIdleThread();
+					} catch (Exception e) {
+						log.warn("等待线程超时,任务终止:"+papaTask, e);
+						return;
+					}
 					trehadPool.execute(papaSpiderClassRunnable);
 					runnables.add(papaSpiderClassRunnable);
 					nums++;
@@ -113,21 +121,34 @@ public class PapaSpiderService extends Thread {
 				log.info("生产模式");
 				for (Class<? extends PapaSpider> clz : TestValidPapaSpiderService.TEST_SUCCESS_PAPASPIDERS) {
 					PapaSpiderClassRunnable papaSpiderClassRunnable = new PapaSpiderClassRunnable(papaTask, clz);
+					try {
+						trehadPool.waitIdleThread();
+					} catch (Exception e) {
+						log.warn("等待线程超时,任务终止:"+papaTask, e);
+						return;
+					}
+					log.info(papaTask.getTelephone()+"_添加PapaSpiderClassRunnable:"+clz.getSimpleName());
 					trehadPool.execute(papaSpiderClassRunnable);
 					runnables.add(papaSpiderClassRunnable);
 				}
 			}
 			log.info("任务("+papaTask.getId()+")，启动："+runnables.size()+"个协程.");
-			waitCheckFinished();
-			notifyFinished(papaTask);
-			String useTime = timerRecoder.getText();
-			log.info("任务("+papaTask.getId()+")结束。用时"+useTime+",成功撞库平台xx个,失败xx个。");
+			try {
+				waitCheckFinished();
+				String useTime = timerRecoder.getText();
+				log.info("任务("+papaTask.getId()+")结束。用时"+useTime+",成功撞库平台xx个,失败xx个。");
+			} catch (Exception e) {
+				log.warn("", e);
+			}finally {
+				notifyFinished(papaTask);
+			}
 		}
 		
-		private void waitCheckFinished() {
+		private void waitCheckFinished() throws Exception {
 			if (runnables.isEmpty()) {
 				return;
 			}
+			long startTime = System.currentTimeMillis();
 			while (true) {
 				boolean isDone = false;
 				for (PapaSpiderClassRunnable runnable : runnables) {
@@ -145,6 +166,9 @@ public class PapaSpiderService extends Thread {
 				} catch (Exception e) {
 					e.printStackTrace();
 				} 
+				if (System.currentTimeMillis() - startTime > 1000 * 60 * 20) {
+					throw new Exception("任务"+papaTask+"，执行超时");
+				}
 			}
 		}
 		
@@ -169,6 +193,7 @@ public class PapaSpiderService extends Thread {
 
 		@Override
 		public void run() {
+			log.info(papaTask.getTelephone()+"_执行PapaSpiderClassRunnable:" + papaSpiderClz.getSimpleName());
 			if (papaTask.getTelephone() != null) {
 				try {
 					PapaSpider instance = null;
