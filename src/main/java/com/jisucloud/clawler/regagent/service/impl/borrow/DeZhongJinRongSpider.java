@@ -5,7 +5,6 @@ import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
-import co.paralleluniverse.strands.Strand;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -80,7 +79,7 @@ public class DeZhongJinRongSpider extends PapaSpider implements AjaxHook{
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
 			chromeDriver.get("https://www.dezhong365.com/html/enter");
 			chromeDriver.addAjaxHook(this);
-			Strand.sleep(2000);
+			smartSleep(2000);
 			chromeDriver.findElementById("username").sendKeys(account);
 			chromeDriver.findElementById("userpwd").sendKeys("xas2139aa0");
 			for (int i = 0; i < 5; i++) {

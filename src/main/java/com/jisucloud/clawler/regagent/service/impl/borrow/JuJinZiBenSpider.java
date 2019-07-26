@@ -8,7 +8,6 @@ import com.jisucloud.clawler.regagent.i.PapaSpider;
 import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
-import co.paralleluniverse.strands.Strand;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -72,7 +71,7 @@ public class JuJinZiBenSpider extends PapaSpider implements AjaxHook {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
 			chromeDriver.get("https://www.jujinziben.com/login");
-			Strand.sleep(2000);
+			smartSleep(2000);
 			chromeDriver.addAjaxHook(this);
 			chromeDriver.findElementByCssSelector("input[name='username']").sendKeys(account);
 			chromeDriver.findElementByCssSelector("input[name='password']").sendKeys("xas129asad0b");

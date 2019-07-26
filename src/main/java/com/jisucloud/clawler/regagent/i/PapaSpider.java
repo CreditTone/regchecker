@@ -7,7 +7,6 @@ import java.util.Set;
 
 import com.deep007.spiderbase.okhttp.OKHttpUtil;
 
-import co.paralleluniverse.strands.Strand;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -47,7 +46,7 @@ public abstract class PapaSpider {
 
 	public final void smartSleep(long millis) {
 		try {
-			Strand.sleep(millis);
+			Thread.sleep(millis);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

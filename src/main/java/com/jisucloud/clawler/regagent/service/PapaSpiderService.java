@@ -1,6 +1,8 @@
 package com.jisucloud.clawler.regagent.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -22,7 +24,6 @@ import com.jisucloud.clawler.regagent.util.CountableThreadPool;
 import com.jisucloud.clawler.regagent.util.ReflectUtil;
 import com.jisucloud.clawler.regagent.util.TimerRecoder;
 
-import co.paralleluniverse.strands.Strand;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -45,7 +46,7 @@ public class PapaSpiderService extends Thread {
 	
 	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
 	
-	private CountableThreadPool trehadPool = new CountableThreadPool(1000);
+	private CountableThreadPool trehadPool = new CountableThreadPool(500);
 	
 	@PostConstruct
 	private void init() {
@@ -61,6 +62,12 @@ public class PapaSpiderService extends Thread {
 	}
 	
 	private PapaTask takePapaTask() {
+		long papaTaskNums = redisTemplate.opsForList().size(PAPATASK_QUEUE_KEY);
+		if (papaTaskNums > 100) {
+			String rename = PAPATASK_QUEUE_KEY+"_bak_"+new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+			log.warn("任务堆积严重，移除任务列表 " + PAPATASK_QUEUE_KEY + " " + papaTaskNums + " " + rename);
+			redisTemplate.rename(PAPATASK_QUEUE_KEY, rename);
+		}
 		while(true) {
 			String str = redisTemplate.opsForList().leftPop(PAPATASK_QUEUE_KEY, 10, TimeUnit.SECONDS);
 			if (str != null) {
@@ -80,7 +87,7 @@ public class PapaSpiderService extends Thread {
 				log.warn("takePapaTask等待线程超时,服务终止", e);
 				break;
 			}
-			log.info("执行任务:"+papaTask);
+			log.info("执行任务:"+papaTask+",当前活跃线程数:"+trehadPool.getThreadAlive());
 			trehadPool.execute(new PapaSpiderTaskRunnable(papaTask));
 		}
 	}
@@ -154,7 +161,11 @@ public class PapaSpiderService extends Thread {
 				for (PapaSpiderClassRunnable runnable : runnables) {
 					isDone = runnable.isDone();
 					if (!isDone) {
-						log.info("任务"+runnable.getPapaSpiderClz().getSimpleName()+"还未完成");
+						if (runnable.isStarted) {
+							log.info("任务"+runnable.getPapaSpiderClz().getSimpleName()+"已经开始，但未完成");
+						}else {
+							log.info("任务"+runnable.getPapaSpiderClz().getSimpleName()+"还没有开始");
+						}
 						break;
 					}
 				}
@@ -162,7 +173,7 @@ public class PapaSpiderService extends Thread {
 					break;
 				}
 				try {
-					Strand.sleep(10000);
+					Thread.sleep(10000);
 				} catch (Exception e) {
 					e.printStackTrace();
 				} 
@@ -184,6 +195,7 @@ public class PapaSpiderService extends Thread {
 		
 		private PapaTask papaTask = null;
 		private Class<? extends PapaSpider> papaSpiderClz;
+		private boolean isStarted = false;
 		private boolean isDone = false;
 		
 		public PapaSpiderClassRunnable(PapaTask papaTask, Class<? extends PapaSpider> papaSpiderClz) {
@@ -193,6 +205,7 @@ public class PapaSpiderService extends Thread {
 
 		@Override
 		public void run() {
+			isStarted = true;
 			log.info(papaTask.getTelephone()+"_执行PapaSpiderClassRunnable:" + papaSpiderClz.getSimpleName());
 			if (papaTask.getTelephone() != null) {
 				try {

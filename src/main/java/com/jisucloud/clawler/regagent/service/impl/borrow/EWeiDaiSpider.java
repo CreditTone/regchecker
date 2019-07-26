@@ -7,7 +7,6 @@ import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.i.PapaSpider;
 import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 
-import co.paralleluniverse.strands.Strand;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -54,7 +53,7 @@ public class EWeiDaiSpider extends PapaSpider implements AjaxHook {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(true, false, CHROME_USER_AGENT);
 			chromeDriver.get("https://www.eweidai.com/member/checkPhonerg2.action?jsoncallback=jsonp"+System.currentTimeMillis()+"&phone="+account+"&Rand=0.4430534748062773");
-			Strand.sleep(2000);
+			smartSleep(2000);
 			checkTel = chromeDriver.getPageSource().contains("已注册");
 		} catch (Exception e) {
 			e.printStackTrace();

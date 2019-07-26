@@ -42,7 +42,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderTester.PapaSpiderTestListener {
 	
-	public static final long RE_TEST_TIME = 3600 * 1000 * 24 * 3;
+	public static final long ONE_DAY_TIME = 3600 * 1000 * 24;
 	
 	public static Set<Class<? extends PapaSpider>> TEST_SUCCESS_PAPASPIDERS = new HashSet<>();
 	public static Set<Class<? extends PapaSpider>> TEST_FAILURE_PAPASPIDERS = new HashSet<>();
@@ -99,7 +99,7 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 			for (Class<?> clz : NOUSE_PAPASPIDERS) {
 				log.info(clz.getName());
 			}
-			timer.schedule(this, 0, 1800 * 1000 * 8);//4小时跑一遍
+			timer.schedule(this, 0, 3600 * 1000 * 8);//8小时跑一遍
 		}catch(Exception e) {
 			log.warn("载入失败", e);
 			throw e;
@@ -107,12 +107,25 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 	}
 	
 	/**
-	 * 过去24内测试有效
+	 * 过去xx小时内测试有效
 	 * @param clz
 	 * @return
 	 */
 	private boolean isCheckValidPapaSpiderResultValid(Class<? extends PapaSpider> clz) {
-		return redisTemplate.hasKey(clz.getName()).booleanValue();
+		String value = redisTemplate.opsForValue().get(clz.getName());
+		if (value == null) {
+			return false;
+		}
+		return value.equals("true");
+	}
+	
+	/**
+	 * 过去xx小时内是否测试过
+	 * @param clz
+	 * @return
+	 */
+	private boolean isCheckedPapaSpiderWithOneDay(Class<? extends PapaSpider> clz) {
+		return redisTemplate.hasKey(clz.getName());
 	}
 
 	public static boolean isPapaSpiderClass(Class<?> clz) {
@@ -137,7 +150,7 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 		if (TEST_FAILURE_PAPASPIDERS.contains(clz)) {
 			TEST_FAILURE_PAPASPIDERS.remove(clz);
 		}
-		redisTemplate.opsForValue().set(clz.getName(), "true", RE_TEST_TIME, TimeUnit.MILLISECONDS);
+		redisTemplate.opsForValue().set(clz.getName(), "true", 3, TimeUnit.DAYS);
 		TEST_SUCCESS_PAPASPIDERS.add(clz);
 	}
 
@@ -150,6 +163,8 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 			//log.warn("测试失败:"+clz.getName());
 			addTestFailureResult(clz);
 		}
+		//测试失败之后24小时之内可以不进行测试
+		redisTemplate.opsForValue().set(clz.getName(), "false", 1, TimeUnit.DAYS);
 	}
 
 	public void addTestFailureResult(Class<? extends PapaSpider> clz) {
@@ -169,7 +184,9 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 					TEST_SUCCESS_PAPASPIDERS.add(clz);
 					continue;
 				}
-				needTestPapaSpiders.add(clz);
+				if (!isCheckedPapaSpiderWithOneDay(clz)) {
+					needTestPapaSpiders.add(clz);
+				}
 			}
 			if (!System.getProperty("os.name").toLowerCase().contains("mac")) {
 				log.info("开始测试......");

@@ -36,7 +36,9 @@ public abstract class BasicEmailSpider extends PapaSpider {
 					+ email;
 			Request request = new Request.Builder().url(url).build();
 			Response response = okHttpClient.newCall(request).execute();
-			JSONObject result = JSON.parseObject(response.body().string()).getJSONObject("result");
+			String res = response.body().string();
+			JSONObject result = JSON.parseObject(res);
+			log.info(res);
 			if ("success".equals(result.getString("verify_status"))) {
 				if ("valid".equals(result.getString("verify_result"))) {
 					return true;

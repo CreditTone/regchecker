@@ -5,7 +5,6 @@ import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
-import co.paralleluniverse.strands.Strand;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -80,10 +79,10 @@ public class HaiRongYiSpider extends PapaSpider implements AjaxHook{
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
 			chromeDriver.get("https://www.hairongyi.com/member/findpwd");
 			chromeDriver.addAjaxHook(this);
-			Strand.sleep(2000);
+			smartSleep(2000);
 			chromeDriver.findElementById("loginName").sendKeys(account);
 			chromeDriver.findElementByLinkText("下一步").click();
-			Strand.sleep(2000);
+			smartSleep(2000);
 			for (int i = 0; i < 5; i++) {
 				code = getImgCode();
 				WebElement validate = chromeDriver.findElementByCssSelector(".generateCode input");

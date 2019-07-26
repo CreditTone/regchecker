@@ -95,7 +95,7 @@ public class DabaiqicheSpider extends PapaSpider {
 				Response response = okHttpClient.newCall(request).execute();
 				if (response != null ) {
 					JSONObject result = JSON.parseObject(response.body().string());
-					log.info(result.toJSONString());
+					//log.info(result.toJSONString());
 					int code = result.getIntValue("code");
 					if (code == 1) {//未注册
 						return false;
