@@ -19,6 +19,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ClassUtils;
 
+import com.deep007.spiderbase.util.JEmail;
 import com.jisucloud.clawler.regagent.i.PapaSpider;
 import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 import com.jisucloud.clawler.regagent.service.impl.borrow.BangBangTangSpider;
@@ -212,5 +213,17 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 		} catch (Exception e) {
 			log.warn("测试中断", e);
 		}
+	}
+	
+	public static void main(String[] args) throws Exception {
+		JEmail.builder()
+			.fromMail("1273568669@qq.com")
+			.content("test123")
+			.title("test")
+			.username("1273568669@qq.com")
+			.password("zbtasvoondmqiici")
+			.smtpHost("smtp.qq.com")
+			.toMails("guozhong@quicklyun.com")
+			.build().send();
 	}
 }

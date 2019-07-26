@@ -246,6 +246,7 @@ public class PapaSpiderService extends Thread {
 		Account data = Account.builder()
 			.username(papaTask.getTelephone())
 			.registed(registed)
+			.home(instance.home())
 			.platform(instance.platform())
 			.platformName(instance.platformName())
 			.platformMsg(instance.message())
