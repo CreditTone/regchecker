@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import com.deep077.spiderbase.selenium.mitm.MitmServer;
-import com.jisucloud.clawler.regagent.i.PapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.service.impl.borrow.*;
 import com.jisucloud.clawler.regagent.service.impl.education.*;
 import com.jisucloud.clawler.regagent.service.impl.email.*;

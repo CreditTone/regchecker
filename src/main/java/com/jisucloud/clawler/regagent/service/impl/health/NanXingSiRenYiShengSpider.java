@@ -7,8 +7,8 @@ import okhttp3.Request;
 
 import org.jsoup.Connection;
 
-import com.jisucloud.clawler.regagent.i.PapaSpider;
-import com.jisucloud.clawler.regagent.i.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 import com.google.common.collect.Sets;
 

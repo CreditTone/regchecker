@@ -1,14 +1,14 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
-import com.jisucloud.clawler.regagent.i.PapaSpider;
-import com.jisucloud.clawler.regagent.i.UsePapaSpider;
-
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import com.google.common.collect.Sets;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;

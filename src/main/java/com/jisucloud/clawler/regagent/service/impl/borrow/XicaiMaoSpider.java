@@ -2,8 +2,6 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.jisucloud.clawler.regagent.i.PapaSpider;
-import com.jisucloud.clawler.regagent.i.UsePapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -14,6 +12,9 @@ import okhttp3.Response;
 import org.jsoup.Connection;
 import org.jsoup.Connection.Method;
 import com.google.common.collect.Sets;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;

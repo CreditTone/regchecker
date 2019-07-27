@@ -5,8 +5,8 @@ import java.util.Random;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.i.PapaSpider;
-import com.jisucloud.clawler.regagent.i.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 @UsePapaSpider

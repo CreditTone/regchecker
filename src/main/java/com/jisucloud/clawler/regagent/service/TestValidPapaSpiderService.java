@@ -1,5 +1,7 @@
 package com.jisucloud.clawler.regagent.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Timer;
@@ -20,8 +22,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ClassUtils;
 
 import com.deep007.spiderbase.util.JEmail;
-import com.jisucloud.clawler.regagent.i.PapaSpider;
-import com.jisucloud.clawler.regagent.i.UsePapaSpider;
+import com.deep007.spiderbase.util.JEmail.JEmailBuilder;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 import com.jisucloud.clawler.regagent.service.impl.borrow.BangBangTangSpider;
 import com.jisucloud.clawler.regagent.service.impl.borrow.GuoShuCaiFuSpider;
 import com.jisucloud.clawler.regagent.service.impl.borrow.JuAiCaiSpider;
@@ -178,6 +181,12 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 	
 	@Override
 	public void run() {
+		JEmailBuilder jemailBuilder = JEmail.builder()
+		.fromMail("1273568669@qq.com")
+		.username("1273568669@qq.com")
+		.password("zbtasvoondmqiici")
+		.smtpHost("smtp.qq.com")
+		.toMails("guozhong@quicklyun.com");
 		try {
 			Set<Class<? extends PapaSpider>> needTestPapaSpiders = new HashSet<>();
 			for (Class<? extends PapaSpider> clz : preparedPapaSpiders) {
@@ -196,34 +205,32 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 					log.info(clz.getName());
 				}
 				PapaSpiderTester.testing(needTestPapaSpiders, this);
+				jemailBuilder.title("rechecker报告 " + new SimpleDateFormat("yyyyMMdd HH:mm:ss").format(new Date()));
 				log.info("测试完成，成功" + TEST_SUCCESS_PAPASPIDERS.size() + "个，失败" + TEST_FAILURE_PAPASPIDERS.size() + "个。");
+				jemailBuilder.addContentLine("测试完成，成功" + TEST_SUCCESS_PAPASPIDERS.size() + "个，失败" + TEST_FAILURE_PAPASPIDERS.size() + "个。");
 				if (!TEST_FAILURE_PAPASPIDERS.isEmpty()) {
 					log.info("测试失败列表如下:");
+					jemailBuilder.addContentLine("测试失败列表如下:");
 					for (Class<? extends PapaSpider> clz : TEST_FAILURE_PAPASPIDERS) {
 						log.info(clz.getName());
+						jemailBuilder.addContentLine(clz.getName());
 					}
 				}
 				if (!NOUSE_PAPASPIDERS.isEmpty()) {
+					jemailBuilder.addContentLine("");
 					log.info("正在研发待列表如下：");
+					jemailBuilder.addContentLine("正在研发待列表如下：");
 					for (Class<?> clz : NOUSE_PAPASPIDERS) {
 						log.info(clz.getName());
+						jemailBuilder.addContentLine(clz.getName());
 					}
 				}
 			}
 		} catch (Exception e) {
 			log.warn("测试中断", e);
+			jemailBuilder.addContentLine("测试中断" + e.toString());
+		}finally {
+			jemailBuilder.build().send();
 		}
-	}
-	
-	public static void main(String[] args) throws Exception {
-		JEmail.builder()
-			.fromMail("1273568669@qq.com")
-			.content("test123")
-			.title("test")
-			.username("1273568669@qq.com")
-			.password("zbtasvoondmqiici")
-			.smtpHost("smtp.qq.com")
-			.toMails("guozhong@quicklyun.com")
-			.build().send();
 	}
 }

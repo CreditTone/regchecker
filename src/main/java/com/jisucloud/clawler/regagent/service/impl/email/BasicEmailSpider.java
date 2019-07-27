@@ -2,7 +2,7 @@ package com.jisucloud.clawler.regagent.service.impl.email;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.jisucloud.clawler.regagent.i.PapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;

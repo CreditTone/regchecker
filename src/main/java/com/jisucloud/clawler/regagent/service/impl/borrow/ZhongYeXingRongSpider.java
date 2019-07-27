@@ -1,6 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
-import com.jisucloud.clawler.regagent.i.PapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 import com.jisucloud.deepsearch.selenium.Ajax;
 import com.jisucloud.deepsearch.selenium.AjaxListener;

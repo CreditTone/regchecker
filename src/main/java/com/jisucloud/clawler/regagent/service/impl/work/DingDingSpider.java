@@ -1,7 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.work;
 
 import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.i.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 import com.jisucloud.clawler.regagent.service.impl.email.BasicEmailSpider;
 import com.jisucloud.clawler.regagent.util.PingyinUtil;
 

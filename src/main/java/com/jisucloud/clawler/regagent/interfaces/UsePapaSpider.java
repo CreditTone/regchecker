@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.i;
+package com.jisucloud.clawler.regagent.interfaces;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
