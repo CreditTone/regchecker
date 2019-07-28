@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.education;
+package com.jisucloud.clawler.regagent.service.impl.knowledge;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
@@ -21,52 +21,59 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class QiMaoSpider extends PapaSpider {
+public class DocinSpider extends PapaSpider {
 
 	
 
 	@Override
 	public String message() {
-		return "七猫免费小说是一款提供小说阅读服务的软件。小说内容覆盖了总裁豪门小说、言情小说、穿越架空小说、玄幻小说、青春校园小说、修仙小说、悬疑小说、同人小说、名著等各种类型。";
+		return "豆丁网创立于2007年，是全球最大的中文社会化阅读平台，为用户提供一切有价值的可阅读之物。截至2010年，豆丁网已经成功跻身互联网全球500强，成为提供垂直服务的优秀网站之一。";
 	}
 
 	@Override
 	public String platform() {
-		return "kimao";
+		return "docin";
 	}
 
 	@Override
 	public String home() {
-		return "km.com";
+		return "docin.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "七猫小说";
+		return "豆丁网";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"小说","电子书"};
+		return new String[] {
+			"新闻阅读","小说","听书","教育"
+		};
 	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18779861101", "18210538513");
+		return Sets.newHashSet("15070860150", "18210538513");
 	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			Request request = new Request.Builder().url("https://i.km.com/api/getPassidByPhone?phone="+account+"&callback=jQuery183047210586920&_=" + System.currentTimeMillis())
+			String url = "https://www.docin.com/app/findPassword";
+			FormBody formBody = new FormBody
+	                .Builder()
+	                .add("login_email", account)
+	                .build();
+			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "i.km.com")
-					.addHeader("Referer", "https://book.km.com/index.php?c=login&a=reg&forward=https%3A%2F%2Fbook.km.com%2F")
-					.addHeader("X-Requested-With", "XMLHttpRequest")
+					.addHeader("Host", "www.docin.com")
+					.addHeader("Referer", "https://www.docin.com/app/findPassword")
+					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			String res = response.body().string();
-			if (res.contains("passid\":1")) {
+			Document doc = Jsoup.parse(response.body().string());
+			if (doc.select("div.tips").text().contains("请输入验证码")) {
 				return true;
 			}
 		} catch (Exception e) {

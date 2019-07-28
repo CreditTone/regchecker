@@ -1,69 +1,62 @@
-package com.jisucloud.clawler.regagent.service.impl.education;
+package com.jisucloud.clawler.regagent.service.impl.photo;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class _17KSpider extends PapaSpider {
-
-	
+public class HuaBanWangSpider extends PapaSpider {
 
 	@Override
 	public String message() {
-		return "17K小说网(17k.com)创建于2006年,原名一起看小说网,是中文在线旗下集创作、阅读于一体的在线阅读网站。我们以“让每个人都享受创作的乐趣”为使命,提供玄幻奇幻。";
+		return "花瓣网, 设计师寻找灵感的天堂！图片素材领导者，帮你采集,发现网络上你喜欢的事物.你可以用它收集灵感,保存有用的素材,计划旅行,晒晒自己想要的东西。";
 	}
 
 	@Override
 	public String platform() {
-		return "17k";
+		return "huaban";
 	}
 
 	@Override
 	public String home() {
-		return "17k.com";
+		return "huaban.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "17K小说网";
+		return "花瓣网";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"电子书", "阅读" , "小说"};
+		return new String[] {"原创" , "设计", "素材"};
 	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18720982607", "18210538513");
+		return Sets.newHashSet("13991808887", "15120058878");
 	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://passport.17k.com/ck/user/reset/info?loginName="+account;
+			String url = "https://huaban.com/auth/";
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "passport.17k.com")
-					.addHeader("Referer", "https://passport.17k.com/password/")
+					.addHeader("Referer", "https://huaban.com/")
+					.post(createUrlEncodedForm("email="+account+"&password=dasdas231123&_ref=frame"))
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			String res = StringUtil.unicodeToString(response.body().string());
-			if (res.contains("loginName")) {
+			String res = response.body().string();
+			if (res.contains("用户密码错误")) {
 				return true;
 			}
 		} catch (Exception e) {

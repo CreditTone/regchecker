@@ -8,6 +8,7 @@ import com.deep077.spiderbase.selenium.mitm.HookTracker;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.service.impl.life.IPandaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -75,28 +76,29 @@ public class CCTVSpider extends PapaSpider implements AjaxHook{
 
 	@Override
 	public boolean checkTelephone(String account) {
-		try {
-			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
-			chromeDriver.get("http://reg.cctv.com/forgetPassword/findPassword.action");
-			chromeDriver.addAjaxHook(this);
-			chromeDriver.findElementByCssSelector("#loginName").sendKeys(account);smartSleep(500);
-			for (int i = 0; i < 5; i++) {
-				String imcode = getImgCode();
-				WebElement nameInputArea = chromeDriver.findElementByCssSelector("#verificationCode");
-				nameInputArea.sendKeys(imcode);
-				chromeDriver.findElementByLinkText("下一步").click();smartSleep(2000);
-				if (checkSuc) {
-					break;
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally {
-			if (chromeDriver != null) {
-				chromeDriver.quit();
-			}
-		}
-		return checkTel;
+//		try {
+//			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
+//			chromeDriver.get("http://reg.cctv.com/forgetPassword/findPassword.action");
+//			chromeDriver.addAjaxHook(this);
+//			chromeDriver.findElementByCssSelector("#loginName").sendKeys(account);smartSleep(500);
+//			for (int i = 0; i < 5; i++) {
+//				String imcode = getImgCode();
+//				WebElement nameInputArea = chromeDriver.findElementByCssSelector("#verificationCode");
+//				nameInputArea.sendKeys(imcode);
+//				chromeDriver.findElementByLinkText("下一步").click();smartSleep(2000);
+//				if (checkSuc) {
+//					break;
+//				}
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}finally {
+//			if (chromeDriver != null) {
+//				chromeDriver.quit();
+//			}
+//		}
+//		return checkTel;
+		return new IPandaSpider().checkTelephone(account);
 	}
 
 	@Override

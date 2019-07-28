@@ -1,79 +1,69 @@
-package com.jisucloud.clawler.regagent.service.impl.education;
+package com.jisucloud.clawler.regagent.service.impl.reader;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class DocinSpider extends PapaSpider {
+public class _17KSpider extends PapaSpider {
 
 	
 
 	@Override
 	public String message() {
-		return "豆丁网创立于2007年，是全球最大的中文社会化阅读平台，为用户提供一切有价值的可阅读之物。截至2010年，豆丁网已经成功跻身互联网全球500强，成为提供垂直服务的优秀网站之一。";
+		return "17K小说网(17k.com)创建于2006年,原名一起看小说网,是中文在线旗下集创作、阅读于一体的在线阅读网站。我们以“让每个人都享受创作的乐趣”为使命,提供玄幻奇幻。";
 	}
 
 	@Override
 	public String platform() {
-		return "docin";
+		return "17k";
 	}
 
 	@Override
 	public String home() {
-		return "docin.com";
+		return "17k.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "豆丁网";
+		return "17K小说网";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {
-			"新闻阅读","小说","听书","教育"
-		};
+		return new String[] {"电子书", "阅读" , "小说"};
 	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15070860150", "18210538513");
+		return Sets.newHashSet("18720982607", "18210538513");
 	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://www.docin.com/app/findPassword";
-			FormBody formBody = new FormBody
-	                .Builder()
-	                .add("login_email", account)
-	                .build();
+			String url = "https://passport.17k.com/ck/user/reset/info?loginName="+account;
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "www.docin.com")
-					.addHeader("Referer", "https://www.docin.com/app/findPassword")
-					.post(formBody)
+					.addHeader("Host", "passport.17k.com")
+					.addHeader("Referer", "https://passport.17k.com/password/")
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			Document doc = Jsoup.parse(response.body().string());
-			if (doc.select("div.tips").text().contains("请输入验证码")) {
+			String res = StringUtil.unicodeToString(response.body().string());
+			if (res.contains("loginName")) {
 				return true;
 			}
 		} catch (Exception e) {

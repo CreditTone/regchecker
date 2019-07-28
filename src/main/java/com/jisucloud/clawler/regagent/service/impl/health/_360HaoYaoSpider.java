@@ -1,76 +1,67 @@
-package com.jisucloud.clawler.regagent.service.impl.education;
+package com.jisucloud.clawler.regagent.service.impl.health;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class KongFuziSpider extends PapaSpider {
-
-	
+public class _360HaoYaoSpider extends PapaSpider {
 
 	@Override
 	public String message() {
-		return "孔夫子旧书网是国内领先的古旧书交易平台,汇集全国各地13000家网上书店,50000家书摊,展示多达9000万种书籍;大量极具收藏价值的古旧珍本。";
+		return "360健康,是奇虎360旗下医药门户网站,本着全心全意为健康服务的宗旨,提供包括药品查询,疾病查询,症状查询,医院查询,医生查询,挂号,专家咨询,就医攻略。";
 	}
 
 	@Override
 	public String platform() {
-		return "kongfz";
+		return "360haoyao";
 	}
 
 	@Override
 	public String home() {
-		return "kongfz.com";
+		return "360haoyao.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "孔夫子旧书网";
+		return "360健康";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"书城"};
+		return new String[] {"健康运动", "医疗", "生活应用" , "购药"};
 	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18660396405", "18210538513");
+		return Sets.newHashSet("13528428484", "18210538513");
 	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://login.kongfz.com/Pc/Verify/mobile";
+			String url = "http://login.360haoyao.com/passport/customer/validateEmail.action";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("mobile", account)
-	                .add("smsBizType", "2")
+	                .add("email", account)
 	                .build();
 			Request request = new Request.Builder().url(url)
-					.addHeader("User-Agent", "Mozilla/5.0 (Linux; Android 7.0; PLUS Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Mobile Safari/537.36")
-					.addHeader("Host", "login.kongfz.com")
-					.addHeader("Referer", "http://www.kongfz.com/")
+					.addHeader("User-Agent", CHROME_USER_AGENT)
+					.addHeader("Referer", "http://login.360haoyao.com/passport/register.html")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			String res = StringUtil.unicodeToString(response.body().string());
-			if (res.contains("已存在")) {
+			String res = response.body().string();
+			if (res.contains("1")) {
 				return true;
 			}
 		} catch (Exception e) {

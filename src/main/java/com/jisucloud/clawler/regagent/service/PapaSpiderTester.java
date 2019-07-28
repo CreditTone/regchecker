@@ -19,6 +19,8 @@ import com.jisucloud.clawler.regagent.service.impl.music.*;
 import com.jisucloud.clawler.regagent.service.impl.news.*;
 import com.jisucloud.clawler.regagent.service.impl.pay.*;
 import com.jisucloud.clawler.regagent.service.impl.photo.*;
+import com.jisucloud.clawler.regagent.service.impl.reader.*;
+import com.jisucloud.clawler.regagent.service.impl.saas.*;
 import com.jisucloud.clawler.regagent.service.impl.shop.*;
 import com.jisucloud.clawler.regagent.service.impl.social.*;
 import com.jisucloud.clawler.regagent.service.impl.trip.*;
@@ -122,7 +124,6 @@ public class PapaSpiderTester {
 	}
 	
 	public static void main(String[] args) {
-//		testingWithPrint(HuLiJiaSpider.class);
-		testingWithPrint(LiXiangBaoSpider.class);
+		testingWithPrint(DouManLiCaiSpider.class);
 	}
 }
