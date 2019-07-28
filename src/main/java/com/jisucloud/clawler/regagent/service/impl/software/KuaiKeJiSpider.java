@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl._3c;
+package com.jisucloud.clawler.regagent.service.impl.software;
 
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
