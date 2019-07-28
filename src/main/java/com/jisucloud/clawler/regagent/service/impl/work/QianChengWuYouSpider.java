@@ -17,8 +17,7 @@ import java.util.concurrent.TimeUnit;
 @UsePapaSpider
 public class QianChengWuYouSpider extends PapaSpider {
 
-	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
-			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
+	
 
 
 	@Override

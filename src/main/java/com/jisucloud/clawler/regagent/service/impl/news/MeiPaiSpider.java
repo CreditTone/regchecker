@@ -25,8 +25,7 @@ import java.util.concurrent.TimeUnit;
 @UsePapaSpider
 public class MeiPaiSpider extends PapaSpider implements AjaxHook{
 
-	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
-			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
+	
 
 	@Override
 	public String message() {

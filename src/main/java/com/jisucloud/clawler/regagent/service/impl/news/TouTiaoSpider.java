@@ -34,8 +34,7 @@ public class TouTiaoSpider extends PapaSpider {
 		datas.put("9", "3c");
 	}
 
-	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
-			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
+	
 	
 	@Override
 	public String message() {
