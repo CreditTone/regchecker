@@ -18,7 +18,7 @@ import org.openqa.selenium.WebElement;
 import java.util.Map;
 import java.util.Set;
 
-//@UsePapaSpider
+@UsePapaSpider(exclude = true, excludeMsg = "防火墙")
 public class LiXiangBaoSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;

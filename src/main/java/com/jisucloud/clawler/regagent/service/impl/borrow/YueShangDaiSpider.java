@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Slf4j
-//@UsePapaSpider 行为反扒
+@UsePapaSpider(exclude = true , excludeMsg = "行为反扒")
 public class YueShangDaiSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;

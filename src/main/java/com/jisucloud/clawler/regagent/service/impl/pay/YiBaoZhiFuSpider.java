@@ -20,7 +20,7 @@ import java.util.Set;
 import org.openqa.selenium.WebElement;
 
 @Slf4j
-@UsePapaSpider(exclude = true, excludeMsg = "用户名不是手机号")
+@UsePapaSpider
 public class YiBaoZhiFuSpider extends PapaSpider implements AjaxHook {
 	
 	private ChromeAjaxHookDriver chromeDriver;
