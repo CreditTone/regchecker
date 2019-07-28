@@ -1,28 +1,29 @@
 package com.jisucloud.clawler.regagent.service.impl.life;
 
+import com.deep077.spiderbase.selenium.mitm.AjaxHook;
+import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
+import com.deep077.spiderbase.selenium.mitm.HookTracker;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
-import com.jisucloud.deepsearch.selenium.Ajax;
-import com.jisucloud.deepsearch.selenium.AjaxListener;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
+import net.lightbody.bmp.util.HttpMessageContents;
+import net.lightbody.bmp.util.HttpMessageInfo;
 
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class SouGouSpider extends PapaSpider {
+public class SouGouSpider extends PapaSpider implements AjaxHook {
 
-	private ChromeAjaxListenDriver chromeDriver;
+	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
 
@@ -73,8 +74,8 @@ public class SouGouSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(true, null, null);
-			chromeDriver.quicklyVisit("https://www.sogou.com/qq?ru=https%3A%2F%2Fwww.sogou.com%2Flogin%2Fqq_login_callback_page_new.html%3Fxy%3Dhttps%26from%3Dhttps%253A%252F%252Fwww.sogou.com%252F");smartSleep(3000);
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
+			chromeDriver.get("https://www.sogou.com/qq?ru=https%3A%2F%2Fwww.sogou.com%2Flogin%2Fqq_login_callback_page_new.html%3Fxy%3Dhttps%26from%3Dhttps%253A%252F%252Fwww.sogou.com%252F");smartSleep(3000);
 			chromeDriver.mouseClick(chromeDriver.findElementById("sogou_login"));
 			chromeDriver.keyboardInput(chromeDriver.findElementByCssSelector("input[class='grey']"), account);smartSleep(1000);
 			String han = chromeDriver.getWindowHandle();
@@ -85,7 +86,6 @@ public class SouGouSpider extends PapaSpider {
 			chromeDriver.jsInput(pwd1, "cas131231");
 			chromeDriver.jsInput(pwd2, "cas131231");
 			for (int i = 0; i < 5; i++) {
-				chromeDriver.reInject();
 				chromeDriver.findElementByCssSelector("a.login-btn1").click();smartSleep(2000);
 				String error1 = chromeDriver.findElementByCssSelector(".txt-01 p.error-p").getText();
 				String error2 = chromeDriver.findElementByCssSelector(".txt-02 p.error-p").getText();
@@ -114,6 +114,21 @@ public class SouGouSpider extends PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
+	}
+
+	@Override
+	public HookTracker getHookTracker() {
+		return null;
+	}
+
+	@Override
+	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		return null;
+	}
+
+	@Override
+	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		
 	}
 
 }

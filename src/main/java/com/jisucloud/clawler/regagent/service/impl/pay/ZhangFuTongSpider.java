@@ -1,50 +1,57 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl.pay;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class BoQiChongWuSpider extends PapaSpider {
+public class ZhangFuTongSpider extends PapaSpider {
+
+	
 
 
 	@Override
 	public String message() {
-		return "波奇宠物网是属于宠物爱好者的综合型网站.这里是宠物猫，宠物狗等宠物爱好者们的集中地.也是包含宠物商城和宠物百科的专业网站.选择波奇宠物网,健康宠物生活从波奇开始.";
+		return "掌付通是广州掌溢通网络科技有限公司推出的一款集合交通罚款代缴，年票代缴的网上支付平台，专注于自助交易服务平台的建设和运营，通过网站、手机客户端、电话等方式为用户提供。";
 	}
 
 	@Override
 	public String platform() {
-		return "boqii";
+		return "24pay";
 	}
 
 	@Override
 	public String home() {
-		return "boqii.com";
+		return "24pay.net";
 	}
 
 	@Override
 	public String platformName() {
-		return "波奇宠物网";
+		return "掌付通";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"宠物"};
+		return new String[] {"工具" , "违章查询", "生活应用"};
 	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13771025665", "18210538513");
+		return Sets.newHashSet("13925306960", "18210538513");
 	}
 
 	@Override
@@ -53,19 +60,26 @@ public class BoQiChongWuSpider extends PapaSpider {
 			return false;
 		}
 		try {
-			String url = "http://www.boqii.com/site/User/ajaxCheckMobile";
+			String url = "http://www.24pay.net/user/Login.htm";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("mobile", account)
+	                .add("user.registName", account)
+	                .add("user.registPhoneNo", account)
+	                .add("user.userPassword", "x01jhxnsao")
+	                .add("user.loginType", "")
 	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Referer", "http://www.boqii.com/user/register")
+					.addHeader("Host", "www.24pay.net")
+					.addHeader("Referer", "http://www.24pay.net/Forward.htm?page=urp")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request)
 					.execute();
-			return response.body().string().contains("exists");
+			String res = response.body().string();
+			if (res.contains("密码不正确")) {
+				return true;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

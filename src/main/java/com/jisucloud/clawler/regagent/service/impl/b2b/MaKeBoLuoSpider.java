@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl.b2b;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
@@ -6,6 +6,7 @@ import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -16,57 +17,62 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class AoYiWangSpider extends PapaSpider {
+public class MaKeBoLuoSpider extends PapaSpider {
 
 	
+
 	@Override
 	public String message() {
-		return "奥一网是广东首席城市生活社区,南方都市报官方网站,为你提供各类优质新闻和生活资讯。通过打造思想平台、意见平台、批判平台、服务平台、全媒体平台,参与国家治理体系。";
+		return "马可波罗网(Makepolo.com),精确采购搜索引擎,是中小企业实现“精确采购搜索”和“精确广告投放”的B2B电子商务平台。马可波罗网满足中小企业用户低投入,高回报的发展。";
 	}
 
 	@Override
 	public String platform() {
-		return "oeeee";
+		return "makepolo";
 	}
 
 	@Override
 	public String home() {
-		return "oeeee.com";
+		return "makepolo.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "奥一网";
+		return "马可波罗网";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"社区"};
+		return new String[] {"b2b" ,"商机" ,"生意"};
 	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15901537458", "18210538513");
+		return Sets.newHashSet("18210538513", "15700102860");
 	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "http://user.oeeee.com/passport/index.php?m=user&a=checkmobile&&mobile=" + account;
+			String url = "http://my.b2b.makepolo.com/ucenter/reg/register_checkCode_new.php";
+			FormBody formBody = new FormBody
+	                .Builder()
+	                .add("type", "check_phone")
+	                .add("mobile", account)
+	                .build();
 			Request request = new Request.Builder().url(url)
-					.addHeader("X-Requested-With", "XMLHttpRequest")
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "user.oeeee.com")
-					.addHeader("Referer", "http://user.oeeee.com/passport/index.php?m=user&a=oereg")
+					.addHeader("Host", "my.b2b.makepolo.com")
+					.addHeader("Referer", "http://my.b2b.makepolo.com/ucenter/reg/register_new.php")
+					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
 			String res = StringUtil.unicodeToString(response.body().string());
-			if (res.contains("已被注册")) {
+			if (res.contains("手机已经验证")) {
 				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
 		}
 		return false;
 	}

@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl.house;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
@@ -6,39 +6,45 @@ import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class YueMeiSpider extends PapaSpider {
+public class WoAiWoJiaSpider extends PapaSpider {
+
+	
 
 	@Override
 	public String message() {
-		return "悦美网是专业的整形美容平台,提供全新的美容整形资讯、优惠的整形美容项目,汇集齐全的整形美容医院、医生,悦美网为医疗美容爱好者全心打造中立权威的医疗美容网站。";
+		return "我爱我家网为您提供二手房买卖、普通租赁、相寓品牌-住宅资质管理、新房交易、海外房产等房地产综合服务。您可以通过小区找房、地图找房、建立选房卡、联系经纪人、下载APP等方式自由选择心仪房源。";
 	}
 
 	@Override
 	public String platform() {
-		return "yuemei";
+		return "5i5j";
 	}
 
 	@Override
 	public String home() {
-		return "yuemei.com";
+		return "5i5j.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "悦美网";
+		return "我爱我家网";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"医美", "美容" , "整容"};
+		return new String[] {"房产家居" , "房产中介"};
 	}
 	
 	@Override
@@ -49,19 +55,24 @@ public class YueMeiSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://user.yuemei.com/user/ajaxIsPhoneExist";
+			String url = "https://passport.5i5j.com/passport/sigin?city=bj";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("phone", account)
+	                .add("username", account)
+	                .add("password", "json21dsacvew")
+	                .add("aim", "pc")
+	                .add("service", "https://bj.5i5j.com/reglogin/index?preUrl=https%3A%2F%2Fbj.5i5j.com%2F")
+	                .add("status", "1")
 	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "user.yuemei.com")
-					.addHeader("Referer", "https://user.yuemei.com/user/register/")
+					.addHeader("Host", "passport.5i5j.com")
+					.addHeader("Referer", "https://passport.5i5j.com/passport/sigin?city=bj")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("0")) {
+			Document doc = Jsoup.parse(response.body().string());
+			if (doc.select("#erromsg").text().contains("密码错误")) {
 				return true;
 			}
 		} catch (Exception e) {

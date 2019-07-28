@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl.b2b;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
@@ -6,62 +6,73 @@ import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class YueMeiSpider extends PapaSpider {
+public class ZhiHuiShangMaoSpider extends PapaSpider {
+
+	
 
 	@Override
 	public String message() {
-		return "悦美网是专业的整形美容平台,提供全新的美容整形资讯、优惠的整形美容项目,汇集齐全的整形美容医院、医生,悦美网为医疗美容爱好者全心打造中立权威的医疗美容网站。";
+		return "智慧商贸 适用于中小企业,30秒注册,基础功能全匹配.支持离线操作,试用期14天智慧商贸 手机电脑都能用.24小时QQ服务,快速响应.为您解决一切软件使用问题。";
 	}
 
 	@Override
 	public String platform() {
-		return "yuemei";
+		return "zhsmjxc";
 	}
 
 	@Override
 	public String home() {
-		return "yuemei.com";
+		return "zhsmjxc.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "悦美网";
+		return "智慧商贸";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"医美", "美容" , "整容"};
+		return new String[] {"saas" ,"财务软件" ,"生意"};
 	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18515290717", "18210538513");
+		return Sets.newHashSet("18210538513", "13953679455");
 	}
+
+//	public static void main(String[] args) throws InterruptedException {
+//		System.out.println(new ZhiHuiShangMaoSpider().checkTelephone("18210538000"));
+//		System.out.println(new ZhiHuiShangMaoSpider().checkTelephone("18210538513"));
+//	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://user.yuemei.com/user/ajaxIsPhoneExist";
+			String url = "http://web.zhsmjxc.com/UCenter-webapp//Register/IsEmailOrPhoneBeBound.json?transNo=" + UUID.randomUUID();
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("phone", account)
+	                .add("username", account)
 	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "user.yuemei.com")
-					.addHeader("Referer", "https://user.yuemei.com/user/register/")
+					.addHeader("Host", "web.zhsmjxc.com")
+					.addHeader("Referer", "http://web.zhsmjxc.com/UCenter-webapp/Register/Init.htm?ProductType=0")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("0")) {
+			String res = response.body().string();
+			if (res.contains("手机号不可用")) {
 				return true;
 			}
 		} catch (Exception e) {

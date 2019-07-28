@@ -1,65 +1,69 @@
-package com.jisucloud.clawler.regagent.service.impl.work;
+package com.jisucloud.clawler.regagent.service.impl.saas;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class QianChengWuYouSpider extends PapaSpider {
+public class HaoFangTongSpider extends PapaSpider {
+
+	
 
 
 	@Override
 	public String message() {
-		return "前程无忧(NASDAQ:JOBS)是中国具有广泛影响力的人力资源服务供应商,在美国上市的中国人力资源服务企业,创立了网站+猎头+RPO+校园招聘+管理软件的全方位招聘方案.目前51Job有效简历数量超过1.2亿。";
+		return "好房通｜房产中介系统行业标准引领者。好房通ERP——是国内先进的房产中介管理系统，集销售管理与OA办公于一体,是房产中介管理与营销不可或缺的办公系统房管软件，好房通房产中介管理软件让中介.";
 	}
 
 	@Override
 	public String platform() {
-		return "51job";
+		return "hftsoft";
 	}
 
 	@Override
 	public String home() {
-		return "51job.com";
+		return "hftsoft.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "前程无忧";
+		return "好房通";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"求职" , "招聘"};
+		return new String[] {"OA系统", "办公软件"};
 	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538513", "15011008001");
+		return Sets.newHashSet("13771025665", "18209649992");
 	}
-
 
 	@Override
 	public boolean checkTelephone(String account) {
+		if (account.length() != 11) {
+			return false;
+		}
 		try {
-			String url = "https://login.51job.com/ajax/checkinfo.php?jsoncallback=jQuery18309636398222161634_"+System.currentTimeMillis()+"&value="+account+"&nation=CN&type=mobile&_=" + System.currentTimeMillis();
+			String url = "http://www.hftsoft.com/Home/Register/checkPhone?action=checkPhone&mobile="+account+"&tmp=0.39787207731392094";
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "login.51job.com")
-					.addHeader("Referer", "https://login.51job.com/register.php?lang=c&from_domain=i&source=&isjump=0&url=")
+					.addHeader("Referer", "http://www.hftsoft.com/user/register.shtml")
 					.build();
-			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("result\":1")) {
-				return true;
-			}
+			Response response = okHttpClient.newCall(request)
+					.execute();
+			return response.body().string().contains("exist");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

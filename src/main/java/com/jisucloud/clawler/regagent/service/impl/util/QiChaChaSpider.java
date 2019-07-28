@@ -1,44 +1,48 @@
-package com.jisucloud.clawler.regagent.service.impl.work;
+package com.jisucloud.clawler.regagent.service.impl.util;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class QianChengWuYouSpider extends PapaSpider {
+public class QiChaChaSpider extends PapaSpider {
 
+	
 
 	@Override
 	public String message() {
-		return "前程无忧(NASDAQ:JOBS)是中国具有广泛影响力的人力资源服务供应商,在美国上市的中国人力资源服务企业,创立了网站+猎头+RPO+校园招聘+管理软件的全方位招聘方案.目前51Job有效简历数量超过1.2亿。";
+		return "企查查为您提供企业信息查询,工商查询,信用查询,公司查询等相关信息查询；帮您快速了解企业信息,企业工商信息,企业信用信息,企业失信信息等企业经营和人员投资状况,查询更多企业信息就到企查查官网。";
 	}
 
 	@Override
 	public String platform() {
-		return "51job";
+		return "qichacha";
 	}
 
 	@Override
 	public String home() {
-		return "51job.com";
+		return "qichacha.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "前程无忧";
+		return "企查查";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"求职" , "招聘"};
+		return new String[] {"工具" , "资讯"};
 	}
 	
 	@Override
@@ -46,23 +50,27 @@ public class QianChengWuYouSpider extends PapaSpider {
 		return Sets.newHashSet("18210538513", "15011008001");
 	}
 
-
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://login.51job.com/ajax/checkinfo.php?jsoncallback=jQuery18309636398222161634_"+System.currentTimeMillis()+"&value="+account+"&nation=CN&type=mobile&_=" + System.currentTimeMillis();
+			String url = "https://www.qichacha.com/user_phonecheck";
+			FormBody formBody = new FormBody
+	                .Builder()
+	                .add("phone", account)
+	                .add("title", account)
+	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "login.51job.com")
-					.addHeader("Referer", "https://login.51job.com/register.php?lang=c&from_domain=i&source=&isjump=0&url=")
+					.addHeader("Host", "www.qichacha.com")
+					.addHeader("Referer", "https://www.qichacha.com/user_register")
+					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("result\":1")) {
+			if (response.body().string().contains("false")) {
 				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
 		}
 		return false;
 	}

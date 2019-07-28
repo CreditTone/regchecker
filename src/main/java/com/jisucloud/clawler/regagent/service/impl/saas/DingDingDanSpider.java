@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl.saas;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
@@ -6,6 +6,7 @@ import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -15,58 +16,64 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-@UsePapaSpider
-public class AoYiWangSpider extends PapaSpider {
+@UsePapaSpider(exclude = true)
+public class DingDingDanSpider extends PapaSpider {
 
 	
+
 	@Override
 	public String message() {
-		return "奥一网是广东首席城市生活社区,南方都市报官方网站,为你提供各类优质新闻和生活资讯。通过打造思想平台、意见平台、批判平台、服务平台、全媒体平台,参与国家治理体系。";
+		return "订订单网是专业的纺织服装加工好订单交易平台,聚集了众多优质纺织服装加工厂,包括服装服饰、家纺、面辅料、工艺、设备等。为广州、深圳、东莞、虎门、上海、杭州等。";
 	}
 
 	@Override
 	public String platform() {
-		return "oeeee";
+		return "dingdingdan";
 	}
 
 	@Override
 	public String home() {
-		return "oeeee.com";
+		return "dingdingdan.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "奥一网";
+		return "订订单网";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"社区"};
+		return new String[] {"b2b" ,"商机" ,"生意"};
 	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15901537458", "18210538513");
+		return Sets.newHashSet("13925306966", "18210538513");
 	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "http://user.oeeee.com/passport/index.php?m=user&a=checkmobile&&mobile=" + account;
+			String url = "https://www.dingdingdan.com/index.php?m=Home&c=Members&a=ajax_check";
+			FormBody formBody = new FormBody
+	                .Builder()
+	                .add("param", account)
+	                .add("type", "mobile")
+	                .build();
 			Request request = new Request.Builder().url(url)
-					.addHeader("X-Requested-With", "XMLHttpRequest")
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "user.oeeee.com")
-					.addHeader("Referer", "http://user.oeeee.com/passport/index.php?m=user&a=oereg")
+					.addHeader("Host", "www.dingdingdan.com")
+					.addHeader("Referer", "https://www.dingdingdan.com/members/register.html")
+					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			String res = StringUtil.unicodeToString(response.body().string());
-			if (res.contains("已被注册")) {
+			String res = response.body().string();
+			res = StringUtil.unicodeToString(res);
+			if (res.contains("已经注册")) {
 				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
 		}
 		return false;
 	}

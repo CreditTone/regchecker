@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl.knowledge;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
@@ -6,64 +6,71 @@ import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class YueMeiSpider extends PapaSpider {
+public class HuDongBaSpider extends PapaSpider {
+
+	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
+			.readTimeout(20, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 
 	@Override
 	public String message() {
-		return "悦美网是专业的整形美容平台,提供全新的美容整形资讯、优惠的整形美容项目,汇集齐全的整形美容医院、医生,悦美网为医疗美容爱好者全心打造中立权威的医疗美容网站。";
+		return "互动吧是活动平台，通过三年多的发展，已拥有7000多万注册用户。互动吧是一座连接活动主办方与参与者的桥梁，一方面帮助主办方更简单、高效的创建活动、管理活动和传播活动，另一方面帮助参与者更轻松、便捷的找到喜欢的活动参加。";
 	}
 
 	@Override
 	public String platform() {
-		return "yuemei";
+		return "hdb";
 	}
 
 	@Override
 	public String home() {
-		return "yuemei.com";
+		return "hdb.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "悦美网";
+		return "互动吧";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"医美", "美容" , "整容"};
+		return new String[] {"论坛" , "交友" , "户外交友"};
 	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18515290717", "18210538513");
+		return Sets.newHashSet("13925306966", "18210538513");
 	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://user.yuemei.com/user/ajaxIsPhoneExist";
+			String url = "https://www.hdb.com/post/api:2";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("phone", account)
+	                .add("login_name", account)
+	                .add("login_password", "xoan2ncoam3")
 	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "user.yuemei.com")
-					.addHeader("Referer", "https://user.yuemei.com/user/register/")
+					.addHeader("Host", "www.hdb.com")
+					.addHeader("Referer", "https://www.hdb.com/login/")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("0")) {
-				return true;
-			}
+			String res = response.body().string();
+			return res.contains("密码输入错误");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

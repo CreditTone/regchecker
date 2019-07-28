@@ -1,68 +1,71 @@
-package com.jisucloud.clawler.regagent.service.impl.work;
+package com.jisucloud.clawler.regagent.service.impl.saas;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class QianChengWuYouSpider extends PapaSpider {
+public class TeambitionSpider extends PapaSpider {
 
+	
 
 	@Override
 	public String message() {
-		return "前程无忧(NASDAQ:JOBS)是中国具有广泛影响力的人力资源服务供应商,在美国上市的中国人力资源服务企业,创立了网站+猎头+RPO+校园招聘+管理软件的全方位招聘方案.目前51Job有效简历数量超过1.2亿。";
+		return "Teambition是国内团队协作工具的创导者，通过帮助团队轻松共享和讨论工作中的任务、文件、分享、日程等内容，让团队协作焕发无限可能。Teambition在网页、桌面、移动环境都打造了体验出众的应用，所以你随时随地都可以和团队协作";
 	}
 
 	@Override
 	public String platform() {
-		return "51job";
+		return "teambition";
 	}
 
 	@Override
 	public String home() {
-		return "51job.com";
+		return "teambition.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "前程无忧";
+		return "Teambition";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"求职" , "招聘"};
+		return new String[] {"工作协调" , "沟通平台"};
 	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538513", "15011008001");
+		return Sets.newHashSet("18515290000", "18210538513");
 	}
-
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://login.51job.com/ajax/checkinfo.php?jsoncallback=jQuery18309636398222161634_"+System.currentTimeMillis()+"&value="+account+"&nation=CN&type=mobile&_=" + System.currentTimeMillis();
+			String url = "https://account.teambition.com/api/account/status?phone=" + account;
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "login.51job.com")
-					.addHeader("Referer", "https://login.51job.com/register.php?lang=c&from_domain=i&source=&isjump=0&url=")
+					.addHeader("Host", "account.teambition.com")
+					.addHeader("Referer", "https://account.teambition.com/forgot?")
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("result\":1")) {
-				return true;
-			}
+			String res = response.body().string();
+			JSONObject result = JSON.parseObject(res);
+			return result.getBooleanValue("phoneRegistered");
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
 		}
 		return false;
 	}

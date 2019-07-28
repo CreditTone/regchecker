@@ -1,68 +1,78 @@
-package com.jisucloud.clawler.regagent.service.impl.work;
+package com.jisucloud.clawler.regagent.service.impl.b2b;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class QianChengWuYouSpider extends PapaSpider {
+public class ZhongGuoJiaMengSpider extends PapaSpider {
 
+	
 
 	@Override
 	public String message() {
-		return "前程无忧(NASDAQ:JOBS)是中国具有广泛影响力的人力资源服务供应商,在美国上市的中国人力资源服务企业,创立了网站+猎头+RPO+校园招聘+管理软件的全方位招聘方案.目前51Job有效简历数量超过1.2亿。";
+		return "中国加盟网致力于在中国建立一个架构完整、内容丰富、分析客观、一个能让中小创业者与品牌商沟通最大的网络平台。在这样的志向和目标的推动下，网站名确定为“中国加盟网”。";
 	}
 
 	@Override
 	public String platform() {
-		return "51job";
+		return "jmw";
 	}
 
 	@Override
 	public String home() {
-		return "51job.com";
+		return "jmw.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "前程无忧";
+		return "中国加盟网";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"求职" , "招聘"};
+		return new String[] {"招商加盟" ,"生意"};
 	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538513", "15011008001");
+		return Sets.newHashSet("18210538513", "13953670000");
 	}
-
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://login.51job.com/ajax/checkinfo.php?jsoncallback=jQuery18309636398222161634_"+System.currentTimeMillis()+"&value="+account+"&nation=CN&type=mobile&_=" + System.currentTimeMillis();
+			String url = "http://person.jmw.com.cn/check_infos.php";
+			FormBody formBody = new FormBody
+	                .Builder()
+	                .add("person_number", account)
+	                .add("type", "phone")
+	                .add("telephone", account)
+	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "login.51job.com")
-					.addHeader("Referer", "https://login.51job.com/register.php?lang=c&from_domain=i&source=&isjump=0&url=")
+					.addHeader("Host", "person.jmw.com.cn")
+					.addHeader("Referer", "http://person.jmw.com.cn/registered.php")
+					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			if (response.body().string().contains("result\":1")) {
+			String res = response.body().string();
+			if (res.contains("false")) {
 				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
 		}
 		return false;
 	}

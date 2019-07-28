@@ -123,6 +123,6 @@ public class PapaSpiderTester {
 	
 	public static void main(String[] args) {
 //		testingWithPrint(HuLiJiaSpider.class);
-		testingWithPrint(YunFuTongSpider.class);
+		testingWithPrint(TaxItsSpider.class);
 	}
 }
