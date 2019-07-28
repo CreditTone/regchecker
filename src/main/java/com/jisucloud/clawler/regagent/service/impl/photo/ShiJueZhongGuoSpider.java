@@ -1,9 +1,10 @@
-package com.jisucloud.clawler.regagent.service.impl.money;
+package com.jisucloud.clawler.regagent.service.impl.photo;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -11,72 +12,64 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class ZhongJinZaiXianSpider extends PapaSpider {
+public class ShiJueZhongGuoSpider extends PapaSpider {
 
 	
 
 	@Override
 	public String message() {
-		return "中金在线-中国人的金融门户网站,覆盖财经、股票、 证券、金融、港股、行情、基金、债券、期货、外汇、保险、银行、博客、股票分析软件等多种面向个人和企业的服务。";
+		return "视觉中国是中国最具活力的视觉图片分享社区及创意设计产品社会化电商平台。依托独特的创意生态理论，为原创者和消费者提供一个互动沟通的原创社区，发现原创、发现美丽，收获并分享美好的创意体。";
 	}
 
 	@Override
 	public String platform() {
-		return "cnfol";
+		return "shijue";
 	}
 
 	@Override
 	public String home() {
-		return "cnfol.com";
+		return "shijue.me";
 	}
 
 	@Override
 	public String platformName() {
-		return "中金在线";
+		return "视觉中国";
 	}
-
 
 	@Override
 	public String[] tags() {
-		return new String[] {"金融资讯", "期货" , "贵金属" , "股票"};
+		return new String[] {"原创" , "设计"};
 	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985260000", "18210538513");
+		return Sets.newHashSet("18515290000", "13811085745");
 	}
-
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "https://passport.cnfol.com/userregister/ajaxcheckmobile";
+			String url = "http://www.shijue.me/user/v2/userIsExist";
 			FormBody formBody = new FormBody
 	                .Builder()
-	                .add("mobile", account)
-	                .add("type", "1")
+	                .add("userName", account)
+	                .add("countryCode", "86")
 	                .build();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "passport.cnfol.com")
-					.addHeader("X-Requested-With", "XMLHttpRequest")
-					.addHeader("Referer", "https://passport.cnfol.com/userregister?rt=aHR0cHM6Ly9wYXNzcG9ydC5jbmZvbC5jb20v")
+					.addHeader("Referer", "http://www.shijue.me/user/registerMe?redirect=http%3A%2F%2Fwww.shijue.me%2Fcommunity%2Findex.html")
 					.post(formBody)
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
-			String res = StringUtil.unicodeToString(response.body().string());
-			if (res.contains("已被注册")) {
-				return true;
-			}
+			String res = response.body().string();
+			JSONObject result = JSON.parseObject(res);
+			return result.getBooleanValue("isExist");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

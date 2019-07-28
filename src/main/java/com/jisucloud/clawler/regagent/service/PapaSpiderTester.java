@@ -12,18 +12,23 @@ import com.jisucloud.clawler.regagent.service.impl.education.*;
 import com.jisucloud.clawler.regagent.service.impl.email.*;
 import com.jisucloud.clawler.regagent.service.impl.game.*;
 import com.jisucloud.clawler.regagent.service.impl.health.*;
+import com.jisucloud.clawler.regagent.service.impl.law.*;
 import com.jisucloud.clawler.regagent.service.impl.life.*;
 import com.jisucloud.clawler.regagent.service.impl.money.*;
 import com.jisucloud.clawler.regagent.service.impl.music.*;
 import com.jisucloud.clawler.regagent.service.impl.news.*;
+import com.jisucloud.clawler.regagent.service.impl.pay.*;
+import com.jisucloud.clawler.regagent.service.impl.photo.*;
 import com.jisucloud.clawler.regagent.service.impl.shop.*;
 import com.jisucloud.clawler.regagent.service.impl.social.*;
 import com.jisucloud.clawler.regagent.service.impl.trip.*;
+import com.jisucloud.clawler.regagent.service.impl.util.*;
 import com.jisucloud.clawler.regagent.service.impl.video.*;
 import com.jisucloud.clawler.regagent.service.impl.work.*;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 public class PapaSpiderTester {
 
@@ -77,10 +82,11 @@ public class PapaSpiderTester {
 	 * 手工测试专用
 	 * @param clz
 	 */
+	@SuppressWarnings("deprecation")
 	public static void testingWithPrint(Class<? extends PapaSpider> clz) {
 		boolean success = false;
 		try {
-			PapaSpider instance =  clz.newInstance();
+			PapaSpider instance = clz.newInstance();
 			Set<String> testTels = instance.getTestTelephones();
 			if (testTels == null || testTels.size() < 2) {
 				log.warn("无法测试，"+clz.getName()+" 最低需要两个不同的比较号码。一个确认已经注册，一个确认没有注册。");
@@ -99,7 +105,7 @@ public class PapaSpiderTester {
 					falseCount ++;
 				}
 				if (iterator2.hasNext()) {
-					instance =  clz.newInstance();
+					instance = clz.newInstance();
 				}
 			}
 			success = (trueCount != 0 && falseCount != 0);
@@ -116,6 +122,7 @@ public class PapaSpiderTester {
 	}
 	
 	public static void main(String[] args) {
-		testingWithPrint(CDMA189EmailSpider.class);
+//		testingWithPrint(HuLiJiaSpider.class);
+		testingWithPrint(YunFuTongSpider.class);
 	}
 }

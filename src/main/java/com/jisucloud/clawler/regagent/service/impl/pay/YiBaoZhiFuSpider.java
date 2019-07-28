@@ -1,10 +1,9 @@
-package com.jisucloud.clawler.regagent.service.impl.borrow;
+package com.jisucloud.clawler.regagent.service.impl.pay;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
@@ -15,57 +14,55 @@ import lombok.extern.slf4j.Slf4j;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
-import com.google.common.collect.Sets;
-import org.openqa.selenium.WebElement;
-
 import java.util.Map;
 import java.util.Set;
 
-@Slf4j
-@UsePapaSpider
-public class XiaoShuShiDaiSpider extends PapaSpider implements AjaxHook {
+import org.openqa.selenium.WebElement;
 
+@Slf4j
+@UsePapaSpider(exclude = true, excludeMsg = "用户名不是手机号")
+public class YiBaoZhiFuSpider extends PapaSpider implements AjaxHook {
+	
 	private ChromeAjaxHookDriver chromeDriver;
-	private boolean checkTel = false;
-	private boolean vcodeSuc = false;//验证码是否正确
 
 	@Override
 	public String message() {
-		return "小树时代竭诚为您提供年轻人贷款、创业贷款 、小额贷款、网上贷款等服务,另外小树时代还提供贷款申请、条件、流程、政策等资讯。";
+		return "易宝支付是中国支付行业的开创者和领导者，也是互联网金融（ITFIN）和移动互联领军企业。易宝于2003年8月成立，总部位于北京，现有员工逾千人。";
 	}
 
 	@Override
 	public String platform() {
-		return "xiaoshushidai";
+		return "yeepay";
 	}
 
 	@Override
 	public String home() {
-		return "xiaoshushidai.com";
+		return "yeepay.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "小树时代";
+		return "易宝支付";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"P2P", "借贷" , "消费贷" , "小微金融"};
+		return new String[] {"聚合支付" , "互联网金融"};
 	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252045", "18210538513");
+		return Sets.newHashSet("13193091202", "18210538513");
 	}
-
+	
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {
-				WebElement img = chromeDriver.findElementByCssSelector("#valicodeImg");
-				img.click();smartSleep(1000);
+				WebElement img = chromeDriver.findElementByCssSelector("#picCode");
+				img.click();
+				smartSleep(1000);
 				byte[] body = chromeDriver.screenshot(img);
-				return OCRDecode.decodeImageCode(body);
+				return OCRDecode.decodeImageCode(body, "n4");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -77,16 +74,18 @@ public class XiaoShuShiDaiSpider extends PapaSpider implements AjaxHook {
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
-			chromeDriver.get("https://www.xiaoshushidai.cn/user-get_password_invest");
 			chromeDriver.addAjaxHook(this);
-			chromeDriver.findElementById("password-mobile").sendKeys(account);
+			chromeDriver.get("https://mp.yeepay.com/app/merchantUserManagement/getBack/loginPwd");
+			smartSleep(2000);
+			chromeDriver.findElementByCssSelector("#userName").sendKeys(account);
 			for (int i = 0; i < 5; i++) {
-				WebElement validate = chromeDriver.findElementById("verify-code");
-				validate.clear();
-				validate.sendKeys("6315");
-				chromeDriver.findElementById("get-captcha-btn").click();
-				smartSleep(3000);
-				if (vcodeSuc) {
+				String imageCode = getImgCode();
+				WebElement mark = chromeDriver.findElementByCssSelector("#validCode");
+				mark.clear();
+				mark.sendKeys(imageCode);
+				chromeDriver.findElementByCssSelector("#submitConfirmButton").click();
+				smartSleep(2000);
+				if (vs) {
 					break;
 				}
 			}
@@ -97,7 +96,7 @@ public class XiaoShuShiDaiSpider extends PapaSpider implements AjaxHook {
 				chromeDriver.quit();
 			}
 		}
-		return checkTel;
+		return ct;
 	}
 
 	@Override
@@ -112,24 +111,21 @@ public class XiaoShuShiDaiSpider extends PapaSpider implements AjaxHook {
 
 	@Override
 	public HookTracker getHookTracker() {
-		return null;
+		return HookTracker.builder().addUrl("https://mp.yeepay.com/app/merchantUserManagement/getBack/validLoginName").build();
 	}
 
 	@Override
 	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
-		if (messageInfo.getOriginalUrl().contains("act=get_register_verify_code")) {
-			return DEFAULT_HTTPRESPONSE;
-		}
 		return null;
 	}
+	
+	boolean vs = false;
+	boolean ct = false;
 
 	@Override
 	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
-		if (messageInfo.getOriginalUrl().contains("act=check_user")) {
-			vcodeSuc = true;
-			JSONObject result = JSON.parseObject(contents.getTextContents());
-			checkTel = result.getIntValue("status") == 1;
-		}
+		vs = true;
+		ct = contents.getTextContents().contains("member_mobile");
 	}
 
 }

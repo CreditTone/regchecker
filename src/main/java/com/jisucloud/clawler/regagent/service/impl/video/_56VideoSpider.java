@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Slf4j
-@UsePapaSpider(exclude = true)
+@UsePapaSpider
 public class _56VideoSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
@@ -58,8 +58,9 @@ public class _56VideoSpider extends PapaSpider implements AjaxHook {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
 			chromeDriver.get("http://www.56.com/");
+			smartSleep(1000);
 			chromeDriver.addAjaxHook(this);
-			chromeDriver.findElementByLinkText("注册");
+			chromeDriver.findElementByLinkText("注册").click();
 			smartSleep(2000);
 			chromeDriver.findElementByCssSelector("#regMobileAccount").sendKeys(account);
 			chromeDriver.findElementById("regPassWordA").click();

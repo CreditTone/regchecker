@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.life;
+package com.jisucloud.clawler.regagent.service.impl.util;
 
 import com.deep007.spiderbase.okhttp.OKHttpUtil;
 import com.google.common.collect.Sets;

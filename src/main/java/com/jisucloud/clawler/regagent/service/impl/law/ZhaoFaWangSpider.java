@@ -1,5 +1,6 @@
-package com.jisucloud.clawler.regagent.service.impl.money;
+package com.jisucloud.clawler.regagent.service.impl.law;
 
+import com.deep007.spiderbase.util.StringUtil;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
@@ -18,53 +19,49 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class TianNaSpider extends PapaSpider implements AjaxHook{
-
-	private ChromeAjaxHookDriver chromeDriver;
-	private boolean checkTel = false;
-	private boolean suc = false;
+public class ZhaoFaWangSpider extends PapaSpider implements AjaxHook {
 	
 	@Override
 	public String message() {
-		return "天安保险即天安财产保险股份有限公司是中国第四家财产险保险公司，也是第二家按照现代企业制度和国际标准组建的股份制商业保险公司。";
+		return "遇事找法,从找法网开始!15年法律咨询领导品牌,3164万需求者寻求帮助、在线找律师的第一站。找法网拥有注册律师近17万、年解答咨询量超过400万、年代理案件超20万。 ";
 	}
 
 	@Override
 	public String platform() {
-		return "tianaw";
+		return "findlaw";
 	}
 
 	@Override
 	public String home() {
-		return "tianaw.com";
+		return "findlaw.cn";
 	}
 
 	@Override
 	public String platformName() {
-		return "天安保险";
+		return "找法网";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"理财", "保险"};
+		return new String[] {"律师", "法律" ,"打官司"};
 	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15901537458", "18210538513");
+		return Sets.newHashSet("13991808887", "18210538513");
 	}
 
 	@Override
 	public boolean checkTelephone(String account) {
+		ChromeAjaxHookDriver chromeDriver = null;
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
+			chromeDriver.get("http://uc.findlaw.cn/lawyer/");
+			smartSleep(2000);
 			chromeDriver.addAjaxHook(this);
-			String url = "https://tianaw.95505.cn/tacpc/#/login/updatepass";
-			chromeDriver.get(url);smartSleep(3000);
-			chromeDriver.findElementById("'phoneNumber'").sendKeys(account);
-			chromeDriver.findElementById("password").sendKeys("wxy"+account);
-			chromeDriver.findElementById("checkPassword").sendKeys("wxy"+account);
-			chromeDriver.findElementByCssSelector("button[nztype=primary]").click();smartSleep(2000);
+			chromeDriver.findElementById("mobilep").sendKeys(account);
+			chromeDriver.findElementById("uname").click();
+			smartSleep(2000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -72,7 +69,7 @@ public class TianNaSpider extends PapaSpider implements AjaxHook{
 				chromeDriver.quit();
 			}
 		}
-		return checkTel;
+		return checkResult;
 	}
 
 	@Override
@@ -87,21 +84,20 @@ public class TianNaSpider extends PapaSpider implements AjaxHook{
 
 	@Override
 	public HookTracker getHookTracker() {
-		// TODO Auto-generated method stub
-		return HookTracker.builder().addUrl("/customer_login/setPassword").isPost().build();
+		return HookTracker.builder().addUrl("http://uc.findlaw.cn/index.php?c=Ajax&a=ajaxDispatcher").isPost().build();
 	}
 
 	@Override
 	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	private boolean checkResult = false;
+	
 	@Override
 	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
-		// TODO Auto-generated method stub
-		checkTel = contents.getTextContents().contains("新密码设置成功");
-		suc = true;
+		String res = StringUtil.unicodeToString(contents.getTextContents());
+		checkResult = res.contains("已被使用");
 	}
 
 }

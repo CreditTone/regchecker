@@ -1,5 +1,6 @@
-package com.jisucloud.clawler.regagent.service.impl.money;
+package com.jisucloud.clawler.regagent.service.impl.social;
 
+import com.deep007.spiderbase.util.StringUtil;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
@@ -16,55 +17,52 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 import java.util.Map;
 import java.util.Set;
 
+
 @Slf4j
 @UsePapaSpider
-public class TianNaSpider extends PapaSpider implements AjaxHook{
+public class WeiBoSpider extends PapaSpider implements AjaxHook {
 
-	private ChromeAjaxHookDriver chromeDriver;
-	private boolean checkTel = false;
-	private boolean suc = false;
-	
 	@Override
 	public String message() {
-		return "天安保险即天安财产保险股份有限公司是中国第四家财产险保险公司，也是第二家按照现代企业制度和国际标准组建的股份制商业保险公司。";
+		return "微博（Weibo）是指一种基于用户关系信息分享、传播以及获取的通过关注机制分享简短实时信息的广播式的社交媒体、网络平台，用户可以通过PC、手机等多种移动终端接入，以文字、图片、视频等多媒体形式，实现信息的即时分享、传播互动。";
 	}
 
 	@Override
 	public String platform() {
-		return "tianaw";
+		return "weibo";
 	}
 
 	@Override
 	public String home() {
-		return "tianaw.com";
+		return "weibo.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "天安保险";
+		return "微博";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"理财", "保险"};
+		return new String[] {"泛社交" , "微博"};
 	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15901537458", "18210538513");
+		return Sets.newHashSet("18700001101", "18210538513");
 	}
 
 	@Override
 	public boolean checkTelephone(String account) {
+		ChromeAjaxHookDriver chromeDriver = null;
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
+			chromeDriver.get("https://weibo.com/signup/signup.php");
+			smartSleep(2000);
 			chromeDriver.addAjaxHook(this);
-			String url = "https://tianaw.95505.cn/tacpc/#/login/updatepass";
-			chromeDriver.get(url);smartSleep(3000);
-			chromeDriver.findElementById("'phoneNumber'").sendKeys(account);
-			chromeDriver.findElementById("password").sendKeys("wxy"+account);
-			chromeDriver.findElementById("checkPassword").sendKeys("wxy"+account);
-			chromeDriver.findElementByCssSelector("button[nztype=primary]").click();smartSleep(2000);
+			chromeDriver.findElementByCssSelector("input[name='username']").sendKeys(account);
+			chromeDriver.findElementByCssSelector("input[name='passwd']").click();
+			smartSleep(2000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -87,21 +85,19 @@ public class TianNaSpider extends PapaSpider implements AjaxHook{
 
 	@Override
 	public HookTracker getHookTracker() {
-		// TODO Auto-generated method stub
-		return HookTracker.builder().addUrl("/customer_login/setPassword").isPost().build();
+		return HookTracker.builder().addUrl("https://weibo.com/signup/v5/formcheck").build();
 	}
 
 	@Override
 	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
-		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	private boolean checkTel = false;
 
 	@Override
 	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
-		// TODO Auto-generated method stub
-		checkTel = contents.getTextContents().contains("新密码设置成功");
-		suc = true;
+		checkTel = StringUtil.unicodeToString(contents.getTextContents()).contains("已注册");
 	}
 
 }

@@ -13,37 +13,37 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class _2345Spider extends PapaSpider {
+public class MoKoSpider extends PapaSpider {
 
 
 	@Override
 	public String message() {
-		return "2345.com热门网址导航站网罗精彩实用网址，如音乐、小说、NBA、财经、购物、视频、软件及热门游戏网址大全等，提供了多种搜索引擎入口、实用查询、天气预报、个性定制等实用功能，帮助广大网友畅.";
+		return "美空是唯一一家致力于专业娱乐导向的网络平台。美空为广告/时装（男,女模特），歌/舞剧/影视演员，摄影/造型师，视觉设计等人选及相关专业机构提供展示与合作平台。";
 	}
 
 	@Override
 	public String platform() {
-		return "2345dh";
+		return "moko";
 	}
 
 	@Override
 	public String home() {
-		return "2345.com";
+		return "moko.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "2345门户";
+		return "美空";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"门户网址", "资讯"};
+		return new String[] {"模特", "时装" , "演员" , "摄影师" , "造型师"};
 	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13771025665", "18210538513");
+		return Sets.newHashSet("18523857478", "18210538513");
 	}
 
 	@Override
@@ -52,14 +52,14 @@ public class _2345Spider extends PapaSpider {
 			return false;
 		}
 		try {
-			String url = "https://passport.2345.com/webapi/check/jsonp?callback=jQuery183019306&value="+account+"&with=0&_=" + System.currentTimeMillis();
+			String url = "http://www.moko.cc/register|checkPhoneIsUse.action?phone=" + account;
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Referer", "https://passport.2345.com/find?type=password")
+					.addHeader("Referer", "http://www.moko.cc/user/register/G.html")
 					.build();
 			Response response = okHttpClient.newCall(request)
 					.execute();
-			return response.body().string().contains("(1)");
+			return response.body().string().contains("register.error.phone");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

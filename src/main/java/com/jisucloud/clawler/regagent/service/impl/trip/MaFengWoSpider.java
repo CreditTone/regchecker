@@ -24,7 +24,7 @@ public class MaFengWoSpider extends PapaSpider implements AjaxHook{
 
 	@Override
 	public String message() {
-		return "马蜂窝!靠谱的旅游攻略,自由行,自助游分享社区,海量旅游景点图片、游记、交通、美食、购物等自由行旅游攻略信息,马蜂窝旅游网获取自由行,自助游攻略信息更全面。";
+		return "蚂蜂窝!靠谱的旅游攻略,自由行,自助游分享社区,海量旅游景点图片、游记、交通、美食、购物等自由行旅游攻略信息,马蜂窝旅游网获取自由行,自助游攻略信息更全面。";
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class MaFengWoSpider extends PapaSpider implements AjaxHook{
 
 	@Override
 	public String platformName() {
-		return "马蜂窝";
+		return "蚂蜂窝";
 	}
 
 	@Override
