@@ -1,22 +1,26 @@
 package com.jisucloud.clawler.regagent.service.impl.shop;
 
+import com.deep077.spiderbase.selenium.mitm.AjaxHook;
+import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
+import com.deep077.spiderbase.selenium.mitm.HookTracker;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
-import com.jisucloud.deepsearch.selenium.Ajax;
-import com.jisucloud.deepsearch.selenium.AjaxListener;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
+import net.lightbody.bmp.util.HttpMessageContents;
+import net.lightbody.bmp.util.HttpMessageInfo;
+
 import java.util.Map;
 import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class VanclSpider extends PapaSpider {
+public class VanclSpider extends PapaSpider implements AjaxHook {
 
-	private ChromeAjaxListenDriver chromeDriver;
+	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	
 	@Override
@@ -52,41 +56,13 @@ public class VanclSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(false, null, null);
-			chromeDriver.setAjaxListener(new AjaxListener() {
-				
-				@Override
-				public String matcherUrl() {
-					// TODO Auto-generated method stub
-					return "/login/XmlCheckUserName.ashx";
-				}
-				
-				@Override
-				public void ajax(Ajax ajax) throws Exception {
-					checkTel = ajax.getResponse().contains("密码不匹配");
-				}
-				
-				@Override
-				public String[] blockUrl() {
-					return null;
-				}
-
-				@Override
-				public String fixPostData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-
-				@Override
-				public String fixGetData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-			});
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
+			chromeDriver.addAjaxHook(this);
 			chromeDriver.get("http://login.vancl.com/login/Login.aspx?http://www.vancl.com?http%3A%2F%2Fwww.vancl.com%2F");smartSleep(3000);
 			chromeDriver.findElementById("vanclUserName").sendKeys(account);
 			chromeDriver.findElementById("vanclPassword").sendKeys("dsadf312231xs");
-			chromeDriver.findElementById("vanclLogin").click();smartSleep(3000);
+			chromeDriver.findElementById("vanclLogin").click();
+			smartSleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -105,6 +81,21 @@ public class VanclSpider extends PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
+	}
+
+	@Override
+	public HookTracker getHookTracker() {
+		return HookTracker.builder().addUrl("/login/XmlCheckUserName.ashx").build();
+	}
+
+	@Override
+	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		return null;
+	}
+
+	@Override
+	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		checkTel = contents.getTextContents().contains("密码不匹配");
 	}
 
 }

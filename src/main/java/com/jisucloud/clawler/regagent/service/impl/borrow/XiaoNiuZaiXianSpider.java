@@ -3,25 +3,27 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
-import com.jisucloud.deepsearch.selenium.Ajax;
-import com.jisucloud.deepsearch.selenium.AjaxListener;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
+import net.lightbody.bmp.util.HttpMessageContents;
+import net.lightbody.bmp.util.HttpMessageInfo;
 
+import com.deep077.spiderbase.selenium.mitm.AjaxHook;
+import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
+import com.deep077.spiderbase.selenium.mitm.HookTracker;
 import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class XiaoNiuZaiXianSpider extends PapaSpider {
+public class XiaoNiuZaiXianSpider extends PapaSpider implements AjaxHook {
 
-	private ChromeAjaxListenDriver chromeDriver;
+	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
 
@@ -72,42 +74,14 @@ public class XiaoNiuZaiXianSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(false, null, null);
-			chromeDriver.quicklyVisit("https://www.xiaoniu88.com/user/forgetpassword");
-			chromeDriver.addAjaxListener(new AjaxListener() {
-				
-				@Override
-				public String matcherUrl() {
-					return "https://www.xiaoniu88.com/user/forgetpassword/verifycode";
-				}
-				
-				@Override
-				public String[] blockUrl() {
-					return new String[] {"user/forgetpassword/step1"};
-				}
-				
-				@Override
-				public void ajax(Ajax ajax) throws Exception {
-					vcodeSuc =  ajax.getResponse().contains("0") || ajax.getResponse().contains("9");
-					checkTel = ajax.getResponse().contains("0");
-				}
-
-				@Override
-				public String fixPostData() {
-					return null;
-				}
-
-				@Override
-				public String fixGetData() {
-					return null;
-				}
-			});
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
+			chromeDriver.get("https://www.xiaoniu88.com/user/forgetpassword");
+			chromeDriver.addAjaxHook(this);
 			chromeDriver.findElementById("username").sendKeys(account);
 			for (int i = 0; i < 5; i++) {
 				WebElement validate = chromeDriver.findElementById("randomCode");
 				validate.clear();
 				validate.sendKeys(getImgCode());
-				chromeDriver.reInject();
 				chromeDriver.findElementById("step1-btn").click();smartSleep(3000);
 				if (vcodeSuc) {
 					break;
@@ -134,6 +108,23 @@ public class XiaoNiuZaiXianSpider extends PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
+	}
+
+	@Override
+	public HookTracker getHookTracker() {
+		return HookTracker.builder().addUrl("https://www.xiaoniu88.com/user/forgetpassword/verifycode").build();
+	}
+
+	@Override
+	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		return null;
+	}
+
+	@Override
+	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		String text = contents.getTextContents();
+		vcodeSuc =  text.contains("0") || text.contains("9");
+		checkTel = text.contains("0");
 	}
 
 }

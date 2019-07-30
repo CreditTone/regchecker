@@ -3,11 +3,10 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
+import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
 
@@ -18,7 +17,7 @@ import java.util.Set;
 @UsePapaSpider
 public class HuRongBaoSpider extends PapaSpider {
 
-	private ChromeAjaxListenDriver chromeDriver;
+	private ChromeAjaxHookDriver chromeDriver;
 	
 	@Override
 	public String message() {
@@ -70,7 +69,7 @@ public class HuRongBaoSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(true, null, null);
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
 			chromeDriver.get("https://sso.hurbao.com/uc/login");smartSleep(1000);
 			for (int i = 0; i < 5; i++) {
 				chromeDriver.findElementById("username").sendKeys(account);

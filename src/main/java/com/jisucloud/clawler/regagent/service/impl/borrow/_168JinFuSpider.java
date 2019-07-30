@@ -6,20 +6,17 @@ import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
 public class _168JinFuSpider extends PapaSpider {
 
 	
-
 	@Override
 	public String message() {
 		return "168金服(客服热线400-8888-366转2),是全国三大财经门户之一、工信部互联网百强企业“中金在线”旗下理财平台,为广大出借者提供基于汽车金融的理财产品的P2P理财出借。";

@@ -1,10 +1,9 @@
 package com.jisucloud.clawler.regagent.service.impl.social;
 
+import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,7 +15,7 @@ import java.util.Set;
 @UsePapaSpider
 public class WoZaiZhaoNiSpider extends PapaSpider {
 	
-	private ChromeAjaxListenDriver chromeDriver;
+	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 
 
@@ -53,8 +52,8 @@ public class WoZaiZhaoNiSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(true, null, null);
-			chromeDriver.quicklyVisit("http://www.95195.com");
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
+			chromeDriver.get("http://www.95195.com");
 			chromeDriver.get("http://www.95195.com/user/reg/");
 			chromeDriver.findElementById("r_mobile").sendKeys(account);
 			chromeDriver.findElementById("nickname").click();smartSleep(2000);

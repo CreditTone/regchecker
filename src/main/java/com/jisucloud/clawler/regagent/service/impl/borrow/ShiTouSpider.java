@@ -2,24 +2,26 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
-import com.jisucloud.deepsearch.selenium.Ajax;
-import com.jisucloud.deepsearch.selenium.AjaxListener;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
+import net.lightbody.bmp.util.HttpMessageContents;
+import net.lightbody.bmp.util.HttpMessageInfo;
 
+import com.deep077.spiderbase.selenium.mitm.AjaxHook;
+import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
+import com.deep077.spiderbase.selenium.mitm.HookTracker;
 import com.google.common.collect.Sets;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class ShiTouSpider extends PapaSpider {
+public class ShiTouSpider extends PapaSpider implements AjaxHook {
 
-	private ChromeAjaxListenDriver chromeDriver;
+	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	
 	@Override
@@ -55,41 +57,15 @@ public class ShiTouSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(true, null, null);
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
 			String url = "https://www.shitou.com/login";
-			chromeDriver.addAjaxListener(new AjaxListener() {
-				
-				@Override
-				public String matcherUrl() {
-					return "user/loginNameVerification.do";
-				}
-				
-				@Override
-				public void ajax(Ajax ajax) throws Exception {
-					checkTel = ajax.getResponse().contains("code\":\"000000");
-				}
-				
-				@Override
-				public String[] blockUrl() {
-					return null;
-				}
-
-				@Override
-				public String fixPostData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-
-				@Override
-				public String fixGetData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-			});
+			chromeDriver.addAjaxHook(this);
 			chromeDriver.get("http://www.baidu.com/link?url=MUS_n9bK5KgnJ1M6Y5VG2gT87k7wXd4ejxSLqLyPy-juNLIbe9TAgzlA5__aqaN5&wd=&eqid=cea493ff0001fbdc000000025cf8c6bf");
-			chromeDriver.get(url);smartSleep(3000);
+			chromeDriver.get(url);
+			smartSleep(3000);
 			chromeDriver.findElementByCssSelector("input[ng-model='user.loginName']").sendKeys(account);
-			chromeDriver.findElementByCssSelector("input[ng-model='user.password']").click();smartSleep(3000);
+			chromeDriver.findElementByCssSelector("input[ng-model='user.password']").click();
+			smartSleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -108,6 +84,21 @@ public class ShiTouSpider extends PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
+	}
+
+	@Override
+	public HookTracker getHookTracker() {
+		return HookTracker.builder().addUrl("user/loginNameVerification.do").build();
+	}
+
+	@Override
+	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		return null;
+	}
+
+	@Override
+	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		checkTel = contents.getTextContents().contains("code\":\"000000");
 	}
 
 }

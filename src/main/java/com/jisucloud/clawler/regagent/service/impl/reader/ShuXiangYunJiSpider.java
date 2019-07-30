@@ -18,8 +18,6 @@ import java.util.Set;
 @UsePapaSpider
 public class ShuXiangYunJiSpider extends PapaSpider {
 
-	
-
 	@Override
 	public String message() {
 		return "书香云集小说网提供最好看的原创免费小说在线阅读,坚持做更新快,原创度高的小说阅读网，致力做中国最好的原创小说。";

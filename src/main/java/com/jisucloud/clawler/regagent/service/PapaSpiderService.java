@@ -18,11 +18,11 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.deep007.spiderbase.okhttp.OKHttpUtil;
+import com.deep007.spiderbase.util.TimerRecoder;
 import com.jisucloud.clawler.regagent.interfaces.Account;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.util.CountableThreadPool;
 import com.jisucloud.clawler.regagent.util.ReflectUtil;
-import com.jisucloud.clawler.regagent.util.TimerRecoder;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;

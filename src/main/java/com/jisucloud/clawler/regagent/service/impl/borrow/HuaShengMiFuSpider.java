@@ -22,7 +22,7 @@ import org.openqa.selenium.WebElement;
 
 @Slf4j
 @UsePapaSpider
-public class HuaShengMiFuSpider extends PapaSpider implements AjaxHook{
+public class HuaShengMiFuSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;

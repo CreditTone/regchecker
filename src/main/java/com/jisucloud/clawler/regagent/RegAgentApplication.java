@@ -21,6 +21,18 @@ public class RegAgentApplication {
 	
 	public static String GOOGLE_PROXY_HOST = "5d23158e0d319529.natapp.cc";
 	public static int GOOGLE_PROXY_POST = 64445;
+	
+	public static String CHROME_DRIVER_SERVER = "/root/chromedriver";
+
+	static {
+		if (System.getProperty("os.name").toLowerCase().contains("mac")) {
+			CHROME_DRIVER_SERVER = "/Users/stephen/Downloads/chromedriver";
+		}
+		if (System.getProperty("os.name").toLowerCase().contains("win")) {
+			CHROME_DRIVER_SERVER = "C:\\chromedriver.exe";
+		}
+		System.setProperty("webdriver.chrome.driver", CHROME_DRIVER_SERVER);
+	}
 
 
 	public static void main(String[] args) {

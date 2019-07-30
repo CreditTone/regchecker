@@ -1,11 +1,10 @@
 package com.jisucloud.clawler.regagent.service.impl.util;
 
+import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,7 +17,7 @@ import org.openqa.selenium.WebElement;
 @UsePapaSpider
 public class UCSpider extends PapaSpider {
 	
-	private ChromeAjaxListenDriver chromeDriver;
+	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
 
@@ -69,7 +68,7 @@ public class UCSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(false, null, null);
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
 			chromeDriver.get("https://api.open.uc.cn/cas/forgotpassword/forgotPasswordCommit?client_id=4&redirect_uri=http%3A%2F%2Fid.uc.cn%2F&display=pc&change_uid=0");smartSleep(2000);
 			WebElement nameInputArea = chromeDriver.findElementByCssSelector("#loginName");
 			nameInputArea.sendKeys(account);
@@ -77,7 +76,6 @@ public class UCSpider extends PapaSpider {
 				WebElement captcha = chromeDriver.findElementByCssSelector("#captchaVal");
 				captcha.clear();
 				captcha.sendKeys(getImgCode());
-				chromeDriver.reInject();
 				chromeDriver.findElementByCssSelector("#submit_btn").click();smartSleep(3000);
 				if (chromeDriver.checkElement("#dForm2")) {
 					return true;

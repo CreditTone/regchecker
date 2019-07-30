@@ -2,31 +2,27 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.StringUtil;
-import com.jisucloud.deepsearch.selenium.Ajax;
-import com.jisucloud.deepsearch.selenium.AjaxListener;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import net.lightbody.bmp.util.HttpMessageContents;
+import net.lightbody.bmp.util.HttpMessageInfo;
 
+import com.deep077.spiderbase.selenium.mitm.AjaxHook;
+import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
+import com.deep077.spiderbase.selenium.mitm.HookTracker;
 import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class RongBeiWangSpider extends PapaSpider {
+public class RongBeiWangSpider extends PapaSpider implements AjaxHook {
 
-	private ChromeAjaxListenDriver chromeDriver;
+	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
 	
@@ -63,42 +59,14 @@ public class RongBeiWangSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(true, null, null);
-			chromeDriver.quicklyVisit("https://www.irongbei.com/userRegister/index");
-			chromeDriver.addAjaxListener(new AjaxListener() {
-				
-				@Override
-				public String matcherUrl() {
-					return "https://www.irongbei.com/userRegister/checkMobileAll";
-				}
-				
-				@Override
-				public String[] blockUrl() {
-					return null;
-				}
-				
-				@Override
-				public void ajax(Ajax ajax) throws Exception {
-					vcodeSuc = true;
-					checkTel = ajax.getResponse().contains("已被注册") || ajax.getResponse().contains("锁定");
-				}
-
-				@Override
-				public String fixPostData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-
-				@Override
-				public String fixGetData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-			});
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
+			chromeDriver.get("https://www.irongbei.com/userRegister/index");
+			chromeDriver.addAjaxHook(this);
 			chromeDriver.findElementById("mobile").sendKeys(account);
 			for (int i = 0; i < 5; i++) {
 				WebElement validate = chromeDriver.findElementById("captchapic");
-				validate.click();smartSleep(3000);
+				validate.click();
+				smartSleep(3000);
 				if (vcodeSuc) {
 					break;
 				}
@@ -121,6 +89,22 @@ public class RongBeiWangSpider extends PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
+	}
+
+	@Override
+	public HookTracker getHookTracker() {
+		return HookTracker.builder().addUrl("userRegister/checkMobileAll").build();
+	}
+
+	@Override
+	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		return null;
+	}
+
+	@Override
+	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		vcodeSuc = true;
+		checkTel = contents.getTextContents().contains("已被注册") || contents.getTextContents().contains("锁定");
 	}
 
 }

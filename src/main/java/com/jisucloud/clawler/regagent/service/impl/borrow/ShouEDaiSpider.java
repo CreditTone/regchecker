@@ -3,15 +3,12 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.jsoup.Jsoup;
+import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Set;
@@ -20,7 +17,7 @@ import java.util.Set;
 @UsePapaSpider
 public class ShouEDaiSpider extends PapaSpider {
 
-	private ChromeAjaxListenDriver chromeDriver;
+	private ChromeAjaxHookDriver chromeDriver;
 
 	@Override
 	public String message() {
@@ -69,7 +66,7 @@ public class ShouEDaiSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(false, null, null);
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
 			chromeDriver.get("https://www.syr66.com/findback/findBackLoginPassword.htm");
 			chromeDriver.findElementById("PhoneNumber").sendKeys(account);
 			chromeDriver.findElementById("PersonCardId").sendKeys("320219196503306777");
@@ -77,7 +74,6 @@ public class ShouEDaiSpider extends PapaSpider {
 				WebElement validate = chromeDriver.findElementById("vericode");
 				validate.clear();
 				validate.sendKeys(getImgCode());
-				chromeDriver.reInject();
 				chromeDriver.findElementByCssSelector(".verA2017_btnpcred").click();;smartSleep(8000);
 				if (chromeDriver.checkElement("#huoqupw")) {
 					return true;

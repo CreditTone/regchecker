@@ -1,14 +1,18 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
-import com.jisucloud.deepsearch.selenium.Ajax;
-import com.jisucloud.deepsearch.selenium.AjaxListener;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
+import net.lightbody.bmp.util.HttpMessageContents;
+import net.lightbody.bmp.util.HttpMessageInfo;
 
+import com.deep077.spiderbase.selenium.mitm.AjaxHook;
+import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
+import com.deep077.spiderbase.selenium.mitm.HookTracker;
 import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
 
@@ -17,10 +21,10 @@ import java.util.Random;
 import java.util.Set;
 
 @Slf4j
-//@UsePapaSpider
-public class ZhongYeXingRongSpider extends PapaSpider {
+@UsePapaSpider(exclude = true)
+public class ZhongYeXingRongSpider extends PapaSpider implements AjaxHook {
 
-	private ChromeAjaxListenDriver chromeDriver;
+	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
 
@@ -71,49 +75,18 @@ public class ZhongYeXingRongSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(false, null , ANDROID_USER_AGENT);
+			chromeDriver = ChromeAjaxHookDriver.newAndroidInstance(false, true);
 			chromeDriver.get("https://www.zyxr.com/");
 			chromeDriver.get("https://www.zyxr.com/wap/?chl=bd-keyword-wap#/login?backUrl=https%3A%2F%2Fwww.zyxr.com%2Fwap%2F%3Fchl%3Dbd-keyword-wap%23%2Flogin");smartSleep(3000);
-			chromeDriver.addAjaxListener(new AjaxListener() {
-				
-				@Override
-				public String matcherUrl() {
-					return "https://www.zyxr.com/UserWeb/login.json";
-				}
-				
-				@Override
-				public String[] blockUrl() {
-					return null;
-				}
-				
-				@Override
-				public void ajax(Ajax ajax) throws Exception {
-					if (!ajax.getResponse().contains("验证码错误")) {
-						vcodeSuc = true;
-						checkTel = ajax.getResponse().contains("密码错误") || ajax.getResponse().contains("锁定");
-					}
-				}
-
-				@Override
-				public String fixPostData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-
-				@Override
-				public String fixGetData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-			});
+			chromeDriver.addAjaxHook(this);
 			chromeDriver.findElementByCssSelector("input[type='tel']").sendKeys(account);
 			chromeDriver.findElementByCssSelector("input[type='password']").sendKeys("x19cn10xn" + new Random().nextInt(100000));
 			for (int i = 0; i < 5; i++) {
 				WebElement validate = chromeDriver.findElementByCssSelector("input[placeholder='请输入图形验证码']");
 				validate.clear();
 				validate.sendKeys(getImgCode());
-				chromeDriver.reInject();
-				chromeDriver.findElementById("button[class='btn btn-primary btn-block']").click();smartSleep(3000);
+				chromeDriver.findElementById("button[class='btn btn-primary btn-block']").click();
+				smartSleep(3000);
 				if (vcodeSuc) {
 					break;
 				}
@@ -136,6 +109,26 @@ public class ZhongYeXingRongSpider extends PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
+	}
+
+	@Override
+	public HookTracker getHookTracker() {
+		// TODO Auto-generated method stub
+		return HookTracker.builder().addUrl("https://www.zyxr.com/UserWeb/login.json").build();
+	}
+
+	@Override
+	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		return null;
+	}
+
+	@Override
+	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		String content = contents.getTextContents();
+		if (!content.contains("验证码错误")) {
+			vcodeSuc = true;
+			checkTel = content.contains("密码错误") || content.contains("锁定");
+		}
 	}
 
 }

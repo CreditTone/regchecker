@@ -1,26 +1,26 @@
 package com.jisucloud.clawler.regagent.service.impl.shop;
 
+import com.deep077.spiderbase.selenium.mitm.AjaxHook;
+import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
+import com.deep077.spiderbase.selenium.mitm.HookTracker;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
-import com.jisucloud.deepsearch.selenium.Ajax;
-import com.jisucloud.deepsearch.selenium.AjaxListener;
-import com.jisucloud.deepsearch.selenium.ChromeAjaxListenDriver;
-import com.jisucloud.deepsearch.selenium.HeadlessUtil;
 
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
+import net.lightbody.bmp.util.HttpMessageContents;
+import net.lightbody.bmp.util.HttpMessageInfo;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.stereotype.Component;
-
 @Slf4j
 @UsePapaSpider
-public class SuNingSpider extends PapaSpider {
+public class SuNingSpider extends PapaSpider implements AjaxHook {
 	
-	private ChromeAjaxListenDriver chromeDriver;
+	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 
 	@Override
@@ -56,40 +56,14 @@ public class SuNingSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = HeadlessUtil.getChromeDriver(false, null, null);
-			chromeDriver.setAjaxListener(new AjaxListener() {
-				
-				@Override
-				public String matcherUrl() {
-					return "ajaxCheckAliasEPP.do";
-				}
-				
-				@Override
-				public void ajax(Ajax ajax) throws Exception {
-					checkTel = ajax.getResponse().contains("线上已存在");
-				}
-
-				@Override
-				public String[] blockUrl() {
-					return new String[] {"sms.do"};
-				}
-
-				@Override
-				public String fixPostData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-
-				@Override
-				public String fixGetData() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-			});
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
+			chromeDriver.addAjaxHook(this);
 			chromeDriver.get("https://reg.suning.com/person.do?myTargetUrl=https%3A%2F%2Fwww.suning.com%2F");smartSleep(2000);
-			chromeDriver.findElementByLinkText("同意并继续").click();smartSleep(1000);
+			chromeDriver.findElementByLinkText("同意并继续").click();
+			smartSleep(1000);
 			chromeDriver.findElementById("mobileAlias").sendKeys(account);
-			chromeDriver.findElementById("sendSmsCode").click();smartSleep(2000);
+			chromeDriver.findElementById("sendSmsCode").click();
+			smartSleep(2000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -108,6 +82,24 @@ public class SuNingSpider extends PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
+	}
+
+	@Override
+	public HookTracker getHookTracker() {
+		return HookTracker.builder().addUrl("ajaxCheckAliasEPP.do").build();
+	}
+
+	@Override
+	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		if (messageInfo.getOriginalUrl().contains("sms.do")) {
+			return DEFAULT_HTTPRESPONSE;
+		}
+		return null;
+	}
+
+	@Override
+	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		checkTel = contents.getTextContents().contains("线上已存在");
 	}
 
 }
