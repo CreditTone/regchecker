@@ -7,6 +7,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
+import com.deep077.spiderbase.selenium.mitm.MitmServer;
+import com.deep077.spiderbase.selenium.mitm.cache.JedisMitmCacheProvider;
+import com.jisucloud.clawler.regagent.mitm.StringRedisTemplateMitmCacheProvider;
+
 @Configuration
 @ComponentScan("com.jisucloud.clawler.regagent")
 public class PersistenceContext {
@@ -16,6 +20,7 @@ public class PersistenceContext {
 	public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) throws Exception {
 		StringRedisTemplate template = new StringRedisTemplate();
 		template.setConnectionFactory(redisConnectionFactory);
+		MitmServer.getInstance().setMitmCacheProvider(new StringRedisTemplateMitmCacheProvider(template));
 		return template;
 	}
 

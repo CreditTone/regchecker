@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import com.deep077.spiderbase.selenium.mitm.MitmServer;
+import com.jisucloud.clawler.regagent.RegAgentApplication;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.service.impl._3c.*;
 import com.jisucloud.clawler.regagent.service.impl.borrow.*;
@@ -33,6 +34,10 @@ import lombok.extern.slf4j.Slf4j;
 @SuppressWarnings("unused")
 @Slf4j
 public class PapaSpiderTester {
+	
+	static {
+		RegAgentApplication.init();
+	}
 
 	public static interface PapaSpiderTestListener {
 		
@@ -124,6 +129,6 @@ public class PapaSpiderTester {
 	}
 	
 	public static void main(String[] args) {
-		testingWithPrint(HuaShengMiFuSpider.class);
+		testingWithPrint(TestSpider.class);
 	}
 }
