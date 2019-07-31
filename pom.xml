@@ -108,6 +108,15 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>12</source>
+					<target>12</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
 			<!-- <plugin> <artifactId>kotlin-maven-plugin</artifactId> <groupId>org.jetbrains.kotlin</groupId> 
 				<configuration> <compilerPlugins> <plugin>spring</plugin> </compilerPlugins> 
 				<jvmTarget>12</jvmTarget> </configuration> <executions> <execution> <id>compile</id> 
