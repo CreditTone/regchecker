@@ -73,16 +73,18 @@ public class YiBaoZhiFuSpider extends PapaSpider implements AjaxHook {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);
 			chromeDriver.addAjaxHook(this);
 			chromeDriver.get("https://mp.yeepay.com/app/merchantUserManagement/getBack/loginPwd");
 			smartSleep(2000);
 			chromeDriver.findElementByCssSelector("#userName").sendKeys(account);
 			for (int i = 0; i < 5; i++) {
-				String imageCode = getImgCode();
-				WebElement mark = chromeDriver.findElementByCssSelector("#validCode");
-				mark.clear();
-				mark.sendKeys(imageCode);
+				if (chromeDriver.checkElement("#validCode")) {
+					String imageCode = getImgCode();
+					WebElement mark = chromeDriver.findElementByCssSelector("#validCode");
+					mark.clear();
+					mark.sendKeys(imageCode);
+				}
 				chromeDriver.findElementByCssSelector("#submitConfirmButton").click();
 				smartSleep(2000);
 				if (vs) {

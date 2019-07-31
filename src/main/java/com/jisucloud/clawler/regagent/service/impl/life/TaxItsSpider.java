@@ -13,7 +13,7 @@ import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 import org.jsoup.Connection;
 import org.springframework.http.MediaType;
 
-@UsePapaSpider
+@UsePapaSpider(exclude = true, excludeMsg = "接口404")
 public class TaxItsSpider extends PapaSpider {
 
 	@Override

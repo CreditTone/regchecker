@@ -56,8 +56,9 @@ public class _56VideoSpider extends PapaSpider implements AjaxHook {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
-			chromeDriver.get("http://www.56.com/");
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);
+			chromeDriver.get("https://about.56.com/contactus.html");
+			chromeDriver.get("https://www.56.com/");
 			smartSleep(1000);
 			chromeDriver.addAjaxHook(this);
 			chromeDriver.findElementByLinkText("注册").click();

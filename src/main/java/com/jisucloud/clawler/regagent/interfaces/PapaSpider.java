@@ -1,10 +1,10 @@
 package com.jisucloud.clawler.regagent.interfaces;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import com.deep007.spiderbase.DefaultHttpDownloader;
 import com.deep007.spiderbase.okhttp.OKHttpUtil;
 
 import okhttp3.FormBody;
@@ -17,6 +17,10 @@ import okhttp3.Response;
 public abstract class PapaSpider {
 	
 	protected final OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
+	
+	protected final DefaultHttpDownloader createDefaultHttpDownloader() {
+		return new DefaultHttpDownloader();
+	}
 
 	public static final Random RANDOM = new Random();
 
