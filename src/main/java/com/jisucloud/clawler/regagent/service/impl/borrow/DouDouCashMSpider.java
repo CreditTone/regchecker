@@ -81,7 +81,6 @@ public class DouDouCashMSpider extends PapaSpider {
                     .build();
             Response response = okHttpClient.newCall(request).execute();
             JSONObject result = JSON.parseObject(response.body().string());
-            System.out.println("doudoucach:" + result);
             if (result.getString("data").equals("true")) {
                 return true;
             }

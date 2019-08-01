@@ -4,7 +4,7 @@ import com.deep007.spiderbase.okhttp.OKHttpUtil;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.PapaSpiderTester;
+import com.jisucloud.clawler.regagent.service.PapaSpiderTester;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;

@@ -2,7 +2,7 @@ package com.jisucloud.clawler.regagent.service.impl.social;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.PapaSpiderTester;
+import com.jisucloud.clawler.regagent.service.PapaSpiderTester;
 
 import lombok.extern.slf4j.Slf4j;
 

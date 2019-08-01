@@ -38,7 +38,6 @@ import com.jisucloud.clawler.regagent.service.impl.email.Enet163EmailSpider;
 import com.jisucloud.clawler.regagent.service.impl.email.SohuEmailSpider;
 import com.jisucloud.clawler.regagent.service.impl.knowledge.ZhongGuoZhiWangSpider;
 import com.jisucloud.clawler.regagent.service.impl.social.QQSpider;
-import com.jisucloud.clawler.regagent.util.PapaSpiderTester;
 import com.jisucloud.clawler.regagent.util.ReflectUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -203,8 +202,9 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 			if (!System.getProperty("os.name").toLowerCase().contains("mac")) {
 				log.info("开始测试......");
 				log.info("需要测试"+needTestPapaSpiders.size()+"个,列表如下:");
+				int i = 1;
 				for (Class<? extends PapaSpider> clz : needTestPapaSpiders) {
-					log.info(clz.getName());
+					log.info(i + ":" +clz.getName());
 				}
 				PapaSpiderTester.testing(needTestPapaSpiders, this);
 				log.info("测试完成，成功" + TEST_SUCCESS_PAPASPIDERS.size() + "个，失败" + TEST_FAILURE_PAPASPIDERS.size() + "个。");

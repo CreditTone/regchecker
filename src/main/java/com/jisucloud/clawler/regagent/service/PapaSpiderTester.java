@@ -3,6 +3,7 @@ package com.jisucloud.clawler.regagent.service;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.deep007.spiderbase.util.JEmail.JEmailBuilder;
 import com.deep077.spiderbase.selenium.mitm.MitmServer;
 import com.jisucloud.clawler.regagent.RegAgentApplication;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
@@ -47,75 +48,72 @@ public class PapaSpiderTester {
 		
 	}
 	
-	public static void testing(Set<Class<? extends PapaSpider>> papaSpiders, PapaSpiderTestListener papaSpiderTestListener) {
+	public static void testing(Set<Class<? extends PapaSpider>> papaSpiders, PapaSpiderTestListener papaSpiderTestListener, JEmailBuilder emailBuilder) {
 		for (Iterator<Class<? extends PapaSpider>> iterator = papaSpiders.iterator(); iterator.hasNext();) {
 			Class<? extends PapaSpider> clz = iterator.next();
 			boolean success = false;
 			try {
-				PapaSpider instance =  clz.newInstance();
-				Set<String> testTels = instance.getTestTelephones();
-				if (testTels == null || testTels.size() < 2) {
-					log.warn("无法测试，"+clz.getName()+" 最低需要两个不同的比较号码。一个确认已经注册，一个确认没有注册。");
-					continue;
-				}
-				//如果全为true或者全为false，证明测试失败
-				int trueCount = 0;
-				int falseCount = 0;
-				for (Iterator<String> iterator2 = testTels.iterator(); iterator2.hasNext();) {
-					String tel = iterator2.next();
-					if (instance.checkTelephone(tel)) {
-						trueCount ++;
-					}else {
-						falseCount ++;
-					}
-					if (iterator2.hasNext()) {
-						instance =  clz.newInstance();
-					}
-				}
-				success = (trueCount != 0 && falseCount != 0);
+				success = testing(clz);
 			} catch (Exception e) {
+				if (emailBuilder != null) {
+					emailBuilder.addContentLine("PapaSpiderTester:测试"+clz.getName()+"异常");
+				}
 				log.warn("测试"+clz.getName()+"异常", e);
 			}finally {
 				if (success) {
+					if (emailBuilder != null) {
+						emailBuilder.addContentLine("PapaSpiderTester:" + clz.getName()+"测试成功");
+					}
 					papaSpiderTestListener.testSuccess(clz);
 				}else {
+					if (emailBuilder != null) {
+						emailBuilder.addContentLine("PapaSpiderTester:" + clz.getName()+"测试失败");
+					}
 					papaSpiderTestListener.testFailure(clz);
 				}
 			}
 		}
 	}
 	
+	public static void testing(Set<Class<? extends PapaSpider>> papaSpiders, PapaSpiderTestListener papaSpiderTestListener) {
+		testing(papaSpiders, papaSpiderTestListener, null);
+	}
+	
+	
+	@SuppressWarnings("deprecation")
+	public static boolean testing(Class<? extends PapaSpider> clz) throws Exception {
+		PapaSpider instance = clz.newInstance();
+		Set<String> testTels = instance.getTestTelephones();
+		if (testTels == null || testTels.size() < 2) {
+			throw new RuntimeException("无法测试，"+clz.getName()+" 最低需要两个不同的比较号码。一个确认已经注册，一个确认没有注册。");
+		}
+		//如果全为true或者全为false，证明测试失败
+		int trueCount = 0;
+		int falseCount = 0;
+		for (Iterator<String> iterator = testTels.iterator(); iterator.hasNext();) {
+			String tel = iterator.next();
+			if (instance.checkTelephone(tel)) {
+				log.info(tel+"已注册"+instance.platformName());
+				trueCount ++;
+			}else {
+				log.info(tel+"未注册"+instance.platformName());
+				falseCount ++;
+			}
+			if (iterator.hasNext()) {
+				instance = clz.newInstance();
+			}
+		}
+		return (trueCount != 0 && falseCount != 0);
+	}
+	
 	/**
 	 * 手工测试专用
 	 * @param clz
 	 */
-	@SuppressWarnings("deprecation")
 	public static void testingWithPrint(Class<? extends PapaSpider> clz) {
 		boolean success = false;
 		try {
-			PapaSpider instance = clz.newInstance();
-			Set<String> testTels = instance.getTestTelephones();
-			if (testTels == null || testTels.size() < 2) {
-				log.warn("无法测试，"+clz.getName()+" 最低需要两个不同的比较号码。一个确认已经注册，一个确认没有注册。");
-				return;
-			}
-			//如果全为true或者全为false，证明测试失败
-			int trueCount = 0;
-			int falseCount = 0;
-			for (Iterator<String> iterator2 = testTels.iterator(); iterator2.hasNext();) {
-				String tel = iterator2.next();
-				if (instance.checkTelephone(tel)) {
-					log.info(tel+"已注册"+instance.platformName());
-					trueCount ++;
-				}else {
-					log.info(tel+"未注册"+instance.platformName());
-					falseCount ++;
-				}
-				if (iterator2.hasNext()) {
-					instance = clz.newInstance();
-				}
-			}
-			success = (trueCount != 0 && falseCount != 0);
+			success = testing(clz);
 		} catch (Exception e) {
 			log.warn("测试"+clz.getName()+"异常", e);
 		}finally {

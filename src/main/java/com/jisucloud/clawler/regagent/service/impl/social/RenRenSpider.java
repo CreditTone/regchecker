@@ -3,7 +3,6 @@ package com.jisucloud.clawler.regagent.service.impl.social;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.PapaSpiderTester;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
