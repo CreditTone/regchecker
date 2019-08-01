@@ -21,6 +21,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ClassUtils;
 
+import com.deep007.spiderbase.util.BootUtil;
 import com.deep007.spiderbase.util.JEmail;
 import com.deep007.spiderbase.util.JEmail.JEmailBuilder;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
@@ -187,6 +188,7 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 		.password("zbtasvoondmqiici")
 		.smtpHost("smtp.qq.com")
 		.toMails("guozhong@quicklyun.com");
+		jemailBuilder.title(BootUtil.getLocalHostName()+"撞库测试报告 " + new SimpleDateFormat("yyyyMMdd HH:mm:ss").format(new Date()));
 		try {
 			Set<Class<? extends PapaSpider>> needTestPapaSpiders = new HashSet<>();
 			for (Class<? extends PapaSpider> clz : preparedPapaSpiders) {
@@ -205,7 +207,6 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 					log.info(clz.getName());
 				}
 				PapaSpiderTester.testing(needTestPapaSpiders, this);
-				jemailBuilder.title("rechecker报告 " + new SimpleDateFormat("yyyyMMdd HH:mm:ss").format(new Date()));
 				log.info("测试完成，成功" + TEST_SUCCESS_PAPASPIDERS.size() + "个，失败" + TEST_FAILURE_PAPASPIDERS.size() + "个。");
 				jemailBuilder.addContentLine("测试完成，成功" + TEST_SUCCESS_PAPASPIDERS.size() + "个，失败" + TEST_FAILURE_PAPASPIDERS.size() + "个。");
 				if (!TEST_FAILURE_PAPASPIDERS.isEmpty()) {
