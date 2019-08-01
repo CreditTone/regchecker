@@ -50,29 +50,18 @@ public class MicrosoftSpider extends PapaSpider {
 		return Sets.newHashSet("13910252045", "18210538513");
 	}
 	
-	private String getImgCode() {
-		for (int i = 0 ; i < 3; i++) {
-			try {
-				WebElement img = chromeDriver.findElementByCssSelector("#imgObj");
-				chromeDriver.mouseClick(img);
-				byte[] body = chromeDriver.screenshot(img);
-				return OCRDecode.decodeImageCode(body);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return "";
-	}
 	String code;
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(true, false, null);
+			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(true, true, null);
 			chromeDriver.get("https://signup.live.com/signup?wa=wsignin1.0&rpsnv=13&rver=7.1.6819.0&wp=MBI_SSL&wreply=https%3a%2f%2fwww.microsoft.com%2fzh-cn%2f&id=74335&aadredir=1&contextid=5F08DA5E184AF607&bk=1561470130&uiflavor=web&mkt=ZH-CN&lc=2052&uaid=378dc6e56f51442ddf271bc827c9d1f9&lic=1");
-			chromeDriver.findElementById("phoneSwitch").click();smartSleep(1000);
+			chromeDriver.findElementById("phoneSwitch").click();
+			smartSleep(1000);
 			chromeDriver.findElementById("MemberName").sendKeys(account);
-			chromeDriver.findElementByCssSelector("img.logo").click();smartSleep(3000);
+			chromeDriver.findElementByCssSelector("#iSignupAction").click();
+			smartSleep(3000);
 			if (chromeDriver.checkElement("#MemberNameError")) {
 				return true;
 			}

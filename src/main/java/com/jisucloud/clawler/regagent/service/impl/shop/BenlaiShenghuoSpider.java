@@ -51,8 +51,9 @@ public class BenlaiShenghuoSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = ChromeAjaxHookDriver.newAndroidInstance(true, true);
-			chromeDriver.get("https://m.benlai.com/showlogin?otherLogin=1&loginType=2&backType=&comeFromApp=0&afterUrl=");smartSleep(2000);
+			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(true, true, ANDROID_USER_AGENT);
+			chromeDriver.get("https://m.benlai.com/showlogin?otherLogin=1&loginType=2&backType=&comeFromApp=0&afterUrl=");
+			smartSleep(2000);
 			chromeDriver.findElementById("customerID").sendKeys(account);
 			chromeDriver.findElementById("customerPwd").sendKeys("woxiaoxoa132");
 			chromeDriver.findElementById("loginBtn").click();

@@ -18,7 +18,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-@UsePapaSpider
+@UsePapaSpider(excludeMsg = "不做了")
 public class _2345DaiKuanWangSpider extends PapaSpider {
 
 	

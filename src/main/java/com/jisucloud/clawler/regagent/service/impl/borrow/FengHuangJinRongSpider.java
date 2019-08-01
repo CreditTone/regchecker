@@ -87,8 +87,13 @@ public class FengHuangJinRongSpider extends PapaSpider implements AjaxHook {
 			smartSleep(500);
 			chromeDriver.findElementById("loginName").sendKeys(account);
 			chromeDriver.findElementById("password").sendKeys("lvnqwnk12mcxn");
-			chromeDriver.findElementByCssSelector("#userLoginPwd .btn-submit").click();
-			smartSleep(2000);
+			for (int i = 0; i < 3; i++) {
+				chromeDriver.findElementByCssSelector("#userLoginPwd .btn-submit").click();
+				smartSleep(1000);
+				if (checkTel) {
+					return true;
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -124,7 +129,7 @@ public class FengHuangJinRongSpider extends PapaSpider implements AjaxHook {
 		try {
 			JSONObject result = JSON.parseObject(contents.getTextContents());
 			JSONObject error = result.getJSONObject("error");
-			checkTel = error.getString("value").equals("8");
+			checkTel = Integer.parseInt(error.getString("value")) < 10;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

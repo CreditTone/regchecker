@@ -17,8 +17,8 @@ import java.util.Map;
 import java.util.Set;
 
 @Slf4j
-@UsePapaSpider
-public class TianNaSpider extends PapaSpider implements AjaxHook{
+@UsePapaSpider(ignoreTestResult = true)
+public class TianNanBaoXianSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
@@ -64,7 +64,8 @@ public class TianNaSpider extends PapaSpider implements AjaxHook{
 			chromeDriver.findElementById("'phoneNumber'").sendKeys(account);
 			chromeDriver.findElementById("password").sendKeys("wxy"+account);
 			chromeDriver.findElementById("checkPassword").sendKeys("wxy"+account);
-			chromeDriver.findElementByCssSelector("button[nztype=primary]").click();smartSleep(2000);
+			chromeDriver.findElementByCssSelector("button[nztype=primary]").click();
+			smartSleep(2000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

@@ -34,13 +34,13 @@ public class RegAgentApplication {
 			CHROME_DRIVER_SERVER = "C:\\chromedriver.exe";
 		}
 		System.setProperty("webdriver.chrome.driver", CHROME_DRIVER_SERVER);
+		Init.initRandomProxy(RANDOM_PROXY_HOST, RANDOM_PROXY_POST, RANDOM_PROXY_USERNAME, RANDOM_PROXY_PASSWORD);
+		//Init.initGoogleProxy(GOOGLE_PROXY_HOST, GOOGLE_PROXY_POST, null, null);
 	}
 
 	public static void main(String[] args) {
 		init();
 		//if (kilim.tools.Kilim.trampoline(new Object() {},false,args)) return;
-		Init.initRandomProxy(RANDOM_PROXY_HOST, RANDOM_PROXY_POST, RANDOM_PROXY_USERNAME, RANDOM_PROXY_PASSWORD);
-		Init.initGoogleProxy(GOOGLE_PROXY_HOST, GOOGLE_PROXY_POST, null, null);
 		SpringApplication application = new SpringApplication(RegAgentApplication.class);
 		application.run(args);
 		log.info("撞库服务启动完成");

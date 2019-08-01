@@ -1,16 +1,17 @@
 package com.jisucloud.clawler.regagent.service.impl.life;
 
+import com.deep077.spiderbase.selenium.mitm.AjaxHook;
+import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
+import com.deep077.spiderbase.selenium.mitm.HookTracker;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.FormBody;
-import okhttp3.Headers;
-import okhttp3.Request;
-import okhttp3.Response;
-
-import java.util.HashMap;
+import net.lightbody.bmp.util.HttpMessageContents;
+import net.lightbody.bmp.util.HttpMessageInfo;
 import java.util.Map;
 import java.util.Set;
 
@@ -19,11 +20,10 @@ import org.jsoup.nodes.Document;
 
 @Slf4j
 @UsePapaSpider
-public class BaiXingWangSpider extends PapaSpider {
+public class BaiXingWangSpider extends PapaSpider implements AjaxHook {
 	
-	private String token;
-	private String token2Value;
-	private String token2Name;
+	private ChromeAjaxHookDriver chromeDriver;
+	private boolean checkTel = false;
 
 	@Override
 	public String message() {
@@ -55,57 +55,27 @@ public class BaiXingWangSpider extends PapaSpider {
 		return Sets.newHashSet("15101030000", "18210538513");
 	}
 
-	private Headers getHeader() {
-		Map<String, String> headers = new HashMap<>();
-		headers.put("User-Agent",
-				"Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0");
-		headers.put("Host", "passport.ppdai.com");
-		headers.put("Referer", "https://passport.ppdai.com/resetPassword.html");
-		headers.put("X-Requested-With", "XMLHttpRequest");
-		return Headers.of(headers);
-	}
-	
-	private void getTokenCode() {
-		Response response;
-		String imageCodeUrl = "http://www.baixing.com/oz/login###";
-		try {
-			response = get(imageCodeUrl);
-			Document doc = Jsoup.parse(response.body().string());
-			token = doc.select("input[name=token]").attr("value");
-			token2Name = doc.select("input[name=token] ~ input").attr("name");
-			token2Value = doc.select("input[name=token] ~ input").attr("value");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			getTokenCode();
-			String url = "http://www.baixing.com/oz/login###";
-			FormBody formBody = new FormBody
-	                .Builder()
-	                .add("identity", account)
-					.add("token", token)
-					.add(token2Name, token2Value)
-					.add("password", "woxaomia133")
-	                .build();
-        	Request request = new Request.Builder().url(url)
-        			.headers(getHeader())
-					.post(formBody)
-					.build();
-			Response response = okHttpClient.newCall(request).execute();
-			Document doc = Jsoup.parse(response.body().string());
-			if (doc.select(".alert-error").text().contains("密码错误")) {
-				return true;
-			}else {
-				return false;
-			}
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
+			chromeDriver.addAjaxHook(this);
+			chromeDriver.get("https://www.baixing.com/oz/login###");
+			smartSleep(2000);
+			chromeDriver.findElementByLinkText("百姓网账号登录").click();
+			smartSleep(1000);
+			chromeDriver.findElementByCssSelector("input[name='identity']").sendKeys(account);
+			chromeDriver.findElementByCssSelector("input[name='password']").sendKeys("324nvcxkwfc");
+			chromeDriver.findElementById("id_submit").click();
+			smartSleep(2000);
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			if (chromeDriver != null) {
+				chromeDriver.quit();
+			}
 		}
-		return false;
+		return checkTel;
 	}
 
 	@Override
@@ -116,6 +86,28 @@ public class BaiXingWangSpider extends PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
+	}
+
+	@Override
+	public HookTracker getHookTracker() {
+		// TODO Auto-generated method stub
+		return HookTracker.builder().addUrl("https://www.baixing.com/oz/login").isPost().build();
+	}
+
+	@Override
+	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		// TODO Auto-generated method stub
+		try {
+			Document doc = Jsoup.parse(contents.getTextContents());
+			checkTel = doc.select(".alert-error").text().contains("密码");
+		} catch (Exception e) {
+		}
 	}
 
 }

@@ -16,7 +16,11 @@ import okhttp3.Response;
 
 public abstract class PapaSpider {
 	
-	protected final OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
+	protected OkHttpClient okHttpClient;
+	
+	public PapaSpider() {
+		okHttpClient = OKHttpUtil.createOkHttpClient();
+	}
 	
 	protected final DefaultHttpDownloader createDefaultHttpDownloader() {
 		return new DefaultHttpDownloader();

@@ -49,25 +49,23 @@ public class YouYuanWangSpider extends PapaSpider {
 
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18810038000", "18210538513");
+		return Sets.newHashSet("18810030000", "18210538513");
 	}
 
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "http://n.youyuan.com/v20/user/reg.html";
-			String postdata = "username="+account+"&password=sasa12312312&sex=1&from=5599&provinceName=%E5%8C%97%E4%BA%AC%E5%B8%82&cityName=%E5%8C%97%E4%BA%AC%E5%B8%82";
+			String url = "http://www.youyuan.com/json/username.html";
+			String postdata = "username="+account;
 			Request request = new Request.Builder().url(url)
-					.addHeader("User-Agent", ANDROID_USER_AGENT)
-					.addHeader("Host", "n.youyuan.com")
-					.addHeader("Origin", "http://n.youyuan.com")
+					.addHeader("User-Agent", CHROME_USER_AGENT)
 					.addHeader("X-Requested-With", "XMLHttpRequest")
-					.addHeader("Referer", "http://n.youyuan.com/v20/phone_register.html?from=5599&sex=1&age=25")
+					.addHeader("Referer", "http://www.youyuan.com/")
 					.post(FormBody.create(MediaType.get("application/x-www-form-urlencoded"), postdata))
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
 			String errorMsg = response.body().string();
-			if (errorMsg.contains("已注册")) {
+			if (errorMsg.contains("true")) {
 				return true;
 			}
 		} catch (Exception e) {

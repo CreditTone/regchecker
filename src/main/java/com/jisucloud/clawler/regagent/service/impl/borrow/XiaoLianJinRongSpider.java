@@ -6,7 +6,6 @@ import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -15,18 +14,14 @@ import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
-@UsePapaSpider
+@UsePapaSpider(exclude = true, excludeMsg = "由于笑脸平台服务升级，当前版本的APP已不再提供服务。请去应用商店下载和安装最新版本的「笑脸金融」APP")
 public class XiaoLianJinRongSpider extends PapaSpider {
 
-	
-	
 	@Override
 	public String message() {
 		return "笑脸金融是阳光保险集团旗下成员企业在深圳投资发起成立,由深圳光华普惠科技有限公司运营。拥有健全严格的风险管控体系,汇集优质资产, 1000元起投、收益高,安全有保障。";
@@ -70,6 +65,7 @@ public class XiaoLianJinRongSpider extends PapaSpider {
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
 			JSONObject result = JSON.parseObject(response.body().string());
+			System.out.println(result);
 			if (!result.getJSONObject("data").getString("userStatus").equals("100")) {
 				return true;
 			}

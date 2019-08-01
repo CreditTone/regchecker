@@ -112,7 +112,7 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 	public static boolean isUsePapaSpider(Class<?> clz) {
 		if (ReflectUtil.isUsedAnnotate(UsePapaSpider.class, clz)) {
 			UsePapaSpider usePapaSpider = clz.getAnnotation(UsePapaSpider.class);
-			return !usePapaSpider.exclude();
+			return !usePapaSpider.exclude() && usePapaSpider.excludeMsg().isEmpty();
 		}
 		return false;
 	}

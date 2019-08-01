@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Slf4j
-@UsePapaSpider
+@UsePapaSpider(excludeMsg = "倒闭")
 public class LingYongDaiSpider extends PapaSpider {
 
 	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();

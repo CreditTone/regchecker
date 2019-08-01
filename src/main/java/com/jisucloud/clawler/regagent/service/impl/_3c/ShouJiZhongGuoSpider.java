@@ -61,9 +61,9 @@ public class ShouJiZhongGuoSpider extends PapaSpider implements AjaxHook {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
 			chromeDriver.addAjaxHook(this);
 			chromeDriver.get("http://passport.cnmo.com/register/?backurl=http://www.cnmo.com/");
-			chromeDriver.findElementByCssSelector("#m_mobile").sendKeys(account);
+			chromeDriver.keyboardInput(chromeDriver.findElementByCssSelector("#m_mobile"), account);
 			chromeDriver.findElementById("m_uname").click();
-			smartSleep(3000);
+			smartSleep(2000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -86,7 +86,7 @@ public class ShouJiZhongGuoSpider extends PapaSpider implements AjaxHook {
 
 	@Override
 	public HookTracker getHookTracker() {
-		return HookTracker.builder().addUrl("m=CheckMobileInuse").isPost().build();
+		return HookTracker.builder().addUrl("http://passport.cnmo.com/index.php").isPost().build();
 	}
 
 	@Override

@@ -1,21 +1,28 @@
 package com.jisucloud.clawler.regagent.service.impl.music;
 
+import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
+import com.deep077.spiderbase.selenium.mitm.HookTracker;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 import com.jisucloud.clawler.regagent.service.PapaSpiderTester;
 
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
+import net.lightbody.bmp.util.HttpMessageContents;
+import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
 import java.util.Set;
 
 @Slf4j
-@UsePapaSpider(exclude = false, excludeMsg = "响应太慢")
-public class XiMaLaYaSpider extends PapaSpider {
+@UsePapaSpider
+public class XiMaLaYaSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
+	private boolean isFlag = false;
 
 	@Override
 	public String message() {
@@ -54,17 +61,13 @@ public class XiMaLaYaSpider extends PapaSpider {
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(true, true, null);
-			chromeDriver.get("https://www.ximalaya.com");
-			chromeDriver.get("https://www.ximalaya.com/passport/register");
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
+			chromeDriver.addAjaxHook(this);
+			chromeDriver.get("https://www.ximalaya.com/passport/login");
 			smartSleep(2000);
-			chromeDriver.findElementById("userAccountPhone").sendKeys(account);
-			chromeDriver.findElementById("userPwdPhone").click();
+			chromeDriver.findElementById("userAccount").sendKeys(account);
+			chromeDriver.findElementById("userPwd").click();
 			smartSleep(2000);
-			String regErrTex = chromeDriver.findElementByCssSelector("div[class='regIcLt inl-b fr formItem'] p.regErrTex").getText();
-			if (regErrTex.contains("已注册")) {
-				return true;
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -72,7 +75,7 @@ public class XiMaLaYaSpider extends PapaSpider {
 				chromeDriver.quit();
 			}
 		}
-		return false;
+		return isFlag;
 	}
 
 	@Override
@@ -83,6 +86,21 @@ public class XiMaLaYaSpider extends PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
+	}
+
+	@Override
+	public HookTracker getHookTracker() {
+		return HookTracker.builder().addUrl("https://www.ximalaya.com/passport/login/checkAccount").isPost().build();
+	}
+
+	@Override
+	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		return null;
+	}
+
+	@Override
+	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		isFlag = contents.getTextContents().contains("true");
 	}
 
 }

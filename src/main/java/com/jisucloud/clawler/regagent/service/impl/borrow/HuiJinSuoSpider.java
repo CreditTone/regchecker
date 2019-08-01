@@ -1,28 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import lombok.extern.slf4j.Slf4j;
+import net.lightbody.bmp.util.HttpMessageContents;
+import net.lightbody.bmp.util.HttpMessageInfo;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import com.deep077.spiderbase.selenium.mitm.AjaxHook;
+import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
+import com.deep077.spiderbase.selenium.mitm.HookTracker;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
+
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
-public class HuiJinSuoSpider extends PapaSpider {
+public class HuiJinSuoSpider extends PapaSpider implements AjaxHook {
 
-	
-	
 	@Override
 	public String message() {
 		return "惠金所Hfax(北京中关村融汇金融信息服务有限公司)成立于2015年4月，是阳光保险旗下的互联网金融信息服务平台。惠金所定位于做有影响力的个人财富管理及中小微企业融资服务。";
@@ -50,29 +53,34 @@ public class HuiJinSuoSpider extends PapaSpider {
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
+		return Sets.newHashSet("15985268900", "18210538513");
 	}
 
 	@Override
 	public boolean checkTelephone(String account) {
+		ChromeAjaxHookDriver chromeAjaxHookDriver = null;
 		try {
-			String url = "https://www.hfax.com/pc-api/user/login";
-			RequestBody formBody = FormBody.create(MediaType.parse("application/json"), "{\"username\":\""+account+"\",\"password\":\"05b30f5bae2b85275f59a1f0195d1f83\"}");
-			Request request = new Request.Builder().url(url)
-					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Host", "www.hfax.com")
-					.addHeader("Referer", "https://www.hfax.com/login.html#/?rsrc=https%3A%2F%2Fwww.hfax.com%2Fregister.html%23%2Fregister%3F")
-					.post(formBody)
-					.build();
-			Response response = okHttpClient.newCall(request).execute();
-			String res = response.body().string();
-			if (res.contains("remainTimes") || res.contains("账户已冻结")) {
-				return true;
+			chromeAjaxHookDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
+			chromeAjaxHookDriver.get("https://www.hfax.com/login.html#/?rsrc=https%3A%2F%2Fwww.hfax.com%2Fpub-module.html%23%2Fpwd-reset%3F");
+			chromeAjaxHookDriver.addAjaxHook(this);
+			smartSleep(2000);
+			chromeAjaxHookDriver.findElementById("userName").sendKeys(account);
+			chromeAjaxHookDriver.findElementById("passWord").sendKeys("dsa210asddas9");
+			for (int i = 0; i < 5; i++) {
+				chromeAjaxHookDriver.findElementByCssSelector("div[class='gradient login-btn login-btn']").click();
+				smartSleep(2000);
+				if (check) {
+					break;
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			if (chromeAjaxHookDriver != null) {
+				chromeAjaxHookDriver.quit();
+			}
 		}
-		return false;
+		return check;
 	}
 
 	@Override
@@ -83,6 +91,25 @@ public class HuiJinSuoSpider extends PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
+	}
+
+	@Override
+	public HookTracker getHookTracker() {
+		// TODO Auto-generated method stub
+		return HookTracker.builder().addUrl("https://www.hfax.com/pc-api/user/login").isPost().build();
+	}
+
+	@Override
+	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		return null;
+	}
+	
+	boolean check = false;
+
+	@Override
+	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
+		String res =  contents.getTextContents();
+		check = res.contains("将被锁定") || res.contains("510003") || res.contains("已冻结");
 	}
 
 }

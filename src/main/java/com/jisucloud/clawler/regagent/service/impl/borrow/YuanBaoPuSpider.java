@@ -5,15 +5,12 @@ import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.FormBody;
 import okhttp3.Headers;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.jsoup.Connection;
 import com.google.common.collect.Sets;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -79,15 +76,21 @@ public class YuanBaoPuSpider extends PapaSpider {
 	
 	@Override
 	public boolean checkTelephone(String account) {
-		try {
-			String url = "https://www.yuanbaopu.com/register/checkMobile.htm?fieldValue="+account+"&imgCode="+getImgCode();
-			Request request = new Request.Builder().url(url)
-					.headers(getHeader())
-					.build();
-			Response response = okHttpClient.newCall(request).execute();
-			return response.body().string().contains("已被注册");
-		} catch (Exception e) {
-			e.printStackTrace();
+		for (int i = 0; i < 3; i++) {
+			try {
+				String url = "https://www.yuanbaopu.com/register/checkMobile.htm?fieldValue="+account+"&imgCode="+getImgCode();
+				Request request = new Request.Builder().url(url)
+						.headers(getHeader())
+						.build();
+				Response response = okHttpClient.newCall(request).execute();
+				String res = response.body().string();
+				if (res.contains("验证码")) {
+					continue;
+				}
+				return res.contains("已被注册");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return false;
 	}

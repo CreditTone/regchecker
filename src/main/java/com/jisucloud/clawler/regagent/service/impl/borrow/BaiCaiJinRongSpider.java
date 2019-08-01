@@ -5,7 +5,6 @@ import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -13,14 +12,11 @@ import com.google.common.collect.Sets;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
 public class BaiCaiJinRongSpider extends PapaSpider {
 
-	
-	
 	@Override
 	public String message() {
 		return "白菜金融网是龙环普惠集团旗下的网络借贷信息中介平台,遵循 公平公正诚信透明的准则,为大众富裕阶层提供便捷的出借方式。";
@@ -62,6 +58,7 @@ public class BaiCaiJinRongSpider extends PapaSpider {
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
 			String res = StringUtil.unicodeToString(response.body().string());
+			System.out.println(res);
 			return res.contains("已存在");
 		} catch (Exception e) {
 			e.printStackTrace();

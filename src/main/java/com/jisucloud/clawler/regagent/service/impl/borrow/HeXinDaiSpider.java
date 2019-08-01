@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Slf4j
-@UsePapaSpider
+@UsePapaSpider(excludeMsg = "防火墙")
 public class HeXinDaiSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
