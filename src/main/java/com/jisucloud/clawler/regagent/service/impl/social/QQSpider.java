@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-@UsePapaSpider
+@UsePapaSpider(ignoreTestResult = true)
 public class QQSpider extends PapaSpider {
 	
 	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)

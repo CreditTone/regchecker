@@ -6,7 +6,7 @@ import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 import java.util.Map;
 import java.util.Set;
 
-@UsePapaSpider
+@UsePapaSpider(ignoreTestResult = true)
 public class CDMA189EmailSpider extends BasicEmailSpider {
 
 

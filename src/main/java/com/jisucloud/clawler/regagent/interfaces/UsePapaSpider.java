@@ -18,5 +18,11 @@ public @interface UsePapaSpider {
 	 * @return
 	 */
 	String excludeMsg() default "";
+	
+	/**
+	 * 无论测试结果如何，都投入使用。默认不开启
+	 * @return
+	 */
+	boolean ignoreTestResult() default false;
 
 }

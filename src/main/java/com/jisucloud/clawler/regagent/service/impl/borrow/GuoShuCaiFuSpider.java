@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Slf4j
-@UsePapaSpider
+@UsePapaSpider(ignoreTestResult = true)
 public class GuoShuCaiFuSpider extends PapaSpider {
 
 	private boolean checkTel = false;

@@ -5,16 +5,14 @@ import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
-@UsePapaSpider
+@UsePapaSpider(ignoreTestResult = true)
 public class ZhongGuoZhiWangSpider extends PapaSpider {
 
 	

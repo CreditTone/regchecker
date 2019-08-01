@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-@UsePapaSpider
+@UsePapaSpider(ignoreTestResult = true)
 public class JuAiCaiSpider extends PapaSpider {
 
 	
