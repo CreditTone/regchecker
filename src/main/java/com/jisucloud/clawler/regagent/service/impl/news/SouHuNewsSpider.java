@@ -1,4 +1,4 @@
-package com.jisucloud.clawler.regagent.service.impl.video;
+package com.jisucloud.clawler.regagent.service.impl.news;
 
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
@@ -18,53 +18,53 @@ import java.util.Set;
 
 @Slf4j
 @UsePapaSpider
-public class _56VideoSpider extends PapaSpider implements AjaxHook {
-
-	private ChromeAjaxHookDriver chromeDriver;
-	private boolean check = false;
+public class SouHuNewsSpider extends PapaSpider implements AjaxHook {
 
 	@Override
 	public String message() {
-		return "56网是中国原创视频网站,免费上传搞笑逗趣生活视频,观看优质丰富的特色节目,关注感兴趣的原创导演和美女解说,快速分享及评论互动。";
+		return "搜狐公司是中国的新媒体、通信及移动增值服务公司，是互联网品牌。搜狐是一个新闻中心、联动娱乐市场，跨界经营的娱乐中心、体育中心、时尚文化中心。搜狐公司是2008北京奥运会互联网内容服务赞助商。";
 	}
 
 	@Override
 	public String platform() {
-		return "56";
+		return "sohunews";
 	}
 
 	@Override
 	public String home() {
-		return "56.com";
+		return "sohu.com";
 	}
 
 	@Override
 	public String platformName() {
-		return "56视频";
+		return "搜狐网";
 	}
 
 	@Override
 	public String[] tags() {
-		return new String[] {"影音", "视频", "MV"};
+		return new String[] {"新闻资讯"};
 	}
 	
 	@Override
 	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18515290717", "18210530000");
+		return Sets.newHashSet("18515290717", "18210538513");
 	}
 
 	@Override
 	public boolean checkTelephone(String account) {
+		ChromeAjaxHookDriver chromeDriver = null;
 		try {
-			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
-			chromeDriver.get("https://about.56.com/contactus.html");
-			chromeDriver.get("https://www.56.com/");
-			smartSleep(1000);
+			chromeDriver = ChromeAjaxHookDriver.newInstanceWithRandomProxy(true, true, CHROME_USER_AGENT);
+			chromeDriver.get("https://v4.passport.sohu.com/fe/login");
+			smartSleep(5000);
 			chromeDriver.addAjaxHook(this);
-			chromeDriver.findElementByLinkText("注册").click();
-			smartSleep(2000);
-			chromeDriver.findElementByCssSelector("#regMobileAccount").sendKeys(account);
-			chromeDriver.findElementById("regPassWordA").click();
+//			chromeDriver.findElementByLinkText("登录狐友").click();
+//			smartSleep(1000);
+//			chromeDriver.findElementByCssSelector("li[data-role='userlogin-bar']").click();
+//			smartSleep(1000);
+			chromeDriver.findElementByCssSelector(".input-content input[type='text']").sendKeys(account);
+			chromeDriver.findElementByCssSelector(".password-box input[type='password']").sendKeys("xa2109d990das");
+			chromeDriver.findElementByCssSelector(".login-button span").click();
 			smartSleep(2000);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -88,18 +88,19 @@ public class _56VideoSpider extends PapaSpider implements AjaxHook {
 
 	@Override
 	public HookTracker getHookTracker() {
-		return HookTracker.builder().addUrl("https://v4-passport.56.com/i/verify/mobile/bind").build();
+		return HookTracker.builder().addUrl("https://v4.passport.sohu.com/i/login").isPost().build();
 	}
 
 	@Override
 	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	private boolean check = false;
+	
 	@Override
 	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
-		check = contents.getTextContents().contains("already has bind");
+		check = contents.getTextContents().contains("password");
 	}
 
 }

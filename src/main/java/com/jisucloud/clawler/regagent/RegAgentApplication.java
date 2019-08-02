@@ -16,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
 public class RegAgentApplication {
 	
+	//-Djdk.tls.client.protocols=TLSv1,TLSv1.1,TLSv1.2
+	
 	public static final String RANDOM_PROXY_HOST = "http-dyn.abuyun.com";
 	public static final String RANDOM_PROXY_USERNAME = "H6224X2YF291C2AD";
 	public static final String RANDOM_PROXY_PASSWORD = "DFF60822C2F39DCE";

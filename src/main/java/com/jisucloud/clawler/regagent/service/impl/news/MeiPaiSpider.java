@@ -13,20 +13,17 @@ import lombok.extern.slf4j.Slf4j;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @UsePapaSpider
 public class MeiPaiSpider extends PapaSpider implements AjaxHook{
 
 	
-
 	@Override
 	public String message() {
 		return "美拍是一款可以直播、制作小视频的受年轻人喜爱的软件。美拍 - 高颜值手机直播+超火爆原创视频。2014年5月上线后，连续24天蝉联App Store免费总榜冠军，并成为当月App Store全球非游戏类下载量第一。";
