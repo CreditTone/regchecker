@@ -134,7 +134,7 @@ public class PapaSpiderService extends Thread {
 						log.warn("等待线程超时,任务终止:"+papaTask, e);
 						return;
 					}
-					log.info(papaTask.getTelephone()+"_添加PapaSpiderClassRunnable:"+clz.getSimpleName());
+					//log.info(papaTask.getTelephone()+"_添加PapaSpiderClassRunnable:"+clz.getSimpleName());
 					trehadPool.execute(papaSpiderClassRunnable);
 					runnables.add(papaSpiderClassRunnable);
 				}

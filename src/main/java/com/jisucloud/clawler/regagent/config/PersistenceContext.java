@@ -20,7 +20,6 @@ public class PersistenceContext {
 	public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) throws Exception {
 		StringRedisTemplate template = new StringRedisTemplate();
 		template.setConnectionFactory(redisConnectionFactory);
-		MitmServer.getInstance().setMitmCacheProvider(new StringRedisTemplateMitmCacheProvider(template));
 		return template;
 	}
 
