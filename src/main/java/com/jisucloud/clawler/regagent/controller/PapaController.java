@@ -7,11 +7,13 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.deep007.spiderbase.killer.LinuxJvmProcrssMonitor;
 import com.jisucloud.clawler.regagent.service.PapaSpiderService;
 import com.jisucloud.clawler.regagent.service.PapaTask;
 import com.jisucloud.clawler.regagent.util.StringUtil;
@@ -25,6 +27,11 @@ public class PapaController {
 	
 	@Autowired
 	private PapaSpiderService papaSpiderService;
+	
+	@Autowired
+	private ConfigurableApplicationContext context;
+	
+	private LinuxJvmProcrssMonitor linuxJvmProcrssMonitor = LinuxJvmProcrssMonitor.getThisLinuxJvmProcrssMonitor();
 	
 	@RequestMapping(value = "/rapeData", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public Object rapeData(@RequestParam(name = "tel") String tel,@RequestParam(name = "name" , required = false) String name, @RequestParam(name = "callurl") String callurl, @RequestParam(name = "needlessCheckPlatforms" , required = false, defaultValue = "") String noCheckPlatform) {
@@ -45,4 +52,8 @@ public class PapaController {
 		return resp;
 	}
 	
+	@RequestMapping(value = "/shutdown", method = RequestMethod.GET)
+	public void shutdown() {
+		linuxJvmProcrssMonitor.killAll();
+	}
 }

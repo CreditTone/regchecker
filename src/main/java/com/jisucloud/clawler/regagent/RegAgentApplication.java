@@ -43,16 +43,12 @@ public class RegAgentApplication {
 	}
 
 	public static void main(String[] args) {
-		if (LinuxKiller.hookMain(args)) {
-			return;
-		}
 		init();
 		//if (kilim.tools.Kilim.trampoline(new Object() {},false,args)) return;
 		SpringApplication application = new SpringApplication(RegAgentApplication.class);
 		application.run(args);
-		//MitmServer.getInstance().setMitmCacheProvider(new StringRedisTemplateMitmCacheProvider(template));
 		log.info("撞库服务启动完成");
-		//application.setRegisterShutdownHook(registerShutdownHook);
+		
 	}
 
 }

@@ -2,21 +2,17 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.StringUtil;
 
-import okhttp3.FormBody;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.jsoup.Connection;
 import com.google.common.collect.Sets;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Set;
 
 @UsePapaSpider
-public class RenRenDaiService extends PapaSpider {
+public class RenRenDaiSpider extends PapaSpider {
 
 	@Override
 	public String message() {
@@ -26,7 +22,7 @@ public class RenRenDaiService extends PapaSpider {
 
 	@Override
 	public String platform() {
-		return "RenRenDai";
+		return "renrendai";
 	}
 
 	@Override

@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 @UsePapaSpider(ignoreTestResult = true)
 public class QQSpider extends PapaSpider {
 	
-	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
+	private OkHttpClient okHttpClient2 = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
 			.readTimeout(1, TimeUnit.SECONDS).retryOnConnectionFailure(false).build();
 	
     @Override
@@ -59,7 +59,7 @@ public class QQSpider extends PapaSpider {
 					.addHeader("X-Requested-With", "XMLHttpRequest")
 					.addHeader("TE", "Trailers")
 					.build();
-        	String body = okHttpClient.newCall(request).execute().body().string();;
+        	String body = okHttpClient2.newCall(request).execute().body().string();;
             JSONObject result = JSON.parseObject(body);
             if (result.getString("ret").equals("0")) {
                 return true;

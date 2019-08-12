@@ -137,7 +137,8 @@ public class PapaSpiderTester {
 		ChromeAjaxHookDriver chromeDriver = null;
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
-			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
+			System.out.println(chromeDriver.getChromeDriverProcessId());
+			System.out.println(chromeDriver.getChromeBrowserProcessId());
 			chromeDriver.get("https://www.dezhong365.com/html/enter");
 			Thread.sleep(60000);
 		} catch (Exception e) {
