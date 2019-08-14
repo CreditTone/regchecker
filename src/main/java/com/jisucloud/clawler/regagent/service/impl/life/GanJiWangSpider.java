@@ -20,7 +20,7 @@ import java.util.Map;
 		home = "ganji.com", 
 		message = "赶集网是更专业的分类信息网!提供免费发布信息,查阅信息服务.寻找更新更全的房屋出租、二手房、二手车、二手物品交易、求职招聘等生活信息,请到赶集网ganji.com。", 
 		platform = "ganji", 
-		platformName = "ganjiName", 
+		platformName = "赶集网", 
 		tags = { "o2o", "生活休闲", "求职" , "招聘" , "二手物品" }, 
 		testTelephones = { "18210538513", "18210538511" })
 public class GanJiWangSpider extends PapaSpider implements AjaxHook {

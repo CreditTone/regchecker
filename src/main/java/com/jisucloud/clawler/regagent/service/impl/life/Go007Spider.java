@@ -16,7 +16,7 @@ import java.util.Map;
 		home = "go007.com", 
 		message = "go007城际分类网免费为城市居民提供生活分类信息发布和分享平台,是中国最好的分类信息网站、分类广告推广效果最好的网站之一;在此您无需注册就可以浏览和发布房产。", 
 		platform = "go007", 
-		platformName = "go007Name", 
+		platformName = "城际分类网", 
 		tags = { "o2o", "生活休闲", "求职" , "招聘" , "房产家居" }, 
 		testTelephones = { "13925306966", "18210538513" })
 public class Go007Spider extends PapaSpider {

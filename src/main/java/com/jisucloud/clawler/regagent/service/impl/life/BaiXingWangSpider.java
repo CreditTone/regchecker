@@ -21,7 +21,7 @@ import org.jsoup.nodes.Document;
 		home = "baixing.com", 
 		message = "百姓网，最大的分类信息网。您可以免费查找最新最全的二手物品交易、二手车买卖、房屋租售、宠物、招聘、兼职、求职、交友活动及生活服务等分类信息，还能免费发布这些分类信息。", 
 		platform = "baixing", 
-		platformName = "baixingName", 
+		platformName = "百姓网", 
 		tags = { "o2o", "生活休闲", "求职" , "招聘" , "房产家居" }, 
 		testTelephones = { "15101030000", "18210538513" })
 public class BaiXingWangSpider extends PapaSpider implements AjaxHook {

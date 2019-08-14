@@ -17,7 +17,7 @@ import java.util.Map;
 		home = "baidu.com", 
 		message = "全球最大的中文搜索引擎、致力于让网民更便捷地获取信息，找到所求。百度超过千亿的中文网页数据库，可以瞬间找到相关的搜索结果。", 
 		platform = "baidu", 
-		platformName = "baiduName", 
+		platformName = "百度", 
 		tags = { "系统工具", "游览器" }, 
 		testTelephones = { "15901530000", "18210538513" })
 public class BaiduSpider extends PapaSpider {

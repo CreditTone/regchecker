@@ -19,7 +19,7 @@ import java.util.Map;
 		home = "58.com", 
 		message = "58同城分类信息网，为你提供房产、招聘、黄页、团购、交友、二手、宠物、车辆、周边游等海量分类信息，充分满足您免费查看/发布信息的需求。", 
 		platform = "58", 
-		platformName = "58同", 
+		platformName = "58同城", 
 		tags = { "o2o", "生活休闲", "求职" , "招聘" , "二手物品" }, 
 		testTelephones = { "18515290000", "18210538513" })
 public class _58Spider extends PapaSpider {
