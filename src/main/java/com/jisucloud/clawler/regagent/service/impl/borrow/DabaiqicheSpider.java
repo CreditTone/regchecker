@@ -2,7 +2,6 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.deep007.spiderbase.okhttp.OKHttpUtil;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
@@ -25,7 +24,7 @@ import java.util.Map;
 		home = "qufenqi.com", 
 		message = "“大白汽车分期”是为购车人群提供分期服务的新车购车APP.", 
 		platform = "qufenqi", 
-		platformName = "qufenqiName", 
+		platformName = "趣分期", 
 		tags = { "P2P", "消费分期" , "借贷" }, 
 		testTelephones = { "18210538577", "18210538513" })
 public class DabaiqicheSpider extends PapaSpider {

@@ -18,7 +18,7 @@ import java.util.Map;
 		home = "myerong.com", 
 		message = "e融所官网资料是由网贷之家为您收集整理,想知道e融所可靠吗,e融所安全吗,e融所怎么样,可以来网贷之家e融所官网资料查询p2p平台数据、新闻、消息、口碑、点评。", 
 		platform = "myerong", 
-		platformName = "myerongName", 
+		platformName = "e融所", 
 		tags = { "P2P", "借贷" }, 
 		testTelephones = { "15985268904", "18210538513" })
 public class ERongSuoSpider extends PapaSpider {

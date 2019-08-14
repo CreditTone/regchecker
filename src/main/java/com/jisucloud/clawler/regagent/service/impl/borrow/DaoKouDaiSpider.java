@@ -18,7 +18,7 @@ import java.util.Map;
 		home = "daokoudai.com", 
 		message = "道口贷是国内首家高校系P2P平台，旨在为互联网用户提供在线投资理财服务。道口贷是由清华控股旗下公司发起，依托清华大学五道口金融学院互联网金融实验室研究成果建立的P2P平台。 ", 
 		platform = "daokoudai", 
-		platformName = "daokoudaiName", 
+		platformName = "道口贷", 
 		tags = { "P2P", "借贷" }, 
 		testTelephones = { "15985268904", "18210538513" })
 public class DaoKouDaiSpider extends PapaSpider {

@@ -3,8 +3,6 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 import java.util.Map;
 
 
-import org.jsoup.Connection;
-
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 

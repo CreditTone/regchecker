@@ -19,7 +19,7 @@ import java.util.Map;
 		home = "juaicai.com", 
 		message = "聚爱财专业的P2P投资平台、P2P网贷投资、互联网金融平台,面向个人投资者提供P2P投资产品、固定收益类产品;专业金融机构担保,100元起投,投资周期1~12个月,每日计息。", 
 		platform = "juaicai", 
-		platformName = "juaicaiName", 
+		platformName = "聚爱财", 
 		tags = { "p2p", "理财" , "借贷" }, 
 		testTelephones = { "13910002045", "18210538513" },
 		ignoreTestResult = true)

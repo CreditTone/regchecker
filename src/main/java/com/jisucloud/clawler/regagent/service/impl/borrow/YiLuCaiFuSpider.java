@@ -17,7 +17,7 @@ import java.util.Map;
 		home = "yilucaifu.com", 
 		message = "一路财富致力于为中产家庭和中小企业提供资产配置、智能投顾、组合投资和金融SaaS, 产品包括公/私募基金、固定收益类理财、保险和信托等。", 
 		platform = "yilucaifu", 
-		platformName = "yilucaifuName", 
+		platformName = "一路财富", 
 		tags = { "p2p", "借贷" }, 
 		testTelephones = { "18210538513", "13991808887" })
 public class YiLuCaiFuSpider extends PapaSpider {

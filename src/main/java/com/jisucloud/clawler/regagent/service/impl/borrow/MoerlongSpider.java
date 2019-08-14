@@ -10,15 +10,6 @@ import okhttp3.Headers;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.jsoup.Connection;
-import org.jsoup.Connection.Method;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
-import com.deep007.spiderbase.okhttp.OKHttpUtil;
-
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;

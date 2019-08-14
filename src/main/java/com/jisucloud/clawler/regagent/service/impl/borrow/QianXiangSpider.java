@@ -21,7 +21,6 @@ import java.util.Map;
 public class QianXiangSpider extends PapaSpider {
 
 	
-	
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.qianxiangbank.com/home/login";

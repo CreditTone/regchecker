@@ -20,7 +20,6 @@ import java.util.Map;
 public class QianPengWangSpider extends PapaSpider {
 
 	
-	
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.qianpen.com/user-center/check-phone-zrr-lc?phone=" + account;

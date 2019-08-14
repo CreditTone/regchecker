@@ -18,7 +18,7 @@ import java.util.Map;
 		home = "ctzrnet.com", 
 		message = "城铁在融平台作为全国首家铁路p2p互联网金融平台，利用互联网技术，为投资人和融资人提供直接对接、签订借贷款合同及办理相关法律手续等中介服务，包括但不限于提供信息发布、信用评定、贷中服务及部分贷后管理等第三方服务，并收取相应的服务中介费和管理费。同时，依据监管部门的监管要求,平台作为信息中介进行借贷撮合，自身并不参与交易，投融资人资金委托第三方机构监管。", 
 		platform = "ctzrnet", 
-		platformName = "ctzrnetName", 
+		platformName = "城铁在融", 
 		tags = { "p2p", "借贷" }, 
 		testTelephones = { "18210538513", "15161509916" })
 public class ChengTieZaiRongSpider extends PapaSpider {

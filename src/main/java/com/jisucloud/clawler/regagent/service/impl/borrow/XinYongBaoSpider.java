@@ -18,7 +18,7 @@ import java.util.Map;
 		home = "xyb100.com", 
 		message = "中国个人信用风险创新平台-信用宝,为用户提供全方位出借、P2P网络借贷服务,专业的风险管理让出借、P2P网络借贷更加高效安全,您身边的个人金融出借专家。", 
 		platform = "xyb100", 
-		platformName = "xyb100Name", 
+		platformName = "信用宝", 
 		tags = { "P2P", "借贷" }, 
 		testTelephones = { "13691032050", "18210538513" })
 public class XinYongBaoSpider extends PapaSpider {

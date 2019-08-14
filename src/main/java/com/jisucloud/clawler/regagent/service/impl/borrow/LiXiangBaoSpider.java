@@ -22,7 +22,7 @@ import java.util.Map;
 		home = "id68.com", 
 		message = "理想宝,银行资金存管,多家上市公司联合刘晓庆明星企业共同打造,合规运营3年,为145万投资人赚取收益近3亿元。手机投资,100元起投,多种产品可选,投资期限灵活。", 
 		platform = "id68", 
-		platformName = "id68Name", 
+		platformName = "理想宝", 
 		tags = { "P2P", "借贷" }, 
 		testTelephones = { "13900002045", "18210538513" },
 		exclude = true, excludeMsg = "防火墙")

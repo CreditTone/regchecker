@@ -12,8 +12,6 @@ import okhttp3.Response;
 
 import java.util.Map;
 
-
-
 @Slf4j
 @PapaSpiderConfig(
 		home = "qiangugu.com", 
@@ -24,7 +22,6 @@ import java.util.Map;
 		testTelephones = { "18611216720", "18210538513" })
 public class QianGuGuSpider extends PapaSpider {
 
-	
 
 	public boolean checkTelephone(String account) {
 		try {

@@ -10,14 +10,12 @@ import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
 
-
-
 @Slf4j
 @PapaSpiderConfig(
 		home = "yidai.com", 
 		message = "宜贷网是软银(中国)注资的P2P平台,平台成立于2014年1月,已运营四年之久。宜贷网以透明、专业为宗旨,为用户提供有温度的网络借贷信息中介服务。", 
 		platform = "yidai", 
-		platformName = "yidaiName", 
+		platformName = "宜贷网", 
 		tags = { "P2P", "借贷" }, 
 		testTelephones = { "15985268904", "18210538513" },ignoreTestResult = true)
 public class YiDaiWangSpider extends PapaSpider {

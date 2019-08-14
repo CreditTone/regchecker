@@ -1,9 +1,5 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
-import java.util.Map;
-import java.util.Set;
-
-import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 

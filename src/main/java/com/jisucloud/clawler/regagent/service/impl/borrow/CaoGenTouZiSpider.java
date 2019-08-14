@@ -18,7 +18,7 @@ import java.util.Map;
 		home = "cgtz.com", 
 		message = "草根投资是国内领先的P2P理财平台,为投资者提供多元化的理财产品,在安全的基础上保障高收益,是投资理财首选平台。", 
 		platform = "cgtz", 
-		platformName = "cgtzName", 
+		platformName = "草根投资", 
 		tags = { "P2P", "借贷" }, 
 		testTelephones = { "13910252045", "18210538513" })
 public class CaoGenTouZiSpider extends PapaSpider {

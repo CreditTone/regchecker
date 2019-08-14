@@ -1,13 +1,10 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
-import com.jisucloud.clawler.regagent.service.PapaSpiderTester;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -18,10 +15,7 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
 
-
 import org.openqa.selenium.WebElement;
-
-
 
 @Slf4j
 @PapaSpiderConfig(

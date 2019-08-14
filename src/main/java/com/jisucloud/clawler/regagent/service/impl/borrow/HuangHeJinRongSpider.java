@@ -17,7 +17,7 @@ import java.util.Map;
 		home = "hhedai.com", 
 		message = "黄河金融是于2014年3月24日上线，是浙江众联在线资产管理有限公司旗下的互联网金融信息服务平台，结合利用平台的特点，使得黄河金融具有“零风险”、“稳收益”、“高流动”特点，满.足了广.大个人用户的理财需求。", 
 		platform = "hhedai", 
-		platformName = "hhedaiName", 
+		platformName = "黄河金融", 
 		tags = { "P2P", "借贷" }, 
 		testTelephones = { "15985268904", "18210538513" })
 public class HuangHeJinRongSpider extends PapaSpider {

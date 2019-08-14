@@ -22,7 +22,7 @@ import java.util.Map;
 		home = "houbank.com", 
 		message = "厚本金融(houbank.com)是专业的互联网借贷撮合平台,为出借人和借款人提供优质的互联网金融借贷信息中介服务,中华财险保证保险逐步覆盖平台资产。", 
 		platform = "houbank", 
-		platformName = "houbankName", 
+		platformName = "厚本金融", 
 		tags = { "P2P", "借贷" }, 
 		testTelephones = { "13910252045", "18210538513" })
 public class HouBenJinRongSpider extends PapaSpider implements AjaxHook {

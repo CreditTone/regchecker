@@ -18,7 +18,7 @@ import java.util.Map;
 		home = "lingyongdai.com", 
 		message = "零用贷是重信金融旗下专注于互联网金融业务的信息中介平台,旨在为投资者提供低风险,高回报的理财产品,为有资金需求者提供低成本、高效的贷款服务。", 
 		platform = "lingyongdai", 
-		platformName = "lingyongdaiName", 
+		platformName = "零用贷", 
 		tags = { "P2P", "消费分期" , "借贷" }, 
 		testTelephones = { "15985268904", "18210538513" },
 		excludeMsg = "倒闭")

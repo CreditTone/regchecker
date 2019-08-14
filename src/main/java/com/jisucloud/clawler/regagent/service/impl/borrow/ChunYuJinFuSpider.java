@@ -18,7 +18,7 @@ import java.util.Map;
 		home = "chunyujinfu.com", 
 		message = "春雨金服-稳健透明的互联网金融信息服务平台,该平台提供公平、透明、稳健、高效的互联网金融信息服务.年利率高,了解更多出借、网上贷款等信息请访问chunyujinfu.com。", 
 		platform = "chunyujinfu", 
-		platformName = "chunyujinfuName", 
+		platformName = "春雨金服", 
 		tags = { "P2P", "借贷" }, 
 		testTelephones = { "15985268904", "18210538513" })
 public class ChunYuJinFuSpider extends PapaSpider {

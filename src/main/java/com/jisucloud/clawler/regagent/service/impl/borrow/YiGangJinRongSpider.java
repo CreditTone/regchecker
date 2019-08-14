@@ -18,7 +18,7 @@ import java.util.Map;
 		home = "ycd360.com", 
 		message = "易港金融是浙江杭州领先的p2p网贷出借平台与互联网金融平台,专注车贷18年。致力为出借用户和贷款用户提供透明、安全、高效的金融服务,是杭州专业的互联网金融P2P公司。", 
 		platform = "ycd360", 
-		platformName = "ycd360Name", 
+		platformName = "易港金融", 
 		tags = { "p2p", "借贷" }, 
 		testTelephones = { "18210538513", "15161509916" })
 public class YiGangJinRongSpider extends PapaSpider {

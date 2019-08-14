@@ -24,7 +24,7 @@ import java.util.Map;
 		home = "yinduowang.com", 
 		message = "银多网是一个立足普惠金融、合规运营的互联网金融信息中介平台，时刻践行“服务高于金融”的理念，通过互联网技术融合传统金融的创新模式，带领有理财需求的用户。", 
 		platform = "yinduowang", 
-		platformName = "yinduowangName", 
+		platformName = "银多网", 
 		tags = { "P2P", "借贷" }, 
 		testTelephones = { "13910252045", "18210538513" })
 public class YinDuoWangSpider extends PapaSpider implements AjaxHook {

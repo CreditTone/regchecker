@@ -12,7 +12,6 @@ import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import java.util.Map;
 
 
-
 @Slf4j
 @PapaSpiderConfig(
 		home = "gomefinance.com", 

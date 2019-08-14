@@ -15,7 +15,7 @@ import java.util.Map;
 		home = "newup.com", 
 		message = "新升贷(www.newup.net.cn)是专注于汽车抵押借贷服务的互联网金融P2P网贷平台,新升贷致力于打造一个专业、规范、安全、高效、诚信的汽车抵押网络借贷中介平台,通过..。", 
 		platform = "newup", 
-		platformName = "newupName", 
+		platformName = "新升贷", 
 		tags = { "P2P", "消费分期" ,"车贷", "借贷" }, 
 		testTelephones = { "15985268904", "18210538513" })
 public class XinShengDaiSpider extends PapaSpider {

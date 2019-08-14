@@ -15,7 +15,7 @@ import java.util.Map;
 		home = "mandofin.com", 
 		message = "满兜(www.mandofin.com)于2015年8月上线运营,是杭州中廉网络科技有限公司旗下的互联网金融品牌,是由华景川集团战略投资、阿里高管创建。满兜一直秉持“金融创新。", 
 		platform = "mandofin", 
-		platformName = "mandofinName", 
+		platformName = "满兜金融", 
 		tags = { "p2p", "借贷" }, 
 		testTelephones = { "18210538513", "13810973590" })
 public class DouManLiCaiSpider extends PapaSpider {

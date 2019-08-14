@@ -20,7 +20,7 @@ import java.util.Map;
 		home = "duanrong.com", 
 		message = "短融网是创新、透明的互联网借贷信息服务中介平台,深耕“三农”金融,专注于小额资产,为出借人提供省心投、月月盈、散标等出借产品。", 
 		platform = "duanrong", 
-		platformName = "duanrongName", 
+		platformName = "短融网", 
 		tags = { "P2P" , "借贷" }, 
 		testTelephones = { "18210538577", "18210538513" })
 @Slf4j

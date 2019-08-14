@@ -11,14 +11,12 @@ import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
 
-
-
 @Slf4j
 @PapaSpiderConfig(
 		home = "xinxindai.com", 
 		message = "新新贷(xinxindai.com) 总部位于上海市虹口区，专注于中小微用户金融信息服务, 资金银行存管。 中国互联网金融协会会员单位，截止2019年3月底，平台已累计交易总额突破140亿+。", 
 		platform = "xinxindai", 
-		platformName = "xinxindaiName", 
+		platformName = "新新贷", 
 		tags = { "P2P", "小微金融" , "借贷" }, 
 		testTelephones = { "15985268904", "18210538513" })
 public class XinXinDaiSpider extends PapaSpider {

@@ -20,7 +20,6 @@ import org.openqa.selenium.WebElement;
 
 import java.util.Map;
 
-
 @Slf4j
 @PapaSpiderConfig(
 		home = "creditease.com", 

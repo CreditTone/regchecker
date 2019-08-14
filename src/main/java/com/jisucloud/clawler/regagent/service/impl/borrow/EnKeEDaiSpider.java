@@ -17,7 +17,7 @@ import java.util.Map;
 		home = "ek360.com", 
 		message = "恩科e贷是一家专注于不动产抵押的P2P网贷平台。打造河北P2P网贷平台、石家庄P2P网贷平台及金融供应链金融,互联网金融服务。致力于引领和推进行业进步,合国内市场的。", 
 		platform = "ek360", 
-		platformName = "ek360Name", 
+		platformName = "恩科e贷", 
 		tags = { "P2P" , "借贷" }, 
 		testTelephones = { "15985268904", "18210538513" })
 public class EnKeEDaiSpider extends PapaSpider {

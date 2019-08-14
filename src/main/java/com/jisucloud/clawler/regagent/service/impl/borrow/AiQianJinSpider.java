@@ -20,7 +20,7 @@ import java.util.Map;
 		home = "iqianjin.com", 
 		message = "爱钱进是凡普金科旗下网络借贷信息中介平台,位列第三方权威评级机构网贷天眼全国百强榜前十,始终致力于为用户提供简单、公平的互联网金融信息服务,是消费者心中靠谱的网络借贷。", 
 		platform = "iqianjin", 
-		platformName = "iqianjinName", 
+		platformName = "爱钱进", 
 		tags = { "P2P", "借贷" }, 
 		testTelephones = { "13879530000", "18210538513" })
 public class AiQianJinSpider extends PapaSpider {

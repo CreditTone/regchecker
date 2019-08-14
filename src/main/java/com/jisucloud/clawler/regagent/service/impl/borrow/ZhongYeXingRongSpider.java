@@ -23,7 +23,7 @@ import java.util.Random;
 		home = "zyxr.com", 
 		message = "中业兴融(zyxr.com)是专业可信赖的P2P网贷平台,拥有超过100万注册用户,为用户提供专业透明的投资渠道和优质先进的科技金融服务,用户可通过平台进行定期投资获得稳定。", 
 		platform = "zyxr", 
-		platformName = "zyxrName", 
+		platformName = "中业兴融", 
 		tags = { "P2P", "借贷" }, 
 		testTelephones = { "15201215815", "18210538513" },
 		exclude = true)

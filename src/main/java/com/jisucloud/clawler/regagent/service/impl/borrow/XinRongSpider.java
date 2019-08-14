@@ -6,7 +6,6 @@ import com.deep077.spiderbase.selenium.mitm.HookTracker;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
-import com.jisucloud.clawler.regagent.service.PapaSpiderTester;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import io.netty.handler.codec.http.HttpRequest;

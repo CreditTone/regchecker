@@ -17,7 +17,7 @@ import java.util.Map;
 		home = "88bank.com", 
 		message = "e路同心是由深圳市同心科创金融服务有限公司运营，于2015年4月18日正式上线，是由深圳市同心投资基金股份公司及广东省粤科金融集团联袂打造的国资系P2P平台，致力于为投资者提供优质的投资理财信息服务。", 
 		platform = "88bank", 
-		platformName = "88bankName", 
+		platformName = "e路同心", 
 		tags = { "P2P", "借贷" }, 
 		testTelephones = { "15985268904", "18210538513" })
 public class ELuTongXinSpider extends PapaSpider {

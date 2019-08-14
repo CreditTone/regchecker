@@ -20,7 +20,7 @@ import java.util.Map;
 		home = "dhibank.com", 
 		message = "德鸿普惠综合金融服务商,是通过“互联网+金融”战略计划,依托移动互联网大数据为基础的,为微小企业和个人提供小额的金融借贷服务普惠金融的平台。", 
 		platform = "dhibank", 
-		platformName = "dhibankName", 
+		platformName = "德鸿普惠", 
 		tags = { "P2P", "借贷" }, 
 		testTelephones = { "15985268904", "18210538513" })
 public class DeHongPuHuiSpider extends PapaSpider {

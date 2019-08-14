@@ -18,7 +18,7 @@ import java.util.Map;
 		home = "jpjbp.com", 
 		message = "钜宝盆-致力于打造安全可靠的互联网金融第三方平台。为您提供稳健的收益,严格的贷款审核保障,完善的贷后管理和网站技术保障。", 
 		platform = "jpjbp", 
-		platformName = "jpjbpName", 
+		platformName = "钜宝盆", 
 		tags = { "p2p", "借贷" }, 
 		testTelephones = { "18210538513", "15161509916" })
 public class JuBaoPenSpider extends PapaSpider {
