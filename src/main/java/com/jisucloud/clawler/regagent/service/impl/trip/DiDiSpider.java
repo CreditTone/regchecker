@@ -2,9 +2,9 @@ package com.jisucloud.clawler.regagent.service.impl.trip;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import okhttp3.FormBody;
 import okhttp3.Headers;
@@ -13,25 +13,17 @@ import okhttp3.Response;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-@UsePapaSpider
+
+@PapaSpiderConfig(
+		home = "didiglobal.com", 
+		message = "滴滴出行是涵盖出租车、专车、滴滴快车、顺风车、代驾及大巴等多项业务在内的一站式出行平台，2015年9月9日由“滴滴打车”更名而来。", 
+		platform = "dudichuxing", 
+		platformName = "滴滴出行", 
+		tags = { "出行" , "打车" , "顺风车" }, 
+		testTelephones = { "18515290000", "18210538513" })
 public class DiDiSpider extends PapaSpider {
 
-    @Override
-    public String message() {
-        return "滴滴出行是涵盖出租车、专车、滴滴快车、顺风车、代驾及大巴等多项业务在内的一站式出行平台，2015年9月9日由“滴滴打车”更名而来。";
-    }
-
-    @Override
-    public String platform() {
-        return "dudichuxing";
-    }
-
-    @Override
-    public String home() {
-        return "didiglobal.com";
-    }
 
     private Headers getHeader() {
         Map<String, String> headers = new HashMap<>();
@@ -76,7 +68,7 @@ public class DiDiSpider extends PapaSpider {
         return formBody;
     }
 
-    @Override
+    
     public boolean checkTelephone(String account) {
         try {
             String url = "https://epassport.diditaxi.com.cn/passport/login/v5/getIdentity";
@@ -97,28 +89,22 @@ public class DiDiSpider extends PapaSpider {
         return false;
     }
 
-    @Override
+    
     public boolean checkEmail(String account) {
         return false;
     }
 
-    @Override
+    
     public Map<String, String> getFields() {
         return null;
     }
 
-    @Override
-    public String platformName() {
-        return "滴滴出行";
-    }
-
-    @Override
-	public String[] tags() {
-		return new String[] {"出行" , "打车" , "顺风车"};
-	}
     
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18515290000", "18210538513");
-	}
+    
+
+    
+	
+    
+	
+	
 }

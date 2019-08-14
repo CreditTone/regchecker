@@ -1,56 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.trip;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "airchina.com", 
+		message = "中国国际航空股份有限公司官网，提供国际国内飞机票查询、航班查询、特价打折机票预订服务。", 
+		platform = "airchina", 
+		platformName = "中国国际航空", 
+		tags = { "出行" , "飞机" , "机票" }, 
+		testTelephones = { "19910002005", "18210538513" })
 public class ZhongGuoGuoJiHangKongSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "中国国际航空股份有限公司官网，提供国际国内飞机票查询、航班查询、特价打折机票预订服务。";
-	}
-
-	@Override
-	public String platform() {
-		return "airchina";
-	}
-
-	@Override
-	public String home() {
-		return "airchina.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "中国国际航空";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"出行" , "飞机" , "机票"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("19910002005", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "http://www.airchina.com.cn/www/servlet/com.ace.um.userRegister.servlet.PhoneValidator";

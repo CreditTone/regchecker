@@ -3,9 +3,9 @@ package com.jisucloud.clawler.regagent.service.impl.social;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
@@ -14,46 +14,21 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "zidanduanxin.com", 
+		message = "聊天宝，原名子弹短信，最大的特色就是可以通过聊天、购物、游戏或完成任务赚取金币，随后可以通过金币按一定比例转换为现金，不过，现金余额超过30元才支持提现。", 
+		platform = "zidanduanxin", 
+		platformName = "聊天宝", 
+		tags = {  "社交", "资讯"  }, 
+		testTelephones = { "18210530000", "18210538513" })
 public class LiaoTianBaoSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 
-	@Override
-	public String message() {
-		return "聊天宝，原名子弹短信，最大的特色就是可以通过聊天、购物、游戏或完成任务赚取金币，随后可以通过金币按一定比例转换为现金，不过，现金余额超过30元才支持提现。";
-	}
-
-	@Override
-	public String platform() {
-		return "zidanduanxin";
-	}
-
-	@Override
-	public String home() {
-		return "zidanduanxin.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "聊天宝";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] { "社交", "资讯" };
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210530000", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);

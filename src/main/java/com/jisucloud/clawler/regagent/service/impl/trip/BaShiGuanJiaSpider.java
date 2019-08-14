@@ -1,57 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.trip;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "chebada.com", 
+		message = "巴士管家官网为您提供全国汽车票查询,汽车时刻表查询,余票信息查询,汽车票网上订票等服务.中国道路运输协会官方互联网售票合作伙伴,安全出行,售后有保障!", 
+		platform = "chebada", 
+		platformName = "巴士管家", 
+		tags = { "出行" , "巴士" , "班车" }, 
+		testTelephones = { "15611695226", "18210538513" })
 public class BaShiGuanJiaSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "巴士管家官网为您提供全国汽车票查询,汽车时刻表查询,余票信息查询,汽车票网上订票等服务.中国道路运输协会官方互联网售票合作伙伴,安全出行,售后有保障!";
-	}
-
-	@Override
-	public String platform() {
-		return "chebada";
-	}
-
-	@Override
-	public String home() {
-		return "chebada.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "巴士管家";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"出行" , "巴士" , "班车"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15611695226", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://m.chebada.com/cbdlogin/api/account/CheckMobile";

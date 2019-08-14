@@ -2,57 +2,29 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 
-import org.springframework.stereotype.Component;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "hydbest.com", 
+		message = "好又贷新网银行资金存管,注册实缴资金1亿元,好又贷是一家财富管理的互联网金融投资平台,为借贷双方提供便捷的中介信息服务。", 
+		platform = "hydbest", 
+		platformName = "好又贷", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class HaoYouDaiSpider extends PapaSpider {
 
 	
 	
-	@Override
-	public String message() {
-		return "好又贷新网银行资金存管,注册实缴资金1亿元,好又贷是一家财富管理的互联网金融投资平台,为借贷双方提供便捷的中介信息服务。";
-	}
-
-	@Override
-	public String platform() {
-		return "hydbest";
-	}
-
-	@Override
-	public String home() {
-		return "hydbest.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "好又贷";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "http://www.hydbest.com/Account/CheckMobilePhone";

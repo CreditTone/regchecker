@@ -2,9 +2,9 @@ package com.jisucloud.clawler.regagent.service.impl.shop;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import okhttp3.FormBody;
 import okhttp3.Headers;
@@ -13,26 +13,17 @@ import okhttp3.Response;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-@UsePapaSpider
+
+@PapaSpiderConfig(
+		home = "xiami.com", 
+		message = "小米商城直营小米公司旗下所有产品,囊括小米手机系列小米9、小米MIX 3、小米Play,Redmi 红米系列Redmi K20、Redmi Note 7、Redmi 7A,智能硬件,配件及小米生活周边,。", 
+		platform = "xiaomi", 
+		platformName = "小米商城", 
+		tags = {  "电商", "智能手机"  }, 
+		testTelephones = { "18210530000", "18210538513" })
 public class XiaomiSpider extends PapaSpider {
-
-	@Override
-	public String message() {
-		return "米商城直营小米公司旗下所有产品,囊括小米手机系列小米9、小米MIX 3、小米Play,Redmi 红米系列Redmi K20、Redmi Note 7、Redmi 7A,智能硬件,配件及小米生活周边,。";
-	}
-
-	@Override
-	public String platform() {
-		return "xiaomi";
-	}
-
-	@Override
-	public String home() {
-		return "xiami.com";
-	}
-
+	
 	private Headers getHeader(String account) {
 		Map<String, String> headers = new HashMap<>();
 		headers.put("Host", "account.xiaomi.com");
@@ -48,7 +39,7 @@ public class XiaomiSpider extends PapaSpider {
 		return formBody;
 	}
 
-	@Override
+
 	public boolean checkTelephone(String account) {
 		try {
 			get("https://account.xiaomi.com/pass/forgetPassword").body().string();
@@ -79,21 +70,6 @@ public class XiaomiSpider extends PapaSpider {
 	public Map<String, String> getFields() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public String platformName() {
-		return "小米手机云";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] { "电商", "智能手机" };
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210530000", "18210538513");
 	}
 
 }

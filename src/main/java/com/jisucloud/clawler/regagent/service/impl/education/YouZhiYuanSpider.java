@@ -2,9 +2,9 @@ package com.jisucloud.clawler.regagent.service.impl.education;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Request;
@@ -12,43 +12,18 @@ import okhttp3.Response;
 
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "youzy.cn", 
+		message = "高考志愿填报首选优志愿,最新高考分数线查询,历年全国院校及各专业招生数据查询分析.以大数据提供高考志愿模拟填报系统,根据考分及名次智能推荐高考志愿! 高考志愿热线:400-181-5008。", 
+		platform = "youzy", 
+		platformName = "优志愿", 
+		tags = { "志愿填报", "高考志愿" , "高考查询" }, 
+		testTelephones = { "13891156630", "18210538513" })
 public class YouZhiYuanSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		return "高考志愿填报首选优志愿,最新高考分数线查询,历年全国院校及各专业招生数据查询分析.以大数据提供高考志愿模拟填报系统,根据考分及名次智能推荐高考志愿! 高考志愿热线:400-181-5008。";
-	}
-
-	@Override
-	public String platform() {
-		return "youzy";
-	}
-
-	@Override
-	public String home() {
-		return "youzy.cn";
-	}
-
-	@Override
-	public String platformName() {
-		return "优志愿";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"志愿填报", "高考志愿" , "高考查询"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13891156630", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.youzy.cn/ToCUsers/Users/ValidateMobile";

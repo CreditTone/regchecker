@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.game;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Request;
@@ -10,43 +10,18 @@ import okhttp3.Response;
 
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "sdo.com", 
+		message = "上海盛大网络发展有限公司，作为领先的互动娱乐媒体企业，盛大网络通过盛大游戏、盛大文学、盛大在线等主体和其它业务，向广大用户提供多元化的互动娱乐内容和服务。", 
+		platform = "sdo", 
+		platformName = "盛大网络", 
+		tags = { "游戏" }, 
+		testTelephones = { "18210530000", "13269423806" })
 public class ShengDaSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		return "上海盛大网络发展有限公司，作为领先的互动娱乐媒体企业，盛大网络通过盛大游戏、盛大文学、盛大在线等主体和其它业务，向广大用户提供多元化的互动娱乐内容和服务。";
-	}
-
-	@Override
-	public String platform() {
-		return "sdo";
-	}
-
-	@Override
-	public String home() {
-		return "sdo.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "盛大游戏";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"游戏"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210530000", "13269423806");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		for (int i = 0 ; i < 10 ; i++) {
 			String url = "https://cas.sdo.com/authen/checkAccountType.jsonp?callback=checkAccountType_JSONPMethod&serviceUrl=register.sdo.com&appId=991002500&areaId=201000&authenSource=2&inputUserId="+account+"&locale=zh_CN&productId=1&productVersion=1.7&version=21&_=" + System.currentTimeMillis();

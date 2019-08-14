@@ -1,55 +1,25 @@
 package com.jisucloud.clawler.regagent.service.impl.b2b;
 
-import com.deep007.spiderbase.okhttp.OKHttpUtil;
-import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "yifatong.com", 
+		message = "多商网是珠三角云供应链平台,为淘宝天猫网店/线下实体店提供男女装,美妆,鞋包,家电母婴等工厂货源批发代销、一件代发、代理加盟。", 
+		platform = "yifatong", 
+		platformName = "多商网", 
+		tags = { "B2B" , "电商" }, 
+		testTelephones = { "13925300066", "18210538513" })
 public class DuoShangWangSpider extends PapaSpider {
-
-	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
-
-	@Override
-	public String message() {
-		return "多商网是珠三角云供应链平台,为淘宝天猫网店/线下实体店提供男女装,美妆,鞋包,家电母婴等工厂货源批发代销、一件代发、代理加盟。";
-	}
-
-	@Override
-	public String platform() {
-		return "yifatong";
-	}
-
-	@Override
-	public String home() {
-		return "yifatong.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "多商网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"B2B" , "电商"};
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13925300066", "18210538513");
-	}
 
 	@Override
 	public boolean checkTelephone(String account) {

@@ -3,9 +3,9 @@ package com.jisucloud.clawler.regagent.service.impl.news;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
@@ -14,40 +14,20 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "meitu.com", 
+		message = "美图官网,提供美图手机(美图T9、美图V6、美图M8s、美图T8s)、相关配件的详细介绍及在线购买。同时也是美图秀秀、美颜相机、美拍等热门产品的官方网站。", 
+		platform = "meitu", 
+		platformName = "美图秀秀", 
+		tags = { "美图" , "美颜", "工具" }, 
+		testTelephones = { "18210538513", "15161509916" })
 public class MeiTuWangSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 
-	@Override
-	public String message() {
-		return "美图官网,提供美图手机(美图T9、美图V6、美图M8s、美图T8s)、相关配件的详细介绍及在线购买。同时也是美图秀秀、美颜相机、美拍等热门产品的官方网站。";
-	}
-
-	@Override
-	public String platform() {
-		return "meitu";
-	}
-
-	@Override
-	public String home() {
-		return "meitu.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "美图秀秀";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"美图" , "美颜", "工具"};
-	}
-	
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, false);
@@ -75,11 +55,6 @@ public class MeiTuWangSpider extends PapaSpider implements AjaxHook{
 	@Override
 	public Map<String, String> getFields() {
 		return null;
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538513", "15161509916");
 	}
 
 	@Override

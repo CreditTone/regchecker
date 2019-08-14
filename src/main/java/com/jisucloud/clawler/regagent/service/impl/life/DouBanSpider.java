@@ -1,56 +1,27 @@
 package com.jisucloud.clawler.regagent.service.impl.life;
 
-import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "douban.com", 
+		message = "豆瓣（douban）是一个社区网站。网站由杨勃（网名“阿北”） 创立于2005年3月6日。该网站以书影音起家，提供关于书籍、电影、音乐等作品的信息，无论描述还是评论都由用户提供（User-generated content，UGC），是Web 2.0网站中具有特色的一个网站。", 
+		platform = "douban", 
+		platformName = "doubanName", 
+		tags = { "社区", "影音" , "阅读" }, 
+		testTelephones = { "13925306966", "18210538513" })
 public class DouBanSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "豆瓣（douban）是一个社区网站。网站由杨勃（网名“阿北”） 创立于2005年3月6日。该网站以书影音起家，提供关于书籍、电影、音乐等作品的信息，无论描述还是评论都由用户提供（User-generated content，UGC），是Web 2.0网站中具有特色的一个网站。";
-	}
-
-	@Override
-	public String platform() {
-		return "douban";
-	}
-
-	@Override
-	public String home() {
-		return "douban.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "豆瓣";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"社区", "影音" , "阅读"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13925306966", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://accounts.douban.com/j/mobile/reset_password/request_phone_code";

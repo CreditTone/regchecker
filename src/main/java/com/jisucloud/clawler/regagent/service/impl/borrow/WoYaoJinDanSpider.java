@@ -1,58 +1,32 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
+
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "51jindan.com", 
+		message = "我要金蛋 深圳市伯利滋财富在线我要借款 信息披露 安全中心 关于我们平台公告更多 项目真实 保证项目真实,为理性投资者搭建一个透明安全的平台 投资保障 资金专户管理,国资背景第三方支付通道。", 
+		platform = "51jindan", 
+		platformName = "我要金蛋", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class WoYaoJinDanSpider extends PapaSpider {
 
 	
 	
-	@Override
-	public String message() {
-		return "我要金蛋 深圳市伯利滋财富在线我要借款 信息披露 安全中心 关于我们平台公告更多 项目真实 保证项目真实,为理性投资者搭建一个透明安全的平台 投资保障 资金专户管理,国资背景第三方支付通道。";
-	}
-
-	@Override
-	public String platform() {
-		return "51jindan";
-	}
-
-	@Override
-	public String home() {
-		return "51jindan.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "我要金蛋";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.51jindan.com/service/person/checkMobileIfRegister";

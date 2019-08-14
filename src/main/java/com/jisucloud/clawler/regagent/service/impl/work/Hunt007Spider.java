@@ -1,62 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.work;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "hunt007.com", 
+		message = "找工易全国及广东招聘网等各区域人才网站,提供广东人才网求职信息及广州人才网招聘信息,找工作提供专业贴心服务.广东人才招聘网及时发布广东人才市场最新招聘信息。", 
+		platform = "hunt007", 
+		platformName = "找工易", 
+		tags = { "求职" , "招聘" , "广东" }, 
+		testTelephones = { "13691032050", "15700102860" })
 public class Hunt007Spider extends PapaSpider {
 
-	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
-			.readTimeout(20, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
 	private String email = null;
 
-	@Override
-	public String message() {
-		return "找工易全国及广东招聘网等各区域人才网站,提供广东人才网求职信息及广州人才网招聘信息,找工作提供专业贴心服务.广东人才招聘网及时发布广东人才市场最新招聘信息。";
-	}
-
-	@Override
-	public String platform() {
-		return "hunt007";
-	}
-
-	@Override
-	public String home() {
-		return "hunt007.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "找工易";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"求职" , "招聘" , "广东"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13691032050", "15700102860");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "http://www.hunt007.com/Handler/AjaxHandler.ashx?action=GETPWD&u=0&key="+account+"&t=244";

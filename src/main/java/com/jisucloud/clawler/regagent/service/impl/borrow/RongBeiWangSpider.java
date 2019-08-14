@@ -1,7 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
@@ -12,51 +12,24 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
-import java.util.Set;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "irongbei.com", 
+		message = "融贝网是一家优质、透明、普惠的网络借贷信息中介平台,发挥互联网平台高效、便捷的优势,筛选合格出借人与优质借款人,进行撮合服务,构建两者之间的投融资桥梁。", 
+		platform = "irongbei", 
+		platformName = "融贝网", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class RongBeiWangSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
 	
-	@Override
-	public String message() {
-		return "融贝网是一家优质、透明、普惠的网络借贷信息中介平台,发挥互联网平台高效、便捷的优势,筛选合格出借人与优质借款人,进行撮合服务,构建两者之间的投融资桥梁。";
-	}
-
-	@Override
-	public String platform() {
-		return "irongbei";
-	}
-
-	@Override
-	public String home() {
-		return "irongbei.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "融贝网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);

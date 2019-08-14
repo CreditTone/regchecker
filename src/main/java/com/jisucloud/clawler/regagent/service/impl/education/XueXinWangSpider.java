@@ -1,61 +1,33 @@
 package com.jisucloud.clawler.regagent.service.impl.education;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "chsi.com", 
+		message = "中国高等教育学生信息网(简称“学信网”)由全国高等学校学生信息咨询与就业指导中心(以下简称“中心”)于2002年5月注册并开通，由中心控股的学信咨询服务有限公司负责运营", 
+		platform = "chsi", 
+		platformName = "学信网", 
+		tags = { "学历" }, 
+		testTelephones = { "15210000000", "18210538513" })
 public class XueXinWangSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "中国高等教育学生信息网(简称“学信网”)由全国高等学校学生信息咨询与就业指导中心(以下简称“中心”)于2002年5月注册并开通，由中心控股的学信咨询服务有限公司负责运营";
-	}
-
-	@Override
-	public String platform() {
-		return "chsi";
-	}
-
-	@Override
-	public String home() {
-		return "chsi.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "学信网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"学历"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15210000000", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://account.chsi.com.cn/account/checkmobilephoneother.action";

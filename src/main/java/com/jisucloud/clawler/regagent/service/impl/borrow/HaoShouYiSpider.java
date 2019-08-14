@@ -1,60 +1,34 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
+
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "haoshouyi.com", 
+		message = "好收益-天涯金服旗下-专注于消费金融的网络借贷信息中介平台。好收益为出借用户提供三重安全保障:足值抵押+推荐方回购+借款人风险保证金。", 
+		platform = "haoshouyi", 
+		platformName = "好收益", 
+		tags = { "贷超", "借贷" }, 
+		testTelephones = { "15985268900", "18210538513" })
 public class HaoShouYiSpider extends PapaSpider {
 
 	
 	
-	@Override
-	public String message() {
-		return "好收益-天涯金服旗下-专注于消费金融的网络借贷信息中介平台。好收益为出借用户提供三重安全保障:足值抵押+推荐方回购+借款人风险保证金。";
-	}
-
-	@Override
-	public String platform() {
-		return "haoshouyi";
-	}
-
-	@Override
-	public String home() {
-		return "haoshouyi.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "好收益";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"贷超", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268900", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.haoshouyi.com/index/member/register";

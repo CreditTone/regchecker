@@ -2,57 +2,29 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 
-import org.springframework.stereotype.Component;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "licaifan.com", 
+		message = "理财范隶属于北京网融天下金融信息服务有限公司。于2014年3月上线。理财范利用对金融产业与中小企业生态的理解，嫁接新兴的风险管理模型，围绕中小企业融资、个人及家庭消费、借贷，提供一站式的网络借贷信息中介服务。", 
+		platform = "licaifan", 
+		platformName = "理财范隶", 
+		tags = { "P2P", "理财" , "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class LiCaiFanSpider extends PapaSpider {
 
 	
 	
-	@Override
-	public String message() {
-		return "理财范隶属于北京网融天下金融信息服务有限公司。于2014年3月上线。理财范利用对金融产业与中小企业生态的理解，嫁接新兴的风险管理模型，围绕中小企业融资、个人及家庭消费、借贷，提供一站式的网络借贷信息中介服务。";
-	}
-
-	@Override
-	public String platform() {
-		return "licaifan";
-	}
-
-	@Override
-	public String home() {
-		return "licaifan.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "理财范";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "理财" , "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://wapi.licaifan.com/wapi/user/login";

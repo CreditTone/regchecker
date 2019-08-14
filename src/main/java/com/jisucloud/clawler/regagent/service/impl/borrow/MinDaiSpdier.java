@@ -13,49 +13,25 @@ import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
 import java.util.Set;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "bank.mindai.com", 
+		message = "民贷天下，是一家专注为出借人和借款人提供网络借贷信息中介服务的互联网金融服务平台，通过借贷信息撮合服务为借款人快速、专业地解决资金需求，为出借人提供高效的资金回报。", 
+		platform = "mindai", 
+		platformName = "民贷天下", 
+		tags = { "理财", "P2P" , "借贷" }, 
+		testTelephones = { "18369630455", "18210538513" })
 public class MinDaiSpdier extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
     private boolean checkTel = false;
     private boolean suc = false;
     
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18369630455", "18210538513");
-	}
-
-    @Override
-    public String message() {
-        return "民贷天下，是一家专注为出借人和借款人提供网络借贷信息中介服务的互联网金融服务平台，通过借贷信息撮合服务为借款人快速、专业地解决资金需求，为出借人提供高效的资金回报。";
-    }
-
-    @Override
-    public String platform() {
-        return "mindai";
-    }
-
-    @Override
-    public String home() {
-        return "bank.mindai.com";
-    }
-
-    @Override
-    public String platformName() {
-        return "民贷天下";
-    }
-
-    @Override
-    public String[] tags() {
-        return new String[]{"理财", "P2P" , "借贷"};
-    }
-
     @Override
     public boolean checkTelephone(String account) {
         try {

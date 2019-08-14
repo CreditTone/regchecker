@@ -1,58 +1,32 @@
 package com.jisucloud.clawler.regagent.service.impl.house;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "5i5j.com", 
+		message = "我爱我家网为您提供二手房买卖、普通租赁、相寓品牌-住宅资质管理、新房交易、海外房产等房地产综合服务。您可以通过小区找房、地图找房、建立选房卡、联系经纪人、下载APP等方式自由选择心仪房源。", 
+		platform = "5i5j", 
+		platformName = "我爱我家网", 
+		tags = { "房产家居" , "房产中介" }, 
+		testTelephones = { "18515290717", "18210538513" })
 public class WoAiWoJiaSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "我爱我家网为您提供二手房买卖、普通租赁、相寓品牌-住宅资质管理、新房交易、海外房产等房地产综合服务。您可以通过小区找房、地图找房、建立选房卡、联系经纪人、下载APP等方式自由选择心仪房源。";
-	}
-
-	@Override
-	public String platform() {
-		return "5i5j";
-	}
-
-	@Override
-	public String home() {
-		return "5i5j.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "我爱我家网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"房产家居" , "房产中介"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18515290717", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://passport.5i5j.com/passport/sigin?city=bj";

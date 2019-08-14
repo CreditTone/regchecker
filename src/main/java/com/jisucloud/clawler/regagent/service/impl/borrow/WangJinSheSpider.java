@@ -1,59 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "wjs.com", 
+		message = "网金社是由恒生电子、蚂蚁金服、中投保共同设立的浙江互联网金融资产交易中心股份有限公司推出的互联网金融平台。 ", 
+		platform = "wjs", 
+		platformName = "网金社", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class WangJinSheSpider extends PapaSpider {
 
 	
-	
-	@Override
-	public String message() {
-		return "网金社是由恒生电子、蚂蚁金服、中投保共同设立的浙江互联网金融资产交易中心股份有限公司推出的互联网金融平台。 ";
-	}
-
-	@Override
-	public String platform() {
-		return "wjs";
-	}
-
-	@Override
-	public String home() {
-		return "wjs.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "网金社";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.wjs.com/web/login/mobileLogin";

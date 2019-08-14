@@ -1,7 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -13,50 +13,26 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 
 import java.util.Map;
-import java.util.Set;
+
 
 import org.openqa.selenium.WebElement;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "yaoyuefu.com", 
+		message = "花生米富官方网站,作为新一代互联网金融平台,在健全的风险管控体系、银行存管、三级等保基础上,提供多重风控、真实债权、消费场景等信息服务。为您的出借保驾护航!", 
+		platform = "yaoyuefu", 
+		platformName = "花生米富", 
+		tags = { "P2P", "消费分期" , "借贷" }, 
+		testTelephones = { "13910252000", "18210538513" })
 public class HuaShengMiFuSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
-	
-	@Override
-	public String message() {
-		return "花生米富官方网站,作为新一代互联网金融平台,在健全的风险管控体系、银行存管、三级等保基础上,提供多重风控、真实债权、消费场景等信息服务。为您的出借保驾护航!";
-	}
-
-	@Override
-	public String platform() {
-		return "yaoyuefu";
-	}
-
-	@Override
-	public String home() {
-		return "yaoyuefu.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "花生米富";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "消费分期" , "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252000", "18210538513");
-	}
 	
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
@@ -72,7 +48,7 @@ public class HuaShengMiFuSpider extends PapaSpider implements AjaxHook {
 		return "";
 	}
 
-	@Override
+	
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);

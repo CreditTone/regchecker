@@ -2,53 +2,28 @@ package com.jisucloud.clawler.regagent.service.impl.life;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "19lou.com", 
+		message = "19楼（www.19lou.com），中国最大的本地生活交流与服务平台，致力于为各地用户提供便捷的生活交流空间和体贴的本地生活服务。", 
+		platform = "19lou", 
+		platformName = "19楼", 
+		tags = { "社区", "生活服务" }, 
+		testTelephones = { "18523857478", "18210538513" })
 public class _19LouSpider extends PapaSpider {
 
 
-	@Override
-	public String message() {
-		return "19楼（www.19lou.com），中国最大的本地生活交流与服务平台，致力于为各地用户提供便捷的生活交流空间和体贴的本地生活服务。";
-	}
-
-	@Override
-	public String platform() {
-		return "19lou";
-	}
-
-	@Override
-	public String home() {
-		return "19lou.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "19楼";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"社区", "生活服务"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18523857478", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		if (account.length() != 11) {
 			return false;

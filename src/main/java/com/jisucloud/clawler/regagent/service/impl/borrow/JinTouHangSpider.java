@@ -2,57 +2,29 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 
-import org.springframework.stereotype.Component;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "jintouxing.com", 
+		message = "金投行4周年 让钱变得有温度 关注微信服务号 资金变动尽在掌握 智选专区 智能出借◎一键实现安全有保障 国有全资,3亿资本实力, 财险公司提供保证保险。", 
+		platform = "jintouxing", 
+		platformName = "金投行", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class JinTouHangSpider extends PapaSpider {
 
 	
 	
-	@Override
-	public String message() {
-		return "金投行4周年 让钱变得有温度 关注微信服务号 资金变动尽在掌握 智选专区 智能出借◎一键实现安全有保障 国有全资,3亿资本实力, 财险公司提供保证保险。";
-	}
-
-	@Override
-	public String platform() {
-		return "jintouxing";
-	}
-
-	@Override
-	public String home() {
-		return "jintouxing.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "金投行";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-	
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.jintouxing.com/register/checkUserName.htm";

@@ -1,57 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.trip;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "qyer.com", 
+		message = "穷游网由肖异于2004年在德国留学期间创立，至今已经发展为国内领先的出境旅行服务平台。", 
+		platform = "qyer", 
+		platformName = "穷游网", 
+		tags = { "旅游" , "酒店" , "美食" , "o2o" }, 
+		testTelephones = { "18210538000", "18210538513" })
 public class QiongYouSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "穷游网由肖异于2004年在德国留学期间创立，至今已经发展为国内领先的出境旅行服务平台。";
-	}
-
-	@Override
-	public String platform() {
-		return "qyer";
-	}
-
-	@Override
-	public String home() {
-		return "qyer.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "穷游网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"旅游" , "酒店" , "美食" , "o2o"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538000", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://passport.qyer.com/qcross/passport/register/mobile/checkmobile?ajaxID="+UUID.randomUUID().toString().replaceAll("\\-", "");

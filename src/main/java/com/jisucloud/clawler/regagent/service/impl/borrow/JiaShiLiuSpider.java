@@ -1,7 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
@@ -12,49 +12,24 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "jia16.com", 
+		message = "嘉实金融信息服务(杭州)有限公司(简称“嘉实金服”)设立于浙江省杭州市,注册资本人民币5000万元。嘉实金服作为信息服务平台,运营和维护“嘉石榴”网站。", 
+		platform = "jia16", 
+		platformName = "嘉实金融", 
+		tags = { "P2P", "消费分期" , "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class JiaShiLiuSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	
-	@Override
-	public String message() {
-		return "嘉实金融信息服务(杭州)有限公司(简称“嘉实金服”)设立于浙江省杭州市,注册资本人民币5000万元。嘉实金服作为信息服务平台,运营和维护“嘉石榴”网站。";
-	}
-
-	@Override
-	public String platform() {
-		return "jia16";
-	}
-
-	@Override
-	public String home() {
-		return "jia16.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "嘉石榴";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "消费分期" , "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);

@@ -3,9 +3,9 @@ package com.jisucloud.clawler.regagent.service.impl.photo;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
@@ -16,48 +16,24 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
+
 
 import org.openqa.selenium.WebElement;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "58pic.cn", 
+		message = "千图网(www.58pic.com) 是专注免费设计素材下载的网站!提供矢量图素材,矢量背景图片,矢量图库,还有psd素材,PS素材,设计模板,设计素材,PPT素材,以及网页素材,网站。", 
+		platform = "58pic", 
+		platformName = "千图网", 
+		tags = { "工具", "海报设计" }, 
+		testTelephones = { "13910000000", "18210538513" })
 public class QianTuWangSpider extends PapaSpider implements AjaxHook{
 	
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
-
-	@Override
-	public String message() {
-		return "千图网(www.58pic.com) 是专注免费设计素材下载的网站!提供矢量图素材,矢量背景图片,矢量图库,还有psd素材,PS素材,设计模板,设计素材,PPT素材,以及网页素材,网站。";
-	}
-
-	@Override
-	public String platform() {
-		return "58pic";
-	}
-
-	@Override
-	public String home() {
-		return "58pic.cn";
-	}
-
-	@Override
-	public String platformName() {
-		return "千图网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"工具", "海报设计"};
-	}
 	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910000000", "18210538513");
-	}
-
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {
@@ -72,7 +48,7 @@ public class QianTuWangSpider extends PapaSpider implements AjaxHook{
 		return "";
 	}
 
-	@Override
+
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);

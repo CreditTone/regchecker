@@ -2,59 +2,27 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 
-import org.springframework.stereotype.Component;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "xyb100.com", 
+		message = "中国个人信用风险创新平台-信用宝,为用户提供全方位出借、P2P网络借贷服务,专业的风险管理让出借、P2P网络借贷更加高效安全,您身边的个人金融出借专家。", 
+		platform = "xyb100", 
+		platformName = "xyb100Name", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "13691032050", "18210538513" })
 public class XinYongBaoSpider extends PapaSpider {
 
-	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
-			.readTimeout(20, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
-
-	
-	@Override
-	public String message() {
-		return "中国个人信用风险创新平台-信用宝,为用户提供全方位出借、P2P网络借贷服务,专业的风险管理让出借、P2P网络借贷更加高效安全,您身边的个人金融出借专家。";
-	}
-
-	@Override
-	public String platform() {
-		return "xyb100";
-	}
-
-	@Override
-	public String home() {
-		return "xyb100.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "信用宝金融";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13691032050", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			FormBody formBody = new FormBody

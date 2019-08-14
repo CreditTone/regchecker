@@ -2,59 +2,32 @@ package com.jisucloud.clawler.regagent.service.impl.health;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "jianke.com", 
+		message = "健客网,做中国最大网上药店,经国家药监局认证的合法网上药店和正规药房网,买药省30%,100%正品.提供专业、优质和便捷的网上购药服务,执业医师为您提供24小时健康咨询!网上药店哪个好?首选健客网。", 
+		platform = "jianke", 
+		platformName = "健客网", 
+		tags = { "健康运动", "医疗", "购药" }, 
+		testTelephones = { "13877117170", "13771025665" })
 public class JianKeWangSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "健客网,做中国最大网上药店,经国家药监局认证的合法网上药店和正规药房网,买药省30%,100%正品.提供专业、优质和便捷的网上购药服务,执业医师为您提供24小时健康咨询!网上药店哪个好?首选健客网。";
-	}
-
-	@Override
-	public String platform() {
-		return "jianke";
-	}
-
-	@Override
-	public String home() {
-		return "jianke.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "健客网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"健康运动", "医疗", "购药"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13877117170", "13771025665");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://wcgi.jianke.com/v2/member/account/validate";

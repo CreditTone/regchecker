@@ -1,57 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.video;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "1905.com", 
+		message = "1905电影网（电影频道官方网站），涵盖最新电影、好看的电影、经典电影、电影推荐、免费电影、高清电影在线观看及海量最新电影图文视频资讯，看电影就上电影网1905.com。", 
+		platform = "1905", 
+		platformName = "1905电影网", 
+		tags = { "影音", "视频" }, 
+		testTelephones = { "13925306960", "18210538513" })
 public class _1905Spider extends PapaSpider {
 
 	
 
 
-	@Override
-	public String message() {
-		return "1905电影网（电影频道官方网站），涵盖最新电影、好看的电影、经典电影、电影推荐、免费电影、高清电影在线观看及海量最新电影图文视频资讯，看电影就上电影网1905.com。";
-	}
-
-	@Override
-	public String platform() {
-		return "1905";
-	}
-
-	@Override
-	public String home() {
-		return "1905.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "1905电影网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"影音", "视频"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13925306960", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		if (account.length() != 11) {
 			return false;

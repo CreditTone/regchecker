@@ -1,56 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.video;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "le.com", 
+		message = "乐视TV,是乐视网专门为用户打造的一款在线视频播放应用,其适用于智能电视和智能盒子。依托乐视网强大的版权优势,拥有海量正版影视,内容涵盖电影、电视剧、动漫。", 
+		platform = "letv", 
+		platformName = "乐视TV", 
+		tags = { "视频", "影音" }, 
+		testTelephones = { "18720982607", "18210538513" })
 public class LeTVSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "乐视TV,是乐视网专门为用户打造的一款在线视频播放应用,其适用于智能电视和智能盒子。依托乐视网强大的版权优势,拥有海量正版影视,内容涵盖电影、电视剧、动漫。";
-	}
-
-	@Override
-	public String platform() {
-		return "letv";
-	}
-
-	@Override
-	public String home() {
-		return "le.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "乐视TV";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"视频", "影音"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18720982607", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://sso.le.com/user/checkMobileExists/mobile/"+account+"?jsonp=jQuery191074759928924606&_=" + System.currentTimeMillis();

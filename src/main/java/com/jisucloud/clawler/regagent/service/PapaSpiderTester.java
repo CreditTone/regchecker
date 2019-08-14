@@ -1,16 +1,24 @@
 package com.jisucloud.clawler.regagent.service;
 
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.WebElement;
 
 import com.deep007.spiderbase.util.JEmail.JEmailBuilder;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.MitmServer;
+import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.RegAgentApplication;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.service.impl._3c.*;
 import com.jisucloud.clawler.regagent.service.impl.borrow.*;
 import com.jisucloud.clawler.regagent.service.impl.car.*;
@@ -88,25 +96,24 @@ public class PapaSpiderTester {
 
 	@SuppressWarnings("deprecation")
 	public static boolean testing(Class<? extends PapaSpider> clz) throws Exception {
-		PapaSpider instance = clz.newInstance();
-		Set<String> testTels = instance.getTestTelephones();
-		if (testTels == null || testTels.size() < 2) {
+		PapaSpiderConfig papaSpiderConfig = clz.getAnnotation(PapaSpiderConfig.class);
+		String[] testTels = papaSpiderConfig.testTelephones();
+		if (testTels == null || testTels.length < 2) {
 			throw new RuntimeException("无法测试，" + clz.getName() + " 最低需要两个不同的比较号码。一个确认已经注册，一个确认没有注册。");
 		}
 		// 如果全为true或者全为false，证明测试失败
 		int trueCount = 0;
 		int falseCount = 0;
-		for (Iterator<String> iterator = testTels.iterator(); iterator.hasNext();) {
-			String tel = iterator.next();
+		PapaSpider instance = null;
+		for (int i = 0 ; i < testTels.length ; i ++) {
+			String tel = testTels[i];
+			instance = clz.newInstance();
 			if (instance.checkTelephone(tel)) {
-				log.info(tel + "已注册" + instance.platformName());
+				log.info(tel + "已注册" + papaSpiderConfig.platformName());
 				trueCount++;
 			} else {
-				log.info(tel + "未注册" + instance.platformName());
+				log.info(tel + "未注册" + papaSpiderConfig.platformName());
 				falseCount++;
-			}
-			if (iterator.hasNext()) {
-				instance = clz.newInstance();
 			}
 		}
 		return (trueCount != 0 && falseCount != 0);
@@ -133,20 +140,8 @@ public class PapaSpiderTester {
 		}
 	}
 
-	public static void main(String[] args) {
-		ChromeAjaxHookDriver chromeDriver = null;
-		try {
-			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
-			System.out.println(chromeDriver.getChromeDriverProcessId());
-			System.out.println(chromeDriver.getChromeBrowserProcessId());
-			chromeDriver.get("https://www.dezhong365.com/html/enter");
-			Thread.sleep(60000);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (chromeDriver != null) {
-				chromeDriver.quit();
-			}
-		}
+	public static void main(String[] args) throws Exception {
+		testingWithPrint(_168JinFuSpider.class);
 	}
+		
 }

@@ -1,60 +1,32 @@
 package com.jisucloud.clawler.regagent.service.impl.education;
 
 import com.deep007.spiderbase.okhttp.OKHttpUtil;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "jisilu.com", 
+		message = "集思录是一个低风险投资理财问答社区... 使用Chrome浏览本站最佳 | 声明:本站所有收费以及免费的信息和数据仅供参考。", 
+		platform = "jisilu", 
+		platformName = "集思录", 
+		tags = { "理财资讯","学习","社区" }, 
+		testTelephones = { "18230012895", "18210538513" })
 public class JiSiLuSpider extends PapaSpider {
 
-	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
-
-	@Override
-	public String message() {
-		return "集思录是一个低风险投资理财问答社区... 使用Chrome浏览本站最佳 | 声明:本站所有收费以及免费的信息和数据仅供参考。";
-	}
-
-	@Override
-	public String platform() {
-		return "jisilu";
-	}
-
-	@Override
-	public String home() {
-		return "jisilu.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "集思录";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"理财资讯","学习","社区"};
-	}
 	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18230012895", "18210538513");
-	}
 
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.jisilu.cn/?/account/ajax/check_mobile/mobile-" +account;

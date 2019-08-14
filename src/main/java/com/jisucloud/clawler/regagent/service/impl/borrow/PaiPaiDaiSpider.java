@@ -6,7 +6,7 @@ import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.service.PapaSpiderTester;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
@@ -17,53 +17,25 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
+
 
 import org.openqa.selenium.WebElement;
 
-import com.google.common.collect.Sets;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "ppdai.com", 
+		message = "拍拍贷（ppdai.com）美国纽交所上市企业，与招商银行达成存管的平台，专注信用借款和优质出借服务11年，已服务千万用户。轻松借款，额度高，资金链透明，注册资本10亿元。出借风险分散，期限灵活，借款额度高至20万。", 
+		platform = "ppdai", 
+		platformName = "拍拍贷", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "13910250000", "18210538513" })
 public class PaiPaiDaiSpider extends PapaSpider implements AjaxHook{
 	
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean success = false;
-
-	@Override
-	public String message() {
-		return "拍拍贷（ppdai.com）美国纽交所上市企业，与招商银行达成存管的平台，专注信用借款和优质出借服务11年，已服务千万用户。轻松借款，额度高，资金链透明，注册资本10亿元。出借风险分散，期限灵活，借款额度高至20万。";
-	}
-
-	@Override
-	public String platform() {
-		return "ppdai";
-	}
-
-	@Override
-	public String home() {
-		return "ppdai.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "拍拍贷";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910250000", "18210538513");
-	}
-	
-	public static void main(String[] args) {
-		PapaSpiderTester.testingWithPrint(PaiPaiDaiSpider.class);
-	}
 	
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
@@ -80,7 +52,7 @@ public class PaiPaiDaiSpider extends PapaSpider implements AjaxHook{
 	}
 	String code;
 
-	@Override
+
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);

@@ -1,56 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.education;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "zuoyebang.com", 
+		message = "作业帮致力于为全国中小学生提供全学段的学习辅导服务,截至目前,作业帮月活跃用户超8000万,是中小学在线教育领军品牌。", 
+		platform = "zuoyebang", 
+		platformName = "作业帮", 
+		tags = { "考试", "学习", "教育" }, 
+		testTelephones = { "15584382173", "18210530000" })
 public class ZuoYeBangSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "作业帮致力于为全国中小学生提供全学段的学习辅导服务,截至目前,作业帮月活跃用户超8000万,是中小学在线教育领军品牌。";
-	}
-
-	@Override
-	public String platform() {
-		return "zuoyebang";
-	}
-
-	@Override
-	public String home() {
-		return "zuoyebang.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "作业帮";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"考试", "学习", "教育"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15584382173", "18210530000");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "http://zhibo.zuoyebang.com/session/pc/login";

@@ -2,57 +2,27 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "puhuijia.com", 
+		message = "普惠家(www.puhuijia.com)专业的P2P互联网金融信息服务平台。旨在为有财富增值需求的出借人和有融资需求的借款人提供专业、高效、诚信、互惠互助的网络投融资信息。", 
+		platform = "puhuijia", 
+		platformName = "普惠家", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class PuHuiJiaSpider extends PapaSpider {
 
 	
 	
-	@Override
-	public String message() {
-		return "普惠家(www.puhuijia.com)专业的P2P互联网金融信息服务平台。旨在为有财富增值需求的出借人和有融资需求的借款人提供专业、高效、诚信、互惠互助的网络投融资信息。";
-	}
-
-	@Override
-	public String platform() {
-		return "puhuijia";
-	}
-
-	@Override
-	public String home() {
-		return "puhuijia.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "普惠家";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.puhuijia.com/member/memberRegistryAction!validatememberPhone.action";

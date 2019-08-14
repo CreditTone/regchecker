@@ -5,57 +5,29 @@ import com.alibaba.fastjson.JSONObject;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 
-import org.springframework.stereotype.Component;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "homecreditcfc.com", 
+		message = "捷信消费金融有限公司于2010年11月10日成立。作为银监会批准设立的首批四家试点消费金融公司之一，捷信消费金融有限公司成为中国首家且唯一一家外商独资的消费金融公司。", 
+		platform = "homecreditcfc", 
+		platformName = "捷信金融", 
+		tags = { "P2P", "消费分期" , "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class JieXinJinRongSpider extends PapaSpider {
 
 	
 	
-	@Override
-	public String message() {
-		return "捷信消费金融有限公司于2010年11月10日成立。作为银监会批准设立的首批四家试点消费金融公司之一，捷信消费金融有限公司成为中国首家且唯一一家外商独资的消费金融公司。";
-	}
-
-	@Override
-	public String platform() {
-		return "homecreditcfc";
-	}
-
-	@Override
-	public String home() {
-		return "homecreditcfc.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "捷信金融";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "消费分期" , "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://lm.homecredit.cn/15.0/login-module/v2/getUserDeviceInfoByPhoneDeviceId";

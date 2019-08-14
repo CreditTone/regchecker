@@ -2,58 +2,32 @@ package com.jisucloud.clawler.regagent.service.impl.health;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "ci123.com", 
+		message = "育儿网为父母提供怀孕分娩,胎教,育儿,保健,喂养,常见病护理,早教知识.大容量的宝宝主页,育儿博客服务.还提供有声读物,儿歌,亲子游戏下载.为家长们提供了优秀全面的。", 
+		platform = "ci123", 
+		platformName = "育儿网", 
+		tags = { "育儿", "保健" }, 
+		testTelephones = { "18515290717", "18210538513" })
 public class YuErWangSpider extends PapaSpider {
 
 	
 
 
-	@Override
-	public String message() {
-		return "育儿网为父母提供怀孕分娩,胎教,育儿,保健,喂养,常见病护理,早教知识.大容量的宝宝主页,育儿博客服务.还提供有声读物,儿歌,亲子游戏下载.为家长们提供了优秀全面的。";
-	}
-
-	@Override
-	public String platform() {
-		return "ci123";
-	}
-
-	@Override
-	public String home() {
-		return "ci123.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "育儿网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"育儿", "保健"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18515290717", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		if (account.length() != 11) {
 			return false;

@@ -2,55 +2,29 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "cgtz.com", 
+		message = "草根投资是国内领先的P2P理财平台,为投资者提供多元化的理财产品,在安全的基础上保障高收益,是投资理财首选平台。", 
+		platform = "cgtz", 
+		platformName = "cgtzName", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "13910252045", "18210538513" })
 public class CaoGenTouZiSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "草根投资是国内领先的P2P理财平台,为投资者提供多元化的理财产品,在安全的基础上保障高收益,是投资理财首选平台。";
-	}
-
-	@Override
-	public String platform() {
-		return "cgtz";
-	}
-
-	@Override
-	public String home() {
-		return "cgtz.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "草根投资";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252045", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.cgtz.com/find_pwd/check_mobile.do";

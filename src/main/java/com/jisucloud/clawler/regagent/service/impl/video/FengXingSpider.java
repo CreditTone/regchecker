@@ -1,58 +1,32 @@
 package com.jisucloud.clawler.regagent.service.impl.video;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "cli.com", 
+		message = "风行视频网,提供免费电影、电视剧、综艺、动漫、体育等视频内容的在线观看和下载.累积7亿用户的全平台,为传媒机构和品牌客户开设了官方视频服务账号。", 
+		platform = "cli", 
+		platformName = "风行视频网", 
+		tags = { "影音", "视频" }, 
+		testTelephones = { "15700102860", "18210538513" })
 public class FengXingSpider extends PapaSpider {
 
 	
 
 
-	@Override
-	public String message() {
-		return "风行视频网,提供免费电影、电视剧、综艺、动漫、体育等视频内容的在线观看和下载.累积7亿用户的全平台,为传媒机构和品牌客户开设了官方视频服务账号。";
-	}
-
-	@Override
-	public String platform() {
-		return "cli";
-	}
-
-	@Override
-	public String home() {
-		return "cli.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "风行视频";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"影音", "视频"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15700102860", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		if (account.length() != 11) {
 			return false;

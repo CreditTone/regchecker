@@ -2,59 +2,31 @@ package com.jisucloud.clawler.regagent.service.impl.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "shuidi.com", 
+		message = "水滴信用,全国中小企业大数据信用评价平台,实时提供企业工商信息查询,企业信用查询,企业失信记录,企业对外投资信息,企业相关股东,法人等信息的查询。", 
+		platform = "shuidi", 
+		platformName = "水滴信用", 
+		tags = { "新闻咨询", "工具" }, 
+		testTelephones = { "15970663703", "18210538513" })
 public class ShuiDiXinYongSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "水滴信用,全国中小企业大数据信用评价平台,实时提供企业工商信息查询,企业信用查询,企业失信记录,企业对外投资信息,企业相关股东,法人等信息的查询。";
-	}
-
-	@Override
-	public String platform() {
-		return "shuidi";
-	}
-
-	@Override
-	public String home() {
-		return "shuidi.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "水滴信用";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"新闻咨询", "工具"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15970663703", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://shuidi.cn/pcuser-register";

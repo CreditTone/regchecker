@@ -1,56 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.social;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "tianya.com", 
+		message = "天涯社区提供论坛、部落、博客、问答、文学、相册、个人空间等服务。拥有天涯杂谈、娱乐八卦、情感天地等人气栏目,以及关天茶舍、煮酒论史等高端人文论坛。", 
+		platform = "tianya", 
+		platformName = "天涯社区", 
+		tags = { "论坛" , "社交" , "校园" }, 
+		testTelephones = { "18810038000", "18210538513" })
 public class TianYaSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "天涯社区提供论坛、部落、博客、问答、文学、相册、个人空间等服务。拥有天涯杂谈、娱乐八卦、情感天地等人气栏目,以及关天茶舍、煮酒论史等高端人文论坛。";
-	}
-
-	@Override
-	public String platform() {
-		return "tianya";
-	}
-
-	@Override
-	public String home() {
-		return "tianya.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "天涯社区";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"论坛" , "社交" , "校园"};
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18810038000", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://passport.tianya.cn/register/checkName.do?userName="+account+"&_r="+System.currentTimeMillis();

@@ -1,55 +1,25 @@
 package com.jisucloud.clawler.regagent.service.impl.b2b;
 
-import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "makepolo.com", 
+		message = "马可波罗网(Makepolo.com),精确采购搜索引擎,是中小企业实现“精确采购搜索”和“精确广告投放”的B2B电子商务平台。马可波罗网满足中小企业用户低投入,高回报的发展。", 
+		platform = "makepolo", 
+		platformName = "马可波罗网", 
+		tags = { "b2b" ,"商机" ,"生意" }, 
+		testTelephones = { "18210538513", "15700102860" })
 public class MaKeBoLuoSpider extends PapaSpider {
-
-	
-
-	@Override
-	public String message() {
-		return "马可波罗网(Makepolo.com),精确采购搜索引擎,是中小企业实现“精确采购搜索”和“精确广告投放”的B2B电子商务平台。马可波罗网满足中小企业用户低投入,高回报的发展。";
-	}
-
-	@Override
-	public String platform() {
-		return "makepolo";
-	}
-
-	@Override
-	public String home() {
-		return "makepolo.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "马可波罗网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"b2b" ,"商机" ,"生意"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538513", "15700102860");
-	}
 
 	@Override
 	public boolean checkTelephone(String account) {

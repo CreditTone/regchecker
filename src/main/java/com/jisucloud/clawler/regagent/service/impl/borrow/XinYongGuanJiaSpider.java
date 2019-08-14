@@ -1,39 +1,24 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import java.util.Map;
-import java.util.Set;
+
 
 import org.jsoup.Connection;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import okhttp3.Request;
 
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "51nbapi.com", 
+		message = "信用管家是借钱贷款APP，凭身份证、信用分或信用卡等借钱贷款。借钱贷款，就找信用管家借钱！", 
+		platform = "51nbapi", 
+		platformName = "信用管家", 
+		tags = {  "P2P", "借贷"  }, 
+		testTelephones = { "13910252000", "18210538513" })
 public class XinYongGuanJiaSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		return "信用管家是借钱贷款APP，凭身份证、信用分或信用卡等借钱贷款。借钱贷款，就找信用管家借钱！";
-	}
-
-	@Override
-	public String platform() {
-		return "51nbapi";
-	}
-
-	@Override
-	public String home() {
-		return "51nbapi.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "信用管家";
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		 try {
 			 Request request = new Request.Builder().url("https://api.51nbapi.com/mapi/cspuser/phone_user/login.json")
@@ -58,16 +43,6 @@ public class XinYongGuanJiaSpider extends PapaSpider {
 	public Map<String, String> getFields() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] { "P2P", "借贷" };
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252000", "18210538513");
 	}
 
 }

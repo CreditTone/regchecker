@@ -1,59 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.money;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "chinaums.com", 
+		message = "银联商务股份有限公司（UMS），是中国银联旗下的、专门从事银行卡受理市场建设和提供综合支付服务的机构。", 
+		platform = "chinaums", 
+		platformName = "银联商务", 
+		tags = { "理财", "信用卡" , "储蓄" }, 
+		testTelephones = { "15985268900", "18210538513" })
 public class YinLianShangWuSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "银联商务股份有限公司（UMS），是中国银联旗下的、专门从事银行卡受理市场建设和提供综合支付服务的机构。";
-	}
-
-	@Override
-	public String platform() {
-		return "chinaums";
-	}
-
-	@Override
-	public String home() {
-		return "chinaums.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "银联商务";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"理财", "信用卡" , "储蓄"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268900", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://ump.chinaums.com/ajax/checkMobile2";

@@ -1,55 +1,29 @@
 package com.jisucloud.clawler.regagent.service.impl.video;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "pptv.com", 
+		message = "PPTV是国内领先的综合视频门户网站平台,视频内容丰富多元,包括电视剧、电影、动漫、综艺、体育、娱乐、游戏、搞笑、旅游、财富、少儿、教育、音乐、直播、原创等。", 
+		platform = "pptv", 
+		platformName = "PPTV", 
+		tags = { "视频", "影音" }, 
+		testTelephones = { "18720982607", "18210538513" })
 public class PPTVSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "PPTV是国内领先的综合视频门户网站平台,视频内容丰富多元,包括电视剧、电影、动漫、综艺、体育、娱乐、游戏、搞笑、旅游、财富、少儿、教育、音乐、直播、原创等。";
-	}
-
-	@Override
-	public String platform() {
-		return "pptv";
-	}
-
-	@Override
-	public String home() {
-		return "pptv.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "PPTV";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"视频", "影音"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18720982607", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://api.passport.pptv.com/checkLogin?cb=checklogin&loginid="+account+"&sceneFlag=2&channel=208000202035&format=jsonp&_=" + System.currentTimeMillis();

@@ -1,55 +1,24 @@
 package com.jisucloud.clawler.regagent.service.impl.b2b;
 
-import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
-import com.jisucloud.clawler.regagent.util.StringUtil;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "sonhoo.com", 
+		message = "商虎中国(www.sonhoo.com)是专业的供求信息免费发布平台,在这里你可以查到供应厂家,生产企业,采购商家,各类商机供求,是企业B2B免费信息发布平台。", 
+		platform = "sonhoo", 
+		platformName = "商虎中国", 
+		tags = { "b2b" ,"商机" ,"生意" }, 
+		testTelephones = { "18210538513", "13925306966" })
 public class ShangHuZhongGuoSpider extends PapaSpider {
-
-	
-
-	@Override
-	public String message() {
-		return "商虎中国(www.sonhoo.com)是专业的供求信息免费发布平台,在这里你可以查到供应厂家,生产企业,采购商家,各类商机供求,是企业B2B免费信息发布平台。";
-	}
-
-	@Override
-	public String platform() {
-		return "sonhoo";
-	}
-
-	@Override
-	public String home() {
-		return "sonhoo.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "商虎中国";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"b2b" ,"商机" ,"生意"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538513", "13925306966");
-	}
 
 	@Override
 	public boolean checkTelephone(String account) {

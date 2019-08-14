@@ -1,63 +1,35 @@
 package com.jisucloud.clawler.regagent.service.impl.knowledge;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "docin.com", 
+		message = "豆丁网创立于2007年，是全球最大的中文社会化阅读平台，为用户提供一切有价值的可阅读之物。截至2010年，豆丁网已经成功跻身互联网全球500强，成为提供垂直服务的优秀网站之一。", 
+		platform = "docin", 
+		platformName = "豆丁网", 
+		tags = { 
+			"新闻阅读","小说","听书","教育"
+		 }, 
+		testTelephones = { "15070860150", "18210538513" })
 public class DocinSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "豆丁网创立于2007年，是全球最大的中文社会化阅读平台，为用户提供一切有价值的可阅读之物。截至2010年，豆丁网已经成功跻身互联网全球500强，成为提供垂直服务的优秀网站之一。";
-	}
-
-	@Override
-	public String platform() {
-		return "docin";
-	}
-
-	@Override
-	public String home() {
-		return "docin.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "豆丁网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {
-			"新闻阅读","小说","听书","教育"
-		};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15070860150", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.docin.com/app/findPassword";

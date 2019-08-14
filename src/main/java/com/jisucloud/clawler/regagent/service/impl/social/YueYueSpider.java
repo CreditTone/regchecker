@@ -1,52 +1,27 @@
 package com.jisucloud.clawler.regagent.service.impl.social;
 
 import com.deep007.spiderbase.util.StringUtil;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "yueus.com", 
+		message = "约约是一个高效的时间电商平台，用户可以通过约约平台进行约拍、约摄影、约模特或者参加陶艺、烘焙、茶艺、插花、绘画等手工培训，利用自己的零碎时间来创造价值。", 
+		platform = "yueus", 
+		platformName = "约约网", 
+		tags = { "摄影", "约拍", "陶艺" , "茶艺" }, 
+		testTelephones = { "18523857478", "18210538513" })
 public class YueYueSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		return "约约是一个高效的时间电商平台，用户可以通过约约平台进行约拍、约摄影、约模特或者参加陶艺、烘焙、茶艺、插花、绘画等手工培训，利用自己的零碎时间来创造价值。";
-	}
-
-	@Override
-	public String platform() {
-		return "yueus";
-	}
-
-	@Override
-	public String home() {
-		return "yueus.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "约约";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"摄影", "约拍", "陶艺" , "茶艺"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18523857478", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.yueus.com/action/new_general_login_op.php?callback=jQuery11020953599334789923_"+System.currentTimeMillis()+"&phone="+account+"&password=dasdas1231&wx_bind=0&_=" + System.currentTimeMillis();

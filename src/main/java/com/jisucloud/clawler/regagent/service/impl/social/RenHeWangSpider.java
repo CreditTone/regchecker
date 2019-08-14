@@ -1,57 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.social;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "renhe.com", 
+		message = "人和网是中国优秀的人脉拓展平台,在这里您不仅可以认识各行业的高端人脉,更可以通过人脉寻找各种投资和靠谱项目,推广您的产品或服务,寻找更好的职位,找到优秀人才!", 
+		platform = "renhe", 
+		platformName = "人和网", 
+		tags = { "社交" , "人脉" }, 
+		testTelephones = { "18810038000", "18210538513" })
 public class RenHeWangSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "人和网是中国优秀的人脉拓展平台,在这里您不仅可以认识各行业的高端人脉,更可以通过人脉寻找各种投资和靠谱项目,推广您的产品或服务,寻找更好的职位,找到优秀人才!";
-	}
-
-	@Override
-	public String platform() {
-		return "renhe";
-	}
-
-	@Override
-	public String home() {
-		return "renhe.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "人和网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"社交" , "人脉"};
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18810038000", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "http://www.renhe.cn/login";

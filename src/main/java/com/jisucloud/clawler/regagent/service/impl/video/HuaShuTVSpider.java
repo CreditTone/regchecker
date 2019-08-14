@@ -1,57 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.video;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "wasu.com", 
+		message = "华数TV全网影视是三网融合平台下的综合视频网站。提供全网热门电影、电视剧,少儿动漫、综艺娱乐、求索纪录片、体育资讯、3D、VR、高清电视直播等在线视频点播直播。", 
+		platform = "wasu", 
+		platformName = "华数TV", 
+		tags = { "影音", "视频", "MV" , "TV" }, 
+		testTelephones = { "18611216720", "18210538513" })
 public class HuaShuTVSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "华数TV全网影视是三网融合平台下的综合视频网站。提供全网热门电影、电视剧,少儿动漫、综艺娱乐、求索纪录片、体育资讯、3D、VR、高清电视直播等在线视频点播直播。";
-	}
-
-	@Override
-	public String platform() {
-		return "wasu";
-	}
-
-	@Override
-	public String home() {
-		return "wasu.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "华数TV";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"影音", "视频", "MV" , "TV"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18611216720", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://uc.wasu.cn/member/index.php/Register/existPhone/plat/pc";

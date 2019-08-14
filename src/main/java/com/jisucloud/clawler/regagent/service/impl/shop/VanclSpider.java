@@ -3,9 +3,9 @@ package com.jisucloud.clawler.regagent.service.impl.shop;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
@@ -14,46 +14,21 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "vancl.com", 
+		message = "VANCL（凡客诚品），由卓越网创始人陈年创办于2007年，产品涵盖男装、女装、童装、鞋、家居、配饰、化妆品等七大类，支持全国1100城市货到付款、当面试穿、30天... ", 
+		platform = "vancl", 
+		platformName = "凡客诚品", 
+		tags = { "电商" }, 
+		testTelephones = { "18210530000", "18210538513" })
 public class VanclSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	
-	@Override
-	public String message() {
-		return "VANCL（凡客诚品），由卓越网创始人陈年创办于2007年，产品涵盖男装、女装、童装、鞋、家居、配饰、化妆品等七大类，支持全国1100城市货到付款、当面试穿、30天... ";
-	}
-
-	@Override
-	public String platform() {
-		return "vancl";
-	}
-
-	@Override
-	public String home() {
-		return "vancl.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "凡客诚品";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"电商"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210530000", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);

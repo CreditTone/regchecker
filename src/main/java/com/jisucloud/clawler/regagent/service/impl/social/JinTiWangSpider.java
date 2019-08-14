@@ -3,9 +3,9 @@ package com.jisucloud.clawler.regagent.service.impl.social;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
@@ -14,45 +14,20 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "jinti.com", 
+		message = "今题网为全球华人用户提供及时的社区资讯,分类信息覆盖汽车,招聘,物品交易,教育等生活信息网。今题个人空间,论坛,博客等互动交流空间最有效的结合了今题专业房产网。", 
+		platform = "jinti", 
+		platformName = "今题网", 
+		tags = { "社区", "招聘", "论坛" }, 
+		testTelephones = { "13800000000", "18210538513" })
 public class JinTiWangSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 
-	@Override
-	public String message() {
-		return "今题网为全球华人用户提供及时的社区资讯,分类信息覆盖汽车,招聘,物品交易,教育等生活信息网。今题个人空间,论坛,博客等互动交流空间最有效的结合了今题专业房产网。";
-	}
-
-	@Override
-	public String platform() {
-		return "jinti";
-	}
-
-	@Override
-	public String home() {
-		return "jinti.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "今题网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"社区", "招聘", "论坛"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13800000000", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(true, true, CHROME_USER_AGENT);

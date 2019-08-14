@@ -5,55 +5,29 @@ import com.alibaba.fastjson.JSONObject;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "laocaibao.com", 
+		message = "捞财宝(laocaibao.com) -证大集团旗下网络借贷信息中介平台，银行资金存管，信息安全三级等保、AAA级信用认证平台，股东证大集团26年金融投资背景，近8年小额信贷领域专业经验。坚持小额分散，信息真实透明，出借省心。", 
+		platform = "laocaibao", 
+		platformName = "捞财宝", 
+		tags = { "P2P", "小额信贷" , "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class LaoCaiBaoSpider extends PapaSpider {
 
 	
 	
-	@Override
-	public String message() {
-		return "捞财宝(laocaibao.com) -证大集团旗下网络借贷信息中介平台，银行资金存管，信息安全三级等保、AAA级信用认证平台，股东证大集团26年金融投资背景，近8年小额信贷领域专业经验。坚持小额分散，信息真实透明，出借省心。";
-	}
-
-	@Override
-	public String platform() {
-		return "laocaibao";
-	}
-
-	@Override
-	public String home() {
-		return "laocaibao.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "捞财宝";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "小额信贷" , "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.laocaibao.com/register/notRegistered";

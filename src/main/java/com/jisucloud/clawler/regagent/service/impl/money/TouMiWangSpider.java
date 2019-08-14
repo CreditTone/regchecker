@@ -3,9 +3,9 @@ package com.jisucloud.clawler.regagent.service.impl.money;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -17,46 +17,22 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "itoumi.com", 
+		message = "投米网是宜信财富旗下智能理财平台,致力于为投资者提供安全、透明、便捷、低门槛、高收益的理财服务,并且在该理财平台上100元即可加入理财计划。", 
+		platform = "itoumi", 
+		platformName = "投米网", 
+		tags = { "P2P", "理财", "借贷"}, 
+		testTelephones = { "15985268904", "18210538513" })
 public class TouMiWangSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
 	
-	@Override
-	public String message() {
-		return "投米网是宜信财富旗下智能理财平台,致力于为投资者提供安全、透明、便捷、低门槛、高收益的理财服务,并且在该理财平台上100元即可加入理财计划。";
-	}
-
-	@Override
-	public String platform() {
-		return "itoumi";
-	}
-
-	@Override
-	public String home() {
-		return "itoumi.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "投米网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "理财"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {
@@ -71,7 +47,7 @@ public class TouMiWangSpider extends PapaSpider implements AjaxHook {
 		return "";
 	}
 
-	@Override
+	
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);

@@ -1,40 +1,22 @@
 package com.jisucloud.clawler.regagent.service.impl.money;
 
 import java.util.Map;
-import java.util.Set;
 
-import com.google.common.collect.Sets;
+
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import okhttp3.Request;
 
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "zhongan.com", 
+		message = "众安保险，致力于给所有用户提供更放心的保障！众安会帮您降低家庭意外风险，会帮您降低看病的医疗费用，会给您提供各种必要的人性金融保险服务！", 
+		platform = "zhonganbx", 
+		platformName = "众安保险", 
+		tags = { "理财", "保险" }, 
+		testTelephones = { "13261165342", "18210538513" })
 public class ZhongAnBaoXianSpider extends PapaSpider {
-
-	@Override
-	public String message() {
-		// TODO Auto-generated method stub
-		return "众安保险，致力于给所有用户提供更放心的保障！众安会帮您降低家庭意外风险，会帮您降低看病的医疗费用，会给您提供各种必要的人性金融保险服务！";
-	}
-
-	@Override
-	public String platform() {
-		// TODO Auto-generated method stub
-		return "zhonganbx";
-	}
-
-	@Override
-	public String home() {
-		// TODO Auto-generated method stub
-		return "zhongan.com";
-	}
-
-	@Override
-	public String platformName() {
-		// TODO Auto-generated method stub
-		return "众安保险";
-	}
 
 	@Override
 	public boolean checkTelephone(String account) {
@@ -61,18 +43,6 @@ public class ZhongAnBaoXianSpider extends PapaSpider {
 	public Map<String, String> getFields() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public String[] tags() {
-		// TODO Auto-generated method stub
-		return new String[] { "理财", "保险" };
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		// TODO Auto-generated method stub
-		return Sets.newHashSet("13261165342", "18210538513");
 	}
 
 }

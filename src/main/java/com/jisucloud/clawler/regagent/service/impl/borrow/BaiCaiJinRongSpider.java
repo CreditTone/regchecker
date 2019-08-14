@@ -1,53 +1,28 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
+
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "baicaif.com", 
+		message = "白菜金融网是龙环普惠集团旗下的网络借贷信息中介平台,遵循 公平公正诚信透明的准则,为大众富裕阶层提供便捷的出借方式。", 
+		platform = "baicaif", 
+		platformName = "白菜金融", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class BaiCaiJinRongSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		return "白菜金融网是龙环普惠集团旗下的网络借贷信息中介平台,遵循 公平公正诚信透明的准则,为大众富裕阶层提供便捷的出借方式。";
-	}
-
-	@Override
-	public String platform() {
-		return "baicaif";
-	}
-
-	@Override
-	public String home() {
-		return "baicaif.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "白菜金融";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.baicaif.com/login/checkPhone.do?phone=" + account;

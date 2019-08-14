@@ -1,44 +1,28 @@
 package com.jisucloud.clawler.regagent.service.impl.life;
 
 import java.util.Map;
-import java.util.Set;
+
 import java.util.UUID;
 
 import org.jsoup.Jsoup;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import org.jsoup.Connection;
 import org.springframework.http.MediaType;
 
-@UsePapaSpider(exclude = true, excludeMsg = "接口404")
+@PapaSpiderConfig(
+		home = "its.tax.sh.gov.cn", 
+		message = "个人所得税APP是由国家税务总局主办，为贯彻落实党中央、国务院提出的个人所得税综合与分类相结合的税制改革要求，为保障全国自然人纳税人能够及时享受税改红利，而推出的一款APP。", 
+		platform = "gerensuodeshui", 
+		platformName = "个人所得税", 
+		tags = { "纳税", "五险一金" }, 
+		testTelephones = { "18210538513" , "18210008510" },
+		exclude = true, excludeMsg = "接口404")
 public class TaxItsSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		// TODO Auto-generated method stub
-		return "个人所得税APP是由国家税务总局主办，为贯彻落实党中央、国务院提出的个人所得税综合与分类相结合的税制改革要求，为保障全国自然人纳税人能够及时享受税改红利，而推出的一款APP。";
-	}
-
-	@Override
-	public String platform() {
-		// TODO Auto-generated method stub
-		return "gerensuodeshui";
-	}
-
-	@Override
-	public String home() {
-		// TODO Auto-generated method stub
-		return "its.tax.sh.gov.cn";
-	}
-
-	@Override
-	public String platformName() {
-		// TODO Auto-generated method stub
-		return "个人所得税";
-	}
 
 	@Override
 	public boolean checkTelephone(String account) {
@@ -78,16 +62,6 @@ public class TaxItsSpider extends PapaSpider {
 	public Map<String, String> getFields() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"纳税", "五险一金"};
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538513" , "18210008510");
 	}
 
 }

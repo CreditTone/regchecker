@@ -1,59 +1,33 @@
 package com.jisucloud.clawler.regagent.service.impl.life;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "huijiachi.com", 
+		message = "回家吃饭是一款家庭厨房共享APP，致力于在社区里发掘有时间、愿分享的民间厨艺达人，通过配送、上门自取等方式，给忙碌的上班族提供安心饭菜。", 
+		platform = "huijiachi", 
+		platformName = "回家吃饭", 
+		tags = { "o2o", "外卖" }, 
+		testTelephones = { "13925306966", "18210538513" })
 public class HuijiaChiFanSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "回家吃饭是一款家庭厨房共享APP，致力于在社区里发掘有时间、愿分享的民间厨艺达人，通过配送、上门自取等方式，给忙碌的上班族提供安心饭菜。";
-	}
-
-	@Override
-	public String platform() {
-		return "huijiachi";
-	}
-
-	@Override
-	public String home() {
-		return "huijiachi.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "回家吃饭";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"o2o", "外卖"};
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13925306966", "18210538513");
-	}
-	
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://user.mapi.jiashuangkuaizi.com/Passport/userLogin";

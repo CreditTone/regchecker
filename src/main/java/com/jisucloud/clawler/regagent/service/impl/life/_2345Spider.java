@@ -1,52 +1,27 @@
 package com.jisucloud.clawler.regagent.service.impl.life;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "2345.com", 
+		message = "2345.com热门网址导航站网罗精彩实用网址，如音乐、小说、NBA、财经、购物、视频、软件及热门游戏网址大全等，提供了多种搜索引擎入口、实用查询、天气预报、个性定制等实用功能，帮助广大网友畅.", 
+		platform = "2345dh", 
+		platformName = "2345导航", 
+		tags = { "门户网址", "资讯" }, 
+		testTelephones = { "13771025665", "18210538513" })
 public class _2345Spider extends PapaSpider {
 
 
-	@Override
-	public String message() {
-		return "2345.com热门网址导航站网罗精彩实用网址，如音乐、小说、NBA、财经、购物、视频、软件及热门游戏网址大全等，提供了多种搜索引擎入口、实用查询、天气预报、个性定制等实用功能，帮助广大网友畅.";
-	}
-
-	@Override
-	public String platform() {
-		return "2345dh";
-	}
-
-	@Override
-	public String home() {
-		return "2345.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "2345门户";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"门户网址", "资讯"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13771025665", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		if (account.length() != 11) {
 			return false;

@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.shop;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -10,43 +10,18 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "ctfmall.com", 
+		message = "楚楚街，移动端电子商务平台。业务类型有9块9包邮、品牌限时抢购等，主营类目涵盖男女服装、化妆品、母婴、零食等。", 
+		platform = "ctfmall", 
+		platformName = "楚楚街", 
+		tags = { "购物" , "9.9包邮" }, 
+		testTelephones = { "18779861101", "18210538513" })
 public class ChuChuJieSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		return "楚楚街，移动端电子商务平台。业务类型有9块9包邮、品牌限时抢购等，主营类目涵盖男女服装、化妆品、母婴、零食等。";
-	}
-
-	@Override
-	public String platform() {
-		return "ctfmall";
-	}
-
-	@Override
-	public String home() {
-		return "ctfmall.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "楚楚街";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"购物" , "9.9包邮"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18779861101", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://api-passport.chuchujie.com/api.php";

@@ -2,7 +2,6 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -10,51 +9,27 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import com.deep007.spiderbase.okhttp.OKHttpUtil;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider(ignoreTestResult = true)
+@PapaSpiderConfig(
+		home = "goodsure.com", 
+		message = "果树财富P2P平台专注于互联网金融p2p车贷,p2p贷款,p2p网贷,提供创新型金融产品,传递现代金融服务理念。", 
+		platform = "goodsure", 
+		platformName = "果树财富", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "13910252045", "18210538513" },
+		ignoreTestResult = true)
 public class GuoShuCaiFuSpider extends PapaSpider {
 
 	private boolean checkTel = false;
-	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
 	
-	@Override
-	public String message() {
-		return "果树财富P2P平台专注于互联网金融p2p车贷,p2p贷款,p2p网贷,提供创新型金融产品,传递现代金融服务理念。";
-	}
-
-	@Override
-	public String platform() {
-		return "goodsure";
-	}
-
-	@Override
-	public String home() {
-		return "goodsure.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "果树财富";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
 	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252045", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			okHttpClient.newCall(new Request.Builder().url("https://www.baidu.com/link?url=xGSj_vb0FEkwX3Mjy3J-bIsdUOaKYHQkShsBIYyBVffaIwS_-qLb5n01mBuzLXP2&wd=&eqid=b6b51d51001a87e4000000025cfe1047").build()).execute().body().close();

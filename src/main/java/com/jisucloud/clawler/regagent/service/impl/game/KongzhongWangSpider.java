@@ -1,59 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.game;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "kongzhong.com", 
+		message = "空中网是中国领先的网络游戏研发商和运营商,致力于为中国及海外互联网用户提供高品质的大型在线游戏服务,同时为中国手机用户提供多元化的无线娱乐服务。", 
+		platform = "kongzhong", 
+		platformName = "空中网", 
+		tags = { "游戏" }, 
+		testTelephones = { "15700102865", "18210538513" })
 public class KongzhongWangSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "空中网是中国领先的网络游戏研发商和运营商,致力于为中国及海外互联网用户提供高品质的大型在线游戏服务,同时为中国手机用户提供多元化的无线娱乐服务。";
-	}
-
-	@Override
-	public String platform() {
-		return "kongzhong";
-	}
-
-	@Override
-	public String home() {
-		return "kongzhong.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "空中网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"游戏"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15700102865", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://passport.kongzhong.com/ajax/regcheckphone?clientid=useraccount&rand="+System.currentTimeMillis()+"&useraccount="+account+"&vcode=&personid=&bdFlag=0&phone="+account+"&_="+System.currentTimeMillis();

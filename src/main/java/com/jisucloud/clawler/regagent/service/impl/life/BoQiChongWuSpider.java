@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.life;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -10,44 +10,19 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "boqii.com", 
+		message = "波奇宠物网是属于宠物爱好者的综合型网站.这里是宠物猫，宠物狗等宠物爱好者们的集中地.也是包含宠物商城和宠物百科的专业网站.选择波奇宠物网,健康宠物生活从波奇开始.", 
+		platform = "boqii", 
+		platformName = "boqiiName", 
+		tags = { "宠物" }, 
+		testTelephones = { "13771025665", "18210538513" })
 public class BoQiChongWuSpider extends PapaSpider {
 
 
-	@Override
-	public String message() {
-		return "波奇宠物网是属于宠物爱好者的综合型网站.这里是宠物猫，宠物狗等宠物爱好者们的集中地.也是包含宠物商城和宠物百科的专业网站.选择波奇宠物网,健康宠物生活从波奇开始.";
-	}
-
-	@Override
-	public String platform() {
-		return "boqii";
-	}
-
-	@Override
-	public String home() {
-		return "boqii.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "波奇宠物网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"宠物"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13771025665", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		if (account.length() != 11) {
 			return false;

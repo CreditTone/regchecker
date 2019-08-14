@@ -2,55 +2,29 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "guangxindai.com", 
+		message = "广信贷是国内安全、优质、规范的创新型科技金融信息服务平台,平台资金由江西银行存管,产品多样,1-36个月出借灵活,平均历史年化回报率12%,让您出借更加便捷、高效。", 
+		platform = "guangxindai", 
+		platformName = "广信贷", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class GuangXinDaiSpider extends PapaSpider {
 
 	
 	
-	@Override
-	public String message() {
-		return "广信贷是国内安全、优质、规范的创新型科技金融信息服务平台,平台资金由江西银行存管,产品多样,1-36个月出借灵活,平均历史年化回报率12%,让您出借更加便捷、高效。";
-	}
-
-	@Override
-	public String platform() {
-		return "guangxindai";
-	}
-
-	@Override
-	public String home() {
-		return "guangxindai.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "广信贷";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.guangxindai.com/ajax/register/phone_exist";

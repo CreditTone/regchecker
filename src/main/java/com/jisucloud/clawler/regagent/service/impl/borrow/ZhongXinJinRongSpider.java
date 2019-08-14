@@ -2,56 +2,28 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import com.deep007.spiderbase.okhttp.OKHttpUtil;
-import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "imzhongxin.com", 
+		message = "众信金融网致力于金融产品的推广及服务，着力打造为集融资、理财、保险等金融产品及服务为一体的金融咨询及交流平台，方便金融需求方与金融专家的交流，及时获得及时、全面、专业的金融咨询服务。", 
+		platform = "imzhongxin", 
+		platformName = "众信金融", 
+		tags = { "P2P", "借贷" , "保险" }, 
+		testTelephones = { "15201215815", "18210538513" })
 public class ZhongXinJinRongSpider extends PapaSpider {
 
 	private boolean checkTel = false;
-	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
 	
-	@Override
-	public String message() {
-		return "众信金融网致力于金融产品的推广及服务，着力打造为集融资、理财、保险等金融产品及服务为一体的金融咨询及交流平台，方便金融需求方与金融专家的交流，及时获得及时、全面、专业的金融咨询服务。";
-	}
-
-	@Override
-	public String platform() {
-		return "imzhongxin";
-	}
-
-	@Override
-	public String home() {
-		return "imzhongxin.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "众信金融";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷" , "保险"};
-	}
 	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15201215815", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			FormBody formBody = new FormBody

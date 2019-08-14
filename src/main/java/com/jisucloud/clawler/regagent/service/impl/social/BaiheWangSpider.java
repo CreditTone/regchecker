@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.social;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -12,43 +12,18 @@ import okhttp3.Response;
 
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "baihe.com", 
+		message = "百合网是中国第一家通过网上实名进行交友和婚恋的服务商，以“帮助亿万中国人拥有幸福的婚姻和家庭”为己任。2005年5月，百合网正式发布，并在中国首次推出“心灵匹配，成就幸福婚姻”的独特婚恋服务模式。", 
+		platform = "baihe", 
+		platformName = "百合网", 
+		tags = { "单身交友" , "婚恋" }, 
+		testTelephones = { "18700001101", "18210538513" })
 public class BaiheWangSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		return "百合网是中国第一家通过网上实名进行交友和婚恋的服务商，以“帮助亿万中国人拥有幸福的婚姻和家庭”为己任。2005年5月，百合网正式发布，并在中国首次推出“心灵匹配，成就幸福婚姻”的独特婚恋服务模式。";
-	}
-
-	@Override
-	public String platform() {
-		return "baihe";
-	}
-
-	@Override
-	public String home() {
-		return "baihe.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "百合网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"单身交友" , "婚恋"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18700001101", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://uapi.jiayuan.com/Api/Reglogin/login";

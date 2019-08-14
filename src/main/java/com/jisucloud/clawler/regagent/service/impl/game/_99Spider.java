@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.game;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -10,43 +10,18 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "99.com", 
+		message = "99.com数字娱乐门户集游戏门户、社区互动于一体，通过游戏官网、互动社区等频道，向广大用户提供多元化的互动娱乐内容和服务。", 
+		platform = "99", 
+		platformName = "99娱乐", 
+		tags = { "游戏" }, 
+		testTelephones = { "15956434943", "18210538513" })
 public class _99Spider extends PapaSpider {
 
-	@Override
-	public String message() {
-		return "99.com数字娱乐门户集游戏门户、社区互动于一体，通过游戏官网、互动社区等频道，向广大用户提供多元化的互动娱乐内容和服务。";
-	}
-
-	@Override
-	public String platform() {
-		return "99";
-	}
-
-	@Override
-	public String home() {
-		return "99.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "99游戏";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"游戏"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15956434943", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://aq.99.com/V3/Handler/Default.ashx";

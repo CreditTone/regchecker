@@ -1,55 +1,29 @@
 package com.jisucloud.clawler.regagent.service.impl.photo;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "zcool.com.cn", 
+		message = "站酷网（www.zcool.com.cn），中国最具人气的大型综合性设计网站，聚集了中国绝大部分的专业设计师、艺术院校师生、潮流艺术家等年轻创意人群，是国内最活跃的原创设计交流平台。会员交流涉及。", 
+		platform = "zcool", 
+		platformName = "站酷网", 
+		tags = { "原创" , "设计" }, 
+		testTelephones = { "18515290000", "13811085745" })
 public class ZhanKuSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "站酷网（www.zcool.com.cn），中国最具人气的大型综合性设计网站，聚集了中国绝大部分的专业设计师、艺术院校师生、潮流艺术家等年轻创意人群，是国内最活跃的原创设计交流平台。会员交流涉及。";
-	}
-
-	@Override
-	public String platform() {
-		return "zcool";
-	}
-
-	@Override
-	public String home() {
-		return "zcool.com.cn";
-	}
-
-	@Override
-	public String platformName() {
-		return "站酷网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"原创" , "设计"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18515290000", "13811085745");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://passport.zcool.com.cn/login_jsonp_active.do?jsonpCallback=jQuery1910678351554&appId=1006&username="+account+"&password=96f4fcff6034831575b142f85ecd007071ef3325b6d6444310c17c67bf882035&autoLogin=1&code=&service=https%3A%2F%2Fmy.zcool.com.cn%2Ffocus%2Factivity&appLogin=https%3A%2F%2Fwww.zcool.com.cn%2Flogin_cb&_=" + System.currentTimeMillis();

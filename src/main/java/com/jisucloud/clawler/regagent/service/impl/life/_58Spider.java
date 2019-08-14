@@ -2,9 +2,9 @@ package com.jisucloud.clawler.regagent.service.impl.life;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import okhttp3.FormBody;
 import okhttp3.Headers;
@@ -13,30 +13,16 @@ import okhttp3.Response;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-@UsePapaSpider
+
+@PapaSpiderConfig(
+		home = "58.com", 
+		message = "58同城分类信息网，为你提供房产、招聘、黄页、团购、交友、二手、宠物、车辆、周边游等海量分类信息，充分满足您免费查看/发布信息的需求。", 
+		platform = "58", 
+		platformName = "58同", 
+		tags = { "o2o", "生活休闲", "求职" , "招聘" , "二手物品" }, 
+		testTelephones = { "18515290000", "18210538513" })
 public class _58Spider extends PapaSpider {
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18515290000", "18210538513");
-	}
-
-    @Override
-    public String message() {
-        return "58同城分类信息网，为你提供房产、招聘、黄页、团购、交友、二手、宠物、车辆、周边游等海量分类信息，充分满足您免费查看/发布信息的需求。";
-    }
-
-    @Override
-    public String platform() {
-        return "58";
-    }
-
-    @Override
-    public String home() {
-        return "58.com";
-    }
 
     private Headers getHeader() {
         Map<String, String> headers = new HashMap<>();
@@ -86,7 +72,7 @@ public class _58Spider extends PapaSpider {
         return formBody;
     }
 
-    @Override
+    
     public boolean checkTelephone(String account) {
         try {
             String url = "https://passport.58.com/login/dologin";
@@ -107,25 +93,21 @@ public class _58Spider extends PapaSpider {
         return false;
     }
 
-    @Override
+    
     public boolean checkEmail(String account) {
         return checkTelephone(account);
     }
 
-    @Override
+    
     public Map<String, String> getFields() {
         // TODO Auto-generated method stub
         return null;
     }
 
-    @Override
-    public String platformName() {
-        return "58同城";
-    }
+    
+    
 
-    @Override
-	public String[] tags() {
-		return new String[] {"o2o", "生活休闲", "求职" , "招聘" , "二手物品"};
-	}
+    
+	
 
 }

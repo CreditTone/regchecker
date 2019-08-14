@@ -1,56 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.music;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "qingting.fm", 
+		message = "蜻蜓FM,不仅囊括国内外数千家网络电台和全国广播电台,还涵盖有声小说、儿童故事、相声、评书、戏曲、在线音乐、脱口秀、鬼故事、情感故事、财经、新闻、历史、健康。", 
+		platform = "qingting", 
+		platformName = "蜻蜓FM", 
+		tags = { "听书", "生活休闲" , "FM" }, 
+		testTelephones = { "18720982607", "18210538513" })
 public class QingTingSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "蜻蜓FM,不仅囊括国内外数千家网络电台和全国广播电台,还涵盖有声小说、儿童故事、相声、评书、戏曲、在线音乐、脱口秀、鬼故事、情感故事、财经、新闻、历史、健康。";
-	}
-
-	@Override
-	public String platform() {
-		return "qingting";
-	}
-
-	@Override
-	public String home() {
-		return "qingting.fm";
-	}
-
-	@Override
-	public String platformName() {
-		return "蜻蜓FM";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"听书", "生活休闲" , "FM"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18720982607", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://u2.qingting.fm/u2/api/v4/check_phone_exist?phone_number="+account;

@@ -5,57 +5,28 @@ import com.alibaba.fastjson.JSONObject;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 
-import org.springframework.stereotype.Component;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "touna.com", 
+		message = "投哪网2012年正式上线，荣获广发信德A轮，大金重工B轮，巨加网络C轮8.2亿融资，2019年投哪网实缴资本增至5亿，新手注册即送350元红包，6月出借奖励1098元，投哪网合规运营多年，资金银行存管，大数据风控团队，提供专业、合规的金融服务，用专业铸造信赖。", 
+		platform = "touna", 
+		platformName = "投哪网", 
+		tags = { "P2P" , "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class TouNaWangSpider extends PapaSpider {
 
 	
-	
-	@Override
-	public String message() {
-		return "投哪网2012年正式上线，荣获广发信德A轮，大金重工B轮，巨加网络C轮8.2亿融资，2019年投哪网实缴资本增至5亿，新手注册即送350元红包，6月出借奖励1098元，投哪网合规运营多年，资金银行存管，大数据风控团队，提供专业、合规的金融服务，用专业铸造信赖。";
-	}
-
-	@Override
-	public String platform() {
-		return "touna";
-	}
-
-	@Override
-	public String home() {
-		return "touna.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "投哪网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P" , "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://m.touna.cn/auth.do";

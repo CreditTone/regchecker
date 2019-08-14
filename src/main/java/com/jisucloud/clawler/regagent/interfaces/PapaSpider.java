@@ -2,7 +2,6 @@ package com.jisucloud.clawler.regagent.interfaces;
 
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
 import com.deep007.spiderbase.DefaultHttpDownloader;
 import com.deep007.spiderbase.okhttp.OKHttpUtil;
@@ -34,23 +33,14 @@ public abstract class PapaSpider {
 
 	public static final String CHROME_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0";
 
-	public abstract String message();
-
-	public abstract String platform();
-
-	public abstract String home();
-
-	public abstract String platformName();
 
 	public abstract boolean checkTelephone(String account);
 
 	public abstract boolean checkEmail(String account);
 
-	public abstract Map<String, String> getFields();
-
-	public abstract String[] tags();
-
-	public abstract Set<String> getTestTelephones();
+	public Map<String, String> getFields() {
+		return null;
+	};
 
 	public final void smartSleep(long millis) {
 		try {

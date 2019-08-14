@@ -3,9 +3,9 @@ package com.jisucloud.clawler.regagent.service.impl.trip;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
@@ -14,45 +14,20 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "booking.com", 
+		message = "Booking.com-缤客,总部位于荷兰的住宿预订平台:遍布全球229个国家地区的14万个目的地,提供酒店,民宿,公寓,度假村,青旅等多种住宿选择.1.5亿+条真实住客点评帮您挑选好房源.多数客房可免费取消,支持在网页端和App在线管理订单.登陆后还可查看更多专属中国用户的隐藏优惠!", 
+		platform = "booking", 
+		platformName = "缤客酒店", 
+		tags = { "旅游" , "酒店" , "美食" , "o2o" }, 
+		testTelephones = { "13800100001", "18210538513" })
 public class BookingSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 
-	@Override
-	public String message() {
-		return "Booking.com-缤客,总部位于荷兰的住宿预订平台:遍布全球229个国家地区的14万个目的地,提供酒店,民宿,公寓,度假村,青旅等多种住宿选择.1.5亿+条真实住客点评帮您挑选好房源.多数客房可免费取消,支持在网页端和App在线管理订单.登陆后还可查看更多专属中国用户的隐藏优惠!";
-	}
-
-	@Override
-	public String platform() {
-		return "booking";
-	}
-
-	@Override
-	public String home() {
-		return "booking.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "Booking";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"旅游" , "酒店" , "美食" , "o2o"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13800100001", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(true, false, CHROME_USER_AGENT);

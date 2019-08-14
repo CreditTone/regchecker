@@ -3,13 +3,12 @@ package com.jisucloud.clawler.regagent.service.impl.trip;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.deep007.spiderbase.okhttp.OKHttpUtil;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import okhttp3.FormBody;
 import okhttp3.Headers;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
 import org.jsoup.Connection;
@@ -17,38 +16,22 @@ import org.jsoup.Jsoup;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "12306.cn", 
+		message = "中国铁路客户服务中心（12306网）是铁路服务客户的重要窗口，将集成全路客货运输信息，为社会和铁路客户提供客货运输业务和公共信息查询服务。客户通过登录本网站，可以查询旅客列车时刻表、票价、列车正晚点、车票余票、售票代售点、货物运价、车辆技术参数以及有关客货运规章。", 
+		platform = "12306", 
+		platformName = "12306", 
+		tags = { "出行" , "火车" , "高铁" }, 
+		testTelephones = { "19910002005", "18210538513" })
 public class Web12306Spider extends PapaSpider {
 	
-	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
+	
 	
     private Map<String, String> fields = null;
-    
-    
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("19910002005", "18210538513");
-	}
-
-    @Override
-    public String message() {
-        return "中国铁路客户服务中心（12306网）是铁路服务客户的重要窗口，将集成全路客货运输信息，为社会和铁路客户提供客货运输业务和公共信息查询服务。客户通过登录本网站，可以查询旅客列车时刻表、票价、列车正晚点、车票余票、售票代售点、货物运价、车辆技术参数以及有关客货运规章。";
-    }
-
-    @Override
-    public String platform() {
-        return "12306";
-    }
-
-    @Override
-    public String home() {
-        return "12306.cn";
-    }
 
     private Headers getHeader() {
         Map<String, String> headers = new HashMap<>();
@@ -91,7 +74,7 @@ public class Web12306Spider extends PapaSpider {
         return formBody;
     }
 
-    @Override
+    
     public boolean checkTelephone(String account) {
         try {
         	okHttpClient.newCall(createRequest("https://www.12306.cn/index/")).execute().body().close();
@@ -119,24 +102,15 @@ public class Web12306Spider extends PapaSpider {
         return false;
     }
 
-    @Override
+    
     public boolean checkEmail(String account) {
         return false;
     }
 
-    @Override
+    
     public Map<String, String> getFields() {
         return fields;
     }
 
-    @Override
-    public String platformName() {
-        return "12306";
-    }
-
-    @Override
-	public String[] tags() {
-		return new String[] {"出行" , "火车" , "高铁"};
-	}
 
 }

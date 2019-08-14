@@ -3,9 +3,9 @@ package com.jisucloud.clawler.regagent.service.impl.software;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
@@ -14,46 +14,21 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "mydrivers.com", 
+		message = "快科技(驱动之家旗下媒体)为您提供第一手的科技新闻资讯、产品评测、驱动下载等服务。老牌的驱动下载频道通过方便快捷的驱动分类、搜索服务,助您快速找到所需的驱动。", 
+		platform = "mydrivers", 
+		platformName = "快科技", 
+		tags = { "系统驱动", "科技" ,"软件" }, 
+		testTelephones = { "15510257873", "18210538513" })
 public class KuaiKeJiSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 
-	@Override
-	public String message() {
-		return "快科技(驱动之家旗下媒体)为您提供第一手的科技新闻资讯、产品评测、驱动下载等服务。老牌的驱动下载频道通过方便快捷的驱动分类、搜索服务,助您快速找到所需的驱动。";
-	}
-
-	@Override
-	public String platform() {
-		return "mydrivers";
-	}
-
-	@Override
-	public String home() {
-		return "mydrivers.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "快科技";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"系统驱动", "科技" ,"软件"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15510257873", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newIOSInstance(true, true);

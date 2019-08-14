@@ -1,20 +1,26 @@
 package com.jisucloud.clawler.regagent.service.impl.shop;
 
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.service.PapaSpiderTester;
 
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
-import java.util.Set;
+
 
 import org.openqa.selenium.WebElement;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "alipay.com", 
+		message = "支付宝,全球领先的独立第三方支付平台,致力于为广大用户提供安全快速的电子支付/网上支付/安全支付/手机支付体验,及转账收款/水电煤缴费/信用卡还款/AA收款等生活。", 
+		platform = "alipay", 
+		platformName = "支付宝", 
+		tags = { "购物" , "理财" , "借贷" , "消费分期" , "保险" }, 
+		testTelephones = { "18210008013", "18800000001" })
 public class AplipaySpider extends PapaSpider {
 	
 	private ChromeAjaxHookDriver chromeDriver;
@@ -24,47 +30,6 @@ public class AplipaySpider extends PapaSpider {
 	//暂时不能访问此页面，被反扒
 	public boolean noSpider = false;
 
-	@Override
-	public String message() {
-		return "支付宝,全球领先的独立第三方支付平台,致力于为广大用户提供安全快速的电子支付/网上支付/安全支付/手机支付体验,及转账收款/水电煤缴费/信用卡还款/AA收款等生活。";
-	}
-
-	@Override
-	public String platform() {
-		return "alipay";
-	}
-
-	@Override
-	public String home() {
-		return "alipay.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "支付宝";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"购物" , "理财" , "借贷" , "消费分期" , "保险"};
-	}
-	
-//	@Override
-//	public Set<String> getTestTelephones() {
-//		return Sets.newHashSet("18800000001", "18210008013", "18210538513");
-//	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210008013", "18800000001");
-	}
-	
-	
-	public static void main(String[] args) {
-		PapaSpiderTester.testingWithPrint(AplipaySpider.class);
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(false, false, CHROME_USER_AGENT);

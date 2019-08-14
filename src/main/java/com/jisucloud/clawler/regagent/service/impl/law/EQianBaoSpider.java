@@ -1,59 +1,33 @@
 package com.jisucloud.clawler.regagent.service.impl.law;
 
 import com.deep007.spiderbase.okhttp.OKHttpUtil;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "esign.com", 
+		message = "e签宝(www.esign.cn)专注电子签名行业16年，致力于为客户提供从电子签名到文档管理，从签名数据存证到司法出证的完整合法的全闭环电子签名服务。", 
+		platform = "esign", 
+		platformName = "e签宝", 
+		tags = { "电子合同" }, 
+		testTelephones = { "18230012895", "18210538513" })
 public class EQianBaoSpider extends PapaSpider {
 
-	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
-
-	@Override
-	public String message() {
-		return "e签宝(www.esign.cn)专注电子签名行业16年，致力于为客户提供从电子签名到文档管理，从签名数据存证到司法出证的完整合法的全闭环电子签名服务。";
-	}
-
-	@Override
-	public String platform() {
-		return "esign";
-	}
-
-	@Override
-	public String home() {
-		return "esign.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "e签宝";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"电子合同"};
-	}
 	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18230012895", "18210538513");
-	}
 
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://tapi.esign.cn/account-webserver/login/commit/user";

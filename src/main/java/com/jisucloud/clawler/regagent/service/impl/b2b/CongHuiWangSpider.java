@@ -1,54 +1,24 @@
 package com.jisucloud.clawler.regagent.service.impl.b2b;
 
-import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "hc360.com", 
+		message = "中国慧聪网,做生意就上慧聪网,360行,行行在慧聪.中国慧聪网 B2B诚信企业,1500万商家,海量供求信息任你选。", 
+		platform = "hc360", 
+		platformName = "慧聪网", 
+		tags = { "b2b" ,"商机" ,"生意" }, 
+		testTelephones = { "18515290717", "18210538513" })
 public class CongHuiWangSpider extends PapaSpider {
-
-	
-
-	@Override
-	public String message() {
-		return "中国慧聪网,做生意就上慧聪网,360行,行行在慧聪.中国慧聪网 B2B诚信企业,1500万商家,海量供求信息任你选。";
-	}
-
-	@Override
-	public String platform() {
-		return "hc360";
-	}
-
-	@Override
-	public String home() {
-		return "hc360.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "慧聪网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"b2b" ,"商机" ,"生意"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18515290717", "18210538513");
-	}
 
 	@Override
 	public boolean checkTelephone(String account) {

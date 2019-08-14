@@ -3,9 +3,8 @@ package com.jisucloud.clawler.regagent.service;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
@@ -14,46 +13,14 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
 
 @Slf4j
-@UsePapaSpider(exclude = true , excludeMsg = "疑似黑客攻击")
+@PapaSpiderConfig(exclude = true , excludeMsg = "疑似黑客攻击", home = "test", message = "test", platform = "test", platformName = "测试平台", tags = { "测试" }, testTelephones = { "13910252000", "18210538513" })
 public class TestSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
-
-	@Override
-	public String message() {
-		return "test";
-	}
-
-	@Override
-	public String platform() {
-		return "test";
-	}
-
-	@Override
-	public String home() {
-		return "test.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "test";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252000", "18210538513");
-	}
-	
 
 	@Override
 	public boolean checkTelephone(String account) {

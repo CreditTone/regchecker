@@ -3,9 +3,9 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
@@ -16,43 +16,25 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
+
 
 import org.openqa.selenium.WebElement;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "jyblc.com", 
+		message = "金元宝——创立于2013年,稳健运营5年的金融科技企业,获中科招商集团3000万战略投资,是国内知名的社交化金融投资服务平台,致力于产业金融。平台具备国家信息安全等级!", 
+		platform = "jyblc", 
+		platformName = "金元宝", 
+		tags = { "消费分期" , "p2p", "借贷" }, 
+		testTelephones = { "18210538513", "15161509916" })
 public class JinYuanBaoSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
-
-	@Override
-	public String message() {
-		return "金元宝——创立于2013年,稳健运营5年的金融科技企业,获中科招商集团3000万战略投资,是国内知名的社交化金融投资服务平台,致力于产业金融。平台具备国家信息安全等级!";
-	}
-
-	@Override
-	public String platform() {
-		return "jyblc";
-	}
-
-	@Override
-	public String home() {
-		return "jyblc.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "金元宝";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"消费分期" , "p2p", "借贷"};
-	}
 	
+
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {
@@ -66,8 +48,8 @@ public class JinYuanBaoSpider extends PapaSpider implements AjaxHook{
 		}
 		return "";
 	}
-	
-	@Override
+
+
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
@@ -103,11 +85,6 @@ public class JinYuanBaoSpider extends PapaSpider implements AjaxHook{
 	@Override
 	public Map<String, String> getFields() {
 		return null;
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538513", "15161509916");
 	}
 
 	@Override

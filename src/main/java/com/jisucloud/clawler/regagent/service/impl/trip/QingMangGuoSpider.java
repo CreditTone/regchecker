@@ -1,59 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.trip;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "qmango.com", 
+		message = "青芒果旅行网WAP版本为您提供全国1000个城市,超过20,000家青年旅舍,经济型酒店,酒店式公寓,宾馆,客栈,家庭旅馆,招待所的旅游预订,查询和点评。", 
+		platform = "qmango", 
+		platformName = "青芒果旅行", 
+		tags = { "旅游" , "酒店" , "o2o" }, 
+		testTelephones = { "13910252045", "18210538513" })
 public class QingMangGuoSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "青芒果旅行网WAP版本为您提供全国1000个城市,超过20,000家青年旅舍,经济型酒店,酒店式公寓,宾馆,客栈,家庭旅馆,招待所的旅游预订,查询和点评。";
-	}
-
-	@Override
-	public String platform() {
-		return "qmango";
-	}
-
-	@Override
-	public String home() {
-		return "qmango.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "青芒果旅行";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"旅游" , "酒店" , "o2o"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252045", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "http://www.qmango.com/users/ajax/checkInfo.asp?_="+System.currentTimeMillis()+"&t=m&v=" + account;

@@ -1,59 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.education;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "smartstudy.com", 
+		message = "智课网(SmartStudy)汇聚托福、雅思、GRE、GAMT、SAT五大出国考试各科首席讲师，在线讲授出国考试精品课程与热门教材题库逐题精讲。顶级名师团队，影视级大片品质，智能学习过程管理，基于知识点。", 
+		platform = "smartstudy", 
+		platformName = "智课网", 
+		tags = { "托福", "雅思", "GRE" }, 
+		testTelephones = { "15956434943", "18210538513" })
 public class ZhiXueWangSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		return "智课网(SmartStudy)汇聚托福、雅思、GRE、GAMT、SAT五大出国考试各科首席讲师，在线讲授出国考试精品课程与热门教材题库逐题精讲。顶级名师团队，影视级大片品质，智能学习过程管理，基于知识点。";
-	}
-
-	@Override
-	public String platform() {
-		return "smartstudy";
-	}
-
-	@Override
-	public String home() {
-		return "smartstudy.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "智课网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"托福", "雅思", "GRE"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15956434943", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://api.smartstudy.com/usert/signin";

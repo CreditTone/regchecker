@@ -1,59 +1,36 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import lombok.extern.slf4j.Slf4j;
 
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
-import com.google.common.collect.Sets;
+
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "niwodai.com", 
+		message = "你我贷(niwodai.com)是美股上市公司嘉银金科旗下网络借贷信息中介平台，实缴注册资本5.5亿元。专业提供便捷、低门槛的个人借款和多元化的出借策略。", 
+		platform = "niwodai", 
+		platformName = "你我贷", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15900068904", "18210538513" })
 public class NiWoDaiSpider extends PapaSpider {
 	
 	private ChromeAjaxHookDriver chromeDriver;
-
-	@Override
-	public String message() {
-		return "你我贷(niwodai.com)是美股上市公司嘉银金科旗下网络借贷信息中介平台，实缴注册资本5.5亿元。专业提供便捷、低门槛的个人借款和多元化的出借策略。";
-	}
-
-	@Override
-	public String platform() {
-		return "niwodai";
-	}
-
-	@Override
-	public String home() {
-		return "niwodai.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "你我贷";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
 	
 	private boolean checkTelephone = false;
 	
 	//暂时不能访问此页面，被反扒
 	public boolean success = false;//默认false
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15900068904", "18210538513");
-	}
 
+	
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {
@@ -68,7 +45,7 @@ public class NiWoDaiSpider extends PapaSpider {
 		return "";
 	}
 
-	@Override
+
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newIOSInstance(false, true);

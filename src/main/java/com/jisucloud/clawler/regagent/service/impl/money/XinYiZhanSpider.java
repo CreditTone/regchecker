@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.money;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +14,7 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
+
 
 import org.jsoup.Connection;
 import org.jsoup.Connection.Method;
@@ -22,39 +22,15 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "xyz.cn", 
+		message = "新一站保险网是新一站保险代理有限公司所有并运营的在线保险服务网站，是焦点科技旗下继中国制造网后的又一大型电子商务平台。 ", 
+		platform = "xyzbx", 
+		platformName = "新一站保险", 
+		tags = { "保险" , "理财" }, 
+		testTelephones = { "15985268900", "18210538513" })
 public class XinYiZhanSpider extends PapaSpider {
 	
-	@Override
-	public String message() {
-		return "新一站保险网是新一站保险代理有限公司所有并运营的在线保险服务网站，是焦点科技旗下继中国制造网后的又一大型电子商务平台。 ";
-	}
-
-	@Override
-	public String platform() {
-		return "xyzbx";
-	}
-
-	@Override
-	public String home() {
-		return "xyz.cn";
-	}
-
-	@Override
-	public String platformName() {
-		return "新一站保险网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"保险" , "理财"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268900", "18210538513");
-	}
-
 	private Headers getHeader() {
 		Map<String, String> headers = new HashMap<>();
 		headers.put("User-Agent",
@@ -94,7 +70,6 @@ public class XinYiZhanSpider extends PapaSpider {
 		return "";
 	}
 	
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.xyz.cn/u/register.do?xcase=findPasswordEmail";

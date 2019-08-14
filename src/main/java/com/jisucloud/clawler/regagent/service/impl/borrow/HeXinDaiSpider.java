@@ -1,7 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
@@ -12,50 +12,25 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider(excludeMsg = "防火墙")
+@PapaSpiderConfig(
+		home = "hexindai.com", 
+		message = "和信贷，纳斯达克上市互联网金融平台。注册资本1亿元，5年稳健运营，AAA级互联网信用认证，央行支付清算协会互联网金融风险信息共享系统接入单位，严谨的风险管控保护体系，为您提供专业、透明的出借服务！", 
+		platform = "hexindai", 
+		platformName = "hexindaiName", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15201215815", "18210538513" },
+		excludeMsg = "防火墙")
 public class HeXinDaiSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	
-	@Override
-	public String message() {
-		return "和信贷，纳斯达克上市互联网金融平台。注册资本1亿元，5年稳健运营，AAA级互联网信用认证，央行支付清算协会互联网金融风险信息共享系统接入单位，严谨的风险管控保护体系，为您提供专业、透明的出借服务！";
-	}
-
-	@Override
-	public String platform() {
-		return "hexindai";
-	}
-
-	@Override
-	public String home() {
-		return "hexindai.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "和信贷";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15201215815", "18210538513");
-	}
-	
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);

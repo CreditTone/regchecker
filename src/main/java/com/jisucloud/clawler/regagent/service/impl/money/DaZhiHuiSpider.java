@@ -1,49 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.money;
 
 import java.util.Map;
-import java.util.Set;
+
 
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "gw.com.cn", 
+		message = "大智慧-中国90%的投资者选择用大智慧炒股软件,提供沪深港美股实时高速行情，Level-2行情，财经热点新闻及全方面投资资讯。", 
+		platform = "dazhihui", 
+		platformName = "大智慧", 
+		tags = { "理财", "炒股" }, 
+		testTelephones = { "18763623587", "18210538513" })
 public class DaZhiHuiSpider extends PapaSpider implements AjaxHook{
 	
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
-
-	@Override
-	public String message() {
-		// TODO Auto-generated method stub
-		return "大智慧-中国90%的投资者选择用大智慧炒股软件,提供沪深港美股实时高速行情，Level-2行情，财经热点新闻及全方面投资资讯。";
-	}
-
-	@Override
-	public String platform() {
-		// TODO Auto-generated method stub
-		return "dazhihui";
-	}
-
-	@Override
-	public String home() {
-		// TODO Auto-generated method stub
-		return "gw.com.cn";
-	}
-
-	@Override
-	public String platformName() {
-		// TODO Auto-generated method stub
-		return "大智慧";
-	}
 
 	@Override
 	public boolean checkTelephone(String account) {
@@ -73,17 +55,6 @@ public class DaZhiHuiSpider extends PapaSpider implements AjaxHook{
 	public Map<String, String> getFields() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] { "理财", "炒股" };
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		// TODO Auto-generated method stub
-		return Sets.newHashSet("18763623587", "18210538513");
 	}
 
 	@Override

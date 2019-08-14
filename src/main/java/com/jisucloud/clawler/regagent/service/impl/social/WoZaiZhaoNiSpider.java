@@ -1,55 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.social;
 
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "95195.com", 
+		message = "我在找你-相亲交友,完全免费!所有认证会员都经过实名制核实!为亿万单身男女提供完全免费、真实可信、简便高效的相亲交友聊天平台!", 
+		platform = "95195", 
+		platformName = "我在找你", 
+		tags = { "单身交友" }, 
+		testTelephones = { "18810038000", "18210538513" })
 public class WoZaiZhaoNiSpider extends PapaSpider {
 	
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 
 
-	@Override
-	public String message() {
-		return "我在找你-相亲交友,完全免费!所有认证会员都经过实名制核实!为亿万单身男女提供完全免费、真实可信、简便高效的相亲交友聊天平台!";
-	}
-
-	@Override
-	public String platform() {
-		return "95195";
-	}
-
-	@Override
-	public String home() {
-		return "95195.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "我在找你";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"单身交友"};
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18810038000", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);

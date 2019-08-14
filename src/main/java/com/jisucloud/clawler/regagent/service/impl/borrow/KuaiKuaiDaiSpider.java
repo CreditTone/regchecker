@@ -2,55 +2,27 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "kuaikuaidai.com", 
+		message = "快快贷投资平台搭建全新互联网投资模式,为投资提供互联网金融平台。互联网投资是银行活期投资的10倍以上,超低门槛,超高收益。", 
+		platform = "kuaikuaidai", 
+		platformName = "快快贷", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class KuaiKuaiDaiSpider extends PapaSpider {
-
 	
-	
-	@Override
-	public String message() {
-		return "快快贷投资平台搭建全新互联网投资模式,为投资提供互联网金融平台。互联网投资是银行活期投资的10倍以上,超低门槛,超高收益。";
-	}
-
-	@Override
-	public String platform() {
-		return "kuaikuaidai";
-	}
-
-	@Override
-	public String home() {
-		return "kuaikuaidai.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "快快贷";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.kuaikuaidai.com/customer/checkCustomerPhone.do?phone=param";

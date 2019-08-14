@@ -1,59 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.game;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "wanmei.com", 
+		message = "完美世界控股集团... 完美世界控股集团 完美世界影视 完美世界游戏 完美世界影城 完美世界动画 完美世界文学 完美世界媒体 完美世界教育新闻报道 新闻动态 完美世界商城。", 
+		platform = "wanmei", 
+		platformName = "完美世界", 
+		tags = { "游戏" }, 
+		testTelephones = { "13426345414", "13269423806" })
 public class WanMeiShiJieSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "完美世界控股集团... 完美世界控股集团 完美世界影视 完美世界游戏 完美世界影城 完美世界动画 完美世界文学 完美世界媒体 完美世界教育新闻报道 新闻动态 完美世界商城。";
-	}
-
-	@Override
-	public String platform() {
-		return "wanmei";
-	}
-
-	@Override
-	public String home() {
-		return "wanmei.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "完美世界";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"游戏"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13426345414", "13269423806");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://passport.wanmei.com/reg/checkuser?username=" + account;

@@ -1,51 +1,26 @@
 package com.jisucloud.clawler.regagent.service.impl.photo;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "huaban.com", 
+		message = "花瓣网, 设计师寻找灵感的天堂！图片素材领导者，帮你采集,发现网络上你喜欢的事物.你可以用它收集灵感,保存有用的素材,计划旅行,晒晒自己想要的东西。", 
+		platform = "huaban", 
+		platformName = "花瓣网", 
+		tags = { "原创" , "设计", "素材" }, 
+		testTelephones = { "13991808887", "15120058878" })
 public class HuaBanWangSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		return "花瓣网, 设计师寻找灵感的天堂！图片素材领导者，帮你采集,发现网络上你喜欢的事物.你可以用它收集灵感,保存有用的素材,计划旅行,晒晒自己想要的东西。";
-	}
-
-	@Override
-	public String platform() {
-		return "huaban";
-	}
-
-	@Override
-	public String home() {
-		return "huaban.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "花瓣网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"原创" , "设计", "素材"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13991808887", "15120058878");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://huaban.com/auth/";

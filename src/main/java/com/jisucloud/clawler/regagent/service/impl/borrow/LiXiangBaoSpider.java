@@ -1,7 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -12,48 +12,25 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
-import java.util.Set;
 
-@UsePapaSpider(exclude = true, excludeMsg = "防火墙")
+
+@PapaSpiderConfig(
+		home = "id68.com", 
+		message = "理想宝,银行资金存管,多家上市公司联合刘晓庆明星企业共同打造,合规运营3年,为145万投资人赚取收益近3亿元。手机投资,100元起投,多种产品可选,投资期限灵活。", 
+		platform = "id68", 
+		platformName = "id68Name", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "13900002045", "18210538513" },
+		exclude = true, excludeMsg = "防火墙")
 public class LiXiangBaoSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
-
-	@Override
-	public String message() {
-		return "理想宝,银行资金存管,多家上市公司联合刘晓庆明星企业共同打造,合规运营3年,为145万投资人赚取收益近3亿元。手机投资,100元起投,多种产品可选,投资期限灵活。";
-	}
-
-	@Override
-	public String platform() {
-		return "id68";
-	}
-
-	@Override
-	public String home() {
-		return "id68.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "理想宝";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13900002045", "18210538513");
-	}
 	
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
@@ -69,7 +46,6 @@ public class LiXiangBaoSpider extends PapaSpider implements AjaxHook{
 		return "";
 	}
 
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);

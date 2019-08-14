@@ -7,13 +7,19 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
-import com.deep077.spiderbase.selenium.mitm.MitmServer;
-import com.deep077.spiderbase.selenium.mitm.cache.JedisMitmCacheProvider;
-import com.jisucloud.clawler.regagent.mitm.StringRedisTemplateMitmCacheProvider;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoDatabase;
 
 @Configuration
 @ComponentScan("com.jisucloud.clawler.regagent")
 public class PersistenceContext {
+	
+	public static String MONGODB_SERVICE = "mongodb://root:jisucloud123!@dds-m5e5cc5952acde541218-pub.mongodb.rds.aliyuncs.com:3717,dds-m5e5cc5952acde542128-pub.mongodb.rds.aliyuncs.com:3717/admin?replicaSet=mgset-13005959";
+	public static String MONGODB_DATABASE = "deep007";
+	
+	private MongoClient mongoClient;
 
 	@Bean
 	@ConditionalOnMissingBean
@@ -21,6 +27,23 @@ public class PersistenceContext {
 		StringRedisTemplate template = new StringRedisTemplate();
 		template.setConnectionFactory(redisConnectionFactory);
 		return template;
+	}
+	
+	
+	@Bean
+	public MongoDatabase mongoDb() {
+		if (mongoClient == null) {
+			MongoClientOptions.Builder builder = new MongoClientOptions.Builder();
+			// build the connection options
+			builder.maxConnectionIdleTime(6000);// set the max wait time in (ms)
+			builder.maxConnectionLifeTime(150000);
+			builder.connectTimeout(3000);
+			builder.socketTimeout(6000);
+			builder.serverSelectionTimeout(3000);
+			MongoClientURI mongoClientURI = new MongoClientURI(MONGODB_SERVICE, builder);
+			mongoClient = new MongoClient(mongoClientURI);
+		}
+		return mongoClient.getDatabase(MONGODB_DATABASE);
 	}
 
 	// @Bean

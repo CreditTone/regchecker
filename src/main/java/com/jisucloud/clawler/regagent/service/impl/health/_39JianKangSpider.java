@@ -1,55 +1,29 @@
 package com.jisucloud.clawler.regagent.service.impl.health;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "39.net", 
+		message = "39健康网,专业的健康资讯门户网站,中国优质医疗保健信息与在线健康服务平台,医疗保健类网站杰出代表,荣获中国标杆品牌称号。提供专业、完善的健康信息服务,包括疾病。", 
+		platform = "39jk", 
+		platformName = "39健康网", 
+		tags = { "健康运动", "医疗", "生活应用" , "挂号" , "用药" }, 
+		testTelephones = { "13877117175", "18210538513" })
 public class _39JianKangSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		return "39健康网,专业的健康资讯门户网站,中国优质医疗保健信息与在线健康服务平台,医疗保健类网站杰出代表,荣获中国标杆品牌称号。提供专业、完善的健康信息服务,包括疾病。";
-	}
-
-	@Override
-	public String platform() {
-		return "39jk";
-	}
-
-	@Override
-	public String home() {
-		return "39.net";
-	}
-
-	@Override
-	public String platformName() {
-		return "39健康网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"健康运动", "医疗", "生活应用" , "挂号" , "用药"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13877117175", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://my.39.net/UserService.asmx/CheckPhoneReg";

@@ -1,7 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import lombok.extern.slf4j.Slf4j;
@@ -9,45 +9,22 @@ import okhttp3.Headers;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
+
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-@UsePapaSpider
+
+@PapaSpiderConfig(
+		home = "yuanbaopu.com", 
+		message = "凭借成熟的大数据技术,元宝铺帮助全国5万多家小微企业从银行等金融机构处获得超过50亿元的授信额度,旗下有数据化信贷解决方案FIDE及以电商贷为首的多款数据信贷.", 
+		platform = "yuanbaopu", 
+		platformName = "元宝铺", 
+		tags = { "P2P", "电商贷" , "借贷" }, 
+		testTelephones = { "18210538577", "18210538513" })
 @Slf4j
 public class YuanBaoPuSpider extends PapaSpider {
-
-	@Override
-	public String message() {
-		return "凭借成熟的大数据技术,元宝铺帮助全国5万多家小微企业从银行等金融机构处获得超过50亿元的授信额度,旗下有数据化信贷解决方案FIDE及以电商贷为首的多款数据信贷.";
-	}
-
-	@Override
-	public String platform() {
-		return "yuanbaopu";
-	}
-
-	@Override
-	public String home() {
-		return "yuanbaopu.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "元宝铺";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "电商贷" , "借贷"};
-	}
 	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538577", "18210538513");
-	}
 
 	private Headers getHeader() {
 		Map<String, String> headers = new HashMap<>();
@@ -73,8 +50,7 @@ public class YuanBaoPuSpider extends PapaSpider {
 		}
 		return null;
 	}
-	
-	@Override
+
 	public boolean checkTelephone(String account) {
 		for (int i = 0; i < 3; i++) {
 			try {

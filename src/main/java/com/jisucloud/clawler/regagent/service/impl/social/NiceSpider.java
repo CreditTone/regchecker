@@ -1,56 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.social;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "nice.com", 
+		message = "nice好赞作为一款图片社交软件可以让你结识到跟你有共同生活方式或者有共同兴趣爱好的朋友。拍张照片-选择滤镜效果-选择贴纸-为照片打上标签-发布。发布的同时照片可以自动保存在相册里，同时也可以一键同步到微博，微信，QQ空间。", 
+		platform = "nice", 
+		platformName = "nice", 
+		tags = { "交友" , "二手物品", "社区" }, 
+		testTelephones = { "18515290717", "18210538513" })
 public class NiceSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "nice好赞作为一款图片社交软件可以让你结识到跟你有共同生活方式或者有共同兴趣爱好的朋友。拍张照片-选择滤镜效果-选择贴纸-为照片打上标签-发布。发布的同时照片可以自动保存在相册里，同时也可以一键同步到微博，微信，QQ空间。";
-	}
-
-	@Override
-	public String platform() {
-		return "nice";
-	}
-
-	@Override
-	public String home() {
-		return "nice.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "nice";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"交友" , "二手物品", "社区"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18515290717", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "http://www.oneniceapp.com/account/loginbymobile";

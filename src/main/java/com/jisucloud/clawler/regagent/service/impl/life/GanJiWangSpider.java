@@ -3,9 +3,8 @@ package com.jisucloud.clawler.regagent.service.impl.life;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -15,46 +14,20 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "ganji.com", 
+		message = "赶集网是更专业的分类信息网!提供免费发布信息,查阅信息服务.寻找更新更全的房屋出租、二手房、二手车、二手物品交易、求职招聘等生活信息,请到赶集网ganji.com。", 
+		platform = "ganji", 
+		platformName = "ganjiName", 
+		tags = { "o2o", "生活休闲", "求职" , "招聘" , "二手物品" }, 
+		testTelephones = { "18210538513", "18210538511" })
 public class GanJiWangSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 
-	@Override
-	public String message() {
-		return "赶集网是更专业的分类信息网!提供免费发布信息,查阅信息服务.寻找更新更全的房屋出租、二手房、二手车、二手物品交易、求职招聘等生活信息,请到赶集网ganji.com。";
-	}
-
-	@Override
-	public String platform() {
-		return "ganji";
-	}
-
-	@Override
-	public String home() {
-		return "ganji.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "赶集网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"o2o", "生活休闲", "求职" , "招聘" , "二手物品"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538513", "18210538511");
-	}
-	
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);

@@ -1,7 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import lombok.extern.slf4j.Slf4j;
@@ -10,48 +10,23 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
-import com.google.common.collect.Sets;
+
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "gongchangp2p.com", 
+		message = "工场微金由北京凤凰信用管理有限公司管理运营,专注于向借款人及出借人(用户)提供撮合服务的网络借贷信息中介平台。平台作为首批中国互联网金融协会成员单位及北京网贷。", 
+		platform = "gongchangp2p", 
+		platformName = "工场微金", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "13879690000", "18210538513" })
 public class GongChangJinRongSpider extends PapaSpider {
 	
 	private ChromeAjaxHookDriver chromeDriver;
-
-	@Override
-	public String message() {
-		return "工场微金由北京凤凰信用管理有限公司管理运营,专注于向借款人及出借人(用户)提供撮合服务的网络借贷信息中介平台。平台作为首批中国互联网金融协会成员单位及北京网贷。";
-	}
-
-	@Override
-	public String platform() {
-		return "gongchangp2p";
-	}
-
-	@Override
-	public String home() {
-		return "gongchangp2p.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "工场微金";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13879690000", "18210538513");
-	}
 	
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
@@ -67,7 +42,8 @@ public class GongChangJinRongSpider extends PapaSpider {
 		return "";
 	}
 
-	@Override
+
+
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(false, true, CHROME_USER_AGENT);

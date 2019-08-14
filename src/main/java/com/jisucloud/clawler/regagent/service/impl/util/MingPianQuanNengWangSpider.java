@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.util;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -10,43 +10,18 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "camcard.com", 
+		message = "名片全能王,名片识别、管理的专业工具:手机拍摄名片,信息瞬间存入通讯录,用名片呈现图文、语音、视频、附件,精准识别16种语言的名片!", 
+		platform = "camcard", 
+		platformName = "名片全能王", 
+		tags = { "工具"  }, 
+		testTelephones = { "18210538513", "15011488781" })
 public class MingPianQuanNengWangSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		return "名片全能王,名片识别、管理的专业工具:手机拍摄名片,信息瞬间存入通讯录,用名片呈现图文、语音、视频、附件,精准识别16种语言的名片!";
-	}
-
-	@Override
-	public String platform() {
-		return "camcard";
-	}
-
-	@Override
-	public String home() {
-		return "camcard.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "名片全能王";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"工具" };
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538513", "15011488781");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.camcard.com/user/auth";

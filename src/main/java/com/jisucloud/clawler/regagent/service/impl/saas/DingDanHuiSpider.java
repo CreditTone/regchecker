@@ -1,37 +1,37 @@
-package com.jisucloud.clawler.regagent.service.impl.work;
+package com.jisucloud.clawler.regagent.service.impl.saas;
 
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
-import lombok.extern.slf4j.Slf4j;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
 
 
-@Slf4j
+
 @PapaSpiderConfig(
-		home = "7192.com", 
-		message = "全影网是全国影楼行业领先门户网站,汇聚顶尖影楼人才。涵盖摄影、化妆、婚纱摄影、影楼资讯、影楼摄影作品、摄影教程、摄影器材、化妆教程、影楼化妆造型、影楼管理。", 
-		platform = "7192", 
-		platformName = "全影网", 
-		tags = { "摄影", "化妆", "造型" }, 
-		testTelephones = { "18720982607", "18210538513" })
-public class _7192Spider extends PapaSpider {
+		home = "ddhing.com", 
+		message = "订单汇是通过SAAS云部署（无须下载安装维护）和多终端（PC端、手机APP）操作的方式，为中小微企业提供在线进销存财管理系统和交易工具服务，解决广大企业销售与管理脱钩的痛点，拉近企业与客户距离。", 
+		platform = "ddhing", 
+		platformName = "订单汇", 
+		tags = { "求职" , "招聘" }, 
+		testTelephones = { "18515290000", "15008276300" })
+public class DingDanHuiSpider extends PapaSpider {
+
+	
 
 	public boolean checkTelephone(String account) {
 		try {
-			String url = "http://m.7192.com/ajax/cm";
+			String url = "https://ddhing.com/account/ddhUserCheck?mobile="+account+"&_=" +System.currentTimeMillis();
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")
-					.addHeader("Referer", "http://m.7192.com/passport/register")
-					.post(createUrlEncodedForm("e="+account))
+					.addHeader("Referer", "https://ddhing.com/account/DdhRegister")
 					.build();
 			Response response = okHttpClient.newCall(request).execute();
 			String res = response.body().string();
-			if (res.contains("0")) {
+			if (res.contains("false")) {
 				return true;
 			}
 		} catch (Exception e) {

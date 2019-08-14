@@ -1,52 +1,27 @@
 package com.jisucloud.clawler.regagent.service.impl.trip;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "podinns.com", 
+		message = "布丁酒店连锁是全国快捷连锁酒店前10强,为客户提供经济型客房,支持在线酒店预订,电话预订,wap预订,手机客户端预订,手机版预订。", 
+		platform = "podinns", 
+		platformName = "布丁酒店", 
+		tags = { "旅行", "酒店" }, 
+		testTelephones = { "13810973590", "18210538513" })
 public class BuDingJiuDianSpider extends PapaSpider {
 
 
-	@Override
-	public String message() {
-		return "布丁酒店连锁是全国快捷连锁酒店前10强,为客户提供经济型客房,支持在线酒店预订,电话预订,wap预订,手机客户端预订,手机版预订。";
-	}
-
-	@Override
-	public String platform() {
-		return "podinns";
-	}
-
-	@Override
-	public String home() {
-		return "podinns.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "布丁酒店";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"旅行", "酒店"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13810973590", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		if (account.length() != 11) {
 			return false;

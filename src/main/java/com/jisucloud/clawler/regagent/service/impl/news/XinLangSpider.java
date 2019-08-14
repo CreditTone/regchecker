@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.news;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -10,45 +10,20 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "sina.com", 
+		message = "新浪网为全球用户24小时提供全面及时的中文资讯，内容覆盖国内外突发新闻事件、体坛赛事、娱乐时尚、产业资讯、实用信息等，设有新闻、体育、娱乐、财经、科技、房产、汽车等30多个内容频道，同时开设博客、视频、论坛等自由互动交流空间。", 
+		platform = "sina", 
+		platformName = "新浪网", 
+		tags = { "新闻资讯" }, 
+		testTelephones = { "18720982007", "18210538513" })
 public class XinLangSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "新浪网为全球用户24小时提供全面及时的中文资讯，内容覆盖国内外突发新闻事件、体坛赛事、娱乐时尚、产业资讯、实用信息等，设有新闻、体育、娱乐、财经、科技、房产、汽车等30多个内容频道，同时开设博客、视频、论坛等自由互动交流空间。";
-	}
-
-	@Override
-	public String platform() {
-		return "sina";
-	}
-
-	@Override
-	public String home() {
-		return "sina.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "新浪网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"新闻资讯"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18720982007", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://login.sina.com.cn/signup/check_user.php";

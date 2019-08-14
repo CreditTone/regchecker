@@ -1,54 +1,26 @@
 package com.jisucloud.clawler.regagent.service.impl.social;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
-@UsePapaSpider
+
+
+@PapaSpiderConfig(
+		home = "renren.com", 
+		message = "renren", 
+		platform = "renren", 
+		platformName = "人人网", 
+		tags = { "论坛" , "社交" , "校园" }, 
+		testTelephones = { "18810038000", "18210538513" })
 public class RenRenSpider extends PapaSpider {
 
-	
-
-	@Override
-	public String message() {
-		return "renren";
-	}
-
-	@Override
-	public String platform() {
-		return "renren";
-	}
-
-	@Override
-	public String home() {
-		return "renren.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "人人网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"论坛" , "社交" , "校园"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18810038000", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			FormBody formBody = new FormBody

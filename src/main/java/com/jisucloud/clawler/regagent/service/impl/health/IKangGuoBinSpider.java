@@ -1,59 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.health;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "ikang.com", 
+		message = "爱康国宾体检中心是全国知名体检中心,是拥有多年健康体检及健康管理经验的专业综合性健康管理机构;提供健康体检(男体检/女性体检)、健康检查。", 
+		platform = "ikang", 
+		platformName = "国宾体检", 
+		tags = { "健康运动", "医疗", "体检" }, 
+		testTelephones = { "15901537458", "18210538513" })
 public class IKangGuoBinSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "爱康国宾体检中心是全国知名体检中心,是拥有多年健康体检及健康管理经验的专业综合性健康管理机构;提供健康体检(男体检/女性体检)、健康检查。";
-	}
-
-	@Override
-	public String platform() {
-		return "ikang";
-	}
-
-	@Override
-	public String home() {
-		return "ikang.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "爱康国宾";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"健康运动", "医疗", "体检"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15901537458", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://oauth2.health.ikang.com/register/request";

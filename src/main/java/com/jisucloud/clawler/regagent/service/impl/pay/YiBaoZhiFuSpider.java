@@ -3,9 +3,9 @@ package com.jisucloud.clawler.regagent.service.impl.pay;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -15,45 +15,21 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
+
 
 import org.openqa.selenium.WebElement;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "yeepay.com", 
+		message = "易宝支付是中国支付行业的开创者和领导者，也是互联网金融（ITFIN）和移动互联领军企业。易宝于2003年8月成立，总部位于北京，现有员工逾千人。", 
+		platform = "yeepay", 
+		platformName = "易宝支付", 
+		tags = { "聚合支付" , "互联网金融" }, 
+		testTelephones = { "13193091202", "18210538513" })
 public class YiBaoZhiFuSpider extends PapaSpider implements AjaxHook {
 	
 	private ChromeAjaxHookDriver chromeDriver;
-
-	@Override
-	public String message() {
-		return "易宝支付是中国支付行业的开创者和领导者，也是互联网金融（ITFIN）和移动互联领军企业。易宝于2003年8月成立，总部位于北京，现有员工逾千人。";
-	}
-
-	@Override
-	public String platform() {
-		return "yeepay";
-	}
-
-	@Override
-	public String home() {
-		return "yeepay.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "易宝支付";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"聚合支付" , "互联网金融"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13193091202", "18210538513");
-	}
 	
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
@@ -70,7 +46,7 @@ public class YiBaoZhiFuSpider extends PapaSpider implements AjaxHook {
 		return "";
 	}
 
-	@Override
+
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);

@@ -1,48 +1,29 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider(ignoreTestResult = true)
+@PapaSpiderConfig(
+		home = "rmbbox.com", 
+		message = "邦帮堂由北京紫貔财富网络科技有限公司运营，坚持小额普惠原则，为用户提供网络借贷信息中介服务。", 
+		platform = "rmbbox", 
+		platformName = "邦帮堂", 
+		tags = { "p2p", "借贷", "贷超" }, 
+		testTelephones = { "18210538513", "15161509916" },
+		ignoreTestResult = true)
 public class BangBangTangSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "邦帮堂由北京紫貔财富网络科技有限公司运营，坚持小额普惠原则，为用户提供网络借贷信息中介服务。";
-	}
-
-	@Override
-	public String platform() {
-		return "rmbbox";
-	}
-
-	@Override
-	public String home() {
-		return "rmbbox.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "邦帮堂";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"p2p", "借贷", "贷超"};
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.rmbbox.com/register/checkMobile?enterprise=true&userRole=BORROWERS&mobile=" + account;
@@ -68,11 +49,6 @@ public class BangBangTangSpider extends PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538513", "15161509916");
 	}
 
 }

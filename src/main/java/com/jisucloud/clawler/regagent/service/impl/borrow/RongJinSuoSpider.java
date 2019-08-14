@@ -3,56 +3,30 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "rjs.com", 
+		message = "融金所是一家专注互联网金融服务的P2P网贷平台,提供网上借贷信息的发布,作为网络借贷平台,致力线上资金的良好对接。2013年5月上线以来,融金所p2p网贷平台结合国内金融。", 
+		platform = "rjs", 
+		platformName = "融金所", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15985268900", "18210538513" })
 public class RongJinSuoSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "融金所是一家专注互联网金融服务的P2P网贷平台,提供网上借贷信息的发布,作为网络借贷平台,致力线上资金的良好对接。2013年5月上线以来,融金所p2p网贷平台结合国内金融。";
-	}
-
-	@Override
-	public String platform() {
-		return "rjs";
-	}
-
-	@Override
-	public String home() {
-		return "rjs.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "融金所";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268900", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://japidp.rjs.com/japidpweb/v1/userBase/findPassWordBySms.json";

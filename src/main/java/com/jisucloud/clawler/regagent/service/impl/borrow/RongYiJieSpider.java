@@ -1,44 +1,22 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import java.util.Map;
-import java.util.Set;
 
-
-import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import okhttp3.FormBody;
 import okhttp3.Request;
 import okhttp3.Response;
 
-
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "casheasy.cn", 
+		message = "容易借APP搜罗新全的小额极速贷、大额分期贷、新口子、。为你推荐更低利率，更快放款的贷款口子。下款率高达90%，快至30分钟放款。", 
+		platform = "casheasy", 
+		platformName = "借钱花呗", 
+		tags = {"P2P", "借贷"},
+		testTelephones = { "13910252000", "18210538513"})
 public class RongYiJieSpider extends PapaSpider {
-
-	@Override
-	public String message() {
-		// TODO Auto-generated method stub
-		return "容易借APP搜罗新全的小额极速贷、大额分期贷、新口子、。为你推荐更低利率，更快放款的贷款口子。下款率高达90%，快至30分钟放款。";
-	}
-
-	@Override
-	public String platform() {
-		// TODO Auto-generated method stub
-		return "casheasy";
-	}
-
-	@Override
-	public String home() {
-		// TODO Auto-generated method stub
-		return "casheasy.cn";
-	}
-
-	@Override
-	public String platformName() {
-		// TODO Auto-generated method stub
-		return "借钱花呗";
-	}
 
 	@Override
 	public boolean checkTelephone(String account) {
@@ -67,15 +45,5 @@ public class RongYiJieSpider extends PapaSpider {
 	public Map<String, String> getFields() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] { "P2P", "借贷" };
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252000", "18210538513");
 	}
 }

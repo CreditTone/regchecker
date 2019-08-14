@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -10,39 +10,18 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "168p2p.com", 
+		message = "168金服(客服热线400-8888-366转2),是全国三大财经门户之一、工信部互联网百强企业“中金在线”旗下理财平台,为广大出借者提供基于汽车金融的理财产品的P2P理财出借。", 
+		platform = "168p2p", 
+		platformName = "168金服", 
+		tags = { "p2p", "借贷" }, 
+		testTelephones = { "18210538513", "15161509916" })
 public class _168JinFuSpider extends PapaSpider {
-
 	
-	@Override
-	public String message() {
-		return "168金服(客服热线400-8888-366转2),是全国三大财经门户之一、工信部互联网百强企业“中金在线”旗下理财平台,为广大出借者提供基于汽车金融的理财产品的P2P理财出借。";
-	}
-
-	@Override
-	public String platform() {
-		return "168p2p";
-	}
-
-	@Override
-	public String home() {
-		return "168p2p.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "168金服";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"p2p", "借贷"};
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.168p2p.com/168P2P-pc/front/user/checkUnique.jhtml";
@@ -73,11 +52,6 @@ public class _168JinFuSpider extends PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538513", "15161509916");
 	}
 
 }

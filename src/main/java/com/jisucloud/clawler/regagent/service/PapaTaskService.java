@@ -1,0 +1,107 @@
+package com.jisucloud.clawler.regagent.service;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
+import org.bson.Document;
+import org.bson.conversions.Bson;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSON;
+import com.deep007.spiderbase.util.MemoryCacheAsRedis;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Projections;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Service
+public class PapaTaskService {
+	
+	private final MemoryCacheAsRedis usernameFiler = new MemoryCacheAsRedis();
+	
+	public static final String PAPATASK_QUEUE_KEY = "papataskclz_queue_key";
+
+	@Autowired
+	private MongoDatabase mongoDatabase;
+	
+	@Autowired
+	private StringRedisTemplate redisTemplate;
+	
+	/**
+	 * 分配任务，返回任务id
+	 * @param username 必须，手机号或邮箱
+	 * @param name 可选
+	 * @param idcard 可选
+	 * @return
+	 */
+	public synchronized String allocTask(String username, String name, String idcard) {
+		String id = UUID.randomUUID().toString();
+		if (username != null && !usernameFiler.contains(username)) {
+			usernameFiler.set(username, true, 3600 * 24);
+			log.warn("添加任务:"+username+",id:"+id);
+			Set<String> excludePlatforms = findRegistePlatforms(username);
+			for (Class<? extends PapaSpider> clz : TestValidPapaSpiderService.TEST_SUCCESS_PAPASPIDERS) {
+				PapaSpiderConfig papaSpiderConfig = clz.getAnnotation(PapaSpiderConfig.class);
+				try {
+					if (excludePlatforms.contains(papaSpiderConfig.platform())) {
+						log.info("任务(" + username + "),不需要撞库平台."+papaSpiderConfig.platform());
+						continue;
+					}
+					PapaTask papaTask = PapaTask.builder().telephone(username).id(id).papaClz(clz.getName()).name(name).idcard(idcard).build();
+					redisTemplate.opsForList().rightPush(PAPATASK_QUEUE_KEY, JSON.toJSONString(papaTask));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return id;
+	}
+	
+	public PapaTask takePapaTask() {
+		long papaTaskNums = redisTemplate.opsForList().size(PAPATASK_QUEUE_KEY);
+		if (papaTaskNums > 5000) {
+			String rename = PAPATASK_QUEUE_KEY+"_bak_"+new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+			log.warn("任务堆积严重，移除任务列表 " + PAPATASK_QUEUE_KEY + " " + papaTaskNums + " " + rename);
+			redisTemplate.rename(PAPATASK_QUEUE_KEY, rename);
+		}
+		while(true) {
+			String str = redisTemplate.opsForList().leftPop(PAPATASK_QUEUE_KEY, 10, TimeUnit.SECONDS);
+			if (str != null) {
+				return JSON.parseObject(str, PapaTask.class);
+			}
+		}
+	}
+	
+	public Set<String> findRegistePlatforms(String username) {
+		Set<String> platforms = new HashSet<>();
+		MongoCollection<Document> collection = mongoDatabase.getCollection("account");
+		Bson condition = Filters.and(Filters.eq("username", username),Filters.eq("registed", true));
+		MongoCursor<Document> cursor = collection.find(condition).projection(Projections.include("platform")).iterator();
+		while (cursor.hasNext()) {
+			Document doc = cursor.next();
+			platforms.add(doc.getString("platform"));
+		}
+		return platforms;
+	}
+	
+	public long getPapaTaskSize() {
+		Long nums = redisTemplate.opsForList().size(PAPATASK_QUEUE_KEY);
+		if (nums == null) {
+			nums = 0L;
+		}
+		return nums;
+	}
+	
+}

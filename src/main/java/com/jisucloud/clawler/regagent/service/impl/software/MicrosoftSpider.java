@@ -1,9 +1,9 @@
 package com.jisucloud.clawler.regagent.service.impl.software;
 
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import lombok.extern.slf4j.Slf4j;
@@ -11,48 +11,21 @@ import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "microsoft.com", 
+		message = "微软，是一家美国跨国科技公司，也是世界PC（Personal Computer，个人计算机）软件开发的先导，由比尔·盖茨与保罗·艾伦创办于1975年，公司总部设立在华盛顿州的雷德蒙德。", 
+		platform = "microsoft", 
+		platformName = "微软", 
+		tags = { "软件服务" , "系统工具" }, 
+		testTelephones = { "13910252045", "18210538513" })
 public class MicrosoftSpider extends PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 
-	@Override
-	public String message() {
-		return "微软，是一家美国跨国科技公司，也是世界PC（Personal Computer，个人计算机）软件开发的先导，由比尔·盖茨与保罗·艾伦创办于1975年，公司总部设立在华盛顿州的雷德蒙德。";
-	}
-
-	@Override
-	public String platform() {
-		return "microsoft";
-	}
-
-	@Override
-	public String home() {
-		return "microsoft.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "微软";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"软件服务" , "系统工具"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252045", "18210538513");
-	}
-	
-	String code;
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(true, true, null);

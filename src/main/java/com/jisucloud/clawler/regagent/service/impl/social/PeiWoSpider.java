@@ -1,57 +1,29 @@
 package com.jisucloud.clawler.regagent.service.impl.social;
 
-import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
-@UsePapaSpider(exclude = true)
+@PapaSpiderConfig(
+		home = "peiwo.cn", 
+		message = "陪我，是一款陌生人电话聊天app，作为一个纯粹关注声音的平台，陪我提出了前所未有的“声值社交”的概念,是基于通话的陌生人情感社交软件。 ", 
+		platform = "peiwo", 
+		platformName = "陪我", 
+		tags = { "单身交友" , "婚恋" }, 
+		testTelephones = { "18210538000", "18210538513" },
+		exclude = true)
 public class PeiWoSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "陪我，是一款陌生人电话聊天app，作为一个纯粹关注声音的平台，陪我提出了前所未有的“声值社交”的概念,是基于通话的陌生人情感社交软件。 ";
-	}
-
-	@Override
-	public String platform() {
-		return "peiwo";
-	}
-
-	@Override
-	public String home() {
-		return "peiwo.cn";
-	}
-
-	@Override
-	public String platformName() {
-		return "陪我";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"单身交友" , "婚恋"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538000", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://api.peiwo.cn/oauth/token";

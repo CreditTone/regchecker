@@ -1,57 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.health;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "iiyi.com", 
+		message = "爱爱医是面向医务人员的医学、药学专业知识与经验交流平台，并为医生提供国家医学考试中心信息服务的专业医学网站。", 
+		platform = "iiyi", 
+		platformName = "爱爱医", 
+		tags = { "健康运动", "医疗", "生活应用" , "挂号" , "用药" }, 
+		testTelephones = { "13877117175", "18210538513" })
 public class AiAiYiSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "爱爱医是面向医务人员的医学、药学专业知识与经验交流平台，并为医生提供国家医学考试中心信息服务的专业医学网站。";
-	}
-
-	@Override
-	public String platform() {
-		return "iiyi";
-	}
-
-	@Override
-	public String home() {
-		return "iiyi.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "爱爱医";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"健康运动", "医疗", "生活应用" , "挂号" , "用药"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13877117175", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://account.iiyi.com/index/checkbind";

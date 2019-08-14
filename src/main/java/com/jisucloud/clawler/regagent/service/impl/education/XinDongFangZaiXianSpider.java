@@ -1,59 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.education;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "koolearn.com", 
+		message = "新东方在线是新东方教育科技集团(NYSE:EDU)旗下专业的在线教育网站，其课程服务涵盖考研、托福、雅思、中学、外教口语、四六级、新概念、小语种等类别。致力于为广大用户提供个性化、互动化、智能化的在线学习体验。", 
+		platform = "koolearn", 
+		platformName = "新东方在线", 
+		tags = { "考试","学习","英语" }, 
+		testTelephones = { "15010645316", "18210538513" })
 public class XinDongFangZaiXianSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "新东方在线是新东方教育科技集团(NYSE:EDU)旗下专业的在线教育网站，其课程服务涵盖考研、托福、雅思、中学、外教口语、四六级、新概念、小语种等类别。致力于为广大用户提供个性化、互动化、智能化的在线学习体验。";
-	}
-
-	@Override
-	public String platform() {
-		return "koolearn";
-	}
-
-	@Override
-	public String home() {
-		return "koolearn.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "新东方在线";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"考试","学习","英语"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15010645316", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://login.koolearn.com/sso/mobileExists.do?callback=jQuery111207884664630899062_"+System.currentTimeMillis()+"&type=jsonp&mobile="+account+"&country=CN&countryCode=86&_="+System.currentTimeMillis();

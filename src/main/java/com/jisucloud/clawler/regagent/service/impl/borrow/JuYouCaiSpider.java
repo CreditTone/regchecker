@@ -2,56 +2,30 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
+
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "jyc99.com", 
+		message = "聚优财是浙江聚有财金融服务外包有限公司旗下运营的理财APP，原为“聚有财”升级；旨在宣传优生活，优选择；公司致力于成为一个针对中国中产阶级的专业互联网资产管理平台.关注互联网金融，投资理财，资产配置方面，坚持设计清晰、透明的理财产品；关注用户个性化、定制化需求。", 
+		platform = "jyc99", 
+		platformName = "聚优财", 
+		tags = { "P2P", "消费分期" , "借贷" }, 
+		testTelephones = { "13910002045", "18210538513" })
 public class JuYouCaiSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "聚优财是浙江聚有财金融服务外包有限公司旗下运营的理财APP，原为“聚有财”升级；旨在宣传优生活，优选择；公司致力于成为一个针对中国中产阶级的专业互联网资产管理平台.关注互联网金融，投资理财，资产配置方面，坚持设计清晰、透明的理财产品；关注用户个性化、定制化需求。";
-	}
-
-	@Override
-	public String platform() {
-		return "jyc99";
-	}
-
-	@Override
-	public String home() {
-		return "jyc99.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "聚优财";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "消费分期" , "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910002045", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.jyc99.com/api/user/loginreg/dologin";

@@ -1,59 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.health;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "haodf.com", 
+		message = "好大夫在线-智慧互联网医院， 汇集全国15万+优质医疗权威专家，为患者提供网上看病、挂专家号，在线开药，线上买药，线上复诊，网络预约手术等全方位服务；患者通过智慧互联网医院获得全国优质医疗专家的权威诊治，小病大病网上就诊，看病不再难。", 
+		platform = "haodf", 
+		platformName = "好大夫在线", 
+		tags = { "健康运动", "医疗", "生活应用" , "挂号" , "用药" }, 
+		testTelephones = { "13877117175", "18210538513" })
 public class HaoDaiFuSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "好大夫在线-智慧互联网医院， 汇集全国15万+优质医疗权威专家，为患者提供网上看病、挂专家号，在线开药，线上买药，线上复诊，网络预约手术等全方位服务；患者通过智慧互联网医院获得全国优质医疗专家的权威诊治，小病大病网上就诊，看病不再难。";
-	}
-
-	@Override
-	public String platform() {
-		return "haodf";
-	}
-
-	@Override
-	public String home() {
-		return "haodf.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "好大夫在线";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"健康运动", "医疗", "生活应用" , "挂号" , "用药"};
-	}
-	
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13877117175", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://passport.haodf.com/user/ajaxuseridcnt4name?username=" + account + "&type=NORMAL&_=" + System.currentTimeMillis();

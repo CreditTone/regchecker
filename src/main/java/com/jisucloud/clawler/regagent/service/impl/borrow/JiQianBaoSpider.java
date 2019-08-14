@@ -8,37 +8,23 @@ import okhttp3.Headers;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-@UsePapaSpider
+
+@PapaSpiderConfig(
+		home = "gzhaitui.cn", 
+		message = "急钱宝app是一款贷款产品十分丰富的综合贷款平台。急钱宝app为大家精心准备了各种类型的贷款口子，每款产品都经过急钱宝平台审核，不管需要什么样的贷款产品都能满足你！", 
+		platform = "jiqianbao", 
+		platformName = "急钱宝", 
+		tags = { "P2P", "消费分期" , "借贷" }, 
+		testTelephones = { "15985268900", "18210538513" })
 public class JiQianBaoSpider extends PapaSpider {
 
-
-    @Override
-    public String message() {
-        return "急钱宝app是一款贷款产品十分丰富的综合贷款平台。急钱宝app为大家精心准备了各种类型的贷款口子，每款产品都经过急钱宝平台审核，不管需要什么样的贷款产品都能满足你！";
-    }
-
-    @Override
-    public String platform() {
-        return "jiqianbao";
-    }
-
-    @Override
-    public String home() {
-        return "gzhaitui.cn";
-    }
-    
-    @Override
-    public String platformName() {
-        return "急钱宝";
-    }
 
     private Map<String, String> getHeader() {
         Map<String, String> headers = new HashMap<>();
@@ -49,13 +35,6 @@ public class JiQianBaoSpider extends PapaSpider {
         return headers;
     }
     
-    
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268900", "18210538513");
-	}
-
-    @Override
     public boolean checkTelephone(String account) {
         try {
 			FormBody formBody = new FormBody
@@ -79,18 +58,16 @@ public class JiQianBaoSpider extends PapaSpider {
         return false;
     }
 
-    @Override
+    
     public boolean checkEmail(String account) {
         return checkTelephone(account);
     }
 
-    @Override
+    
     public Map<String, String> getFields() {
         return null;
     }
 
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "消费分期" , "借贷"};
-	}
+	
+	
 }

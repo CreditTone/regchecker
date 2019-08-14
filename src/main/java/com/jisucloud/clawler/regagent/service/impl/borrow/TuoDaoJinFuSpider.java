@@ -2,57 +2,29 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 
-import org.springframework.stereotype.Component;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "51tuodao.com", 
+		message = "拓道金服以互联网方式为民间的小额借贷双方提供中介服务,坚定的做好投资人与借款人的信息桥梁,解决民间小额投融资的需求。并致力于打造一个规范、安全、高效、诚信。", 
+		platform = "51tuodao", 
+		platformName = "拓道金服", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class TuoDaoJinFuSpider extends PapaSpider {
 
 	
 	
-	@Override
-	public String message() {
-		return "拓道金服以互联网方式为民间的小额借贷双方提供中介服务,坚定的做好投资人与借款人的信息桥梁,解决民间小额投融资的需求。并致力于打造一个规范、安全、高效、诚信。";
-	}
-
-	@Override
-	public String platform() {
-		return "51tuodao";
-	}
-
-	@Override
-	public String home() {
-		return "51tuodao.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "拓道金服";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.51tuodao.com/json/user/checkPhone";

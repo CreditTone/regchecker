@@ -2,53 +2,34 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider(excludeMsg = "不做了")
+@PapaSpiderConfig(
+		home = "2345.com", 
+		message = "上海二三四五网络科技股份有限公司(以下简称“2345”),早在2014年6月就已上市,而旗下的现金贷业务,包括2345贷款王、即刻贷以及雷霆贷。", 
+		platform = "2345dk", 
+		platformName = "2345贷款王", 
+		tags = { "贷超", "消费分期" , "借贷" }, 
+		testTelephones = { "18210538513", "15161509916" },
+		excludeMsg = "不做了"
+		)
 public class _2345DaiKuanWangSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "上海二三四五网络科技股份有限公司(以下简称“2345”),早在2014年6月就已上市,而旗下的现金贷业务,包括2345贷款王、即刻贷以及雷霆贷。";
-	}
-
-	@Override
-	public String platform() {
-		return "2345dk";
-	}
-
-	@Override
-	public String home() {
-		return "2345.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "2345贷款王";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"贷超", "消费分期" , "借贷"};
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://wsdaikuan.2345.com/b2b2p-ws/api/v5_9_1/isRegistered?version=5.13.0&scene=0220";
@@ -90,11 +71,6 @@ public class _2345DaiKuanWangSpider extends PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538513", "15161509916");
 	}
 
 }

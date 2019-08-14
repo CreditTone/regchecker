@@ -1,57 +1,26 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
-
-import org.springframework.stereotype.Component;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "qianpen.com", 
+		message = "钱盆网(www.qianpen.com)是一家广西P2P平台,南宁市互联网金融行业协会副会长单位,为P2P出借用户提供网络出借、小额贷款、网络借贷信息中介等融资服务。", 
+		platform = "qianpen", 
+		platformName = "钱盆网", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class QianPengWangSpider extends PapaSpider {
 
 	
 	
-	@Override
-	public String message() {
-		return "钱盆网(www.qianpen.com)是一家广西P2P平台,南宁市互联网金融行业协会副会长单位,为P2P出借用户提供网络出借、小额贷款、网络借贷信息中介等融资服务。";
-	}
-
-	@Override
-	public String platform() {
-		return "qianpen";
-	}
-
-	@Override
-	public String home() {
-		return "qianpen.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "钱盆网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.qianpen.com/user-center/check-phone-zrr-lc?phone=" + account;

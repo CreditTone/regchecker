@@ -1,53 +1,27 @@
 package com.jisucloud.clawler.regagent.service.impl.work;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "51job.com", 
+		message = "前程无忧(NASDAQ:JOBS)是中国具有广泛影响力的人力资源服务供应商,在美国上市的中国人力资源服务企业,创立了网站+猎头+RPO+校园招聘+管理软件的全方位招聘方案.目前51Job有效简历数量超过1.2亿。", 
+		platform = "51job", 
+		platformName = "前程无忧", 
+		tags = { "求职" , "招聘" }, 
+		testTelephones = { "18210538513", "15011008001" })
 public class QianChengWuYouSpider extends PapaSpider {
 
 
-	@Override
-	public String message() {
-		return "前程无忧(NASDAQ:JOBS)是中国具有广泛影响力的人力资源服务供应商,在美国上市的中国人力资源服务企业,创立了网站+猎头+RPO+校园招聘+管理软件的全方位招聘方案.目前51Job有效简历数量超过1.2亿。";
-	}
-
-	@Override
-	public String platform() {
-		return "51job";
-	}
-
-	@Override
-	public String home() {
-		return "51job.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "前程无忧";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"求职" , "招聘"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538513", "15011008001");
-	}
-
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://login.51job.com/ajax/checkinfo.php?jsoncallback=jQuery18309636398222161634_"+System.currentTimeMillis()+"&value="+account+"&nation=CN&type=mobile&_=" + System.currentTimeMillis();

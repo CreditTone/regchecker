@@ -3,9 +3,9 @@ package com.jisucloud.clawler.regagent.service.impl.video;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
@@ -14,46 +14,21 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "56.com", 
+		message = "56网是中国原创视频网站,免费上传搞笑逗趣生活视频,观看优质丰富的特色节目,关注感兴趣的原创导演和美女解说,快速分享及评论互动。", 
+		platform = "56", 
+		platformName = "56视频", 
+		tags = { "影音", "视频", "MV" }, 
+		testTelephones = { "18515290717", "18210530000" })
 public class _56VideoSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean check = false;
 
-	@Override
-	public String message() {
-		return "56网是中国原创视频网站,免费上传搞笑逗趣生活视频,观看优质丰富的特色节目,关注感兴趣的原创导演和美女解说,快速分享及评论互动。";
-	}
-
-	@Override
-	public String platform() {
-		return "56";
-	}
-
-	@Override
-	public String home() {
-		return "56.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "56视频";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"影音", "视频", "MV"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18515290717", "18210530000");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);

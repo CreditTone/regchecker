@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.saas;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -11,43 +11,19 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider(exclude = true)
+@PapaSpiderConfig(
+		home = "dingdingdan.com", 
+		message = "订订单网是专业的纺织服装加工好订单交易平台,聚集了众多优质纺织服装加工厂,包括服装服饰、家纺、面辅料、工艺、设备等。为广州、深圳、东莞、虎门、上海、杭州等。", 
+		platform = "dingdingdan", 
+		platformName = "订订单", 
+		tags = { "b2b" ,"商机" ,"生意" }, 
+		testTelephones = { "13925306966", "18210538513" },
+		exclude = true)
 public class DingDingDanSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		return "订订单网是专业的纺织服装加工好订单交易平台,聚集了众多优质纺织服装加工厂,包括服装服饰、家纺、面辅料、工艺、设备等。为广州、深圳、东莞、虎门、上海、杭州等。";
-	}
-
-	@Override
-	public String platform() {
-		return "dingdingdan";
-	}
-
-	@Override
-	public String home() {
-		return "dingdingdan.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "订订单网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"b2b" ,"商机" ,"生意"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13925306966", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.dingdingdan.com/index.php?m=Home&c=Members&a=ajax_check";

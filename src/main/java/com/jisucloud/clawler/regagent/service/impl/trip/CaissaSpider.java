@@ -1,56 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.trip;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "caissa.com", 
+		message = "凯撒旅游创始于1993年，经过20多年的稳健发展，相继在伦敦、巴黎、汉堡、洛杉矶等全球核心城市设有分支机构，在中国北京、广州、上海、成都以及沈阳等口岸城市和核心商业城市设有30余家分子公司。", 
+		platform = "caissa", 
+		platformName = "凯撒旅游", 
+		tags = { "旅游" , "开房", "酒店" , "美食" , "o2o" }, 
+		testTelephones = { "18515290717", "18210538513" })
 public class CaissaSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "凯撒旅游创始于1993年，经过20多年的稳健发展，相继在伦敦、巴黎、汉堡、洛杉矶等全球核心城市设有分支机构，在中国北京、广州、上海、成都以及沈阳等口岸城市和核心商业城市设有30余家分子公司。";
-	}
-
-	@Override
-	public String platform() {
-		return "caissa";
-	}
-
-	@Override
-	public String home() {
-		return "caissa.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "凯撒旅游网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"旅游" , "开房", "酒店" , "美食" , "o2o"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18515290717", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "http://my.caissa.com.cn/Registered/CheckPhone";

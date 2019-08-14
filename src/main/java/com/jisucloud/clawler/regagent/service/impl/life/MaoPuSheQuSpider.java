@@ -1,55 +1,29 @@
 package com.jisucloud.clawler.regagent.service.impl.life;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "mop.com", 
+		message = "猫扑网络流行文化发源地,汇集大杂烩,贴贴、视频、娱乐新闻、文学、汽车等内容为一体的娱乐资讯聚合移动新媒体。坚持BT和YY的娱乐精神,结合大数据,深度挖掘新闻背后的论坛BBS。", 
+		platform = "mop", 
+		platformName = "猫扑网络", 
+		tags = { "资讯", "社区", "论坛" }, 
+		testTelephones = { "13910252045", "18210538513" })
 public class MaoPuSheQuSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "猫扑网络流行文化发源地,汇集大杂烩,贴贴、视频、娱乐新闻、文学、汽车等内容为一体的娱乐资讯聚合移动新媒体。坚持BT和YY的娱乐精神,结合大数据,深度挖掘新闻背后的论坛BBS。";
-	}
-
-	@Override
-	public String platform() {
-		return "mop";
-	}
-
-	@Override
-	public String home() {
-		return "mop.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "猫扑网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"资讯", "社区", "论坛"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252045", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "http://passport.mop.com/ajax/mobileWasBound?callback=jQuery183030799903888868707_"+System.currentTimeMillis()+"&mobile="+account+"&_=" + System.currentTimeMillis();

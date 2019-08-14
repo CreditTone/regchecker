@@ -1,7 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -10,46 +10,22 @@ import okhttp3.Headers;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
+
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-@UsePapaSpider
+
+@PapaSpiderConfig(
+		home = "duanrong.com", 
+		message = "短融网是创新、透明的互联网借贷信息服务中介平台,深耕“三农”金融,专注于小额资产,为出借人提供省心投、月月盈、散标等出借产品。", 
+		platform = "duanrong", 
+		platformName = "duanrongName", 
+		tags = { "P2P" , "借贷" }, 
+		testTelephones = { "18210538577", "18210538513" })
 @Slf4j
 public class DuanRongSpider extends PapaSpider {
-
-	@Override
-	public String message() {
-		return "短融网是创新、透明的互联网借贷信息服务中介平台,深耕“三农”金融,专注于小额资产,为出借人提供省心投、月月盈、散标等出借产品。";
-	}
-
-	@Override
-	public String platform() {
-		return "duanrong";
-	}
-
-	@Override
-	public String home() {
-		return "duanrong.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "短融网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P" , "借贷"};
-	}
 	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538577", "18210538513");
-	}
-
 	private Headers getHeader() {
 		Map<String, String> headers = new HashMap<>();
 		headers.put("User-Agent",
@@ -59,8 +35,8 @@ public class DuanRongSpider extends PapaSpider {
 		headers.put("X-Requested-With", "XMLHttpRequest");
 		return Headers.of(headers);
 	}
-	
-	@Override
+
+
 	public boolean checkTelephone(String account) {
 		String url = "https://m.duanrong.com/isExist";
 		try {

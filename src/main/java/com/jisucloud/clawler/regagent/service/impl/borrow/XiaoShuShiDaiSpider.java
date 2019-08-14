@@ -6,7 +6,7 @@ import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -15,65 +15,26 @@ import lombok.extern.slf4j.Slf4j;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
-import com.google.common.collect.Sets;
+
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "xiaoshushidai.com", 
+		message = "小树时代竭诚为您提供年轻人贷款、创业贷款 、小额贷款、网上贷款等服务,另外小树时代还提供贷款申请、条件、流程、政策等资讯。", 
+		platform = "xiaoshushidai", 
+		platformName = "小树时代", 
+		tags = { "P2P", "借贷" , "消费贷" , "小微金融" }, 
+		testTelephones = { "13910252045", "18210538513" })
 public class XiaoShuShiDaiSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
 
-	@Override
-	public String message() {
-		return "小树时代竭诚为您提供年轻人贷款、创业贷款 、小额贷款、网上贷款等服务,另外小树时代还提供贷款申请、条件、流程、政策等资讯。";
-	}
-
-	@Override
-	public String platform() {
-		return "xiaoshushidai";
-	}
-
-	@Override
-	public String home() {
-		return "xiaoshushidai.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "小树时代";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷" , "消费贷" , "小微金融"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252045", "18210538513");
-	}
-
-	private String getImgCode() {
-		for (int i = 0 ; i < 3; i++) {
-			try {
-				WebElement img = chromeDriver.findElementByCssSelector("#valicodeImg");
-				img.click();smartSleep(1000);
-				byte[] body = chromeDriver.screenshot(img);
-				return OCRDecode.decodeImageCode(body);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return "";
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);

@@ -1,59 +1,32 @@
 package com.jisucloud.clawler.regagent.service.impl.video;
 
 import com.deep007.spiderbase.okhttp.OKHttpUtil;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.Headers;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
+
 
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "mgtv.com", 
+		message = "芒果TV是湖南广播电视台旗下唯一互联网视频平台，独家提供湖南卫视所有栏目高清视频直播点播，并为用户提供各类热门电影、电视剧、综艺、动漫、音乐、娱乐等内容。", 
+		platform = "mgtv", 
+		platformName = "芒果TV", 
+		tags = { "影音", "视频", "TV" }, 
+		testTelephones = { "18720982607", "18210538513" })
 public class MangGuoTVSpider extends PapaSpider {
 	
-	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
-	
-	@Override
-	public String message() {
-		return "芒果TV是湖南广播电视台旗下唯一互联网视频平台，独家提供湖南卫视所有栏目高清视频直播点播，并为用户提供各类热门电影、电视剧、综艺、动漫、音乐、娱乐等内容。";
-	}
-
-	@Override
-	public String platform() {
-		return "mgtv";
-	}
-
-	@Override
-	public String home() {
-		return "mgtv.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "芒果TV";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"影音", "视频", "TV"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18720982607", "18210538513");
-	}
-
 	private Headers getHeader() {
 		Map<String, String> headers = new HashMap<>();
 		headers.put("User-Agent",
@@ -79,8 +52,8 @@ public class MangGuoTVSpider extends PapaSpider {
 		}
 		return "";
 	}
+
 	
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			okHttpClient.newCall(createRequest("https://www.mgtv.com/")).execute().body().close();

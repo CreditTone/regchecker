@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.car;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -11,43 +11,18 @@ import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "top1.cn", 
+		message = "至尊用车是至尚威汽车服务（深圳）有限公司斥巨资打造的连锁即时用车服务品牌，其前身是至尊汽车租赁股份有限公司，为消费者即时提供代驾、接送、租车、违章查缴等服务。", 
+		platform = "top1", 
+		platformName = "至尊用车", 
+		tags = { "租车" }, 
+		testTelephones = { "18720982607", "18210538513" })
 public class ZhiZunYongCheSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		return "至尊用车是至尚威汽车服务（深圳）有限公司斥巨资打造的连锁即时用车服务品牌，其前身是至尊汽车租赁股份有限公司，为消费者即时提供代驾、接送、租车、违章查缴等服务。";
-	}
-
-	@Override
-	public String platform() {
-		return "top1";
-	}
-
-	@Override
-	public String home() {
-		return "top1.cn";
-	}
-
-	@Override
-	public String platformName() {
-		return "至尊用车";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"租车"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18720982607", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.top1.cn/home/Reg.aspx?act=check_user_reg_small&clientid=MobilePhoneNo&MobilePhoneNo="+account+"&_=" + System.currentTimeMillis();

@@ -1,7 +1,5 @@
 package com.jisucloud.clawler.regagent.service;
 
-import java.util.Set;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,14 +17,11 @@ public class PapaTask {
 	
 	private String email;
 	
-	private String callurl;
-	
 	private String name;
 	
-	private Set<String> needlessCheckPlatforms;
+	private String idcard;
 	
-	public boolean isNeedlessCheck(String platform) {
-		return needlessCheckPlatforms != null && needlessCheckPlatforms.contains(platform);
-	}
+	private String papaClz;
+	
 	
 }

@@ -3,9 +3,9 @@ package com.jisucloud.clawler.regagent.service.impl.music;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.service.PapaSpiderTester;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -15,50 +15,21 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "ximalaya.com", 
+		message = "喜马拉雅，颠覆了传统电台、个人网络电台单调的在线收听模式，让人们不仅能随时随地，听我想听，更能够轻松创建个人电台，随时分享好声音。在喜马拉雅，你随手就能上传声音作品，创建一个专属于自己的个人电台，持续发展积累粉丝并始终和他们连在一起。", 
+		platform = "ximalaya", 
+		platformName = "喜马拉雅", 
+		tags = { "听书", "生活休闲" }, 
+		testTelephones = { "13700982607", "18210538513" })
 public class XiMaLaYaSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean isFlag = false;
 
-	@Override
-	public String message() {
-		return "喜马拉雅，颠覆了传统电台、个人网络电台单调的在线收听模式，让人们不仅能随时随地，听我想听，更能够轻松创建个人电台，随时分享好声音。在喜马拉雅，你随手就能上传声音作品，创建一个专属于自己的个人电台，持续发展积累粉丝并始终和他们连在一起。";
-	}
-
-	@Override
-	public String platform() {
-		return "ximalaya";
-	}
-
-	@Override
-	public String home() {
-		return "ximalaya.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "喜马拉雅";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"听书", "生活休闲"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13700982607", "18210538513");
-	}
-	
-	public static void main(String[] args) {
-		PapaSpiderTester.testingWithPrint(XiMaLaYaSpider.class);
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);

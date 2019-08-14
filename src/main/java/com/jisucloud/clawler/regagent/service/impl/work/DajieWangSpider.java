@@ -1,55 +1,29 @@
 package com.jisucloud.clawler.regagent.service.impl.work;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "dajie.com", 
+		message = "大街网创立于2008年底,是一家真正专属于年轻人的移动社交招聘平台,为年轻职场人匹配最佳工作机会,拓展职场人脉,提升职场价值.大街想要做的,就是用互联网思维。", 
+		platform = "dajie", 
+		platformName = "大街网", 
+		tags = { "求职" , "招聘" , "商务" }, 
+		testTelephones = { "18515290717", "18210538513" })
 public class DajieWangSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "大街网创立于2008年底,是一家真正专属于年轻人的移动社交招聘平台,为年轻职场人匹配最佳工作机会,拓展职场人脉,提升职场价值.大街想要做的,就是用互联网思维。";
-	}
-
-	@Override
-	public String platform() {
-		return "dajie";
-	}
-
-	@Override
-	public String home() {
-		return "dajie.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "大街网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"求职" , "招聘" , "商务"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18515290717", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.dajie.com/account/phonestatuscheck?callback=jQuery151020488464963648478_"+System.currentTimeMillis()+"&ajax=1&phoneNumber="+account+"&_=1559213156444&_CSRFToken=";

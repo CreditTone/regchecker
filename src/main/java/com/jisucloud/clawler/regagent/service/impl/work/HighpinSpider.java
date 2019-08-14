@@ -1,57 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.work;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "highpin.com", 
+		message = "智联卓聘highpin.cn是智联招聘网旗下中高端人才招聘网站,整合全球1088个国家和地区40多个行业海量年薪10万以上的中高端职位。中高端人才求职、找工作,首选智联卓聘。", 
+		platform = "highpin", 
+		platformName = "智联卓聘", 
+		tags = { "求职" , "招聘" }, 
+		testTelephones = { "15700102866", "15700102860" })
 public class HighpinSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "智联卓聘highpin.cn是智联招聘网旗下中高端人才招聘网站,整合全球1088个国家和地区40多个行业海量年薪10万以上的中高端职位。中高端人才求职、找工作,首选智联卓聘。";
-	}
-
-	@Override
-	public String platform() {
-		return "highpin";
-	}
-
-	@Override
-	public String home() {
-		return "highpin.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "智联卓聘";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"求职" , "招聘"};
-	}
-
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15700102866", "15700102860");
-	}
-	
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://c.highpin.cn/Users/CheckUserName/?x-zp-client-id=d1c8cf49-2e75-4ace-dcd3-c85fcfb7998a";

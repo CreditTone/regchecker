@@ -1,44 +1,26 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import java.util.Map;
-import java.util.Set;
 
-import com.google.common.collect.Sets;
+
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import okhttp3.FormBody;
 import okhttp3.Request;
 import okhttp3.Response;
 
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "bjdp2p.com", 
+		message = "博金贷(www.bjdp2p.com)互联网金融服务平台,由博能控股集团,江西省投资集团,大成国资,南治资产,南昌市小额贷款公司协会等共同出资组建并获得中国网贷平台。", 
+		platform = "bjdp2p", 
+		platformName = "博金贷", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "13261165342", "18210538513" })
 public class BoJinDaiSpider extends PapaSpider {
 	
-	@Override
-	public String message() {
-		// TODO Auto-generated method stub
-		return "博金贷(www.bjdp2p.com)互联网金融服务平台,由博能控股集团,江西省投资集团,大成国资,南治资产,南昌市小额贷款公司协会等共同出资组建并获得中国网贷平台。";
-	}
-
-	@Override
-	public String platform() {
-		// TODO Auto-generated method stub
-		return "bjdp2p";
-	}
-
-	@Override
-	public String home() {
-		// TODO Auto-generated method stub
-		return "bjdp2p.com";
-	}
-
-	@Override
-	public String platformName() {
-		// TODO Auto-generated method stub
-		return "博金贷";
-	}
-
 	@Override
 	public boolean checkTelephone(String account) {
 		try {
@@ -73,18 +55,6 @@ public class BoJinDaiSpider extends PapaSpider {
 	public Map<String, String> getFields() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public String[] tags() {
-		// TODO Auto-generated method stub
-		return new String[] {"P2P", "借贷"};
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		// TODO Auto-generated method stub
-		return Sets.newHashSet("13261165342", "18210538513");
 	}
 
 }

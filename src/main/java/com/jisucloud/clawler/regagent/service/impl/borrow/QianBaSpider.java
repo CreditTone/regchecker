@@ -1,51 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "51qianba.com", 
+		message = "钱吧(www.51qianba.com)专注于汽车抵押投资,是互联网金融中介的领军者。融合“互联网+金融+汽车”,致力于为投融双方提供安全、高效、便捷、透明的互联网金融信息。", 
+		platform = "51qianba", 
+		platformName = "钱吧", 
+		tags = { "p2p", "借贷" }, 
+		testTelephones = { "18210538513", "15161509916" })
 public class QianBaSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "钱吧(www.51qianba.com)专注于汽车抵押投资,是互联网金融中介的领军者。融合“互联网+金融+汽车”,致力于为投融双方提供安全、高效、便捷、透明的互联网金融信息。";
-	}
-
-	@Override
-	public String platform() {
-		return "51qianba";
-	}
-
-	@Override
-	public String home() {
-		return "51qianba.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "钱吧";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"p2p", "借贷"};
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.51qianba.com/web/registerController.do?ajaxregisterStep1";
@@ -83,11 +62,6 @@ public class QianBaSpider extends PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538513", "15161509916");
 	}
 
 }

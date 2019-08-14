@@ -9,48 +9,24 @@ import okhttp3.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-@UsePapaSpider
+
+@PapaSpiderConfig(
+		home = "weloan.com", 
+		message = "小微金融(weloan.com)是东方银座集团(地产百强)旗下的互联网金融平台,AAA级信用资质、互联网协会会员单位。为个人及中小微企业提供小额贷款、车贷、房贷等出借产品.", 
+		platform = "weloan", 
+		platformName = "小微金融", 
+		tags = { "P2P", "消费分期" , "借贷" }, 
+		testTelephones = { "18210538577", "18210538513" })
 @Slf4j
 public class XiaoWeiJinRongSpider extends PapaSpider {
-
-	@Override
-	public String message() {
-		return "小微金融(weloan.com)是东方银座集团(地产百强)旗下的互联网金融平台,AAA级信用资质、互联网协会会员单位。为个人及中小微企业提供小额贷款、车贷、房贷等出借产品.";
-	}
-
-	@Override
-	public String platform() {
-		return "weloan";
-	}
-
-	@Override
-	public String home() {
-		return "weloan.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "小微金融";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "消费分期" , "借贷"};
-	}
 	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538577", "18210538513");
-	}
-
 	private Headers getHeader() {
 		Map<String, String> headers = new HashMap<>();
 		headers.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0");
@@ -89,7 +65,6 @@ public class XiaoWeiJinRongSpider extends PapaSpider {
 		return formBody;
 	}
 
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.weloan.com/login";

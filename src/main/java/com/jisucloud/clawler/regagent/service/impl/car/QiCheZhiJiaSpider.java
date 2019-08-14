@@ -1,59 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.car;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "autohome.com", 
+		message = "汽车之家为您提供最新汽车报价，汽车图片，汽车价格大全，最精彩的汽车新闻、行情、评测、导购内容，是提供信息最快最全的中国汽车网站。", 
+		platform = "autohome", 
+		platformName = "汽车之家", 
+		tags = { "二手车", "汽车" }, 
+		testTelephones = { "18210538500", "18210538513" })
 public class QiCheZhiJiaSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "汽车之家为您提供最新汽车报价，汽车图片，汽车价格大全，最精彩的汽车新闻、行情、评测、导购内容，是提供信息最快最全的中国汽车网站。";
-	}
-
-	@Override
-	public String platform() {
-		return "autohome";
-	}
-
-	@Override
-	public String home() {
-		return "autohome.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "汽车之家";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"二手车", "汽车"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538500", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://account.autohome.com.cn/AccountApi/CheckPhone";

@@ -1,7 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -13,50 +13,26 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "xiaoniu88.com", 
+		message = "小牛在线是中国线上智能金融服务平台,提供专业的P2P网贷服务,为出借人提供多种互联网金融服务项目,是中国社科院网贷评级A级平台,互联网金融平台首选小牛在线!", 
+		platform = "xiaoniu88", 
+		platformName = "xiaoniu88Name", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "13910252045", "18210538513" })
 public class XiaoNiuZaiXianSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
-
-	@Override
-	public String message() {
-		return "小牛在线是中国线上智能金融服务平台,提供专业的P2P网贷服务,为出借人提供多种互联网金融服务项目,是中国社科院网贷评级A级平台,互联网金融平台首选小牛在线!";
-	}
-
-	@Override
-	public String platform() {
-		return "xiaoniu88";
-	}
-
-	@Override
-	public String home() {
-		return "xiaoniu88.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "小牛在线";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
 	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252045", "18210538513");
-	}
-
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {
@@ -71,7 +47,7 @@ public class XiaoNiuZaiXianSpider extends PapaSpider implements AjaxHook {
 		return "";
 	}
 
-	@Override
+
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);

@@ -1,59 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.game;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "kunlun.com", 
+		message = "昆仑游戏是昆仑万维旗下游戏平台，主要针对手游、页游、端游的研发与发行。", 
+		platform = "kunlun", 
+		platformName = "昆仑游戏", 
+		tags = { "游戏" }, 
+		testTelephones = { "18779861102", "13269423806" })
 public class KunLunSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "昆仑游戏是昆仑万维旗下游戏平台，主要针对手游、页游、端游的研发与发行。";
-	}
-
-	@Override
-	public String platform() {
-		return "kunlun";
-	}
-
-	@Override
-	public String home() {
-		return "kunlun.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "昆仑游戏";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"游戏"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18779861102", "13269423806");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.kunlun.com/index.php?act=ajax.checkUsername&v1=1.1&user_name=" + account;

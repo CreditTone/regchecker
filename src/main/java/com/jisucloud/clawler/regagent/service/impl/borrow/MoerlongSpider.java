@@ -1,13 +1,12 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.Headers;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -18,48 +17,22 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import com.deep007.spiderbase.okhttp.OKHttpUtil;
-import com.google.common.collect.Sets;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
-@UsePapaSpider
+
+@PapaSpiderConfig(
+		home = "edai.com", 
+		message = "摩尔龙致力于为社会普通大众群体提供更加简单、透明及全方位的金融服务。公司业务覆盖全国，每年为大量客户提供包括：信用贷款、抵押贷款、装修贷款、旅游贷款、经营贷款、企业贷款等服务，满足您的全部资金需求。一个电话马上贷款咨询！", 
+		platform = "edai", 
+		platformName = "摩尔龙金融", 
+		tags = { "P2P", "消费分期" , "借贷" }, 
+		testTelephones = { "15985268004", "18210538513" })
 @Slf4j
 public class MoerlongSpider extends PapaSpider {
-	
-	@Override
-	public String message() {
-		return "摩尔龙致力于为社会普通大众群体提供更加简单、透明及全方位的金融服务。公司业务覆盖全国，每年为大量客户提供包括：信用贷款、抵押贷款、装修贷款、旅游贷款、经营贷款、企业贷款等服务，满足您的全部资金需求。一个电话马上贷款咨询！";
-	}
-
-	@Override
-	public String platform() {
-		return "edai";
-	}
-
-	@Override
-	public String home() {
-		return "edai.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "摩尔龙";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "消费分期" , "借贷"};
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268004", "18210538513");
-	}
 	
 	private Headers getHeader() {
 		Map<String, String> headers = new HashMap<>();
@@ -91,8 +64,8 @@ public class MoerlongSpider extends PapaSpider {
 		}
 		return false;
 	}
+
 	
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "http://www.edai.com/user/exist/?phone=" + account;

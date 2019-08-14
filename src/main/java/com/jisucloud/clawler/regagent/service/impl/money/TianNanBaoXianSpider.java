@@ -3,9 +3,9 @@ package com.jisucloud.clawler.regagent.service.impl.money;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
@@ -14,47 +14,23 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider(ignoreTestResult = true)
+@PapaSpiderConfig(
+		home = "tianaw.com", 
+		message = "天安保险即天安财产保险股份有限公司是中国第四家财产险保险公司，也是第二家按照现代企业制度和国际标准组建的股份制商业保险公司。", 
+		platform = "tianaw", 
+		platformName = "天安保险", 
+		tags = { "理财", "保险" }, 
+		testTelephones = { "15901537458", "18210538513" },
+		ignoreTestResult = true)
 public class TianNanBaoXianSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean suc = false;
 	
-	@Override
-	public String message() {
-		return "天安保险即天安财产保险股份有限公司是中国第四家财产险保险公司，也是第二家按照现代企业制度和国际标准组建的股份制商业保险公司。";
-	}
-
-	@Override
-	public String platform() {
-		return "tianaw";
-	}
-
-	@Override
-	public String home() {
-		return "tianaw.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "天安保险";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"理财", "保险"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15901537458", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);

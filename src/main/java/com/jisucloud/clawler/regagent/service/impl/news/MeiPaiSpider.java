@@ -2,9 +2,9 @@ package com.jisucloud.clawler.regagent.service.impl.news;
 
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -17,39 +17,19 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "meipai.com", 
+		message = "美拍是一款可以直播、制作小视频的受年轻人喜爱的软件。美拍 - 高颜值手机直播+超火爆原创视频。2014年5月上线后，连续24天蝉联App Store免费总榜冠军，并成为当月App Store全球非游戏类下载量第一。", 
+		platform = "meipai", 
+		platformName = "美拍", 
+		tags = { "美图" , "美颜", "工具" , "短视频" }, 
+		testTelephones = { "18210538513", "15161509916" })
 public class MeiPaiSpider extends PapaSpider implements AjaxHook{
 
 	
-	@Override
-	public String message() {
-		return "美拍是一款可以直播、制作小视频的受年轻人喜爱的软件。美拍 - 高颜值手机直播+超火爆原创视频。2014年5月上线后，连续24天蝉联App Store免费总榜冠军，并成为当月App Store全球非游戏类下载量第一。";
-	}
-
-	@Override
-	public String platform() {
-		return "meipai";
-	}
-
-	@Override
-	public String home() {
-		return "meipai.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "美拍";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"美图" , "美颜", "工具" , "短视频"};
-	}
-	
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.meipai.com/users/login";
@@ -86,11 +66,6 @@ public class MeiPaiSpider extends PapaSpider implements AjaxHook{
 	@Override
 	public Map<String, String> getFields() {
 		return null;
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538513", "15161509916");
 	}
 
 	@Override

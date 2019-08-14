@@ -3,9 +3,9 @@ package com.jisucloud.clawler.regagent.service.impl.shop;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -15,62 +15,23 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
+
 
 import org.openqa.selenium.WebElement;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "juanpi.com", 
+		message = "卷皮网，服务消费者日常生活所需的平价生活电子商务平台，专注为消费者提供平价商品和更好购物体验，是一家专注高性价比商品的移动电商。2012年9月正式推出，同时运营有网站和移动App。2014年7月卷皮曾获得由汉理、纽信共同投入的5000万人民。", 
+		platform = "juanpi", 
+		platformName = "卷皮网", 
+		tags = { "9.9包邮" , "购物" }, 
+		testTelephones = { "18210008513", "18210538513" })
 public class JuanPiSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	boolean vcodeSuc = false;
 
-	@Override
-	public String message() {
-		return "卷皮网，服务消费者日常生活所需的平价生活电子商务平台，专注为消费者提供平价商品和更好购物体验，是一家专注高性价比商品的移动电商。2012年9月正式推出，同时运营有网站和移动App。2014年7月卷皮曾获得由汉理、纽信共同投入的5000万人民。";
-	}
-
-	@Override
-	public String platform() {
-		return "juanpi";
-	}
-
-	@Override
-	public String home() {
-		return "juanpi.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "卷皮网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"9.9包邮" , "购物"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210008513", "18210538513");
-	}
-	
-	private String getImgCode() {
-		for (int i = 0 ; i < 3; i++) {
-			try {
-				WebElement img = chromeDriver.findElementByCssSelector("#verify");
-				img.click();smartSleep(1000);
-				byte[] body = chromeDriver.screenshot(img);
-				return OCRDecode.decodeImageCode(body);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return "";
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);

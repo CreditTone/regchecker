@@ -4,59 +4,32 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.deep007.spiderbase.okhttp.OKHttpUtil;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.Headers;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
+
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "qufenqi.com", 
+		message = "“大白汽车分期”是为购车人群提供分期服务的新车购车APP.", 
+		platform = "qufenqi", 
+		platformName = "qufenqiName", 
+		tags = { "P2P", "消费分期" , "借贷" }, 
+		testTelephones = { "18210538577", "18210538513" })
 public class DabaiqicheSpider extends PapaSpider {
 	
-	OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
-
-	@Override
-	public String message() {
-		return "“大白汽车分期”是为购车人群提供分期服务的新车购车APP.";
-	}
-
-	@Override
-	public String platform() {
-		return "qufenqi";
-	}
-
-	@Override
-	public String home() {
-		return "qufenqi.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "大白汽车分期";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "消费分期" , "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538577", "18210538513");
-	}
-
 	private Map<String, String> getHeader() {
 		Map<String, String> headers = new HashMap<>();
 		headers.put("User-Agent",
@@ -75,8 +48,8 @@ public class DabaiqicheSpider extends PapaSpider {
 		}
 		return null;
 	}
+
 	
-	@Override
 	public boolean checkTelephone(String account) {
 		String url = "https://passport.qufenqi.com/i/resetloginpass/setaccount";
 		for (int i = 0; i < 5; i++) {//最大尝试5次

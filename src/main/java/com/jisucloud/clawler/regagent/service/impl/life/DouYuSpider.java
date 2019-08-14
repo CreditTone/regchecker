@@ -4,9 +4,9 @@ import com.deep007.spiderbase.okhttp.OKHttpUtil;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -16,7 +16,6 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 import okhttp3.Authenticator;
 import okhttp3.Credentials;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.Route;
@@ -26,48 +25,20 @@ import org.openqa.selenium.interactions.Actions;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-//@UsePapaSpider  行为分析反扒
+@PapaSpiderConfig(
+		home = "", 
+		message = "", 
+		platform = "", 
+		platformName = "", 
+		tags = { "" }, 
+		testTelephones = { "" },
+		excludeMsg = "行为分析反扒")
 public class DouYuSpider extends PapaSpider {
 
-	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClientWithRandomProxy();
-
-	@Override
-	public String message() {
-		return "斗鱼- 每个人的直播平台提供高清、快捷、流畅的视频直播和游戏赛事直播服务,包含英雄联盟lol直播、穿越火线cf直播、dota2直播、美女直播等各类热门游戏赛事直播。";
-	}
-
-	@Override
-	public String platform() {
-		return "douyu";
-	}
-
-	@Override
-	public String home() {
-		return "douyu.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "斗鱼直播";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"社区", "游戏" , "交友"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13925306966", "18210538513");
-	}
-	
-	
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			

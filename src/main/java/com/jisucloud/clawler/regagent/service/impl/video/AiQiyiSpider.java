@@ -5,9 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
@@ -16,48 +16,23 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
+
 
 import org.openqa.selenium.WebElement;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "iqiyi.com", 
+		message = "爱奇艺是由龚宇于2010年4月22日创立的视频网站，2011年11月26日启动“爱奇艺”品牌并推出全新标志。爱奇艺成立伊始，坚持“悦享品质”的公司理念，以“用户体验..", 
+		platform = "iqiyi", 
+		platformName = "爱奇艺", 
+		tags = { "影音", "视频", "MV" }, 
+		testTelephones = { "18210530000", "18210538513" })
 public class AiQiyiSpider extends PapaSpider implements AjaxHook{
 	
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 
-	@Override
-	public String message() {
-		return "爱奇艺是由龚宇于2010年4月22日创立的视频网站，2011年11月26日启动“爱奇艺”品牌并推出全新标志。爱奇艺成立伊始，坚持“悦享品质”的公司理念，以“用户体验..";
-	}
-
-	@Override
-	public String platform() {
-		return "iqiyi";
-	}
-
-	@Override
-	public String home() {
-		return "iqiyi.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "爱奇艺";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"影音", "视频", "MV"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210530000", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);

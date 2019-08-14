@@ -2,55 +2,30 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import com.deep007.spiderbase.okhttp.OKHttpUtil;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider(excludeMsg = "倒闭")
+@PapaSpiderConfig(
+		home = "lingyongdai.com", 
+		message = "零用贷是重信金融旗下专注于互联网金融业务的信息中介平台,旨在为投资者提供低风险,高回报的理财产品,为有资金需求者提供低成本、高效的贷款服务。", 
+		platform = "lingyongdai", 
+		platformName = "lingyongdaiName", 
+		tags = { "P2P", "消费分期" , "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" },
+		excludeMsg = "倒闭")
 public class LingYongDaiSpider extends PapaSpider {
 
-	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
 	
-	@Override
-	public String message() {
-		return "零用贷是重信金融旗下专注于互联网金融业务的信息中介平台,旨在为投资者提供低风险,高回报的理财产品,为有资金需求者提供低成本、高效的贷款服务。";
-	}
-
-	@Override
-	public String platform() {
-		return "lingyongdai";
-	}
-
-	@Override
-	public String home() {
-		return "lingyongdai.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "零用贷";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "消费分期" , "借贷"};
-	}
 	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.lingyongdai.com/passport/login";

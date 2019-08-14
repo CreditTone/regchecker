@@ -1,56 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.shop;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "ctfmall.com", 
+		message = "周大福－亚洲最值得信赖的钻石、黄金珠宝品牌，为您提供最优质的在线购物服务，数千款钻石、钻戒、戒指、吊坠、项链、黄金饰品供您选购!", 
+		platform = "ctfmall", 
+		platformName = "周大福", 
+		tags = { "电商" , "首饰" }, 
+		testTelephones = { "18779861101", "18210538513" })
 public class ZhouDaFuSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "周大福－亚洲最值得信赖的钻石、黄金珠宝品牌，为您提供最优质的在线购物服务，数千款钻石、钻戒、戒指、吊坠、项链、黄金饰品供您选购!";
-	}
-
-	@Override
-	public String platform() {
-		return "ctfmall";
-	}
-
-	@Override
-	public String home() {
-		return "ctfmall.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "周大福";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"电商" , "首饰"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18779861101", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://m.ctfmall.com/ajax.ashx?action=UserLogin&t=0.37937339"+System.currentTimeMillis();

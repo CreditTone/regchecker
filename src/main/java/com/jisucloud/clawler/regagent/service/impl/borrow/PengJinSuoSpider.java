@@ -1,7 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import io.netty.handler.codec.http.DefaultHttpResponse;
@@ -15,50 +15,26 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "penging.com", 
+		message = "鹏金所,全称深圳市鹏金所互联网金融服务有限公司,是万科领衔多家上市公司联袂打造的互联网金融平台。鹏金所是深圳市鹏鼎创盈金融信息服务股份有限公司。", 
+		platform = "penging", 
+		platformName = "鹏金所", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15900068904", "18210538513" })
 public class PengJinSuoSpider extends PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
-
-	@Override
-	public String message() {
-		return "鹏金所,全称深圳市鹏金所互联网金融服务有限公司,是万科领衔多家上市公司联袂打造的互联网金融平台。鹏金所是深圳市鹏鼎创盈金融信息服务股份有限公司。";
-	}
-
-	@Override
-	public String platform() {
-		return "penging";
-	}
-
-	@Override
-	public String home() {
-		return "penging.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "鹏金所";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
 	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15900068904", "18210538513");
-	}
-
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {
@@ -74,7 +50,7 @@ public class PengJinSuoSpider extends PapaSpider {
 	}
 	String code;
 
-	@Override
+
 	public boolean checkTelephone(String account) {
 		HookTracker hookTracker = HookTracker.builder()
 				.addUrl("login/phoneCheckFindPwd")

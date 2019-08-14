@@ -3,9 +3,9 @@ package com.jisucloud.clawler.regagent.service.impl._3c;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -15,46 +15,23 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
+
 
 import org.openqa.selenium.WebElement;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "cnmo.com", 
+		message = "手机中国是一个实现了专业、时尚、品位并重的新兴手机媒体。相对于传统手机媒体不同之处在于，手机中国不仅提供指导消费、倡导应用，同时还在引领着手机的时尚与品位。在专业端，手机中国提供售前指导，包括价格、选购、评测试用、新品消息等，同时还在时尚与品味端，提供全方位的服务。", 
+		platform = "cnmo", 
+		platformName = "手机中国", 
+		tags = { "手机" , "媒体" , "评测" }, 
+		testTelephones = { "15985268900", "18210538513" }
+		)
 public class ShouJiZhongGuoSpider extends PapaSpider implements AjaxHook {
 	
 	private ChromeAjaxHookDriver chromeDriver;
 
-	@Override
-	public String message() {
-		return "手机中国是一个实现了专业、时尚、品位并重的新兴手机媒体。相对于传统手机媒体不同之处在于，手机中国不仅提供指导消费、倡导应用，同时还在引领着手机的时尚与品位。在专业端，手机中国提供售前指导，包括价格、选购、评测试用、新品消息等，同时还在时尚与品味端，提供全方位的服务。";
-	}
-
-	@Override
-	public String platform() {
-		return "cnmo";
-	}
-
-	@Override
-	public String home() {
-		return "cnmo.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "手机中国";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"手机" , "媒体" , "评测"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268900", "18210538513");
-	}
-	
 	@Override
 	public boolean checkTelephone(String account) {
 		try {

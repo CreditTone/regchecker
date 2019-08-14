@@ -1,64 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.health;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "ciming.com", 
+		message = "慈铭体检中心专业可靠、体检项目齐全，2010年被人民日报社授予“健康中国特别贡献大奖”。慈铭健康体检管理集团股份有限公司是国内知名的专业化健康体检连锁机构，规模大，覆盖范围广，体检数量多。", 
+		platform = "ciming", 
+		platformName = "慈铭体检", 
+		tags = { "体检", "医疗" }, 
+		testTelephones = { "13877117175", "18210538513" })
 public class CiMingTiJianSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "慈铭体检中心专业可靠、体检项目齐全，2010年被人民日报社授予“健康中国特别贡献大奖”。慈铭健康体检管理集团股份有限公司是国内知名的专业化健康体检连锁机构，规模大，覆盖范围广，体检数量多。";
-	}
-
-	@Override
-	public String platform() {
-		return "ciming";
-	}
-
-	@Override
-	public String home() {
-		return "ciming.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "慈铭体检";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"体检", "医疗"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13877117175", "18210538513");
-	}
-
-//	public static void main(String[] args) throws InterruptedException {
-//		System.out.println(new CiMingTiJianSpider().checkTelephone("18210538000"));
-//		System.out.println(new CiMingTiJianSpider().checkTelephone("18210538513"));
-//	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "http://book.ciming.com/userRegistPhoneCheck.html?loginPhone="+account;

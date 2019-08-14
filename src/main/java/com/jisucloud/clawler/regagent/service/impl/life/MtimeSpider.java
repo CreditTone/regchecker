@@ -5,9 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
@@ -16,47 +16,22 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "mtime.com", 
+		message = "Mtime时光网,中国最专业的电影电视剧及影人资料库,这里有最新最专业的电影新闻,预告片,海报,写真和热门影评,同时提供电影院影讯查询,博客,相册和群组等服务,是电影粉丝的最佳电影社区。", 
+		platform = "mtime", 
+		platformName = "Mtime时光网", 
+		tags = { "娱乐", "影音", "追星" }, 
+		testTelephones = { "13910252045", "18210538513" })
 public class MtimeSpider extends PapaSpider implements AjaxHook {
 	
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 
 
-	@Override
-	public String message() {
-		return "Mtime时光网,中国最专业的电影电视剧及影人资料库,这里有最新最专业的电影新闻,预告片,海报,写真和热门影评,同时提供电影院影讯查询,博客,相册和群组等服务,是电影粉丝的最佳电影社区。";
-	}
-
-	@Override
-	public String platform() {
-		return "mtime";
-	}
-
-	@Override
-	public String home() {
-		return "mtime.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "Mtime时光网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"娱乐", "影音", "追星"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252045", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, false);

@@ -1,56 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.trip;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "tuniu.com", 
+		message = "途牛旅游网提供跟团游、自助游、邮轮旅游、自驾游、定制游以及景点门票预订、机票预订、火车票预订服务,还有牛人专线、首付出发旅游等品质高端。", 
+		platform = "tuniu", 
+		platformName = "途牛旅游网", 
+		tags = { "旅游" , "酒店" , "美食" , "o2o" }, 
+		testTelephones = { "13910252075", "18210538513" })
 public class TuNiuSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "途牛旅游网提供跟团游、自助游、邮轮旅游、自驾游、定制游以及景点门票预订、机票预订、火车票预订服务,还有牛人专线、首付出发旅游等品质高端。";
-	}
-
-	@Override
-	public String platform() {
-		return "tuniu";
-	}
-
-	@Override
-	public String home() {
-		return "tuniu.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "途牛旅游";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"旅游" , "酒店" , "美食" , "o2o"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252075", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://passport.tuniu.com/register/isPhoneAvailable";

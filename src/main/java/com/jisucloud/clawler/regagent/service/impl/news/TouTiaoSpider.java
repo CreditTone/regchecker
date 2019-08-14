@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.news;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -12,10 +12,16 @@ import okhttp3.Response;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "toutiao.com", 
+		message = "今日头条是北京字节跳动科技有限公司开发的一款基于数据挖掘的推荐引擎产品，为用户推荐信息，提供连接人与信息的服务的产品。由张一鸣于2012年3月创建，2012年8月发布第一个版本。", 
+		platform = "toutiao", 
+		platformName = "今日头条", 
+		tags = { "新闻资讯" }, 
+		testTelephones = { "18720000000", "18210538513" })
 public class TouTiaoSpider extends PapaSpider {
 	
 	private static Map<String,String> datas = new HashMap<String, String>();
@@ -32,39 +38,6 @@ public class TouTiaoSpider extends PapaSpider {
 		datas.put("9", "3c");
 	}
 
-	
-	
-	@Override
-	public String message() {
-		return "今日头条是北京字节跳动科技有限公司开发的一款基于数据挖掘的推荐引擎产品，为用户推荐信息，提供连接人与信息的服务的产品。由张一鸣于2012年3月创建，2012年8月发布第一个版本。";
-	}
-
-	@Override
-	public String platform() {
-		return "toutiao";
-	}
-
-	@Override
-	public String home() {
-		return "toutiao.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "今日头条";
-	}
-
-
-	@Override
-	public String[] tags() {
-		return new String[] {"新闻资讯"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18720000000", "18210538513");
-	}
-	
 	private static String encryption(String mobile) {
 		String encryption = "";
 		for (int i = 0; i < mobile.length(); i++) {
@@ -72,9 +45,8 @@ public class TouTiaoSpider extends PapaSpider {
 		}
 		return encryption;
 	}
-	
 
-	@Override
+	
 	public boolean checkTelephone(String account) {
 		String lastMsg = "";
 		for (int i = 0; i < 2; i++) {

@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.news;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -10,45 +10,19 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "ifeng.com", 
+		message = "凤凰网是中国领先的综合门户网站,提供含文图音视频的全方位综合新闻资讯、深度访谈、观点评论、财经产品、互动应用、分享社区等服务,同时与凤凰无线。", 
+		platform = "ifeng", 
+		platformName = "凤凰网", 
+		tags = { "新闻资讯" }, 
+		testTelephones = { "18720982607", "18210538513" })
 public class FenghuangSpider extends PapaSpider {
 
 
-	@Override
-	public String message() {
-		return "凤凰网是中国领先的综合门户网站,提供含文图音视频的全方位综合新闻资讯、深度访谈、观点评论、财经产品、互动应用、分享社区等服务,同时与凤凰无线。";
-	}
-
-	@Override
-	public String platform() {
-		return "ifeng";
-	}
-
-	@Override
-	public String home() {
-		return "ifeng.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "凤凰网";
-	}
-
-
-	@Override
-	public String[] tags() {
-		return new String[] {"新闻资讯"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18720982607", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://id.ifeng.com/api/checkMobile?callback=jQuery183019200945270426273_" + System.currentTimeMillis();

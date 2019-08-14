@@ -1,52 +1,27 @@
 package com.jisucloud.clawler.regagent.service.impl.life;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "ipanda.com", 
+		message = "iPanda熊猫频道面向全球网民打造极具吸引力的熊猫主题新媒体集群，通过熊猫向世界传播和平、友爱理念，提升国家形象。网站对大熊猫繁育、日常起居、娱乐的情况进行全天候24小时近距离视频直播及点。", 
+		platform = "ipanda", 
+		platformName = "iPanda熊猫频道", 
+		tags = { "和平", "媒体" , "熊猫" }, 
+		testTelephones = { "13477079270", "18210538513" })
 public class IPandaSpider extends PapaSpider {
 
 
-	@Override
-	public String message() {
-		return "iPanda熊猫频道面向全球网民打造极具吸引力的熊猫主题新媒体集群，通过熊猫向世界传播和平、友爱理念，提升国家形象。网站对大熊猫繁育、日常起居、娱乐的情况进行全天候24小时近距离视频直播及点。";
-	}
-
-	@Override
-	public String platform() {
-		return "ipanda";
-	}
-
-	@Override
-	public String home() {
-		return "ipanda.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "iPanda熊猫频道";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"和平", "媒体" , "熊猫"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13477079270", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		if (account.length() != 11) {
 			return false;

@@ -1,54 +1,29 @@
 package com.jisucloud.clawler.regagent.service.impl.life;
 
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-//@UsePapaSpider 没有测试手机号
+@PapaSpiderConfig(
+		home = "aol.com", 
+		message = "美国在线（American Online），2000年至2009年期间是美国时代华纳的子公司，著名的因特网服务提供商。在2000年美国在线和时代华纳（Time Warner）宣布计划合并，2001年1月11日该交易被联邦贸易委员会（Federal Trade Commission）证实。合并及以后的运作的信息见时代华纳。", 
+		platform = "aol", 
+		platformName = "美国在线", 
+		tags = {"新闻" , "国外新闻" }, 
+		testTelephones = {"13910002005", "18210538513" },
+		excludeMsg = "没有测试账户")
 public class AOLSpider extends PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 
-	@Override
-	public String message() {
-		return "美国在线（American Online），2000年至2009年期间是美国时代华纳的子公司，著名的因特网服务提供商。在2000年美国在线和时代华纳（Time Warner）宣布计划合并，2001年1月11日该交易被联邦贸易委员会（Federal Trade Commission）证实。合并及以后的运作的信息见时代华纳。";
-	}
-
-	@Override
-	public String platform() {
-		return "aol";
-	}
-
-	@Override
-	public String home() {
-		return "aol.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "美国在线";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"新闻" , "国外新闻"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910002005", "18210538513");
-	}
-	
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newInstanceWithGoogleProxy(true, true, CHROME_USER_AGENT);

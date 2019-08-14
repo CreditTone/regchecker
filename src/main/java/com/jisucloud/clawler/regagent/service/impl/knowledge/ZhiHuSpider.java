@@ -1,59 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.knowledge;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "zhihu.com", 
+		message = "有问题,上知乎。知乎,可信赖的问答社区,以让每个人高效获得可信赖的解答为使命。知乎凭借认真、专业和友善的社区氛围,结构化、易获得的优质内容,基于问答的内容生产。", 
+		platform = "zhihu", 
+		platformName = "知乎", 
+		tags = { "社区", "知识" }, 
+		testTelephones = { "13210538513", "18210538513" })
 public class ZhiHuSpider extends PapaSpider {
 	
 	
 
-	@Override
-	public String message() {
-		return "有问题,上知乎。知乎,可信赖的问答社区,以让每个人高效获得可信赖的解答为使命。知乎凭借认真、专业和友善的社区氛围,结构化、易获得的优质内容,基于问答的内容生产。";
-	}
-
-	@Override
-	public String platform() {
-		return "zhihu";
-	}
-
-	@Override
-	public String home() {
-		return "zhihu.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "知乎";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"社区", "知识"};
-	}
-	
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13210538513", "18210538513");
-	}
-
-	
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String postData = "phone_no=%2B86"+account;

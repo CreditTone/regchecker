@@ -1,56 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.saas;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "yunzhijia.com", 
+		message = "金蝶云之家是国内先进的移动办公平台,传承金蝶25余年管理经验,以组织/消息/社交为核心,提供OA系统、移动审批、考勤、会议等移动办公SaaS应用,助力企业高效智能办公!", 
+		platform = "yunzhijia", 
+		platformName = "金蝶云", 
+		tags = { "工具" , "财务软件" , "saas" }, 
+		testTelephones = { "18210538511", "13953679455" })
 public class YunZhiJiaSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "金蝶云之家是国内先进的移动办公平台,传承金蝶25余年管理经验,以组织/消息/社交为核心,提供OA系统、移动审批、考勤、会议等移动办公SaaS应用,助力企业高效智能办公!";
-	}
-
-	@Override
-	public String platform() {
-		return "yunzhijia";
-	}
-
-	@Override
-	public String home() {
-		return "yunzhijia.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "金蝶云之家";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"工具" , "财务软件" , "saas"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538511", "13953679455");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.yunzhijia.com/space/c/rest/user/pre-signup";

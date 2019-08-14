@@ -1,57 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.game;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "sdo.com", 
+		message = "盛趣游戏是中国领先的互动娱乐内容运营平台。利用便捷的销售网络、完善的付费系统、广泛的市场推广网络、强大的技术保障系统、领先的客户服务、稳妥的网络安全系统为用户提供高水准的服务。", 
+		platform = "sdo", 
+		platformName = "盛趣游戏", 
+		tags = { "游戏" }, 
+		testTelephones = { "18720982607", "13967075617" })
 public class ShengQuYouXiSpider extends PapaSpider {
 
 	
 	
-	@Override
-	public String message() {
-		return "盛趣游戏是中国领先的互动娱乐内容运营平台。利用便捷的销售网络、完善的付费系统、广泛的市场推广网络、强大的技术保障系统、领先的客户服务、稳妥的网络安全系统为用户提供高水准的服务。";
-	}
-
-	@Override
-	public String platform() {
-		return "sdo";
-	}
-
-	@Override
-	public String home() {
-		return "sdo.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "盛趣游戏";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"游戏"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18720982607", "13967075617");
-	}
-
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://cas.sdo.com/authen/checkAccountType.jsonp?callback=checkAccountType_JSONPMethod&serviceUrl=register.sdo.com&appId=201&areaId=200&authenSource=2&inputUserId="+account+"&locale=zh_CN&productId=1&productVersion=1.7&version=21&sourceId=&_=" + System.currentTimeMillis();

@@ -3,9 +3,9 @@ package com.jisucloud.clawler.regagent.service.impl.health;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
@@ -14,47 +14,22 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "pharmacyonline.com", 
+		message = "澳洲PO药房是澳洲本土大型综合类药房,也是首家开通直邮中国服务的澳洲本土药房,提供数万母婴用品、保健品、护肤化妆品、洗护用品等各类产品选购,全中文购物界面。", 
+		platform = "pharmacyonline", 
+		platformName = "澳洲PO药房", 
+		tags = { "购药", "用药" }, 
+		testTelephones = { "15008276300", "18210538513" })
 public class PharmacySpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	
 	private boolean checkTelephone = false;
 
-	@Override
-	public String message() {
-		return "澳洲PO药房是澳洲本土大型综合类药房,也是首家开通直邮中国服务的澳洲本土药房,提供数万母婴用品、保健品、护肤化妆品、洗护用品等各类产品选购,全中文购物界面。";
-	}
-
-	@Override
-	public String platform() {
-		return "pharmacyonline";
-	}
-
-	@Override
-	public String home() {
-		return "pharmacyonline.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "澳洲PO药房";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"购药", "用药"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15008276300", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);

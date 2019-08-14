@@ -1,7 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -13,65 +13,26 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "yinduowang.com", 
+		message = "银多网是一个立足普惠金融、合规运营的互联网金融信息中介平台，时刻践行“服务高于金融”的理念，通过互联网技术融合传统金融的创新模式，带领有理财需求的用户。", 
+		platform = "yinduowang", 
+		platformName = "yinduowangName", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "13910252045", "18210538513" })
 public class YinDuoWangSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
 
-	@Override
-	public String message() {
-		return "银多网是一个立足普惠金融、合规运营的互联网金融信息中介平台，时刻践行“服务高于金融”的理念，通过互联网技术融合传统金融的创新模式，带领有理财需求的用户。";
-	}
-
-	@Override
-	public String platform() {
-		return "yinduowang";
-	}
-
-	@Override
-	public String home() {
-		return "yinduowang.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "银多网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252045", "18210538513");
-	}
-
-	private String getImgCode() {
-		for (int i = 0 ; i < 3; i++) {
-			try {
-				WebElement img = chromeDriver.findElementByCssSelector("#valicodeImg");
-				img.click();smartSleep(1000);
-				byte[] body = chromeDriver.screenshot(img);
-				return OCRDecode.decodeImageCode(body);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return "";
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);

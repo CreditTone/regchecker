@@ -1,7 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
@@ -14,50 +14,26 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "hairongyi.com", 
+		message = "海融易由海尔集团全资控股成立，是一个投资理财平台。与海尔集团2万多家网点建立起协同网络，总部位于海尔集团金融中心。于2014年6月18日开启测试，12月正式上线。", 
+		platform = "hairongyi", 
+		platformName = "海融易", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15900068904", "18210538513" })
 public class HaiRongYiSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
-
-	@Override
-	public String message() {
-		return "海融易由海尔集团全资控股成立，是一个投资理财平台。与海尔集团2万多家网点建立起协同网络，总部位于海尔集团金融中心。于2014年6月18日开启测试，12月正式上线。";
-	}
-
-	@Override
-	public String platform() {
-		return "hairongyi";
-	}
-
-	@Override
-	public String home() {
-		return "hairongyi.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "海融易";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
 	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15900068904", "18210538513");
-	}
-
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {
@@ -73,7 +49,7 @@ public class HaiRongYiSpider extends PapaSpider implements AjaxHook{
 	}
 	String code;
 
-	@Override
+
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);

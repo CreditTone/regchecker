@@ -1,7 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
@@ -12,49 +12,24 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "shitou.com", 
+		message = "石投金融是实投(上海)互联网金融信息服务有限公司旗下的互联网金融理财平台，是国内领先的互联网金融网络借贷平台。", 
+		platform = "shitou", 
+		platformName = "石投金融", 
+		tags = { "P2P", "消费分期" , "借贷" }, 
+		testTelephones = { "13910252045", "18210538513" })
 public class ShiTouSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	
-	@Override
-	public String message() {
-		return "石投金融是实投(上海)互联网金融信息服务有限公司旗下的互联网金融理财平台，是国内领先的互联网金融网络借贷平台。";
-	}
-
-	@Override
-	public String platform() {
-		return "shitou";
-	}
-
-	@Override
-	public String home() {
-		return "shitou.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "石投金融";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "消费分期" , "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252045", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);

@@ -3,7 +3,7 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -14,45 +14,22 @@ import okhttp3.Response;
 
 import org.jsoup.Connection;
 import org.jsoup.Connection.Method;
-import com.google.common.collect.Sets;
+
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-//@UsePapaSpider
+
 @Slf4j
+@PapaSpiderConfig(
+		home = "wdzj.com", 
+		message = "网贷之家是中国首家P2P网贷理财行业门户网站,提供全方位、权威的网贷平台数据,是您身边的网贷资讯和P2P理财方面的专家,为您的网贷之路保驾护航.", 
+		platform = "wdzj", 
+		platformName = "网贷之家", 
+		tags = {"金融资讯", "贷超" , "借贷" }, 
+		testTelephones = {"19910538500", "18210538513" },
+		exclude = true)
 public class WangdaiZhijiaSpider extends PapaSpider {
-
-	@Override
-	public String message() {
-		return "网贷之家是中国首家P2P网贷理财行业门户网站,提供全方位、权威的网贷平台数据,是您身边的网贷资讯和P2P理财方面的专家,为您的网贷之路保驾护航.";
-	}
-
-	@Override
-	public String platform() {
-		return "wdzj";
-	}
-
-	@Override
-	public String home() {
-		return "wdzj.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "网贷之家";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"金融资讯", "贷超" , "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("19910538500", "18210538513");
-	}
 	
 	private Headers getHeader() {
 		Map<String, String> headers = new HashMap<>();
@@ -72,7 +49,6 @@ public class WangdaiZhijiaSpider extends PapaSpider {
                 .build();
 	}
 
-	@Override
 	public boolean checkTelephone(String account) {
 		String url = "https://passport.wdzj.com/userInterface/verifyMobile";
 		try {

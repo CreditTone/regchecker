@@ -2,55 +2,29 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "gomefinance.com", 
+		message = "国美金融-国美控股旗下金融发展与投资业务战略管控平台,致力推动普惠金融的发展!国美金融,国美,家美,生活美!", 
+		platform = "gomefinance", 
+		platformName = "国美金融", 
+		tags = { "P2P", "消费分期" , "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class GuoMeiJinRongSpider extends PapaSpider {
 
 	
 	
-	@Override
-	public String message() {
-		return "国美金融-国美控股旗下金融发展与投资业务战略管控平台,致力推动普惠金融的发展!国美金融,国美,家美,生活美!";
-	}
-
-	@Override
-	public String platform() {
-		return "gomefinance";
-	}
-
-	@Override
-	public String home() {
-		return "gomefinance.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "国美金融";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "消费分期" , "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.gomefinance.com.cn/api/v1/checkMobile?t=" + System.currentTimeMillis();

@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.shop;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import lombok.extern.slf4j.Slf4j;
@@ -14,45 +14,21 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
+
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "womai.com", 
+		message = "中粮集团旗下食品平台，家庭一站式购物体验，足不出户，让您体验全球优质食品!依托中粮全球产业链，形成了以生鲜果蔬、进口食品、肉禽水产、粮油米面及自有品牌为核心的优质食品提供商，并打造家庭消费为概念的生活方式,让您吃的放心。中粮我买-为中国家庭提供优质食品!", 
+		platform = "womai", 
+		platformName = "中粮我买网", 
+		tags = { "购物" , "食品" }, 
+		testTelephones = { "18779861101", "18210538513" })
 public class ZhongLiangSpider extends PapaSpider {
 	
-	@Override
-	public String message() {
-		return "中粮集团旗下食品平台，家庭一站式购物体验，足不出户，让您体验全球优质食品!依托中粮全球产业链，形成了以生鲜果蔬、进口食品、肉禽水产、粮油米面及自有品牌为核心的优质食品提供商，并打造家庭消费为概念的生活方式,让您吃的放心。中粮我买-为中国家庭提供优质食品!";
-	}
-
-	@Override
-	public String platform() {
-		return "womai";
-	}
-
-	@Override
-	public String home() {
-		return "womai.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "中粮我买网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"购物" , "食品"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18779861101", "18210538513");
-	}
-
 	private Headers getHeader() {
 		Map<String, String> headers = new HashMap<>();
 		headers.put("User-Agent",
@@ -80,8 +56,8 @@ public class ZhongLiangSpider extends PapaSpider {
 		}
 		return "";
 	}
+
 	
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			get("https://passport.m.womai.com/passport/login.action").body().string();

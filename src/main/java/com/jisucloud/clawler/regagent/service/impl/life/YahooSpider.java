@@ -1,53 +1,29 @@
 package com.jisucloud.clawler.regagent.service.impl.life;
 
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-//@UsePapaSpider
+@PapaSpiderConfig(
+		home = "yahoo.com", 
+		message = "雅虎（英文名称：Yahoo！，NASDAQ：YHOO）是美国著名的互联网门户网站，也是20世纪末互联网奇迹的创造者之一。其服务包括搜索引擎、电邮、新闻等，业务遍及24个国家和地区，为全球超过5亿的独立用户提供多元化的网络服务。同时也是一家全球性的因特网通讯、商贸及媒体公司。", 
+		platform = "yahoo", 
+		platformName = "雅虎", 
+		tags = {"新闻" , "门户", "搜索引擎" }, 
+		testTelephones = {"13910002005", "18210538513" },
+		exclude = true)
 public class YahooSpider extends PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 
-	@Override
-	public String message() {
-		return "雅虎（英文名称：Yahoo！，NASDAQ：YHOO）是美国著名的互联网门户网站，也是20世纪末互联网奇迹的创造者之一。其服务包括搜索引擎、电邮、新闻等，业务遍及24个国家和地区，为全球超过5亿的独立用户提供多元化的网络服务。同时也是一家全球性的因特网通讯、商贸及媒体公司。";
-	}
-
-	@Override
-	public String platform() {
-		return "yahoo";
-	}
-
-	@Override
-	public String home() {
-		return "yahoo.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "雅虎";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"新闻" , "搜索引擎"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910002005", "18210538513");
-	}
-	
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newInstanceWithGoogleProxy(true, false, IOS_USER_AGENT);

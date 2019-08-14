@@ -3,9 +3,9 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -17,32 +17,19 @@ import org.openqa.selenium.WebElement;
 
 import java.util.*;
 
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "jimu.com", 
+		message = "积木盒子是国内领先的网络借贷信息中介平台，专注于运用互联网和技术手段打通金融服务中存在的痛点，为个人、微型企业提供稳健、高效、轻松的借贷撮合服务。", 
+		platform = "jimu", 
+		platformName = "积木盒子", 
+		tags = {"理财", "P2P", "借贷" }, 
+		testTelephones = {"13261165342", "18210538513"})
 public class JiMuSpider extends PapaSpider implements AjaxHook{
 	
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
 
-	@Override
-	public String message() {
-		return "积木盒子是国内领先的网络借贷信息中介平台，专注于运用互联网和技术手段打通金融服务中存在的痛点，为个人、微型企业提供稳健、高效、轻松的借贷撮合服务。";
-	}
-
-	@Override
-	public String platform() {
-		return "jimu";
-	}
-
-	@Override
-	public String home() {
-		return "jimu.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "积木盒子";
-	}
 
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
@@ -89,24 +76,6 @@ public class JiMuSpider extends PapaSpider implements AjaxHook{
 	@Override
 	public boolean checkEmail(String account) {
 		return false;
-	}
-
-	@Override
-	public Map<String, String> getFields() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String[] tags() {
-		// TODO Auto-generated method stub
-		return new String[] { "理财", "P2P", "借贷" };
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		// TODO Auto-generated method stub
-		return Sets.newHashSet("13261165342", "18210538513");
 	}
 
 	@Override

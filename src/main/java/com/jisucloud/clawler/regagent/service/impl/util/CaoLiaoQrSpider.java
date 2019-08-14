@@ -1,57 +1,29 @@
 package com.jisucloud.clawler.regagent.service.impl.util;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "cli.com", 
+		message = "草料二维码是国内专业的二维码服务提供商,提供二维码生成,美化,印制,管理,统计等服务,帮助企业通过二维码展示信息并采集线下数据,提升营销和管理效率。", 
+		platform = "cli", 
+		platformName = "草料二维码", 
+		tags = { "工具" }, 
+		testTelephones = { "13925306966", "13925306960" })
 public class CaoLiaoQrSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		return "草料二维码是国内专业的二维码服务提供商,提供二维码生成,美化,印制,管理,统计等服务,帮助企业通过二维码展示信息并采集线下数据,提升营销和管理效率。";
-	}
-
-	@Override
-	public String platform() {
-		return "cli";
-	}
-
-	@Override
-	public String home() {
-		return "cli.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "草料二维码";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"工具"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13925306966", "13925306960");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		if (account.length() != 11) {
 			return false;

@@ -5,9 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -19,63 +19,22 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "fengjr.com", 
+		message = "凤凰金融是凤凰卫视集团为全球华人打造的智能投资理财平台，联合卓越的各类金融机构，深度挖掘优质金融资产，为用户提供优质、多元的投资理财产品和定制化的专业智能服务，打造更契合用户自身需求。", 
+		platform = "fengjr", 
+		platformName = "凤凰金融", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15008276300", "18210538513" })
 public class FengHuangJinRongSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
 
-	@Override
-	public String message() {
-		return "凤凰金融是凤凰卫视集团为全球华人打造的智能投资理财平台，联合卓越的各类金融机构，深度挖掘优质金融资产，为用户提供优质、多元的投资理财产品和定制化的专业智能服务，打造更契合用户自身需求。";
-	}
-
-	@Override
-	public String platform() {
-		return "fengjr";
-	}
-
-	@Override
-	public String home() {
-		return "fengjr.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "凤凰金融";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15008276300", "18210538513");
-	}
-	
-
-	private String getImgCode() {
-		for (int i = 0 ; i < 3; i++) {
-			try {
-				WebElement img = chromeDriver.findElementByCssSelector("#valicodeImg");
-				img.click();
-				smartSleep(1000);
-				byte[] body = chromeDriver.screenshot(img);
-				return OCRDecode.decodeImageCode(body);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return "";
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);

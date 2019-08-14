@@ -3,9 +3,9 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -15,42 +15,24 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
+
 
 import org.openqa.selenium.WebElement;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "jujinziben.com", 
+		message = "聚金资本贷是河南聚金金融服务股份公司推出的个人对个人网络借贷服务平台，为有资金需求的借款人和有理财需求的出借人搭建了一个轻松、便捷、安全、透明的网络互动平台。聚金金融以其诚信、透明、安全、高效、创新的... ", 
+		platform = "jujinziben", 
+		platformName = "聚金资本", 
+		tags = { "p2p", "借贷" }, 
+		testTelephones = { "18210538513", "15161509916" })
 public class JuJinZiBenSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
-
-	@Override
-	public String message() {
-		return "聚金资本贷是河南聚金金融服务股份公司推出的个人对个人网络借贷服务平台，为有资金需求的借款人和有理财需求的出借人搭建了一个轻松、便捷、安全、透明的网络互动平台。聚金金融以其诚信、透明、安全、高效、创新的... ";
-	}
-
-	@Override
-	public String platform() {
-		return "jujinziben";
-	}
-
-	@Override
-	public String home() {
-		return "jujinziben.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "聚金资本";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"p2p", "借贷"};
-	}
+	
 	
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
@@ -66,7 +48,7 @@ public class JuJinZiBenSpider extends PapaSpider implements AjaxHook {
 		return "";
 	}
 
-	@Override
+
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
@@ -107,11 +89,6 @@ public class JuJinZiBenSpider extends PapaSpider implements AjaxHook {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538513", "15161509916");
 	}
 
 	@Override

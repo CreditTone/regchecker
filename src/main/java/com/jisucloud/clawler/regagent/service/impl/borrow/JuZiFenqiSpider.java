@@ -7,45 +7,26 @@ import okhttp3.FormBody;
 import okhttp3.Headers;
 import okhttp3.Request;
 import okhttp3.Response;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
-@UsePapaSpider
+
+@PapaSpiderConfig(
+		home = "juzifenqi.com", 
+		message = "桔子分期是一家专注于年轻人分期购物的金融服务平台,是国内领先的年轻人分期消费服务商。", 
+		platform = "juzifenqi", 
+		platformName = "桔子分期", 
+		tags = {  "P2P", "消费分期", "借贷"  }, 
+		testTelephones = { "18210538577", "18210538513" })
 public class JuZiFenqiSpider extends PapaSpider {
-
-	@Override
-	public String message() {
-		return "桔子分期是一家专注于年轻人分期购物的金融服务平台,是国内领先的年轻人分期消费服务商。";
-	}
-
-	@Override
-	public String platform() {
-		return "juzifenqi";
-	}
-
-	@Override
-	public String home() {
-		return "juzifenqi.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "桔子分期";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] { "P2P", "消费分期", "借贷" };
-	}
-
+	
 	private Headers getHeader() {
 		Map<String, String> headers = new HashMap<>();
 		headers.put("Host", "juzifenqi.com");
@@ -70,12 +51,8 @@ public class JuZiFenqiSpider extends PapaSpider {
 		return formBody;
 	}
 
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538577", "18210538513");
-	}
 
-	@Override
+
 	public boolean checkTelephone(String account) {
 		try {
 			Request request = new Request.Builder().url("https://termib.juzifenqi.com/termi/dologin.do")
@@ -94,11 +71,6 @@ public class JuZiFenqiSpider extends PapaSpider {
 	@Override
 	public boolean checkEmail(String account) {
 		return false;
-	}
-
-	@Override
-	public Map<String, String> getFields() {
-		return null;
 	}
 
 }

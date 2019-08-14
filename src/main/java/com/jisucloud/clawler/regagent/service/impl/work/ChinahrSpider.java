@@ -1,55 +1,29 @@
 package com.jisucloud.clawler.regagent.service.impl.work;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "chinahr.com", 
+		message = "中华英才网北京招聘网,为您提供北京招聘,北京找工作,北京人才网,北京求职信息,同时覆盖校园招聘、求职指导、职业测评、猎头服务等求职服务。", 
+		platform = "chinahr", 
+		platformName = "中华英才网", 
+		tags = { "求职" , "招聘" }, 
+		testTelephones = { "18515290000", "18210538513" })
 public class ChinahrSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "中华英才网北京招聘网,为您提供北京招聘,北京找工作,北京人才网,北京求职信息,同时覆盖校园招聘、求职指导、职业测评、猎头服务等求职服务。";
-	}
-
-	@Override
-	public String platform() {
-		return "chinahr";
-	}
-
-	@Override
-	public String home() {
-		return "chinahr.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "中华英才网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"求职" , "招聘"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18515290000", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "http://passport.chinahr.com/ajax/m/existLoginName?input="+account+"&_=" +System.currentTimeMillis();

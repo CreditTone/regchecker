@@ -1,57 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.education;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "sunlands.com", 
+		message = "尚德机构（NYSE:STG），专注于学历教育、职业教育的互联网教育公司。尚德机构的培训课程和服务范围广阔，提供全国各省市的精品直播课程、录播课程等，业务涵盖上班族学历 MBA 教师资格证 会计职称 国际MBA 等高等教育、职业资格认证以及与职业相关的就业服务。", 
+		platform = "sunlands", 
+		platformName = "尚德机构", 
+		tags = { "学历提升","自考","教育" }, 
+		testTelephones = { "18779861101", "18210538513" })
 public class ShangDeSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "尚德机构（NYSE:STG），专注于学历教育、职业教育的互联网教育公司。尚德机构的培训课程和服务范围广阔，提供全国各省市的精品直播课程、录播课程等，业务涵盖上班族学历 MBA 教师资格证 会计职称 国际MBA 等高等教育、职业资格认证以及与职业相关的就业服务。";
-	}
-
-	@Override
-	public String platform() {
-		return "sunlands";
-	}
-
-	@Override
-	public String home() {
-		return "sunlands.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "尚德教育";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"学历提升","自考","教育"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18779861101", "18210538513");
-	}
-
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "http://passport.sunlands.com/existsUser.action";

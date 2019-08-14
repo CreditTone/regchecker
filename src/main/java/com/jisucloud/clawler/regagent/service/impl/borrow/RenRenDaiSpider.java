@@ -1,46 +1,22 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
-
 import java.util.Map;
-import java.util.Set;
 
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "renrendai.com", 
+		message = "人人贷财富是值得信赖的专业p2p网络借贷、互联网金融平台,拥有AAA级信用认证,为用户提供多元化网络借贷与优质的互联网金融平台服务,更好的满足用户财富增值需求。", 
+		platform = "renrendai", 
+		platformName = "人人贷", 
+		tags = {  "P2P", "消费分期", "借贷"  }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class RenRenDaiSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		return "人人贷财富是值得信赖的专业p2p网络借贷、互联网金融平台,拥有AAA级信用认证,为用户提供多元化网络借贷与优质的互联网金融平台服务,更好的满足用户财富增值需求。";
-
-	}
-
-	@Override
-	public String platform() {
-		return "renrendai";
-	}
-
-	@Override
-	public String home() {
-		return "renrendai.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "人人贷";
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			Request request = new Request.Builder().url("https://api.renrendai.com/n2/passport/index/doLogin")
@@ -66,11 +42,6 @@ public class RenRenDaiSpider extends PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] { "P2P", "消费分期", "借贷" };
 	}
 
 }

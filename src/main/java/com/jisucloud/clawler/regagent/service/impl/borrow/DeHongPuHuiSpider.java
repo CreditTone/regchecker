@@ -3,54 +3,28 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "dhibank.com", 
+		message = "德鸿普惠综合金融服务商,是通过“互联网+金融”战略计划,依托移动互联网大数据为基础的,为微小企业和个人提供小额的金融借贷服务普惠金融的平台。", 
+		platform = "dhibank", 
+		platformName = "dhibankName", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class DeHongPuHuiSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		return "德鸿普惠综合金融服务商,是通过“互联网+金融”战略计划,依托移动互联网大数据为基础的,为微小企业和个人提供小额的金融借贷服务普惠金融的平台。";
-	}
-
-	@Override
-	public String platform() {
-		return "dhibank";
-	}
-
-	@Override
-	public String home() {
-		return "dhibank.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "德鸿普惠";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://m.dhibank.net/rest/api/app/user/appLogin";

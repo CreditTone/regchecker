@@ -1,55 +1,25 @@
 package com.jisucloud.clawler.regagent.service.impl._3c;
 
-import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "zealer.com", 
+		message = "自如评测是一个科技视频平台，于2012年11月8日正式上线，创始人兼 CEO 王自如和 ZEALER 坚持打造兼具行业洞察力与品质感的科技视频内容，输出「科技 Plus」生活主张。", 
+		platform = "zealer", 
+		platformName = "自如评测", 
+		tags = { "3c", "科技" ,"智能手机", "手机评测" }, 
+		testTelephones = { "15510257873", "18210538513" })
 public class ZealerTestSpider extends PapaSpider {
-
-	
-
-	@Override
-	public String message() {
-		return "自如评测是一个科技视频平台，于2012年11月8日正式上线，创始人兼 CEO 王自如和 ZEALER 坚持打造兼具行业洞察力与品质感的科技视频内容，输出「科技 Plus」生活主张。";
-	}
-
-	@Override
-	public String platform() {
-		return "zealer";
-	}
-
-	@Override
-	public String home() {
-		return "zealer.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "自如评测";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"3c", "科技" ,"智能手机"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15510257873", "18210538513");
-	}
 
 	@Override
 	public boolean checkTelephone(String account) {

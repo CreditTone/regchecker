@@ -1,59 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.education;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "zikao365.com", 
+		message = "自考365,自考网站,自考培训机构,连续多年获得全国十佳网络教育机构称号,常年提供自考专业辅导和自考本科辅导,开设有自考辅导班, 专家名师授课,提供24小时在线答疑。", 
+		platform = "zikao365", 
+		platformName = "自考365", 
+		tags = { "自考","学习","教育" }, 
+		testTelephones = { "15010645316", "18210538513" })
 public class ZiKao365Spider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "自考365,自考网站,自考培训机构,连续多年获得全国十佳网络教育机构称号,常年提供自考专业辅导和自考本科辅导,开设有自考辅导班, 专家名师授课,提供24小时在线答疑。";
-	}
-
-	@Override
-	public String platform() {
-		return "zikao365";
-	}
-
-	@Override
-	public String home() {
-		return "zikao365.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "自考365";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"自考","学习","教育"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15010645316", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "http://member.zikao365.com/uc/api/ifMobileBound";

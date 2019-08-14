@@ -4,17 +4,17 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UsePapaSpider {
+public @interface PapaSpiderConfig {
 	
 	/**
-	 * 是否排除使用
+	 * 是否排除使用，也可以使用excludeMsg
 	 * @return
 	 */
 	boolean exclude() default false;
 	
 	
 	/**
-	 * 排除使用原因
+	 * 排除使用原因，也可以使用exclude = true
 	 * @return
 	 */
 	String excludeMsg() default "";
@@ -24,5 +24,16 @@ public @interface UsePapaSpider {
 	 * @return
 	 */
 	boolean ignoreTestResult() default false;
+	
+	String message();
 
+	String platform();
+	
+	String home();
+	
+	String platformName();
+	
+	String[] tags();
+	
+	String[] testTelephones();
 }

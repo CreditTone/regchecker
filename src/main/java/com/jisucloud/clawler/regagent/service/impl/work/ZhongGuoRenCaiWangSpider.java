@@ -1,57 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.work;
 
 import com.deep007.spiderbase.okhttp.OKHttpUtil;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "cnjob.com", 
+		message = "中国人才网,找工作、找人才首选!▼免费求职网-中国人才招聘网:招聘信息超多,有效职位极广,个人简历齐全;企业招聘人才、个人求职找工作,就上中国人才网。", 
+		platform = "cnjob", 
+		platformName = "中国人才网", 
+		tags = { "求职" , "招聘" }, 
+		testTelephones = { "18210538513", "18230012895" })
 public class ZhongGuoRenCaiWangSpider extends PapaSpider {
 
-	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClient();
-
-	@Override
-	public String message() {
-		return "中国人才网,找工作、找人才首选!▼免费求职网-中国人才招聘网:招聘信息超多,有效职位极广,个人简历齐全;企业招聘人才、个人求职找工作,就上中国人才网。";
-	}
-
-	@Override
-	public String platform() {
-		return "cnjob";
-	}
-
-	@Override
-	public String home() {
-		return "cnjob.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "中国人才网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"求职" , "招聘"};
-	}
 	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538513", "18230012895");
-	}
 
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "http://www.cnjob.com/default/reg/checkUser";

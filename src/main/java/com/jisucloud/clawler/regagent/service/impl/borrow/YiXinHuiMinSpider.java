@@ -6,7 +6,7 @@ import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -15,50 +15,26 @@ import lombok.extern.slf4j.Slf4j;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
-import com.google.common.collect.Sets;
+
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "creditease.com", 
+		message = "宜信惠民官网,是宜信惠民的P2P网站。宜信惠民按出借人、借款人的授权,基于出借人对出借金额、期限、参考年回报率未发生《风险揭示书》项下风险且《借款协议》及。", 
+		platform = "creditease", 
+		platformName = "宜信惠民", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "13910252045", "18210538513" })
 public class YiXinHuiMinSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
-
-	@Override
-	public String message() {
-		return "宜信惠民官网,是宜信惠民的P2P网站。宜信惠民按出借人、借款人的授权,基于出借人对出借金额、期限、参考年回报率未发生《风险揭示书》项下风险且《借款协议》及。";
-	}
-
-	@Override
-	public String platform() {
-		return "creditease";
-	}
-
-	@Override
-	public String home() {
-		return "creditease.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "宜信惠民";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
 	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252045", "18210538513");
-	}
-
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {
@@ -73,7 +49,7 @@ public class YiXinHuiMinSpider extends PapaSpider implements AjaxHook{
 		return "";
 	}
 
-	@Override
+
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);
@@ -112,7 +88,6 @@ public class YiXinHuiMinSpider extends PapaSpider implements AjaxHook{
 
 	@Override
 	public HookTracker getHookTracker() {
-		// TODO Auto-generated method stub
 		return HookTracker.builder().addUrl("user/checkMobile").build();
 	}
 

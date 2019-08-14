@@ -1,57 +1,28 @@
 package com.jisucloud.clawler.regagent.service.impl.game;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "17173.com", 
+		message = "17173是中国游戏第一门户站,全年365天保持不间断更新,您可以在这里获得专业的游戏新闻资讯,完善的游戏攻略专区,人气游戏论坛以及游戏测试账号等,是游戏玩家首选网络。", 
+		platform = "17173", 
+		platformName = "17173游戏", 
+		tags = { "游戏" }, 
+		testTelephones = { "18720982607", "18210538513" })
 public class _17173Spider extends PapaSpider {
 
-	
-	
-	@Override
-	public String message() {
-		return "17173是中国游戏第一门户站,全年365天保持不间断更新,您可以在这里获得专业的游戏新闻资讯,完善的游戏攻略专区,人气游戏论坛以及游戏测试账号等,是游戏玩家首选网络。";
-	}
-
-	@Override
-	public String platform() {
-		return "17173";
-	}
-
-	@Override
-	public String home() {
-		return "17173.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "17173游戏";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"游戏"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18720982607", "18210538513");
-	}
-
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://passport.17173.com/register/validate?field=mobile&value="+account+"&_=" + System.currentTimeMillis();

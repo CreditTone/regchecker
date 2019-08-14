@@ -1,54 +1,29 @@
 package com.jisucloud.clawler.regagent.service.impl.shop;
 
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import java.util.Map;
-import java.util.Set;
+
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "benlai.com", 
+		message = "本来生活网,自建仓储物流,冷链配送,全部食品严格把关,经过安全检测,品质保证,48小时退换货,提供进口水果,应季水果,有机蔬菜,牛羊肉,粮油,褚橙,红酒,车厘子等.", 
+		platform = "benlai", 
+		platformName = "本来生活网", 
+		tags = { "电商" , "农产品" }, 
+		testTelephones = { "18800000001", "18210538513" })
 public class BenlaiShenghuoSpider extends PapaSpider {
 	
 	private ChromeAjaxHookDriver chromeDriver;
 
-	@Override
-	public String message() {
-		return "本来生活网,自建仓储物流,冷链配送,全部食品严格把关,经过安全检测,品质保证,48小时退换货,提供进口水果,应季水果,有机蔬菜,牛羊肉,粮油,褚橙,红酒,车厘子等.";
-	}
-
-	@Override
-	public String platform() {
-		return "benlai";
-	}
-
-	@Override
-	public String home() {
-		return "benlai.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "本来生活网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"电商" , "农产品"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18800000001", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(true, true, ANDROID_USER_AGENT);

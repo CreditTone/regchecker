@@ -1,20 +1,27 @@
 package com.jisucloud.clawler.regagent.service.impl.work;
 
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.service.PapaSpiderTester;
 
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
-import java.util.Set;
+
 
 import org.openqa.selenium.WebElement;
 
 @Slf4j
-//@UsePapaSpider
+@PapaSpiderConfig(
+		home = "zhipin.com", 
+		message = "BOSS直聘是权威领先的招聘网,开启人才网招聘求职新时代,让求职者与Boss直接开聊、加快面试、即时反馈,找工作就来BOSS直聘和Boss开聊吧。", 
+		platform = "zhipin", 
+		platformName = "BOSS直聘", 
+		tags = {"求职", "招聘" ,"互联网招聘"}, 
+		testTelephones = {"18210538513", "18800000001" },
+		excludeMsg = "被反扒")
 public class BossSpider extends PapaSpider {
 	
 	private ChromeAjaxHookDriver chromeDriver;
@@ -24,42 +31,6 @@ public class BossSpider extends PapaSpider {
 	//暂时不能访问此页面，被反扒
 	public boolean noSpider = false;
 
-	@Override
-	public String message() {
-		return "BOSS直聘是权威领先的招聘网,开启人才网招聘求职新时代,让求职者与Boss直接开聊、加快面试、即时反馈,找工作就来BOSS直聘和Boss开聊吧。";
-	}
-
-	@Override
-	public String platform() {
-		return "zhipin";
-	}
-
-	@Override
-	public String home() {
-		return "zhipin.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "BOSS直聘";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"求职", "招聘" ,"互联网招聘"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538513", "18800000001");
-	}
-	
-	
-	public static void main(String[] args) {
-		PapaSpiderTester.testingWithPrint(BossSpider.class);
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(false, false, CHROME_USER_AGENT);smartSleep(3000);

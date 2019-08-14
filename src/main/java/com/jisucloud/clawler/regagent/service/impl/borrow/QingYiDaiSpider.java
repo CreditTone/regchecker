@@ -1,7 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -14,50 +14,26 @@ import com.deep007.spiderbase.util.GifDecoder;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "qingyidai.com", 
+		message = "轻易贷开元金融旗下品牌_网络借贷信息中介服务平台。2014年上线,实缴注册资金25亿,有银行存管保障用户资金安全,且交易规模已突破900亿。切实帮助小微企业解决融资难、融资贵的问题。", 
+		platform = "qingyidai", 
+		platformName = "轻易贷", 
+		tags = { "P2P", "小微贷", "借贷" }, 
+		testTelephones = { "13910250045", "18210538513" })
 public class QingYiDaiSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private byte[] gifImage = null;
 	private String decode = "";
 	private boolean checkTel = false;
-
-	@Override
-	public String message() {
-		return "轻易贷开元金融旗下品牌_网络借贷信息中介服务平台。2014年上线,实缴注册资金25亿,有银行存管保障用户资金安全,且交易规模已突破900亿。切实帮助小微企业解决融资难、融资贵的问题。";
-	}
-
-	@Override
-	public String platform() {
-		return "qingyidai";
-	}
-
-	@Override
-	public String home() {
-		return "qingyidai.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "轻易贷";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "小微贷", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910250045", "18210538513");
-	}
 	
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
@@ -73,7 +49,7 @@ public class QingYiDaiSpider extends PapaSpider implements AjaxHook{
 		return "";
 	}
 
-	@Override
+
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);

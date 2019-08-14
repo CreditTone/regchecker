@@ -1,57 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.money;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "allianz.com", 
+		message = "中德安联人寿保险有限公司是德国安联保险集团(Allianz SE)与中国中信信托有限责任公司(CITIC Trust)共同合资组建的人寿保险公司，是中国第一家获准成立的中欧合资保险公司。业务范围覆盖人寿、养老、投资、教育、医疗、意外等各个领域，全方位地满足客户的需求。", 
+		platform = "allianz", 
+		platformName = "中德安联", 
+		tags = { "理财" , "保险" , "健康保险" , "医疗保险" }, 
+		testTelephones = { "15901537458", "18210538513" })
 public class AllianzSpider extends PapaSpider {
 
 	
 	
 	
-	@Override
-	public String message() {
-		return "中德安联人寿保险有限公司是德国安联保险集团(Allianz SE)与中国中信信托有限责任公司(CITIC Trust)共同合资组建的人寿保险公司，是中国第一家获准成立的中欧合资保险公司。业务范围覆盖人寿、养老、投资、教育、医疗、意外等各个领域，全方位地满足客户的需求。";
-	}
-
-	@Override
-	public String platform() {
-		return "allianz";
-	}
-
-	@Override
-	public String home() {
-		return "allianz.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "安联人寿";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"理财" , "保险" , "健康保险" , "医疗保险"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15901537458", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://sales.allianz.com.cn/emall/eservice/account/login.action?action=checkmoblenumber";

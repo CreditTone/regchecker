@@ -3,58 +3,30 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 
-import org.springframework.stereotype.Component;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "lcfarm.com", 
+		message = "布谷农场(原名理财农场)是由A股上市公司“诺普信”和国资机构“深创投”领投的深耕三农的互联网金融平台。已率先提交平台自查报告,中国互金协会首批会员。", 
+		platform = "lcfarm", 
+		platformName = "布谷农场", 
+		tags = { "P2P", "农民贷" , "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class LiCaiNongChangSpider extends PapaSpider {
 
 	
 	
-	@Override
-	public String message() {
-		return "布谷农场(原名理财农场)是由A股上市公司“诺普信”和国资机构“深创投”领投的深耕三农的互联网金融平台。已率先提交平台自查报告,中国互金协会首批会员。";
-	}
-
-	@Override
-	public String platform() {
-		return "lcfarm";
-	}
-
-	@Override
-	public String home() {
-		return "lcfarm.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "布谷农场";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "农民贷" , "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.lcfarm.com/api/user/check.htm";

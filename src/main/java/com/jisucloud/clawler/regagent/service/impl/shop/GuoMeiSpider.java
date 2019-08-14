@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.shop;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -10,44 +10,19 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "gome.com", 
+		message = "国美电器（GOME）成立于1987年1月1日，总部位于香港，是中国大陆家电零售连锁企业。2009年入选中国世界纪录协会中国最大的家电零售连锁企业。", 
+		platform = "gome", 
+		platformName = "国美电器", 
+		tags = { "电商" , "电器" }, 
+		testTelephones = { "18210538000", "18210538513" })
 public class GuoMeiSpider extends PapaSpider {
 
 	
-	@Override
-	public String message() {
-		return "国美电器（GOME）成立于1987年1月1日，总部位于香港，是中国大陆家电零售连锁企业。2009年入选中国世界纪录协会中国最大的家电零售连锁企业。";
-	}
-
-	@Override
-	public String platform() {
-		return "gome";
-	}
-
-	@Override
-	public String home() {
-		return "gome.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "国美电器";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"电商" , "电器"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538000", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.gomefinance.com.cn/api/v1/checkMobile?t=" + System.currentTimeMillis();

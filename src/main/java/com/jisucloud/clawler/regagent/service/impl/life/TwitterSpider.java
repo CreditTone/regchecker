@@ -1,54 +1,29 @@
 package com.jisucloud.clawler.regagent.service.impl.life;
 
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-//@UsePapaSpider
+@PapaSpiderConfig(
+		home = "twitter.com", 
+		message = "Twitter（推特）是一家美国社交网络及微博客服务的网站，是全球互联网上访问量最大的十个网站之一。是微博客的典型应用。它可以让用户更新不超过140个字符的消息，这些消息也被称作“推文（Tweet）”。", 
+		platform = "twitter", 
+		platformName = "推特", 
+		tags = {"社交" , "媒体", "微博"}, 
+		testTelephones = {"13910002005", "18210538513" },
+		exclude = true)
 public class TwitterSpider extends PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 
-	@Override
-	public String message() {
-		return "Twitter（推特）是一家美国社交网络及微博客服务的网站，是全球互联网上访问量最大的十个网站之一。是微博客的典型应用。它可以让用户更新不超过140个字符的消息，这些消息也被称作“推文（Tweet）”。";
-	}
-
-	@Override
-	public String platform() {
-		return "twitter";
-	}
-
-	@Override
-	public String home() {
-		return "twitter.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "Twitter";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"社交" , "媒体", "微博"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910002005", "18210538513");
-	}
-	
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newInstanceWithGoogleProxy(true, false, CHROME_USER_AGENT);

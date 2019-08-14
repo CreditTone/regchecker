@@ -1,51 +1,26 @@
 package com.jisucloud.clawler.regagent.service.impl.photo;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "ooopic.com", 
+		message = "我图网是为用户提供正版设计作品交易的平台，专注正版设计作品交易，包括背景墙素材、PPT模板、淘宝素材、视频素材等等设计作品，下载正版设计作品就到我图网。", 
+		platform = "ooopic", 
+		platformName = "我图网", 
+		tags = { "原创" , "设计", "素材" }, 
+		testTelephones = { "13991808887", "13811085745" })
 public class WoTuWangSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		return "我图网是为用户提供正版设计作品交易的平台，专注正版设计作品交易，包括背景墙素材、PPT模板、淘宝素材、视频素材等等设计作品，下载正版设计作品就到我图网。";
-	}
-
-	@Override
-	public String platform() {
-		return "ooopic";
-	}
-
-	@Override
-	public String home() {
-		return "ooopic.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "我图网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"原创" , "设计", "素材"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13991808887", "13811085745");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://account.ooopic.com/user/loginAction.php?action=verifyRegAccount&username="+account+"&regType=phone";

@@ -25,7 +25,7 @@ import com.deep007.spiderbase.util.BootUtil;
 import com.deep007.spiderbase.util.JEmail;
 import com.deep007.spiderbase.util.JEmail.JEmailBuilder;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.ReflectUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -92,7 +92,7 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 	}
 	
 	private boolean isIgnoreTestResult(Class<? extends PapaSpider> clz) throws Exception {
-		UsePapaSpider usePapaSpider = clz.getAnnotation(UsePapaSpider.class);
+		PapaSpiderConfig usePapaSpider = clz.getAnnotation(PapaSpiderConfig.class);
 		return usePapaSpider.ignoreTestResult();
 	}
 	
@@ -110,8 +110,8 @@ public class TestValidPapaSpiderService extends TimerTask implements PapaSpiderT
 	}
 	
 	public static boolean isUsePapaSpider(Class<?> clz) {
-		if (ReflectUtil.isUsedAnnotate(UsePapaSpider.class, clz)) {
-			UsePapaSpider usePapaSpider = clz.getAnnotation(UsePapaSpider.class);
+		if (ReflectUtil.isUsedAnnotate(PapaSpiderConfig.class, clz)) {
+			PapaSpiderConfig usePapaSpider = clz.getAnnotation(PapaSpiderConfig.class);
 			return !usePapaSpider.exclude() && usePapaSpider.excludeMsg().isEmpty();
 		}
 		return false;

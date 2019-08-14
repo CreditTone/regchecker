@@ -1,61 +1,33 @@
 package com.jisucloud.clawler.regagent.service.impl.life;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "jiehun.com", 
+		message = "中国婚嫁领域一站式服务平台。每年春夏秋冬四季在北京、上海、广州、天津、武汉、杭州、成都等地同时举办大型结婚展，包含婚纱摄影、婚纱礼服、婚庆策划、婚宴酒店、结婚钻戒、婚庆用品、婚房装修、婚车等核心结婚消费行业。", 
+		platform = "jiehun", 
+		platformName = "中国婚博会", 
+		tags = { "电商", "结婚" }, 
+		testTelephones = { "13426345414", "18210000000" , "18210538513" })
 public class ZhongGuoHunBoHuiSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "中国婚嫁领域一站式服务平台。每年春夏秋冬四季在北京、上海、广州、天津、武汉、杭州、成都等地同时举办大型结婚展，包含婚纱摄影、婚纱礼服、婚庆策划、婚宴酒店、结婚钻戒、婚庆用品、婚房装修、婚车等核心结婚消费行业。";
-	}
-
-	@Override
-	public String platform() {
-		return "jiehun";
-	}
-
-	@Override
-	public String home() {
-		return "jiehun.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "中国婚博会";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"电商", "结婚"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13426345414", "18210000000" , "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://open.jiehun.com.cn/user/account/get-login";

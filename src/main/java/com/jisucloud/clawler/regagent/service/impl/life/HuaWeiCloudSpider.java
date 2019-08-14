@@ -2,34 +2,25 @@ package com.jisucloud.clawler.regagent.service.impl.life;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
+
+@PapaSpiderConfig(
+		home = "huawei.com", 
+		message = "华为云端安全存储和管理华为手机用户的照片、联系人、备忘录等重要数据，并同步更新到您的其他华为设备。远程定位和锁定设备，擦除数据。", 
+		platform = "huawei", 
+		platformName = "华为商城", 
+		tags = {  "购物", "手机"}, 
+		testTelephones = { "13925306966", "18210538513" },
+		exclude = true)
 public class HuaWeiCloudSpider extends PapaSpider {
-
-
-    @Override
-    public String message() {
-        return "华为云端安全存储和管理华为手机用户的照片、联系人、备忘录等重要数据，并同步更新到您的其他华为设备。远程定位和锁定设备，擦除数据。";
-    }
-
-    @Override
-    public String platform() {
-        return "huawei";
-    }
-    
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13925306966", "18210538513");
-	}
 
     private Map<String, String> getHeader() {
         Map<String, String> headers = new HashMap<>();
@@ -53,7 +44,6 @@ public class HuaWeiCloudSpider extends PapaSpider {
         try {
 
             Map<String, String> cookies = Jsoup.connect("https://hwid1.vmall.com/AMW/portal/resetPwd/forgetbyid.html?reqClientType=1&loginChannel=1000002&countryCode=cn&loginUrl=https%3A%2F%2Fcloud.huawei.com%3A443%2Fothers%2Flogin.action&service=https%3A%2F%2Fcloud.huawei.com%3A443%2Fothers%2Flogin.action&lang=zh-cn&themeName=red").ignoreContentType(true).execute().cookies();
-
             String url = "http://reg.email.163.com/unireg/call.do?cmd=added.mobilemail.checkBinding";
             Connection.Response response = Jsoup.connect(url)
                     .cookies(cookies)
@@ -62,10 +52,8 @@ public class HuaWeiCloudSpider extends PapaSpider {
                     .data(getParams(account))
                     .ignoreContentType(true)
                     .execute();
-            System.err.println(response.body());
             if (response != null) {
                 JSONObject result = JSON.parseObject(response.body());
-                System.out.println(result);
                 if (result.getIntValue("code") == 201) {
                     return true;
                 }
@@ -87,20 +75,4 @@ public class HuaWeiCloudSpider extends PapaSpider {
         return null;
     }
 
-    @Override
-    public String platformName() {
-        return "华为手机云";
-    }
-
-	@Override
-	public String home() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String[] tags() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.news;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -10,46 +10,20 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "qutoutiao.com", 
+		message = "趣头条作为一款新生代内容资讯APP，由上海基分文化传播有限公司开发。团队致力于让用户的阅读更有价值，通过大数据算法和云计算等技术，为用户提供感兴趣、有价值的个性化内容及服务。2018年8月18日，趣头条提交美国IPO申请。", 
+		platform = "qutoutiao", 
+		platformName = "趣头条", 
+		tags = { "新闻资讯" }, 
+		testTelephones = { "18720982007", "18210538513" })
 public class QuTouTiaoSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "趣头条作为一款新生代内容资讯APP，由上海基分文化传播有限公司开发。团队致力于让用户的阅读更有价值，通过大数据算法和云计算等技术，为用户提供感兴趣、有价值的个性化内容及服务。2018年8月18日，趣头条提交美国IPO申请。";
-	}
-
-	@Override
-	public String platform() {
-		return "qutoutiao";
-	}
-
-	@Override
-	public String home() {
-		return "qutoutiao.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "趣头条";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"新闻资讯"};
-	}
-
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18720982007", "18210538513");
-	}
-	
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://qac-qupost.qutoutiao.net/member/checkPhoneExistOrNot?telephone="+account+"&dtu=200";

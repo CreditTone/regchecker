@@ -1,59 +1,28 @@
 package com.jisucloud.clawler.regagent.service.impl.knowledge;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "hdb.com", 
+		message = "互动吧是活动平台，通过三年多的发展，已拥有7000多万注册用户。互动吧是一座连接活动主办方与参与者的桥梁，一方面帮助主办方更简单、高效的创建活动、管理活动和传播活动，另一方面帮助参与者更轻松、便捷的找到喜欢的活动参加。", 
+		platform = "hdb", 
+		platformName = "互动吧", 
+		tags = { "论坛" , "交友" , "户外交友" }, 
+		testTelephones = { "13925306966", "18210538513" })
 public class HuDongBaSpider extends PapaSpider {
 
-	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
-			.readTimeout(20, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
-
-	@Override
-	public String message() {
-		return "互动吧是活动平台，通过三年多的发展，已拥有7000多万注册用户。互动吧是一座连接活动主办方与参与者的桥梁，一方面帮助主办方更简单、高效的创建活动、管理活动和传播活动，另一方面帮助参与者更轻松、便捷的找到喜欢的活动参加。";
-	}
-
-	@Override
-	public String platform() {
-		return "hdb";
-	}
-
-	@Override
-	public String home() {
-		return "hdb.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "互动吧";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"论坛" , "交友" , "户外交友"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13925306966", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.hdb.com/post/api:2";

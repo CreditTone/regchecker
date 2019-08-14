@@ -1,7 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -13,52 +13,28 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
-import java.util.Set;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "lu.com", 
+		message = "陆金所(LU.com)-中国平安集团倾力打造的投资理财平台。在健全的风险管控体系基础上,为投资者提供专业理财服务。2018年毕马威全球金融科技前10强 ,多样化理财产品满足您全方位财富管理需求:零钱理财,期限理财,网贷,基金等。立即注册，开启理财生活。", 
+		platform = "lu", 
+		platformName = "陆金所", 
+		tags = { "P2P", "借贷" , "理财" }, 
+		testTelephones = { "13900002045", "18210538513" })
 public class LuJinSuoSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private int times = 0;//成功尝试登录次数:验证码正确即成功
 	private String lastMsg = "";
-
-	@Override
-	public String message() {
-		return "陆金所(LU.com)-中国平安集团倾力打造的投资理财平台。在健全的风险管控体系基础上,为投资者提供专业理财服务。2018年毕马威全球金融科技前10强 ,多样化理财产品满足您全方位财富管理需求:零钱理财,期限理财,网贷,基金等。立即注册，开启理财生活。";
-	}
-
-	@Override
-	public String platform() {
-		return "lu";
-	}
-
-	@Override
-	public String home() {
-		return "lu.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "陆金所";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷" , "理财"};
-	}
 	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13900002045", "18210538513");
-	}
-
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {
@@ -73,7 +49,7 @@ public class LuJinSuoSpider extends PapaSpider implements AjaxHook {
 		return "";
 	}
 
-	@Override
+
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newIOSInstance(false, true);

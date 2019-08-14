@@ -2,52 +2,31 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "hejiajinrong.com", 
+		message = "合家金融(www.hejiajinrong.com)隶属于杭州合家互联网金融服务有限公司(简称合家金融),是专注于以银行不良资产为核心的特色互联网金融平台。", 
+		platform = "hejiajinrong", 
+		platformName = "合家金融", 
+		tags = { "p2p", "借贷" }, 
+		testTelephones = { "18210538513", "15161509916" })
 public class HeJiaJinRongSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "合家金融(www.hejiajinrong.com)隶属于杭州合家互联网金融服务有限公司(简称合家金融),是专注于以银行不良资产为核心的特色互联网金融平台。";
-	}
-
-	@Override
-	public String platform() {
-		return "hejiajinrong";
-	}
-
-	@Override
-	public String home() {
-		return "hejiajinrong.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "合家金融";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"p2p", "借贷"};
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.hejiajinrong.com/api/user/validateMobile";
@@ -79,11 +58,6 @@ public class HeJiaJinRongSpider extends PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538513", "15161509916");
 	}
 
 }

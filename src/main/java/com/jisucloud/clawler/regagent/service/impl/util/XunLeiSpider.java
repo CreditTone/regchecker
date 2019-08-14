@@ -1,59 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.util;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "xunlei.com", 
+		message = "迅雷是全球领先的共享计算与区块链技术创新企业,公司成立于2003年,基于深耕十几年、获得国际专利的P2SP下载加速技术优势,面向个人用户和企业用户打造了丰富的下载加速器。", 
+		platform = "xunlei", 
+		platformName = "迅雷", 
+		tags = { "系统工具", "影音" }, 
+		testTelephones = { "18611216720", "18210538513" })
 public class XunLeiSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "迅雷是全球领先的共享计算与区块链技术创新企业,公司成立于2003年,基于深耕十几年、获得国际专利的P2SP下载加速技术优势,面向个人用户和企业用户打造了丰富的下载加速器。";
-	}
-
-	@Override
-	public String platform() {
-		return "xunlei";
-	}
-
-	@Override
-	public String home() {
-		return "xunlei.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "迅雷";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"系统工具", "影音"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18611216720", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://zhuce.kankan.com/regapi?callback=jsonp"+System.currentTimeMillis()+"&op=checkBind&account="+account+"&type=1&response=jsonp";

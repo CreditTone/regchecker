@@ -1,54 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import lombok.extern.slf4j.Slf4j;
 
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
-import com.google.common.collect.Sets;
+
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "hurbao.com", 
+		message = "互融宝-国资控股银行存管双重背景,4年实力品牌,银行存管实现用户资金隔离,凌晨回款T+0资金到账.中国互金+江苏互金双协会会员单位,平台信息披露专区透明公示合规运营,多重严格风控保驾护航-互融宝,100元起加入,投资从互融宝开始。", 
+		platform = "hurbao", 
+		platformName = "互融宝", 
+		tags = { "P2P", "消费分期" , "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class HuRongBaoSpider extends PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	
-	@Override
-	public String message() {
-		return "互融宝-国资控股银行存管双重背景,4年实力品牌,银行存管实现用户资金隔离,凌晨回款T+0资金到账.中国互金+江苏互金双协会会员单位,平台信息披露专区透明公示合规运营,多重严格风控保驾护航-互融宝,100元起加入,投资从互融宝开始。";
-	}
-
-	@Override
-	public String platform() {
-		return "hurbao";
-	}
-
-	@Override
-	public String home() {
-		return "hurbao.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "互融宝";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "消费分期" , "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
 	private String getImgCode() {
 		if (!chromeDriver.checkElement("#captchaImg")) {
 			return "";
@@ -66,7 +42,7 @@ public class HuRongBaoSpider extends PapaSpider {
 		return "";
 	}
 
-	@Override
+	
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);

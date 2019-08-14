@@ -1,10 +1,7 @@
 package com.jisucloud.clawler.regagent.controller;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -15,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.deep007.spiderbase.killer.LinuxJvmProcrssMonitor;
 import com.jisucloud.clawler.regagent.service.PapaSpiderService;
-import com.jisucloud.clawler.regagent.service.PapaTask;
-import com.jisucloud.clawler.regagent.util.StringUtil;
+import com.jisucloud.clawler.regagent.service.PapaSpiderService.Status;
+import com.jisucloud.clawler.regagent.service.PapaTaskService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,6 +21,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/papa")
 @Slf4j
 public class PapaController {
+	
+	@Autowired
+	private PapaTaskService papaTaskService;
 	
 	@Autowired
 	private PapaSpiderService papaSpiderService;
@@ -34,26 +34,21 @@ public class PapaController {
 	private LinuxJvmProcrssMonitor linuxJvmProcrssMonitor = LinuxJvmProcrssMonitor.getThisLinuxJvmProcrssMonitor();
 	
 	@RequestMapping(value = "/rapeData", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public Object rapeData(@RequestParam(name = "tel") String tel,@RequestParam(name = "name" , required = false) String name, @RequestParam(name = "callurl") String callurl, @RequestParam(name = "needlessCheckPlatforms" , required = false, defaultValue = "") String noCheckPlatform) {
-		Set<String> needlessCheckPlatforms = new HashSet<>();
-		if (StringUtil.isValidString(noCheckPlatform)) {
-			String[] items = noCheckPlatform.split(",");
-			for (int i = 0; items != null && i < items.length; i++) {
-				String item = items[i].trim();
-				if (!item.isEmpty()) {
-					needlessCheckPlatforms.add(item);
-				}
-			}
-		}
-		PapaTask papaTask = PapaTask.builder().id(UUID.randomUUID().toString()).telephone(tel).callurl(callurl).name(name).needlessCheckPlatforms(needlessCheckPlatforms).build();
-		papaSpiderService.addPapaTask(papaTask);
+	public Object rapeData(@RequestParam(name = "tel") String tel, @RequestParam(name = "name" , required = false) String name, @RequestParam(name = "idcard" , required = false) String idcard) {
 		Map<String,Object> resp = new HashMap<>();
-		resp.put("id", papaTask.getId());
+		resp.put("id", papaTaskService.allocTask(tel, name, idcard));
 		return resp;
 	}
 	
 	@RequestMapping(value = "/shutdown", method = RequestMethod.GET)
 	public void shutdown() {
 		linuxJvmProcrssMonitor.killAll();
+		context.close();
+	}
+	
+	
+	@RequestMapping(value = "/status", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public Status status() {
+		return papaSpiderService.getStatus();
 	}
 }

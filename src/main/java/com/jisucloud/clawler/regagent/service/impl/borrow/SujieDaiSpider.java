@@ -8,39 +8,26 @@ import okhttp3.Headers;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-@UsePapaSpider
+
+@PapaSpiderConfig(home = "kyxdloan.com", message = "速借贷作为一款应用，解决的是需求用户贷款难的问题，我们用专业的服务，解决您贷款难、审核严、下款慢、利息高的问题！！！", platform = "sujiedai", platformName = "速借贷", tags = {
+		"P2P", "消费分期", "借贷" }, testTelephones = { "15985268900", "18210538513" })
 public class SujieDaiSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		return "速借贷作为一款应用，解决的是需求用户贷款难的问题，我们用专业的服务，解决您贷款难、审核严、下款慢、利息高的问题！！！";
-	}
-
-	@Override
-	public String platform() {
-		return "sujiedai";
-	}
-
-	@Override
-	public String home() {
-		return "kyxdloan.com";
-	}
-
 	private Headers getHeader() {
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Sign", "EDCB7FAA0AC96CECA3652AE07E4503840FE04910");
-        headers.put("Host", "api.kyxdloan.com");
-        headers.put("User-Agent", "deviceToken:7121d2f6f3a817f98e74e62172733877, client:android, version:1.0.7, build:181207, channel:wandoujia, userId:, screenSize:480x800,safeToken:904ef22b584147d5650c1f79a64354aa,Fastloan:1.0.7,appName:fastloan");
-        return Headers.of(headers);
-    }
+		Map<String, String> headers = new HashMap<>();
+		headers.put("Sign", "EDCB7FAA0AC96CECA3652AE07E4503840FE04910");
+		headers.put("Host", "api.kyxdloan.com");
+		headers.put("User-Agent",
+				"deviceToken:7121d2f6f3a817f98e74e62172733877, client:android, version:1.0.7, build:181207, channel:wandoujia, userId:, screenSize:480x800,safeToken:904ef22b584147d5650c1f79a64354aa,Fastloan:1.0.7,appName:fastloan");
+		return Headers.of(headers);
+	}
 
 	private FormBody getParams(String mobile) {
 		FormBody formBody = new FormBody.Builder().add("u", mobile).add("isremember", "false")
@@ -50,12 +37,6 @@ public class SujieDaiSpider extends PapaSpider {
 		return formBody;
 	}
 
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268900", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		String url = "https://api.kyxdloan.com/user/signin_check";
 		try {
@@ -79,16 +60,6 @@ public class SujieDaiSpider extends PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
-	}
-
-	@Override
-	public String platformName() {
-		return "速借贷";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] { "P2P", "消费分期", "借贷" };
 	}
 
 }

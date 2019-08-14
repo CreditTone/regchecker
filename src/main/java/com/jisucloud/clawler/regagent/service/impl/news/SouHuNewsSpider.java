@@ -3,9 +3,9 @@ package com.jisucloud.clawler.regagent.service.impl.news;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
@@ -14,43 +14,18 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "sohu.com", 
+		message = "搜狐公司是中国的新媒体、通信及移动增值服务公司，是互联网品牌。搜狐是一个新闻中心、联动娱乐市场，跨界经营的娱乐中心、体育中心、时尚文化中心。搜狐公司是2008北京奥运会互联网内容服务赞助商。", 
+		platform = "sohunews", 
+		platformName = "搜狐", 
+		tags = { "新闻资讯" }, 
+		testTelephones = { "18515290717", "18210538513" })
 public class SouHuNewsSpider extends PapaSpider implements AjaxHook {
 
-	@Override
-	public String message() {
-		return "搜狐公司是中国的新媒体、通信及移动增值服务公司，是互联网品牌。搜狐是一个新闻中心、联动娱乐市场，跨界经营的娱乐中心、体育中心、时尚文化中心。搜狐公司是2008北京奥运会互联网内容服务赞助商。";
-	}
-
-	@Override
-	public String platform() {
-		return "sohunews";
-	}
-
-	@Override
-	public String home() {
-		return "sohu.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "搜狐网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"新闻资讯"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18515290717", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		ChromeAjaxHookDriver chromeDriver = null;
 		try {

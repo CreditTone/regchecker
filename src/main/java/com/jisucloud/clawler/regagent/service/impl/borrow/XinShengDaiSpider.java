@@ -2,57 +2,26 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
-
-import org.springframework.stereotype.Component;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "newup.com", 
+		message = "新升贷(www.newup.net.cn)是专注于汽车抵押借贷服务的互联网金融P2P网贷平台,新升贷致力于打造一个专业、规范、安全、高效、诚信的汽车抵押网络借贷中介平台,通过..。", 
+		platform = "newup", 
+		platformName = "newupName", 
+		tags = { "P2P", "消费分期" ,"车贷", "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class XinShengDaiSpider extends PapaSpider {
 
 	
 	
-	@Override
-	public String message() {
-		return "新升贷(www.newup.net.cn)是专注于汽车抵押借贷服务的互联网金融P2P网贷平台,新升贷致力于打造一个专业、规范、安全、高效、诚信的汽车抵押网络借贷中介平台,通过..。";
-	}
-
-	@Override
-	public String platform() {
-		return "newup";
-	}
-
-	@Override
-	public String home() {
-		return "newup.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "新升贷";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "消费分期" ,"车贷", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.newup.net.cn/index/register/checkPhone";

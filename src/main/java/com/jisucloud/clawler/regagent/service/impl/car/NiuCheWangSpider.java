@@ -1,9 +1,9 @@
 package com.jisucloud.clawler.regagent.service.impl.car;
 
 import com.deep007.spiderbase.okhttp.OKHttpUtil;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -11,47 +11,22 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "niuche.com", 
+		message = "牛车网于2013年3月成立于北京，隶属于耐卡（香港）有限公司，前身是NextCar。牛车网立志成长为汽车第一意见网站，打造最庞大的汽车牛人团队、成长为汽车互联网第一社区。", 
+		platform = "niuche", 
+		platformName = "牛车网", 
+		tags = { "买车" , "汽车" }, 
+		testTelephones = { "18210538577", "18210538513" })
 public class NiuCheWangSpider extends PapaSpider {
 
 	public NiuCheWangSpider() {
 		okHttpClient = OKHttpUtil.createOkHttpClientWithRandomProxy();
 	}
 
-	@Override
-	public String message() {
-		return "牛车网于2013年3月成立于北京，隶属于耐卡（香港）有限公司，前身是NextCar。牛车网立志成长为汽车第一意见网站，打造最庞大的汽车牛人团队、成长为汽车互联网第一社区。";
-	}
-
-	@Override
-	public String platform() {
-		return "niuche";
-	}
-
-	@Override
-	public String home() {
-		return "niuche.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "牛车网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"买车" , "汽车"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538577", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://user.niuche.com/reg/api/checkPhone.ashx";

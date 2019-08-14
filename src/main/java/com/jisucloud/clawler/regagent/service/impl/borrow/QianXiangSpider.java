@@ -2,57 +2,26 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
-
-import org.springframework.stereotype.Component;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "qianxiangbank.com", 
+		message = "钱香金融专注黄金珠宝小微金融,是知名创投和产业资本联袂打造的小微金融借贷撮合服务的互联网金融信息中介平台,助力黄金珠宝产业链供应链金融,为品牌零售门店提供小微。", 
+		platform = "qianxiangbank", 
+		platformName = "钱香金融", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class QianXiangSpider extends PapaSpider {
 
 	
 	
-	@Override
-	public String message() {
-		return "钱香金融专注黄金珠宝小微金融,是知名创投和产业资本联袂打造的小微金融借贷撮合服务的互联网金融信息中介平台,助力黄金珠宝产业链供应链金融,为品牌零售门店提供小微。";
-	}
-
-	@Override
-	public String platform() {
-		return "qianxiangbank";
-	}
-
-	@Override
-	public String home() {
-		return "qianxiangbank.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "钱香金融";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.qianxiangbank.com/home/login";

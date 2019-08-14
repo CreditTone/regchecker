@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.education;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -11,44 +11,18 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "vipjr.com", 
+		message = "vipJr青少儿在线教育致力于打造K12全学科在线教育平台,为5-18岁青少儿提供在线少儿英语学习、一对一英语口语、数学、编程、语文等多元化在线教学服务。", 
+		platform = "vipjr", 
+		platformName = "vipjr", 
+		tags = { "家长", "在线教育" }, 
+		testTelephones = { "15161509916", "18210538513" })
 public class VipjrSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		return "vipJr青少儿在线教育致力于打造K12全学科在线教育平台,为5-18岁青少儿提供在线少儿英语学习、一对一英语口语、数学、编程、语文等多元化在线教学服务。";
-	}
-
-	@Override
-	public String platform() {
-		return "vipjr";
-	}
-
-	@Override
-	public String home() {
-		return "vipjr.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "vipJr在线教育";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"家长", "在线教育"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15161509916", "18210538513");
-	}
-
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://passport.vipjr.com/api/loginpost?brandId=4";

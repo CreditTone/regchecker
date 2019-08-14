@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.software;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -11,44 +11,19 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "mumayi.com", 
+		message = "木蚂蚁安卓应用市场——行业领先的安卓应用平台,专业的Android软件下载提供商,为您选择最好玩的手机游戏,为您提供免费安卓手机软件。通过Android游戏软件下载使用热度。", 
+		platform = "mumayi", 
+		platformName = "木蚂蚁", 
+		tags = { "工具" , "软件下载" }, 
+		testTelephones = { "13925306966", "18210538513" })
 public class MuMaYiSpider extends PapaSpider {
 
 
-	@Override
-	public String message() {
-		return "木蚂蚁安卓应用市场——行业领先的安卓应用平台,专业的Android软件下载提供商,为您选择最好玩的手机游戏,为您提供免费安卓手机软件。通过Android游戏软件下载使用热度。";
-	}
-
-	@Override
-	public String platform() {
-		return "mumayi";
-	}
-
-	@Override
-	public String home() {
-		return "mumayi.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "木蚂蚁";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"工具" , "软件下载"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13925306966", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		if (account.length() != 11) {
 			return false;

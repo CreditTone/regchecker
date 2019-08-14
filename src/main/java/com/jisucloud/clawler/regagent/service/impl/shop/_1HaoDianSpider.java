@@ -3,8 +3,9 @@ package com.jisucloud.clawler.regagent.service.impl.shop;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
@@ -13,45 +14,20 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-//@UsePapaSpider
+@PapaSpiderConfig(
+		home = "yhd.com", 
+		message = "1号店(yhd.com)网上超市精选全球好货,提供休闲零食、母婴玩具、进口食品、服饰内衣,1号生鲜、家电家居、手机电脑、宠物用品等各个品类的优质商品。", 
+		platform = "yhd", 
+		platformName = "1号店", 
+		tags = { "购物" }, 
+		testTelephones = {"13800000000", "18210538513" })
 public class _1HaoDianSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 
-	@Override
-	public String message() {
-		return "1号店(yhd.com)网上超市精选全球好货,提供休闲零食、母婴玩具、进口食品、服饰内衣,1号生鲜、家电家居、手机电脑、宠物用品等各个品类的优质商品。";
-	}
-
-	@Override
-	public String platform() {
-		return "yhd";
-	}
-
-	@Override
-	public String home() {
-		return "yhd.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "1号店";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"购物"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13800000000", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);
@@ -97,7 +73,6 @@ public class _1HaoDianSpider extends PapaSpider implements AjaxHook{
 
 	@Override
 	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
-		System.out.println(contents.getTextContents());
 		checkTel = contents.getTextContents().contains("****");
 	}
 

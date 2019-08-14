@@ -1,56 +1,32 @@
 package com.jisucloud.clawler.regagent.service.impl.util;
 
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
-import java.util.Set;
+
 
 import org.openqa.selenium.WebElement;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "uc.cn", 
+		message = "UC浏览器是全球6亿用户共同选择的智能手机浏览器,登陆UC官网免费下载UC浏览器安卓版/iPhone版,给您超快感的上网体验。", 
+		platform = "uc", 
+		platformName = "UC浏览器", 
+		tags = { "工具", "浏览器" }, 
+		testTelephones = { "13910000000", "18210538513" })
 public class UCSpider extends PapaSpider {
 	
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
-
-	@Override
-	public String message() {
-		return "UC浏览器是全球6亿用户共同选择的智能手机浏览器,登陆UC官网免费下载UC浏览器安卓版/iPhone版,给您超快感的上网体验。";
-	}
-
-	@Override
-	public String platform() {
-		return "uc";
-	}
-
-	@Override
-	public String home() {
-		return "uc.cn";
-	}
-
-	@Override
-	public String platformName() {
-		return "UC浏览器";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"工具", "浏览器"};
-	}
 	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910000000", "18210538513");
-	}
-
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {
@@ -65,7 +41,7 @@ public class UCSpider extends PapaSpider {
 		return "";
 	}
 
-	@Override
+
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);

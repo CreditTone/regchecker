@@ -3,9 +3,8 @@ package com.jisucloud.clawler.regagent.service.impl.shop;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.service.PapaSpiderTester;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -19,49 +18,21 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 import java.util.Map;
-import java.util.Set;
 
 @Slf4j
-//@UsePapaSpider  按钮无法点击
+@PapaSpiderConfig(
+		home = "vip.com", 
+		message = "唯品会vip购物网以1-7折超低折扣对全球各大品牌进行限时特卖,商品囊括服装、化妆品、家居、奢侈品等上千品牌。100%正品、低价、货到付款、7天无理由退货。", 
+		platform = "vip", 
+		platformName = "唯品会", 
+		tags = {"化妆品" , "奢侈品" ,"购物" }, 
+		testTelephones = {"13910250000", "18210538513" },
+		excludeMsg = "按钮无法点击")
 public class WeiPinHuiSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean success = false;
-
-	@Override
-	public String message() {
-		return "唯品会vip购物网以1-7折超低折扣对全球各大品牌进行限时特卖,商品囊括服装、化妆品、家居、奢侈品等上千品牌。100%正品、低价、货到付款、7天无理由退货。";
-	}
-
-	@Override
-	public String platform() {
-		return "vph";
-	}
-
-	@Override
-	public String home() {
-		return "vip.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "唯品会";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"化妆品" , "奢侈品" ,"购物"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910250000", "18210538513");
-	}
-	
-	public static void main(String[] args) {
-		PapaSpiderTester.testingWithPrint(WeiPinHuiSpider.class);
-	}
 	
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
@@ -78,7 +49,7 @@ public class WeiPinHuiSpider extends PapaSpider implements AjaxHook{
 	}
 	String code;
 
-	@Override
+
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newIOSInstance(false, false);
@@ -134,7 +105,6 @@ public class WeiPinHuiSpider extends PapaSpider implements AjaxHook{
 	@Override
 	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
 		if (messageInfo.getOriginalUrl().contains("https://mlogin.vip.com/ajaxapi-forget.html?")) {
-			System.out.println("拦截短信");
 			return DEFAULT_HTTPRESPONSE;
 		}
 		return null;

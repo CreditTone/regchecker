@@ -1,56 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.trip;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "qunar.com", 
+		message = "去哪儿是中国领先的旅游搜索引擎，去哪儿是目前全球最大的中文在线旅行网站，创立于2005年2月，总部在北京。去哪儿网为消费者提供机票、酒店、会场、度假产品的实时搜索，并提供旅游产品团购以及其他旅游信息服务，为旅游行业合作伙伴提供在线技术、移动技术解决方案。", 
+		platform = "qunar", 
+		platformName = "去哪儿", 
+		tags = { "旅游" , "酒店" , "机票" , "o2o" }, 
+		testTelephones = { "18210538000", "18210538513" })
 public class QunarSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "去哪儿是中国领先的旅游搜索引擎，去哪儿是目前全球最大的中文在线旅行网站，创立于2005年2月，总部在北京。去哪儿网为消费者提供机票、酒店、会场、度假产品的实时搜索，并提供旅游产品团购以及其他旅游信息服务，为旅游行业合作伙伴提供在线技术、移动技术解决方案。";
-	}
-
-	@Override
-	public String platform() {
-		return "qunar";
-	}
-
-	@Override
-	public String home() {
-		return "qunar.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "去哪儿";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"旅游" , "酒店" , "机票" , "o2o"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538000", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://user.qunar.com/ajax/validator.jsp";

@@ -7,35 +7,21 @@ import okhttp3.FormBody;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
 
-@UsePapaSpider
+
+@PapaSpiderConfig(
+		home = "ddcash.cn", 
+		message = "豆豆钱是一款互联网智能信贷产品app。可为人们提供5000-50000元的贷款服务。纯线上操作，到账迅速。", 
+		platform = "doudoucash", 
+		platformName = "豆豆钱包", 
+		tags = { "P2P", "消费分期" , "借贷" }, 
+		testTelephones = { "15985268900", "18210538513" })
 public class DouDouCashMSpider extends PapaSpider {
-
-    @Override
-    public String message() {
-        return "豆豆钱是一款互联网智能信贷产品app。可为人们提供5000-50000元的贷款服务。纯线上操作，到账迅速。";
-    }
-
-    @Override
-    public String platform() {
-        return "doudoucash";
-    }
-
-    @Override
-    public String home() {
-        return "ddcash.cn";
-    }
-    
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268900", "18210538513");
-	}
 
     private String getRequestBody(String mobile) {
         JSONObject q = new JSONObject();
@@ -47,7 +33,7 @@ public class DouDouCashMSpider extends PapaSpider {
         return q.toJSONString();
     }
 
-    @Override
+    
     public boolean checkTelephone(String account) {
         try {
             JSONObject appvinv = new JSONObject();
@@ -83,24 +69,20 @@ public class DouDouCashMSpider extends PapaSpider {
         return false;
     }
 
-    @Override
+    
     public boolean checkEmail(String account) {
         return false;
     }
 
-    @Override
+    
     public Map<String, String> getFields() {
         // TODO Auto-generated method stub
         return null;
     }
 
-    @Override
-    public String platformName() {
-        return "豆豆钱包";
-    }
+    
+    
 
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "消费分期" , "借贷"};
-	}
+	
+	
 }

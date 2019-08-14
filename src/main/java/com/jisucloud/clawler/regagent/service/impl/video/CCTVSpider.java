@@ -5,9 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.service.impl.life.IPandaSpider;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
@@ -18,63 +18,24 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
+
 
 import org.openqa.selenium.WebElement;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "cctv.com", 
+		message = "央视网(www.cctv.com)由中央广播电视总台主办,是以视频为特色的中央重点新闻网站,是央视的融合传播平台,是拥有全牌照业务资质的大型互联网文化企业。", 
+		platform = "cctv", 
+		platformName = "央视网", 
+		tags = { "影音", "直播", "视频" }, 
+		testTelephones = { "13925306960", "18210538513" })
 public class CCTVSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean checkSuc = false;
 
-	@Override
-	public String message() {
-		return "央视网(www.cctv.com)由中央广播电视总台主办,是以视频为特色的中央重点新闻网站,是央视的融合传播平台,是拥有全牌照业务资质的大型互联网文化企业。";
-	}
-
-	@Override
-	public String platform() {
-		return "cctv";
-	}
-
-	@Override
-	public String home() {
-		return "cctv.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "央视网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"影音", "直播", "视频"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13925306960", "18210538513");
-	}
-	
-	private String getImgCode() {
-		for (int i = 0 ; i < 3; i++) {
-			try {
-				WebElement img = chromeDriver.findElementByCssSelector("#regcodeImg");
-				img.click();smartSleep(1000);
-				byte[] body = chromeDriver.screenshot(img);
-				return OCRDecode.decodeImageCode(body);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return "";
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 //		try {
 //			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);

@@ -1,56 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.education;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "chinaacc.com", 
+		message = "中华会计网校是专业的会计培训网站，专注会计培训19年，官方咨询热线: 010-82318888。中华会计网校常年开设初级会计职称、中级会计职称、高级会计师、注册会计师、税务师、经济师、ACCA、CMA、美国CPA、会计继续教育等各类财会考试培训，培训效果卓越！", 
+		platform = "chinaacc", 
+		platformName = "中华会计网", 
+		tags = { "会计", "学校" , "网校" }, 
+		testTelephones = { "13771025665", "18209649992" })
 public class ZhongHuaKuaiJiWangSpider extends PapaSpider {
 
 	
 
 
-	@Override
-	public String message() {
-		return "中华会计网校是专业的会计培训网站，专注会计培训19年，官方咨询热线: 010-82318888。中华会计网校常年开设初级会计职称、中级会计职称、高级会计师、注册会计师、税务师、经济师、ACCA、CMA、美国CPA、会计继续教育等各类财会考试培训，培训效果卓越！";
-	}
-
-	@Override
-	public String platform() {
-		return "chinaacc";
-	}
-
-	@Override
-	public String home() {
-		return "chinaacc.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "中华会计网校";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"会计", "学校" , "网校"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13771025665", "18209649992");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		if (account.length() != 11) {
 			return false;

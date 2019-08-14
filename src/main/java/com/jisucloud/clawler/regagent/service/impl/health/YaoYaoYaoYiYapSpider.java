@@ -2,60 +2,32 @@ package com.jisucloud.clawler.regagent.service.impl.health;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "111yao.com", 
+		message = "111医药馆是德生堂旗下网上药店，专做药品特卖的网站。111医药馆网上药店是国家药监局认证专业网上药店，经营药品种类齐全，网上购药就选111医药馆网上药店。", 
+		platform = "111yao", 
+		platformName = "111医药馆", 
+		tags = { "购药" , "健康" }, 
+		testTelephones = { "15901537458", "18210538513" })
 public class YaoYaoYaoYiYapSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "111医药馆是德生堂旗下网上药店，专做药品特卖的网站。111医药馆网上药店是国家药监局认证专业网上药店，经营药品种类齐全，网上购药就选111医药馆网上药店。";
-	}
-
-	@Override
-	public String platform() {
-		return "111yao";
-	}
-
-	@Override
-	public String home() {
-		return "111yao.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "111医药";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"购药" , "健康"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15901537458", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "http://www.111yao.com/login/login!userLogin.action?0.8448281925529483";

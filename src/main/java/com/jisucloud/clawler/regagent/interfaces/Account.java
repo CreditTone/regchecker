@@ -1,5 +1,7 @@
 package com.jisucloud.clawler.regagent.interfaces;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -35,6 +37,9 @@ public class Account {
 	private Map<String,String> fields;
 	
 	private Set<String> tags;
+	
+	
+	private String useTime;
 	
 	public static class AccountBuilder {
 		

@@ -3,7 +3,7 @@ package com.jisucloud.clawler.regagent.service.impl.life;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,41 +13,18 @@ import java.util.Set;
 import org.openqa.selenium.WebElement;
 
 @Slf4j
-@UsePapaSpider(exclude = true)
+@PapaSpiderConfig(
+		home = "meituan.com", 
+		message = "美团网精选美食餐厅,酒店预订,电影票,旅游景点,外卖订餐,团购信息,您可查询商家评价店铺信息。生活,下载美团官方APP ,吃喝玩乐1折起。", 
+		platform = "meituan", 
+		platformName = "美团网", 
+		tags = { "o2o", "外卖", "电影票" , "酒店" , "共享单车" }, 
+		testTelephones = { "18210538513", "18210530000" },
+		exclude = true)
 public class MeiTuanSpider2 extends PapaSpider {
 	
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
-
-	@Override
-	public String message() {
-		return "美团网精选美食餐厅,酒店预订,电影票,旅游景点,外卖订餐,团购信息,您可查询商家评价店铺信息。生活,下载美团官方APP ,吃喝玩乐1折起。";
-	}
-
-	@Override
-	public String platform() {
-		return "meituan";
-	}
-
-	@Override
-	public String home() {
-		return "meituan.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "美团网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"o2o", "外卖", "电影票" , "酒店" , "共享单车"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538513", "18210530000");
-	}
 
 	@Override
 	public boolean checkTelephone(String account) {

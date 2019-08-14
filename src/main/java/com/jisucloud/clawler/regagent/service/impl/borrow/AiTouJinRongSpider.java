@@ -3,9 +3,9 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
@@ -14,47 +14,22 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "5aitou.com", 
+		message = "爱投金融(5aitou.com)—成立于2011年的老牌互联网金融平台,上海财经大学金融学博士创立。银行资金存管,中国互联网金融协会首批会员,上海金融信息行业理事单位。", 
+		platform = "5aitou", 
+		platformName = "爱投金融", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "13910252000", "18210538513" })
 public class AiTouJinRongSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
 
-	@Override
-	public String message() {
-		return "爱投金融(5aitou.com)—成立于2011年的老牌互联网金融平台,上海财经大学金融学博士创立。银行资金存管,中国互联网金融协会首批会员,上海金融信息行业理事单位。";
-	}
-
-	@Override
-	public String platform() {
-		return "5aitou";
-	}
-
-	@Override
-	public String home() {
-		return "5aitou.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "爱投金融";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252000", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);

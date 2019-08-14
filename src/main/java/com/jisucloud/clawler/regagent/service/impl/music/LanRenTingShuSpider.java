@@ -1,59 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.music;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "lrts.com", 
+		message = "懒人听书是3.2亿用户选择的综合性有声阅读交流平台。热门IP入驻,知名主播云集,原创小说、经典文学、海量精品栏目共筑有声阅读生态圈,解放双眼,畅听世界。", 
+		platform = "lrts", 
+		platformName = "懒人听书", 
+		tags = { "听书", "生活休闲" }, 
+		testTelephones = { "15985260000", "18210538513" })
 public class LanRenTingShuSpider extends PapaSpider {
 
 	
 
 
-	@Override
-	public String message() {
-		return "懒人听书是3.2亿用户选择的综合性有声阅读交流平台。热门IP入驻,知名主播云集,原创小说、经典文学、海量精品栏目共筑有声阅读生态圈,解放双眼,畅听世界。";
-	}
-
-	@Override
-	public String platform() {
-		return "lrts";
-	}
-
-	@Override
-	public String home() {
-		return "lrts.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "懒人听书";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"听书", "生活休闲"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985260000", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		if (account.length() != 11) {
 			return false;

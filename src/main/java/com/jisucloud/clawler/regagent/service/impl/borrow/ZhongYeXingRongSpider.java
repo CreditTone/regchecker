@@ -1,7 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -13,51 +13,26 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
 @Slf4j
-@UsePapaSpider(exclude = true)
+@PapaSpiderConfig(
+		home = "zyxr.com", 
+		message = "中业兴融(zyxr.com)是专业可信赖的P2P网贷平台,拥有超过100万注册用户,为用户提供专业透明的投资渠道和优质先进的科技金融服务,用户可通过平台进行定期投资获得稳定。", 
+		platform = "zyxr", 
+		platformName = "zyxrName", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15201215815", "18210538513" },
+		exclude = true)
 public class ZhongYeXingRongSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
-
-	@Override
-	public String message() {
-		return "中业兴融(zyxr.com)是专业可信赖的P2P网贷平台,拥有超过100万注册用户,为用户提供专业透明的投资渠道和优质先进的科技金融服务,用户可通过平台进行定期投资获得稳定。";
-	}
-
-	@Override
-	public String platform() {
-		return "zyxr";
-	}
-
-	@Override
-	public String home() {
-		return "zyxr.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "中业兴融";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
 	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15201215815", "18210538513");
-	}
-
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {
@@ -72,7 +47,7 @@ public class ZhongYeXingRongSpider extends PapaSpider implements AjaxHook {
 		return "";
 	}
 
-	@Override
+
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newAndroidInstance(false, true);
@@ -113,7 +88,6 @@ public class ZhongYeXingRongSpider extends PapaSpider implements AjaxHook {
 
 	@Override
 	public HookTracker getHookTracker() {
-		// TODO Auto-generated method stub
 		return HookTracker.builder().addUrl("https://www.zyxr.com/UserWeb/login.json").build();
 	}
 

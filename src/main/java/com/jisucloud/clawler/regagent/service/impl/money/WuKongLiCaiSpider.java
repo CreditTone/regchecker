@@ -1,54 +1,29 @@
 package com.jisucloud.clawler.regagent.service.impl.money;
 
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import java.util.Map;
-import java.util.Set;
+
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "wukonglicai.com", 
+		message = "玖富金融,玖富旗下品牌,玖富金融理财大师兄,专注为用户提供多元的出借选择和优质的出借服务。月账户、季账户、年账户等计划,满足各种资金的出借需求。", 
+		platform = "wukonglicai", 
+		platformName = "玖富金融", 
+		tags = { "理财" , "p2p" , "借贷" }, 
+		testTelephones = { "15985268900", "18210538513" })
 public class WuKongLiCaiSpider extends PapaSpider {
 	
 	private ChromeAjaxHookDriver chromeDriver;
 
-	@Override
-	public String message() {
-		return "玖富金融,玖富旗下品牌,玖富金融理财大师兄,专注为用户提供多元的出借选择和优质的出借服务。月账户、季账户、年账户等计划,满足各种资金的出借需求。";
-	}
-
-	@Override
-	public String platform() {
-		return "wukonglicai";
-	}
-
-	@Override
-	public String home() {
-		return "wukonglicai.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "玖富金融";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"理财" , "p2p" , "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268900", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(true, true, CHROME_USER_AGENT);

@@ -1,7 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -13,49 +13,25 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "p2phx.com", 
+		message = "恒信易贷,一家专注车贷的网络借贷信息中介平台,获优选资本2亿元B轮融资,股东背景实力雄厚。恒信易贷坚持“更合规的网贷平台”的定位,致力于为投融资需求者提供。", 
+		platform = "p2phx", 
+		platformName = "恒信易贷", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "13910252045", "18210538513" })
 public class HengXinYiDaiSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
-
-	@Override
-	public String message() {
-		return "恒信易贷,一家专注车贷的网络借贷信息中介平台,获优选资本2亿元B轮融资,股东背景实力雄厚。恒信易贷坚持“更合规的网贷平台”的定位,致力于为投融资需求者提供。";
-	}
-
-	@Override
-	public String platform() {
-		return "p2phx";
-	}
-
-	@Override
-	public String home() {
-		return "p2phx.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "恒信易贷";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252045", "18210538513");
-	}
 	
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
@@ -71,7 +47,8 @@ public class HengXinYiDaiSpider extends PapaSpider implements AjaxHook {
 		return "";
 	}
 
-	@Override
+
+
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newAndroidInstance(false, true);

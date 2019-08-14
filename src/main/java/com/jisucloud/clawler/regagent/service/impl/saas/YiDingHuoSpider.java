@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.saas;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -10,43 +10,19 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider(exclude = true)
+@PapaSpiderConfig(
+		home = "dinghuo123.com", 
+		message = "易订货帮助企业快速构建全渠道营销互动平台，已连续三年蝉联最佳企业移动订货平台大奖。围绕品牌企业与下游客户的全渠道业务流程设计，以订单处理为核心，实现在商机管理、分销管控、商品促销、订单。", 
+		platform = "dinghuo123", 
+		platformName = "易订货", 
+		tags = { "b2b" ,"商机" ,"生意" }, 
+		testTelephones = { "15120058878", "18210538513" },
+		exclude = true)
 public class YiDingHuoSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		return "易订货帮助企业快速构建全渠道营销互动平台，已连续三年蝉联最佳企业移动订货平台大奖。围绕品牌企业与下游客户的全渠道业务流程设计，以订单处理为核心，实现在商机管理、分销管控、商品促销、订单。";
-	}
-
-	@Override
-	public String platform() {
-		return "dinghuo123";
-	}
-
-	@Override
-	public String home() {
-		return "dinghuo123.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "易订货";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"b2b" ,"商机" ,"生意"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15120058878", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://sso.dinghuo123.com/username/exist";

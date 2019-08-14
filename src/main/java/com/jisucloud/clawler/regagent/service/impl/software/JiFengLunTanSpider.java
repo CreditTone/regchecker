@@ -1,57 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.software;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "gfan.com", 
+		message = "机锋论坛是全球最大、用户量最多、资源最全面的中文安卓论坛,拥有海量的ROM、游戏、软件资源,同时为玩家们提 供最新最热的安卓手机资源,各种刷机教程。搞机就上机锋网|GFAN.COM。", 
+		platform = "gfan", 
+		platformName = "机锋论坛", 
+		tags = { "3c", "科技" ,"智能手机" }, 
+		testTelephones = { "15510257873", "18210538513" })
 public class JiFengLunTanSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "机锋论坛是全球最大、用户量最多、资源最全面的中文安卓论坛,拥有海量的ROM、游戏、软件资源,同时为玩家们提 供最新最热的安卓手机资源,各种刷机教程。搞机就上机锋网|GFAN.COM。";
-	}
-
-	@Override
-	public String platform() {
-		return "gfan";
-	}
-
-	@Override
-	public String home() {
-		return "gfan.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "机锋论坛";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"3c", "科技" ,"智能手机"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15510257873", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "http://my.gfan.com/isthisPhone";

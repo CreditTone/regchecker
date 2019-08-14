@@ -2,55 +2,29 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "dib66.com", 
+		message = "地标金融国内首批由第三方做资金托管账户的P2P网贷平台,网贷投资专业首选—地标金融。地标金融网络借贷平台,线上P2P投资方便快捷!", 
+		platform = "dib66", 
+		platformName = "地标金融", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class DiBiaoJinRongSpider extends PapaSpider {
 
 	
 	
-	@Override
-	public String message() {
-		return "地标金融国内首批由第三方做资金托管账户的P2P网贷平台,网贷投资专业首选—地标金融。地标金融网络借贷平台,线上P2P投资方便快捷!";
-	}
-
-	@Override
-	public String platform() {
-		return "dib66";
-	}
-
-	@Override
-	public String home() {
-		return "dib66.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "地标金融";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "http://www.dib66.com/ajaxCheckLog.do";

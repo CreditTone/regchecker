@@ -2,9 +2,9 @@ package com.jisucloud.clawler.regagent.service.impl.social;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.service.PapaSpiderTester;
 
 import lombok.extern.slf4j.Slf4j;
@@ -14,47 +14,18 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "pc.weixin.qq.com", 
+		message = "微信(WeChat)是腾讯公司于2011年1月21日推出的一个为智能终端提供即时通讯服务的免费应用程序，由张小龙所带领的腾讯广州研发中心产品团队打造。微信支持跨通信运营商、跨操作系统平台通过网络快速发送免费。", 
+		platform = "wechat", 
+		platformName = "微信", 
+		tags = { "社交" , "通信" , "金融" , "支付" , "生活应用" }, 
+		testTelephones = { "13910250000", "18210538513" })
 public class WeiXinSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		return "微信(WeChat)是腾讯公司于2011年1月21日推出的一个为智能终端提供即时通讯服务的免费应用程序，由张小龙所带领的腾讯广州研发中心产品团队打造。微信支持跨通信运营商、跨操作系统平台通过网络快速发送免费。";
-	}
-
-	@Override
-	public String platform() {
-		return "wechat";
-	}
-
-	@Override
-	public String home() {
-		return "pc.weixin.qq.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "微信";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"社交" , "通信" , "金融" , "支付" , "生活应用"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910250000", "18210538513");
-	}
-	
-	public static void main(String[] args) {
-		PapaSpiderTester.testingWithPrint(WeiXinSpider.class);
-	}
-	
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://m.dianping.com/account/ajax/unloginVerifyOldMobile";

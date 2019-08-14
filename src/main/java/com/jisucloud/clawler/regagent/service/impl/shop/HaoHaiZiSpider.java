@@ -2,9 +2,9 @@ package com.jisucloud.clawler.regagent.service.impl.shop;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -12,43 +12,18 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "haohaizi.com", 
+		message = "儿童用品网上专卖店，婴幼儿用品网店，好孩子国际品牌是儿童用品行业唯一被授予'中国名牌'和'中国驰名商标'称号的品牌，保证产品质量，让您的网上购物轻松便捷，贴心安心。好孩子官方商城-你身边专。", 
+		platform = "haohaizi", 
+		platformName = "好孩子商城", 
+		tags = { "电商" , "电器" }, 
+		testTelephones = { "13419594450", "18210538513" })
 public class HaoHaiZiSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		return "儿童用品网上专卖店，婴幼儿用品网店，好孩子国际品牌是儿童用品行业唯一被授予'中国名牌'和'中国驰名商标'称号的品牌，保证产品质量，让您的网上购物轻松便捷，贴心安心。好孩子官方商城-你身边专。";
-	}
-
-	@Override
-	public String platform() {
-		return "haohaizi";
-	}
-
-	@Override
-	public String home() {
-		return "haohaizi.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "好孩子商城";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"电商" , "电器"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13419594450", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.haohaizi.com/passport-check_phone.html";

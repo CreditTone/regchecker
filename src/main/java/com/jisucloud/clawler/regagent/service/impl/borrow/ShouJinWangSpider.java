@@ -5,57 +5,26 @@ import com.alibaba.fastjson.JSONObject;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
-
-import org.springframework.stereotype.Component;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "shoujinwang.com", 
+		message = "首金网是由首都金融服务商会牵头,联合首钢、首创等企业共同注资打造的北京市小微企业综合金融服务电子交易平台,是中国互联网金融协会理事单位。旨在以互联网金融的创新。", 
+		platform = "shoujinwang", 
+		platformName = "首金网", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class ShouJinWangSpider extends PapaSpider {
 
 	
 	
-	@Override
-	public String message() {
-		return "首金网是由首都金融服务商会牵头,联合首钢、首创等企业共同注资打造的北京市小微企业综合金融服务电子交易平台,是中国互联网金融协会理事单位。旨在以互联网金融的创新。";
-	}
-
-	@Override
-	public String platform() {
-		return "shoujinwang";
-	}
-
-	@Override
-	public String home() {
-		return "shoujinwang.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "首金网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.shoujinwang.com/systLogonUser/checkUserPhoneState.do";

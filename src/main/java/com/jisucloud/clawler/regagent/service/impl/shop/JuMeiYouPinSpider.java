@@ -2,59 +2,31 @@ package com.jisucloud.clawler.regagent.service.impl.shop;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "jumei.com", 
+		message = "聚美优品是一家化妆品限时特卖商城,其前身为团美网,由陈欧、戴雨森等创立于2010年3月。聚美优品首创“化妆品团购”模式:每天在网站推荐十几款热门化妆品。", 
+		platform = "jumei", 
+		platformName = "聚美优品", 
+		tags = { "护肤品" , "化妆品" }, 
+		testTelephones = { "18779861101", "18210538513" })
 public class JuMeiYouPinSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "聚美优品是一家化妆品限时特卖商城,其前身为团美网,由陈欧、戴雨森等创立于2010年3月。聚美优品首创“化妆品团购”模式:每天在网站推荐十几款热门化妆品。";
-	}
-
-	@Override
-	public String platform() {
-		return "jumei";
-	}
-
-	@Override
-	public String home() {
-		return "jumei.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "聚美优品";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"护肤品" , "化妆品"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18779861101", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://passport.jumei.com/i/account/check_mobile";

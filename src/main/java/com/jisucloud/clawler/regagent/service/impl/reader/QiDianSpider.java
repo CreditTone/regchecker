@@ -1,52 +1,27 @@
 package com.jisucloud.clawler.regagent.service.impl.reader;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "qidian.com", 
+		message = "起点中文网创建于2002年5月，是国内最大文学阅读与写作平台之一，是国内领先的原创文学门户网站，隶属于国内最大的数字内容综合平台——阅文集团旗下。", 
+		platform = "qidian", 
+		platformName = "起点中文网", 
+		tags = { "电子书", "小说" , "网络原创" }, 
+		testTelephones = { "18660390000", "18210538513" })
 public class QiDianSpider extends PapaSpider {
 
 
-	@Override
-	public String message() {
-		return "起点中文网创建于2002年5月，是国内最大文学阅读与写作平台之一，是国内领先的原创文学门户网站，隶属于国内最大的数字内容综合平台——阅文集团旗下。";
-	}
-
-	@Override
-	public String platform() {
-		return "qidian";
-	}
-
-	@Override
-	public String home() {
-		return "qidian.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "起点小说";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"电子书", "小说" , "网络原创"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18660390000", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://ptlogin.yuewen.com/userSdk/checkaccount?method=jQuery191021014016847558348_"+System.currentTimeMillis()+"&appId=10&format=jsonp&account="+account+"&accountType=101&areaId=1&_=" + System.currentTimeMillis();

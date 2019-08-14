@@ -3,9 +3,9 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -17,47 +17,23 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider(exclude = true , excludeMsg = "疑似黑客攻击")
+@PapaSpiderConfig(
+		home = "91wangcai.com", 
+		message = "91旺财是九一金融旗下互联网网络借贷信息中介平台,北京市互联网金融行业协会副会长单位,中国互联网金融协会会员理事单位,公司法人许泽玮先生现任北京市互联网金融协会。", 
+		platform = "91wangcai", 
+		platformName = "91旺财", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "13910252000", "18210538513" },
+		exclude = true , excludeMsg = "疑似黑客攻击")
 public class _91WangCaiSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
-
-	@Override
-	public String message() {
-		return "91旺财是九一金融旗下互联网网络借贷信息中介平台,北京市互联网金融行业协会副会长单位,中国互联网金融协会会员理事单位,公司法人许泽玮先生现任北京市互联网金融协会。";
-	}
-
-	@Override
-	public String platform() {
-		return "91wangcai";
-	}
-
-	@Override
-	public String home() {
-		return "91wangcai.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "91旺财";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
 	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252000", "18210538513");
-	}
-	
-
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {
@@ -73,7 +49,6 @@ public class _91WangCaiSpider extends PapaSpider implements AjaxHook {
 		return "";
 	}
 
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);

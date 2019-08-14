@@ -1,7 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
@@ -14,50 +14,25 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
-import java.util.Set;
 
 @Slf4j
-//@UsePapaSpider
+@PapaSpiderConfig(
+		home = "tongbanjie.com", 
+		message = "铜板街(tongbanjie.com)成立于2012年9月12日,是国内领先的互联网金融信息服务提供商,接入互联网金融风险信息共享系统,中国互联网金融协会成员,AAA级信用企业。", 
+		platform = "tongbanjie", 
+		platformName = "铜板街", 
+		tags = {"P2P", "借贷"}, 
+		testTelephones = {"15900068904", "18210538513" },
+		exclude = true)
 public class TongBanJieSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
-
-	@Override
-	public String message() {
-		return "铜板街(tongbanjie.com)成立于2012年9月12日,是国内领先的互联网金融信息服务提供商,接入互联网金融风险信息共享系统,中国互联网金融协会成员,AAA级信用企业。";
-	}
-
-	@Override
-	public String platform() {
-		return "tongbanjie";
-	}
-
-	@Override
-	public String home() {
-		return "tongbanjie.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "铜板街";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
 	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15900068904", "18210538513");
-	}
-
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {
@@ -73,7 +48,6 @@ public class TongBanJieSpider extends PapaSpider implements AjaxHook{
 	}
 	String code;
 
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
@@ -130,7 +104,6 @@ public class TongBanJieSpider extends PapaSpider implements AjaxHook{
 	@Override
 	public void filterResponse(HttpResponse response, HttpMessageContents contents, HttpMessageInfo messageInfo) {
 		String res = StringUtil.unicodeToString(contents.getTextContents());
-		System.out.println(res);
 		if (!res.contains("验证码错误")) {
 			vcodeSuc = true;
 			checkTel = res.contains("密码");

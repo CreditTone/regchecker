@@ -2,59 +2,33 @@ package com.jisucloud.clawler.regagent.service.impl.car;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "atzuche.com", 
+		message = "凹凸租车(atzuche)成立于2013年7月1日，总部设在上海，通过凹凸平台，车主将自己闲置车辆租给他人使用，租客使用车况更好的车辆。凹凸租车于2014年9月正式更名为凹凸共享租车。", 
+		platform = "atzuche", 
+		platformName = "凹凸租车", 
+		tags = { "租车" }, 
+		testTelephones = { "18210538577", "18210538513" })
 public class AoTuZuCheSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "凹凸租车(atzuche)成立于2013年7月1日，总部设在上海，通过凹凸平台，车主将自己闲置车辆租给他人使用，租客使用车况更好的车辆。凹凸租车于2014年9月正式更名为凹凸共享租车。";
-	}
-
-	@Override
-	public String platform() {
-		return "atzuche";
-	}
-
-	@Override
-	public String home() {
-		return "atzuche.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "凹凸租车";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"租车"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538577", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://m.atzuche.com/appserver/h5/v31/mem/action/exists";

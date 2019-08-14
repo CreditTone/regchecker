@@ -1,51 +1,29 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "ycd360.com", 
+		message = "易港金融是浙江杭州领先的p2p网贷出借平台与互联网金融平台,专注车贷18年。致力为出借用户和贷款用户提供透明、安全、高效的金融服务,是杭州专业的互联网金融P2P公司。", 
+		platform = "ycd360", 
+		platformName = "ycd360Name", 
+		tags = { "p2p", "借贷" }, 
+		testTelephones = { "18210538513", "15161509916" })
 public class YiGangJinRongSpider extends PapaSpider {
 
 	
-
-	@Override
-	public String message() {
-		return "易港金融是浙江杭州领先的p2p网贷出借平台与互联网金融平台,专注车贷18年。致力为出借用户和贷款用户提供透明、安全、高效的金融服务,是杭州专业的互联网金融P2P公司。";
-	}
-
-	@Override
-	public String platform() {
-		return "ycd360";
-	}
-
-	@Override
-	public String home() {
-		return "ycd360.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "易港金融";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"p2p", "借贷"};
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.ycd360.com/user/checkPhoneExist.html";
@@ -76,11 +54,6 @@ public class YiGangJinRongSpider extends PapaSpider {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538513", "15161509916");
 	}
 
 }

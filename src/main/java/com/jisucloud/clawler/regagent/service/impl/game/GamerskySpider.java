@@ -1,56 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.game;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "gamersky.com", 
+		message = "游民星空是国内单机游戏门户网站,提供特色的游戏资讯,大量游戏攻略,经验,评测文章,以及热门游戏资料专题。", 
+		platform = "gamersky", 
+		platformName = "游民星空", 
+		tags = { "游戏" }, 
+		testTelephones = { "15700102865", "18210538513" })
 public class GamerskySpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "游民星空是国内单机游戏门户网站,提供特色的游戏资讯,大量游戏攻略,经验,评测文章,以及热门游戏资料专题。";
-	}
-
-	@Override
-	public String platform() {
-		return "gamersky";
-	}
-
-	@Override
-	public String home() {
-		return "gamersky.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "游民星空";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"游戏"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15700102865", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://i.gamersky.com/user/verifyphone";

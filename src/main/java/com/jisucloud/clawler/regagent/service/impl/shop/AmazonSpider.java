@@ -1,52 +1,27 @@
 package com.jisucloud.clawler.regagent.service.impl.shop;
 
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "amazon.com", 
+		message = "亚马逊中国(z.cn)坚持“以客户为中心”的理念,秉承“天天低价,正品行货”信念,销售图书、电脑、数码家电、母婴百货、服饰箱包等上千万种产品。", 
+		platform = "amazon", 
+		platformName = "亚马逊", 
+		tags = { "电商" , "海购" }, 
+		testTelephones = { "13800100001", "18210538513" })
 public class AmazonSpider extends PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	
-	@Override
-	public String message() {
-		return "亚马逊中国(z.cn)坚持“以客户为中心”的理念,秉承“天天低价,正品行货”信念,销售图书、电脑、数码家电、母婴百货、服饰箱包等上千万种产品。";
-	}
-
-	@Override
-	public String platform() {
-		return "amazon";
-	}
-
-	@Override
-	public String home() {
-		return "amazon.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "亚马逊";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"电商" , "海购"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13800100001", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(true, false, CHROME_USER_AGENT);

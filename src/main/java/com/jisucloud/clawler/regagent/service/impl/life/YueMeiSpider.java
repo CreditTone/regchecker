@@ -1,8 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.life;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -10,43 +10,18 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "yuemei.com", 
+		message = "悦美网是专业的整形美容平台,提供全新的美容整形资讯、优惠的整形美容项目,汇集齐全的整形美容医院、医生,悦美网为医疗美容爱好者全心打造中立权威的医疗美容网站。", 
+		platform = "yuemei", 
+		platformName = "悦美网", 
+		tags = { "医美", "美容" , "整容" }, 
+		testTelephones = { "18515290717", "18210538513" })
 public class YueMeiSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		return "悦美网是专业的整形美容平台,提供全新的美容整形资讯、优惠的整形美容项目,汇集齐全的整形美容医院、医生,悦美网为医疗美容爱好者全心打造中立权威的医疗美容网站。";
-	}
-
-	@Override
-	public String platform() {
-		return "yuemei";
-	}
-
-	@Override
-	public String home() {
-		return "yuemei.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "悦美网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"医美", "美容" , "整容"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18515290717", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://user.yuemei.com/user/ajaxIsPhoneExist";

@@ -4,9 +4,9 @@ import com.deep007.spiderbase.util.StringUtil;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
@@ -15,43 +15,18 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "findlaw.cn", 
+		message = "遇事找法,从找法网开始!15年法律咨询领导品牌,3164万需求者寻求帮助、在线找律师的第一站。找法网拥有注册律师近17万、年解答咨询量超过400万、年代理案件超20万。 ", 
+		platform = "findlaw", 
+		platformName = "找法网", 
+		tags = { "律师", "法律" ,"打官司" }, 
+		testTelephones = { "13991808887", "18210538513" })
 public class ZhaoFaWangSpider extends PapaSpider implements AjaxHook {
 	
-	@Override
-	public String message() {
-		return "遇事找法,从找法网开始!15年法律咨询领导品牌,3164万需求者寻求帮助、在线找律师的第一站。找法网拥有注册律师近17万、年解答咨询量超过400万、年代理案件超20万。 ";
-	}
-
-	@Override
-	public String platform() {
-		return "findlaw";
-	}
-
-	@Override
-	public String home() {
-		return "findlaw.cn";
-	}
-
-	@Override
-	public String platformName() {
-		return "找法网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"律师", "法律" ,"打官司"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13991808887", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		ChromeAjaxHookDriver chromeDriver = null;
 		try {

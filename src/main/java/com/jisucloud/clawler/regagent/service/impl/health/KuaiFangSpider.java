@@ -1,58 +1,32 @@
 package com.jisucloud.clawler.regagent.service.impl.health;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "kfyao.com", 
+		message = "快方送药是国内智能柜新零售开创者,自成立以来先后获得九合创投、竞技创投及天图资本等知名投资机构3亿投资,总部位于北京,旗下快方送药是国内领先的送药上门服务品牌。", 
+		platform = "kfyao", 
+		platformName = "快方送药", 
+		tags = { "医疗", "购药" }, 
+		testTelephones = { "15510257873", "18210538513" })
 public class KuaiFangSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "快方送药是国内智能柜新零售开创者,自成立以来先后获得九合创投、竞技创投及天图资本等知名投资机构3亿投资,总部位于北京,旗下快方送药是国内领先的送药上门服务品牌。";
-	}
-
-	@Override
-	public String platform() {
-		return "kfyao";
-	}
-
-	@Override
-	public String home() {
-		return "kfyao.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "快方送药";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"医疗", "购药"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15510257873", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "http://okm.kfyao.com/v3/ps.php";

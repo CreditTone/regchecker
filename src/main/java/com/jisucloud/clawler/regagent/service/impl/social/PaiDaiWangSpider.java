@@ -2,57 +2,31 @@ package com.jisucloud.clawler.regagent.service.impl.social;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "paidai.com", 
+		message = "派代网定位为中国电子商务的入口,目前是中国最活跃、最具影响力的电子商务行业交流平台,聚集了大量的电子商务领军企业创始人群。提供电商学习、人才招聘、企业贷款等!", 
+		platform = "paidai", 
+		platformName = "派代网", 
+		tags = { "社交" , "人脉", "电商" , "电商运营" ,"网店" }, 
+		testTelephones = { "18810038000", "18210538513" })
 public class PaiDaiWangSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "派代网定位为中国电子商务的入口,目前是中国最活跃、最具影响力的电子商务行业交流平台,聚集了大量的电子商务领军企业创始人群。提供电商学习、人才招聘、企业贷款等!";
-	}
-
-	@Override
-	public String platform() {
-		return "paidai";
-	}
-
-	@Override
-	public String home() {
-		return "paidai.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "派代网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"社交" , "人脉", "电商" , "电商运营" ,"网店"};
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18810038000", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "http://www.paidai.com/user/register.php?act=ajax_chkiphone&iphone=" + account;

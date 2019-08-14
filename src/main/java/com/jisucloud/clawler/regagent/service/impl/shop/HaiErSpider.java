@@ -1,56 +1,29 @@
 package com.jisucloud.clawler.regagent.service.impl.shop;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "shunguang.com", 
+		message = "海尔顺逛商城(shunguang):网购空调、洗衣机、电视、热水器等大家电首选官方旗舰店;更有生活、厨房小家电、母婴家电、家庭医疗设备、智能产品等商品免费包邮。", 
+		platform = "shunguang", 
+		platformName = "海尔顺逛商城", 
+		tags = { "电商", "购物" }, 
+		testTelephones = { "18515290717", "18210538513" })
 public class HaiErSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "海尔顺逛商城(shunguang):网购空调、洗衣机、电视、热水器等大家电首选官方旗舰店;更有生活、厨房小家电、母婴家电、家庭医疗设备、智能产品等商品免费包邮。";
-	}
-
-	@Override
-	public String platform() {
-		return "shunguang";
-	}
-
-	@Override
-	public String home() {
-		return "shunguang.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "海尔顺逛商城";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"电商", "购物"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18515290717", "18210538513");
-	}
-
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "http://member.shunguang.com/checkUserNameExist.html?userName="+account+"&random=0.7428333015358664";

@@ -2,57 +2,29 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 
-import org.springframework.stereotype.Component;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "phyt88.com", 
+		message = "普汇云通汽车供应链金融平台(www.phyt88.com),是专注于汽车产业链金融领域的创新互联网投融资平台,拥有强力集团背景支持,普汇云通团队由专业的金融、互联网、汽车。", 
+		platform = "phyt88", 
+		platformName = "普汇云通", 
+		tags = { "P2P", "消费分期" , "车贷" , "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class PuHuiYunTongSpider extends PapaSpider {
 
 	
 	
-	@Override
-	public String message() {
-		return "普汇云通汽车供应链金融平台(www.phyt88.com),是专注于汽车产业链金融领域的创新互联网投融资平台,拥有强力集团背景支持,普汇云通团队由专业的金融、互联网、汽车。";
-	}
-
-	@Override
-	public String platform() {
-		return "phyt88";
-	}
-
-	@Override
-	public String home() {
-		return "phyt88.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "普汇云通";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "消费分期" , "车贷" , "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.phyt88.com/v3/login/login.jso";

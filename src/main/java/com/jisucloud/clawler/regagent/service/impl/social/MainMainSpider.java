@@ -4,9 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
@@ -14,40 +14,22 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
-@UsePapaSpider
+
+
+@PapaSpiderConfig(
+		home = "taou.com", 
+		message = "脉脉(maimai.cn),中国领先的职场实名社交平台,利用科学算法为职场人拓展人脉,降低商务社交门槛,实现各行各业交流合作。", 
+		platform = "mainmain", 
+		platformName = "脉脉", 
+		tags = {  "社交", "找合作", "求职", "招聘", "工具"  }, 
+		testTelephones = { "18210530000", "18210538513" })
 public class MainMainSpider extends PapaSpider implements AjaxHook {
 	
-	
-	
-	@Override
-	public String message() {
-		return "脉脉(maimai.cn),中国领先的职场实名社交平台,利用科学算法为职场人拓展人脉,降低商务社交门槛,实现各行各业交流合作。";
-	}
-
-	@Override
-	public String platform() {
-		return "mainmain";
-	}
-
-	@Override
-	public String home() {
-		return "taou.com";
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210530000", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String postData = "info_type=2&account=%2B86-"+account+"&new_fr=1&password=213e321deqdasdasdasd&dev_type=3&imei=352284040670808";
@@ -78,16 +60,6 @@ public class MainMainSpider extends PapaSpider implements AjaxHook {
 	@Override
 	public Map<String, String> getFields() {
 		return null;
-	}
-
-	@Override
-	public String platformName() {
-		return "脉脉";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] { "社交", "找合作", "求职", "招聘", "工具" };
 	}
 
 	@Override

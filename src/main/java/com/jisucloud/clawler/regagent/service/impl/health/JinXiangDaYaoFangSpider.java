@@ -1,51 +1,26 @@
 package com.jisucloud.clawler.regagent.service.impl.health;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "jinxiang.com", 
+		message = "金象网上药店(金象大药房网上商城)经营产品包括日常药品、母婴用品、两性用品、营养保健、医疗器械、隐形眼镜等。网上购药选择金象网，100%正品保证、方便快捷、安全放心。", 
+		platform = "jinxiang", 
+		platformName = "金象大药房", 
+		tags = { "健康运动", "医疗", "购药" }, 
+		testTelephones = { "15120058878", "13771025665" })
 public class JinXiangDaYaoFangSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		return "金象网上药店(金象大药房网上商城)经营产品包括日常药品、母婴用品、两性用品、营养保健、医疗器械、隐形眼镜等。网上购药选择金象网，100%正品保证、方便快捷、安全放心。";
-	}
-
-	@Override
-	public String platform() {
-		return "jinxiang";
-	}
-
-	@Override
-	public String home() {
-		return "jinxiang.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "金象网上药店";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"健康运动", "医疗", "购药"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15120058878", "13771025665");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://login.jinxiang.com/register/checkUsername.do";

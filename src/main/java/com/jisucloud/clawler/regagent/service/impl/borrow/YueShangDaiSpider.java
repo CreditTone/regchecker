@@ -1,7 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
@@ -14,50 +14,25 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
-import java.util.Set;
 
 @Slf4j
-@UsePapaSpider(exclude = true , excludeMsg = "行为反扒")
+@PapaSpiderConfig(
+		home = "yesvion.com", 
+		message = "粤商贷是隶属于深圳前海斯坦德互联网金融服务有限公司的网贷信息中介平台,坚持合规经营,风控严谨,稳健运营,累计撮合交易金额37亿元,为客户带来1.35亿元收益。", 
+		platform = "yesvion", 
+		platformName = "yesvionName", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15900068904", "18210538513" },
+		exclude = true , excludeMsg = "行为反扒")
 public class YueShangDaiSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
-
-	@Override
-	public String message() {
-		return "粤商贷是隶属于深圳前海斯坦德互联网金融服务有限公司的网贷信息中介平台,坚持合规经营,风控严谨,稳健运营,累计撮合交易金额37亿元,为客户带来1.35亿元收益。";
-	}
-
-	@Override
-	public String platform() {
-		return "yesvion";
-	}
-
-	@Override
-	public String home() {
-		return "yesvion.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "粤商贷";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
 	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15900068904", "18210538513");
-	}
-
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {
@@ -73,7 +48,6 @@ public class YueShangDaiSpider extends PapaSpider implements AjaxHook{
 	}
 	String code;
 
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);
@@ -120,7 +94,6 @@ public class YueShangDaiSpider extends PapaSpider implements AjaxHook{
 
 	@Override
 	public HttpResponse filterRequest(HttpRequest request, HttpMessageContents contents, HttpMessageInfo messageInfo) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -1,56 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.game;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "q1.com", 
+		message = "冰川网络发展至今旗下已经拥有了大型网络游戏:《影武者》《远征OL》《龙武》《不败传说》,影武者 8月11号首次不限号内测、现已开启预约。", 
+		platform = "bingchuan", 
+		platformName = "冰川网络", 
+		tags = { "游戏" }, 
+		testTelephones = { "13910252045", "18210538513" })
 public class BingChuanSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "冰川网络发展至今旗下已经拥有了大型网络游戏:《影武者》《远征OL》《龙武》《不败传说》,影武者 8月11号首次不限号内测、现已开启预约。";
-	}
-
-	@Override
-	public String platform() {
-		return "bingchuan";
-	}
-
-	@Override
-	public String home() {
-		return "q1.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "冰川网络";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"游戏"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252045", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "http://passport.q1.com/Validate/UserName?q=9500.26103947831";

@@ -1,61 +1,33 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "zhenrongbaop2p.com", 
+		message = "真金服是真融宝平台旗下网络借贷信息中介平台。专注于运用大数据、人工智能等金融科技技术,为需要投资的用户以及有资金需求的个人/企业提供一个诚信、高效的交易平台。", 
+		platform = "zhenrongbaop2p", 
+		platformName = "真金服", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class ZhenJinFuSpider extends PapaSpider {
 
 	
 	
-	@Override
-	public String message() {
-		return "真金服是真融宝平台旗下网络借贷信息中介平台。专注于运用大数据、人工智能等金融科技技术,为需要投资的用户以及有资金需求的个人/企业提供一个诚信、高效的交易平台。";
-	}
-
-	@Override
-	public String platform() {
-		return "zhenrongbaop2p";
-	}
-
-	@Override
-	public String home() {
-		return "zhenrongbaop2p.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "真金服";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://account.zhenrongbaop2p.com/account/checksendregsmsvcode";

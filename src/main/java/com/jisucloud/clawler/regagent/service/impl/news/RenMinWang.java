@@ -2,7 +2,7 @@ package com.jisucloud.clawler.regagent.service.impl.news;
 
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -13,41 +13,14 @@ import java.util.Map;
 import java.util.Set;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "people.com", 
+		message = "人民网,是世界十大报纸之一《人民日报》建设的以新闻为主的大型网上信息发布平台,也是互联网上最大的中文和多语种新闻网站之一。作为国家重点新闻网站。", 
+		platform = "people", 
+		platformName = "人民网", 
+		tags = { "新闻", "资讯" }, 
+		testTelephones = { "18720982007", "18210538513" })
 public class RenMinWang extends PapaSpider {
-
-	
-
-	@Override
-	public String message() {
-		return "人民网,是世界十大报纸之一《人民日报》建设的以新闻为主的大型网上信息发布平台,也是互联网上最大的中文和多语种新闻网站之一。作为国家重点新闻网站。";
-	}
-
-	@Override
-	public String platform() {
-		return "people";
-	}
-
-	@Override
-	public String home() {
-		return "people.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "人民网";
-	}
-
-
-	@Override
-	public String[] tags() {
-		return new String[] {"新闻", "资讯"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18720982007", "18210538513");
-	}
 
 	@Override
 	public boolean checkTelephone(String account) {

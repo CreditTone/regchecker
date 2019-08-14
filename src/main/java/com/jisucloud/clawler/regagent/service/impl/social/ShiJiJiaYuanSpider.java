@@ -1,62 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.social;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 
-import java.net.Proxy;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "jiayuan.com", 
+		message = "世纪佳缘是一个严肃的婚恋网站，网站规模大、征友效果反响较好，通过互联网平台和线下会员见面活动为中国大陆、香港、澳门、台湾及世界其它国家和地区的单身人士提供严肃婚恋交友服务。", 
+		platform = "jiayuan", 
+		platformName = "世纪佳缘", 
+		tags = { "单身交友" , "婚恋" }, 
+		testTelephones = { "18810038000", "18210538513" })
 public class ShiJiJiaYuanSpider extends PapaSpider {
 
-	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
-			.proxy(Proxy.NO_PROXY)
-			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
-
-	@Override
-	public String message() {
-		return "世纪佳缘是一个严肃的婚恋网站，网站规模大、征友效果反响较好，通过互联网平台和线下会员见面活动为中国大陆、香港、澳门、台湾及世界其它国家和地区的单身人士提供严肃婚恋交友服务。";
-	}
-
-	@Override
-	public String platform() {
-		return "jiayuan";
-	}
-
-	@Override
-	public String home() {
-		return "jiayuan.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "世纪佳缘";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"单身交友" , "婚恋"};
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18810038000", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://uapi.jiayuan.com/Api/Reglogin/login";

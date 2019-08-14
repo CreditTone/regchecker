@@ -3,9 +3,9 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -17,10 +17,17 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider(exclude = true , excludeMsg = "图片验证码太复杂")
+@PapaSpiderConfig(
+		home = "itouzi.com", 
+		message = "最安全规范、实力更强的互联网金融投资理财平台,知名实力P2P网贷品牌,丰富多样且本息全额保障的高收益理财产品,大众化的低投资门槛,全免费的服务体验,爱投资,值得爱。", 
+		platform = "itouzi", 
+		platformName = "爱投资", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "13879580000", "18210538513" },
+		exclude = true , excludeMsg = "图片验证码太复杂")
 public class AiTouZiSpider extends PapaSpider implements AjaxHook {
 	
 	private ChromeAjaxHookDriver chromeDriver;
@@ -29,37 +36,6 @@ public class AiTouZiSpider extends PapaSpider implements AjaxHook {
 	
 	//暂时不能访问此页面，被反扒
 	public boolean success = false;//默认false
-
-	@Override
-	public String message() {
-		return "最安全规范、实力更强的互联网金融投资理财平台,知名实力P2P网贷品牌,丰富多样且本息全额保障的高收益理财产品,大众化的低投资门槛,全免费的服务体验,爱投资,值得爱。";
-	}
-
-	@Override
-	public String platform() {
-		return "itouzi";
-	}
-
-	@Override
-	public String home() {
-		return "itouzi.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "爱投资";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13879580000", "18210538513");
-	}
 	
 	private String getImgCode() {
 		if (chromeDriver.checkElement("input[name='valicode']")) {
@@ -79,7 +55,7 @@ public class AiTouZiSpider extends PapaSpider implements AjaxHook {
 		return "";
 	}
 
-	@Override
+
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, false);

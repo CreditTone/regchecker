@@ -1,59 +1,31 @@
 package com.jisucloud.clawler.regagent.service.impl.game;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "7881.com", 
+		message = "7881游戏交易平台-为您提供专业的游戏币交易、金币交易、账号交易、装备交易、道具交易、点卡点券交易、游戏租号,游戏代练、手游交易等买卖服务。", 
+		platform = "7881", 
+		platformName = "7881游戏交易平台", 
+		tags = { "游戏" }, 
+		testTelephones = { "18720982607", "18210538513" })
 public class _7881Spider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "7881游戏交易平台-为您提供专业的游戏币交易、金币交易、账号交易、装备交易、道具交易、点卡点券交易、游戏租号,游戏代练、手游交易等买卖服务。";
-	}
-
-	@Override
-	public String platform() {
-		return "7881";
-	}
-
-	@Override
-	public String home() {
-		return "7881.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "7881游戏";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"游戏"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18720982607", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "http://www.7881.com/user/examineRegisterUserTel.action";

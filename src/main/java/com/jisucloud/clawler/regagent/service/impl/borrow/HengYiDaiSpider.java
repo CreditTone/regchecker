@@ -3,7 +3,6 @@ package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -12,45 +11,26 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
+@PapaSpiderConfig(
+		home = "credithc.com", 
+		message = "恒易贷是由北京网众共创科技有限公司推出的移动借贷产品智选APP,利用大数据、移动互联网等前沿技术，将海量丰富的各类互联网金融业务模式得以简单、直观的呈现给用户。", 
+		platform = "hengyidai", 
+		platformName = "恒易贷", 
+		tags = {"P2P", "借贷" }, 
+		testTelephones = { "13910252000", "18210538513", "18210538511" })
 public class HengYiDaiSpider extends PapaSpider {
 	
-	private OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
-			.readTimeout(10, TimeUnit.SECONDS).retryOnConnectionFailure(true).build();
-
-	@Override
-	public String message() {
-		// TODO Auto-generated method stub
-		return "恒易贷是由北京网众共创科技有限公司推出的移动借贷产品智选APP,利用大数据、移动互联网等前沿技术，将海量丰富的各类互联网金融业务模式得以简单、直观的呈现给用户。";
-	}
-
-	@Override
-	public String platform() {
-		// TODO Auto-generated method stub
-		return "hengyidai";
-	}
-
-	@Override
-	public String home() {
-		// TODO Auto-generated method stub
-		return "credithc.com";
-	}
-
-	@Override
-	public String platformName() {
-		// TODO Auto-generated method stub
-		return "恒易贷";
-	}
-
 	@Override
 	public boolean checkTelephone(String account) {
 		// TODO Auto-generated method stub
@@ -87,18 +67,7 @@ public class HengYiDaiSpider extends PapaSpider {
 
 	@Override
 	public Map<String, String> getFields() {
-		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] { "P2P", "借贷" };
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252000", "18210538513", "18210538511");
 	}
 
 	public String decrypt(String data) throws Exception {

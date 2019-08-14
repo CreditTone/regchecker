@@ -1,51 +1,23 @@
 package com.jisucloud.clawler.regagent.service.impl._3c;
 
-import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.FormBody;
-import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+home = "amigo.com", 
+message = "Amigo（朋友）是金立旗下，基于Android进行深度优化、定制、开发的第三方Android系统ROM，专为中国人习惯设计，全面改进原生体验。能够带给国内用户更为贴心的Android智能手机体验。", 
+platform = "amigo", 
+platformName = "金立Amigo", 
+tags = {"3c", "科技" ,"智能手机"}, 
+testTelephones = { "18767922855", "18210538513" })
 public class JinLiSpider extends PapaSpider {
-
-	@Override
-	public String message() {
-		return "Amigo（朋友）是金立旗下，基于Android进行深度优化、定制、开发的第三方Android系统ROM，专为中国人习惯设计，全面改进原生体验。能够带给国内用户更为贴心的Android智能手机体验。 ";
-	}
-
-	@Override
-	public String platform() {
-		return "amigo";
-	}
-
-	@Override
-	public String home() {
-		return "amigo.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "金立Amigo";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"3c", "科技" ,"智能手机"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18767922855", "18210538513");
-	}
 
 	@Override
 	public boolean checkTelephone(String account) {

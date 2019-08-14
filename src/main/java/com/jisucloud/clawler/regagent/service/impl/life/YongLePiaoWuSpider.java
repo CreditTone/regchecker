@@ -1,58 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.life;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "228.com", 
+		message = "永乐票务-演出门票平价,热卖!为您精选演唱会/话剧/音乐会等特色演出!同价位占好座!24小时票务网上在线预订!快捷,让您享受优质的购票体验!中国票务行业上市企业!", 
+		platform = "228", 
+		platformName = "永乐票务", 
+		tags = { "娱乐", "演唱会" }, 
+		testTelephones = { "18611216720", "18210538513" })
 public class YongLePiaoWuSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "永乐票务-演出门票平价,热卖!为您精选演唱会/话剧/音乐会等特色演出!同价位占好座!24小时票务网上在线预订!快捷,让您享受优质的购票体验!中国票务行业上市企业!";
-	}
-
-	@Override
-	public String platform() {
-		return "228";
-	}
-
-	@Override
-	public String home() {
-		return "228.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "永乐票务";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"娱乐", "演唱会"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18611216720", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.228.com.cn/ajax/findPhone";

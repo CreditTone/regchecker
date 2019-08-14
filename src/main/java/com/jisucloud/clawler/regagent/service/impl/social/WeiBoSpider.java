@@ -4,9 +4,9 @@ import com.deep007.spiderbase.util.StringUtil;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
@@ -15,44 +15,19 @@ import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import java.util.Map;
-import java.util.Set;
+
 
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "weibo.com", 
+		message = "微博（Weibo）是指一种基于用户关系信息分享、传播以及获取的通过关注机制分享简短实时信息的广播式的社交媒体、网络平台，用户可以通过PC、手机等多种移动终端接入，以文字、图片、视频等多媒体形式，实现信息的即时分享、传播互动。", 
+		platform = "weibo", 
+		platformName = "微博", 
+		tags = { "泛社交" , "微博" }, 
+		testTelephones = { "18700001101", "18210538513" })
 public class WeiBoSpider extends PapaSpider implements AjaxHook {
 
-	@Override
-	public String message() {
-		return "微博（Weibo）是指一种基于用户关系信息分享、传播以及获取的通过关注机制分享简短实时信息的广播式的社交媒体、网络平台，用户可以通过PC、手机等多种移动终端接入，以文字、图片、视频等多媒体形式，实现信息的即时分享、传播互动。";
-	}
-
-	@Override
-	public String platform() {
-		return "weibo";
-	}
-
-	@Override
-	public String home() {
-		return "weibo.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "微博";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"泛社交" , "微博"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18700001101", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		ChromeAjaxHookDriver chromeDriver = null;
 		try {

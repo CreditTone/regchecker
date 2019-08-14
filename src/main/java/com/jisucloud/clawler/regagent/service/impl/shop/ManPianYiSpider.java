@@ -1,58 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.shop;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "manpianyi.com", 
+		message = "蛮便宜网汇集独家优惠商品全场1折起,天天都有九块九(9.9)包邮商品,秒杀最新9块9包邮独家折扣尽在蛮便宜官网(manpianyi)。", 
+		platform = "manpianyi", 
+		platformName = "蛮便宜网", 
+		tags = { "9.9包邮" , "购物" }, 
+		testTelephones = { "18515290717", "18210538513" })
 public class ManPianYiSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "蛮便宜网汇集独家优惠商品全场1折起,天天都有九块九(9.9)包邮商品,秒杀最新9块9包邮独家折扣尽在蛮便宜官网(manpianyi)。";
-	}
-
-	@Override
-	public String platform() {
-		return "manpianyi";
-	}
-
-	@Override
-	public String home() {
-		return "manpianyi.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "蛮便宜网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"9.9包邮" , "购物"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18515290717", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "http://home.manpianyi.com/servet/check_mobile.php";

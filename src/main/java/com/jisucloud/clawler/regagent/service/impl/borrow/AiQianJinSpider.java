@@ -1,9 +1,9 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.deep007.spiderbase.okhttp.OKHttpUtil;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -13,10 +13,16 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "iqianjin.com", 
+		message = "爱钱进是凡普金科旗下网络借贷信息中介平台,位列第三方权威评级机构网贷天眼全国百强榜前十,始终致力于为用户提供简单、公平的互联网金融信息服务,是消费者心中靠谱的网络借贷。", 
+		platform = "iqianjin", 
+		platformName = "iqianjinName", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "13879530000", "18210538513" })
 public class AiQianJinSpider extends PapaSpider {
 	
 	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClientWithRandomProxy();
@@ -26,37 +32,6 @@ public class AiQianJinSpider extends PapaSpider {
 	//暂时不能访问此页面，被反扒
 	public boolean success = false;//默认false
 
-	@Override
-	public String message() {
-		return "爱钱进是凡普金科旗下网络借贷信息中介平台,位列第三方权威评级机构网贷天眼全国百强榜前十,始终致力于为用户提供简单、公平的互联网金融信息服务,是消费者心中靠谱的网络借贷。";
-	}
-
-	@Override
-	public String platform() {
-		return "iqianjin";
-	}
-
-	@Override
-	public String home() {
-		return "iqianjin.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "爱钱进";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13879530000", "18210538513");
-	}
-	
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "http://v2.iqianjin.com/C2000/M2001";

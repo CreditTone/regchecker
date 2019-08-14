@@ -1,56 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.education;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "duia.com", 
+		message = "对啊网|中国领先的移动互联网职业教育企业,提供职业技能类,学历类免费课程课程,在线系统班,在线题库,答疑社区,致力于帮助每一位在职人群重塑职业未来。", 
+		platform = "duia", 
+		platformName = "对啊网", 
+		tags = { "考试","学习","教育" }, 
+		testTelephones = { "15584382173", "18210538513" })
 public class DuiAWangSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "对啊网|中国领先的移动互联网职业教育企业,提供职业技能类,学历类免费课程课程,在线系统班,在线题库,答疑社区,致力于帮助每一位在职人群重塑职业未来。";
-	}
-
-	@Override
-	public String platform() {
-		return "duia";
-	}
-
-	@Override
-	public String home() {
-		return "duia.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "对啊网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"考试","学习","教育"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15584382173", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://sso.duia.com/register/validate-mobile";

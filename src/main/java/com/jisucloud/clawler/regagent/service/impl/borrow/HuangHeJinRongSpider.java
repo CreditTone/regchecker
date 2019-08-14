@@ -1,57 +1,27 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 
-import org.springframework.stereotype.Component;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "hhedai.com", 
+		message = "黄河金融是于2014年3月24日上线，是浙江众联在线资产管理有限公司旗下的互联网金融信息服务平台，结合利用平台的特点，使得黄河金融具有“零风险”、“稳收益”、“高流动”特点，满.足了广.大个人用户的理财需求。", 
+		platform = "hhedai", 
+		platformName = "hhedaiName", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class HuangHeJinRongSpider extends PapaSpider {
 
-	
-	
-	@Override
-	public String message() {
-		return "黄河金融是于2014年3月24日上线，是浙江众联在线资产管理有限公司旗下的互联网金融信息服务平台，结合利用平台的特点，使得黄河金融具有“零风险”、“稳收益”、“高流动”特点，满.足了广.大个人用户的理财需求。";
-	}
-
-	@Override
-	public String platform() {
-		return "hhedai";
-	}
-
-	@Override
-	public String home() {
-		return "hhedai.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "黄河金融";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.hhedai.com/?user&q=getpwd&type=getphonecode&https=false&phone=" + account;

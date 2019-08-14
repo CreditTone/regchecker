@@ -1,52 +1,27 @@
 package com.jisucloud.clawler.regagent.service.impl.life;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "baike.com", 
+		message = "互动百科，原称互动维客，是由潘海东在2005年创建的商业中文百科网站，隶属于北京互动百科网络技术股份有限公司。2013年1月，互动百科词条超过1300万条、5万个分类、68亿文字、721万张图片。", 
+		platform = "baike", 
+		platformName = "互动百科", 
+		tags = { "社区", "知识" , "学习" }, 
+		testTelephones = { "13925306966", "18210538513" })
 public class HuDongBaiKeSpider extends PapaSpider {
 
 
-	@Override
-	public String message() {
-		return "互动百科，原称互动维客，是由潘海东在2005年创建的商业中文百科网站，隶属于北京互动百科网络技术股份有限公司。2013年1月，互动百科词条超过1300万条、5万个分类、68亿文字、721万张图片。";
-	}
-
-	@Override
-	public String platform() {
-		return "baike";
-	}
-
-	@Override
-	public String home() {
-		return "baike.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "互动百科";
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13925306966", "18210538513");
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"社区", "知识" , "学习"};
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		if (account.length() != 11) {
 			return false;

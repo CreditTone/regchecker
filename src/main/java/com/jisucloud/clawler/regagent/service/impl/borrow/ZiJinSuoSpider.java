@@ -1,55 +1,27 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "zijinsuo.com", 
+		message = "紫金所是手机理财应用软件，把守护资金出借人和小微企业的资金和数据安全作为企业发展的宗旨 紫金所存管模式采取了最被监管部门认可的银行直接存管模式，将为出借人和借款人分别开设独立的个人银行存管账户该平台。", 
+		platform = "zijinsuo", 
+		platformName = "紫金所", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" })
 public class ZiJinSuoSpider extends PapaSpider {
 
-	
-	
-	@Override
-	public String message() {
-		return "紫金所是手机理财应用软件，把守护资金出借人和小微企业的资金和数据安全作为企业发展的宗旨 紫金所存管模式采取了最被监管部门认可的银行直接存管模式，将为出借人和借款人分别开设独立的个人银行存管账户该平台。";
-	}
-
-	@Override
-	public String platform() {
-		return "zijinsuo";
-	}
-
-	@Override
-	public String home() {
-		return "zijinsuo.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "紫金所";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.zijinsuo.com/register.do?action=restMobile&mobile=" + account + "&_=" +System.currentTimeMillis();

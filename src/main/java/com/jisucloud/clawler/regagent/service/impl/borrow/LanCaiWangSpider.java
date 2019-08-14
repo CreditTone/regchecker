@@ -10,50 +10,26 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider(ignoreTestResult = true)
+@PapaSpiderConfig(
+		home = "lancai.com", 
+		message = "懒财网成立于2013年11月，2014年5月正式上线运营，由北京懒财信息科技有限公司负责运营，网站于2014年5月正式上线。懒财网拥有一支有丰富互联网和金融经验的精英团队，分别来自于搜狗、百度、阿里等大型互联网科技公司。", 
+		platform = "lancai", 
+		platformName = "懒财网", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" },
+		ignoreTestResult = true)
 public class LanCaiWangSpider extends PapaSpider {
 
 	
 	
-	@Override
-	public String message() {
-		return "懒财网成立于2013年11月，2014年5月正式上线运营，由北京懒财信息科技有限公司负责运营，网站于2014年5月正式上线。懒财网拥有一支有丰富互联网和金融经验的精英团队，分别来自于搜狗、百度、阿里等大型互联网科技公司。";
-	}
-
-	@Override
-	public String platform() {
-		return "lancai";
-	}
-
-	@Override
-	public String home() {
-		return "lancai.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "懒财网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://api-main-backup.lancai.cn/sys_check_mobile.php";

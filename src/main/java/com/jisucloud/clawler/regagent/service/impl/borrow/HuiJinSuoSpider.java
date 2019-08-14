@@ -12,51 +12,26 @@ import okhttp3.Response;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "hfax.com", 
+		message = "惠金所Hfax(北京中关村融汇金融信息服务有限公司)成立于2015年4月，是阳光保险旗下的互联网金融信息服务平台。惠金所定位于做有影响力的个人财富管理及中小微企业融资服务。", 
+		platform = "hfax", 
+		platformName = "惠金所", 
+		tags = { "P2P", "借贷" , "小微金融" }, 
+		testTelephones = { "15985268900", "18210538513" })
 public class HuiJinSuoSpider extends PapaSpider implements AjaxHook {
 
-	@Override
-	public String message() {
-		return "惠金所Hfax(北京中关村融汇金融信息服务有限公司)成立于2015年4月，是阳光保险旗下的互联网金融信息服务平台。惠金所定位于做有影响力的个人财富管理及中小微企业融资服务。";
-	}
-
-	@Override
-	public String platform() {
-		return "hfax";
-	}
-
-	@Override
-	public String home() {
-		return "hfax.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "惠金所";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷" , "小微金融"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268900", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		ChromeAjaxHookDriver chromeAjaxHookDriver = null;
 		try {

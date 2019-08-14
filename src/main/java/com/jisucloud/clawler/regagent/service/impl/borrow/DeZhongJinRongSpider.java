@@ -1,7 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.borrow;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
@@ -14,50 +14,24 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
-import java.util.Set;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "dezhong365.com", 
+		message = "德众金融,国资金融集团+上市公司控股双重背景,实现银行资金存管的互联网金融平台,为中小微企业及个人提供快捷高效的网络借贷信息中介服务。", 
+		platform = "dezhong365", 
+		platformName = "德众金融", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15900068904", "18210538513" })
 public class DeZhongJinRongSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
-
-	@Override
-	public String message() {
-		return "德众金融,国资金融集团+上市公司控股双重背景,实现银行资金存管的互联网金融平台,为中小微企业及个人提供快捷高效的网络借贷信息中介服务。";
-	}
-
-	@Override
-	public String platform() {
-		return "dezhong365";
-	}
-
-	@Override
-	public String home() {
-		return "dezhong365.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "德众金融";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
 	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15900068904", "18210538513");
-	}
-
 	private String getImgCode() {
 		for (int i = 0 ; i < 3; i++) {
 			try {
@@ -73,7 +47,7 @@ public class DeZhongJinRongSpider extends PapaSpider implements AjaxHook{
 	}
 	String code;
 
-	@Override
+
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(false, true);

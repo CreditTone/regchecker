@@ -11,50 +11,23 @@ import okhttp3.Response;
 
 import org.jsoup.Connection;
 import org.jsoup.Connection.Method;
-import com.google.common.collect.Sets;
-import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
 
-import org.springframework.stereotype.Component;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-@UsePapaSpider
+
+@PapaSpiderConfig(
+		home = "xicaimao.cn", 
+		message = "喜财猫是中国领先的互联网科技平台,致力于安全高效的贷款服务。20万信贷经理24小时为您提供个人贷款、企业贷款、小额贷款、银行贷款、无抵押贷款.", 
+		platform = "xicaimao", 
+		platformName = "喜财猫", 
+		tags = { "P2P", "消费分期" , "借贷" }, 
+		testTelephones = { "18210538577", "18210538513" })
 @Slf4j
 public class XicaiMaoSpider extends PapaSpider {
-
-
-    @Override
-    public String message() {
-        return "喜财猫是中国领先的互联网科技平台,致力于安全高效的贷款服务。20万信贷经理24小时为您提供个人贷款、企业贷款、小额贷款、银行贷款、无抵押贷款.";
-    }
-
-    @Override
-    public String platform() {
-        return "xicaimao";
-    }
-
-    @Override
-    public String home() {
-        return "xicaimao.cn";
-    }
-    
-    @Override
-    public String platformName() {
-        return "希财猫";
-    }
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "消费分期" , "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538577", "18210538513");
-	}
     
     private Headers getHeader() {
         Map<String, String> headers = new HashMap<>();
@@ -71,7 +44,7 @@ public class XicaiMaoSpider extends PapaSpider {
         return Headers.of(headers);
     }
     
-    @Override
+    
     public boolean checkTelephone(String account) {
         try {
         	FormBody formBody = new FormBody
@@ -98,12 +71,12 @@ public class XicaiMaoSpider extends PapaSpider {
         return false;
     }
 
-    @Override
+    
     public boolean checkEmail(String account) {
         return checkTelephone(account);
     }
 
-    @Override
+    
     public Map<String, String> getFields() {
         return null;
     }

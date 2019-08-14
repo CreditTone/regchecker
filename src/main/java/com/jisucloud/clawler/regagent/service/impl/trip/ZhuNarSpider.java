@@ -3,62 +3,35 @@ package com.jisucloud.clawler.regagent.service.impl.trip;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "zhuna.com", 
+		message = "住哪网是中国最专业的在线旅行住宿服务平台,提供国内40000多家酒店、全球260000家海外酒店的预订服务,及短租公寓、民宿客栈等预订服务。订酒店,返现金!", 
+		platform = "zhuna", 
+		platformName = "住哪网", 
+		tags = { "旅游" , "酒店" }, 
+		testTelephones = { "13910252045", "18210538513" })
 public class ZhuNarSpider extends PapaSpider {
 
-	
-	
 	private String name = null;
 
-	@Override
-	public String message() {
-		return "住哪网是中国最专业的在线旅行住宿服务平台,提供国内40000多家酒店、全球260000家海外酒店的预订服务,及短租公寓、民宿客栈等预订服务。订酒店,返现金!";
-	}
-
-	@Override
-	public String platform() {
-		return "zhuna";
-	}
-
-	@Override
-	public String home() {
-		return "zhuna.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "住哪网";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"旅游" , "酒店"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252045", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
+			name = null;
 			String url = "http://www.zhuna.cn/account/isreg/?mobile="+ account;
 			Request request = new Request.Builder().url(url)
 					.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0")

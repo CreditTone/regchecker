@@ -2,58 +2,27 @@ package com.jisucloud.clawler.regagent.service.impl.life;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "baidu.com", 
+		message = "全球最大的中文搜索引擎、致力于让网民更便捷地获取信息，找到所求。百度超过千亿的中文网页数据库，可以瞬间找到相关的搜索结果。", 
+		platform = "baidu", 
+		platformName = "baiduName", 
+		tags = { "系统工具", "游览器" }, 
+		testTelephones = { "15901530000", "18210538513" })
 public class BaiduSpider extends PapaSpider {
 
-	
 
-
-	@Override
-	public String message() {
-		return "全球最大的中文搜索引擎、致力于让网民更便捷地获取信息，找到所求。百度超过千亿的中文网页数据库，可以瞬间找到相关的搜索结果。";
-	}
-
-	@Override
-	public String platform() {
-		return "baidu";
-	}
-
-	@Override
-	public String home() {
-		return "baidu.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "百度";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"系统工具", "游览器"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15901530000", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		if (account.length() != 11) {
 			return false;

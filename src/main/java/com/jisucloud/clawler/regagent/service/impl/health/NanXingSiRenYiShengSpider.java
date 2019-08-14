@@ -1,44 +1,27 @@
 package com.jisucloud.clawler.regagent.service.impl.health;
 
 import java.util.Map;
-import java.util.Set;
+
 
 import okhttp3.Request;
 
 import org.jsoup.Connection;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
-import com.google.common.collect.Sets;
 
 
-@UsePapaSpider
+
+@PapaSpiderConfig(
+		home = "ranknowcn.com", 
+		message = "男性私人医生是一款针对男生生理健康及相关专科类病症，提供免费在线咨询的健康类服务软件。集合上千家医院的在职医生和资源，自动分配所在地就近医院医生为您提供健康指导，免去挂号难，排队久的困扰，提问流程简单便捷，让您随时随地享受VIP健康咨询服务。(建议允许定位以便能准确分配到所在地医院)。", 
+		platform = "ranknowcn", 
+		platformName = "男性私人医生", 
+		tags = {"医疗", "男科"  }, 
+		testTelephones = { "13261165342", "18210538513" , "18210538510" })
 public class NanXingSiRenYiShengSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		// TODO Auto-generated method stub
-		return "男性私人医生是一款针对男生生理健康及相关专科类病症，提供免费在线咨询的健康类服务软件。集合上千家医院的在职医生和资源，自动分配所在地就近医院医生为您提供健康指导，免去挂号难，排队久的困扰，提问流程简单便捷，让您随时随地享受VIP健康咨询服务。(建议允许定位以便能准确分配到所在地医院)。";
-	}
-
-	@Override
-	public String platform() {
-		// TODO Auto-generated method stub
-		return "ranknowcn";
-	}
-
-	@Override
-	public String home() {
-		// TODO Auto-generated method stub
-		return "ranknowcn.com";
-	}
-
-	@Override
-	public String platformName() {
-		// TODO Auto-generated method stub
-		return "男性私人医生";
-	}
 
 	@Override
 	public boolean checkTelephone(String account) {
@@ -65,18 +48,6 @@ public class NanXingSiRenYiShengSpider extends PapaSpider {
 	public Map<String, String> getFields() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public String[] tags() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Set<String> getTestTelephones() {
-		// TODO Auto-generated method stub
-		return Sets.newHashSet("13261165342", "18210538513" , "18210538510");
 	}
 
 }

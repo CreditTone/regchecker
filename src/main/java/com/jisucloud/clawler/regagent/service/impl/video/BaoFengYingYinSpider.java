@@ -1,56 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.video;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "baofeng.com", 
+		message = "暴风影音致力打造大型互联网视频播放平台,集在线视频和本地播放服务于一体,是专注提供免费、高清网络视频服务的大型视频网站。", 
+		platform = "baofeng", 
+		platformName = "暴风影音", 
+		tags = { "影音", "视频", "MV" }, 
+		testTelephones = { "15700102865", "18210538513" })
 public class BaoFengYingYinSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "暴风影音致力打造大型互联网视频播放平台,集在线视频和本地播放服务于一体,是专注提供免费、高清网络视频服务的大型视频网站。";
-	}
-
-	@Override
-	public String platform() {
-		return "baofeng";
-	}
-
-	@Override
-	public String home() {
-		return "baofeng.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "暴风影音";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"影音", "视频", "MV"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15700102865", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://sso.baofeng.com/new/api/is_mobile_used?appid=8637&sign=de75e7a58d2fe0fb26bed9f2909d52595cf8ee90&mobile="+account+"&callback=jQuery112402612518137038946_"+System.currentTimeMillis()+"&_=" +System.currentTimeMillis();

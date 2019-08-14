@@ -2,60 +2,32 @@ package com.jisucloud.clawler.regagent.service.impl.health;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import org.springframework.stereotype.Component;
-
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "120ask.com", 
+		message = "快速问医生旗下有问必答网是医生在线健康问答咨询平台。来自全国数万名医生为您免费解答任何健康问题,可以通过电话、文字等多种方式与医生进行一对一咨询!", 
+		platform = "120ask", 
+		platformName = "快速问医生", 
+		tags = { "医疗", "生活应用" , "用药" }, 
+		testTelephones = { "15901537458", "18210538513" })
 public class KuaiSuWenSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "快速问医生旗下有问必答网是医生在线健康问答咨询平台。来自全国数万名医生为您免费解答任何健康问题,可以通过电话、文字等多种方式与医生进行一对一咨询!";
-	}
-
-	@Override
-	public String platform() {
-		return "120ask";
-	}
-
-	@Override
-	public String home() {
-		return "120ask.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "快速问医生";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"医疗", "生活应用" , "用药"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15901537458", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://sso.120ask.com/user/name_exist";

@@ -1,55 +1,30 @@
 package com.jisucloud.clawler.regagent.service.impl.game;
 
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
-import java.util.Set;
+
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "battlenet.com", 
+		message = "暴雪娱乐公司是一家著名视频游戏制作和发行公司,1991年2月8日由加利福尼亚大学洛杉矶分校的三位毕业生1994年,他们公司品牌正式更名为“Blizzard” 在“暴雪”成立.", 
+		platform = "battlenet", 
+		platformName = "暴雪娱乐", 
+		tags = { "游戏" ,"魔兽世界" }, 
+		testTelephones = { "18210538513", "13269423806" })
 public class XuebaoSpider extends PapaSpider {
 	
 	private ChromeAjaxHookDriver chromeDriver;
 
-	@Override
-	public String message() {
-		return "暴雪娱乐公司是一家著名视频游戏制作和发行公司,1991年2月8日由加利福尼亚大学洛杉矶分校的三位毕业生1994年,他们公司品牌正式更名为“Blizzard” 在“暴雪”成立.";
-	}
-
-	@Override
-	public String platform() {
-		return "battlenet";
-	}
-
-	@Override
-	public String home() {
-		return "battlenet.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "暴雪娱乐";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"游戏" ,"魔兽世界"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("18210538513", "13269423806");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newNoHookInstance(true, true, CHROME_USER_AGENT);

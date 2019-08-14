@@ -10,49 +10,26 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider(exclude = true, excludeMsg = "由于笑脸平台服务升级，当前版本的APP已不再提供服务。请去应用商店下载和安装最新版本的「笑脸金融」APP")
+@PapaSpiderConfig(
+		home = "facebank.com", 
+		message = "笑脸金融是阳光保险集团旗下成员企业在深圳投资发起成立,由深圳光华普惠科技有限公司运营。拥有健全严格的风险管控体系,汇集优质资产, 1000元起投、收益高,安全有保障。", 
+		platform = "facebank", 
+		platformName = "facebankName", 
+		tags = { "P2P", "借贷" }, 
+		testTelephones = { "15985268904", "18210538513" },
+		exclude = true, 
+		excludeMsg = "由于笑脸平台服务升级，当前版本的APP已不再提供服务。请去应用商店下载和安装最新版本的「笑脸金融」APP")
 public class XiaoLianJinRongSpider extends PapaSpider {
 
-	@Override
-	public String message() {
-		return "笑脸金融是阳光保险集团旗下成员企业在深圳投资发起成立,由深圳光华普惠科技有限公司运营。拥有健全严格的风险管控体系,汇集优质资产, 1000元起投、收益高,安全有保障。";
-	}
-
-	@Override
-	public String platform() {
-		return "facebank";
-	}
-
-	@Override
-	public String home() {
-		return "facebank.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "笑脸金融";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("15985268904", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://cic.facebank.cn/app/preLogin";

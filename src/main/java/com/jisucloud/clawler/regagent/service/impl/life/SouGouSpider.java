@@ -3,9 +3,9 @@ package com.jisucloud.clawler.regagent.service.impl.life;
 import com.deep077.spiderbase.selenium.mitm.AjaxHook;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 import com.deep077.spiderbase.selenium.mitm.HookTracker;
-import com.google.common.collect.Sets;
+
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -17,61 +17,22 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
-import java.util.Set;
+
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "sogou.com", 
+		message = "搜狗搜索是全球第三代互动式搜索引擎,支持微信公众号和文章搜索、知乎搜索、英文搜索及翻译等,通过自主研发的人工智能算法为用户提供专业、精准、便捷的搜索服务。", 
+		platform = "sogou", 
+		platformName = "搜狗", 
+		tags = { "工具", "搜索引擎" }, 
+		testTelephones = { "13910000000", "18210538513" })
 public class SouGouSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;
 	private boolean checkTel = false;
 	private boolean vcodeSuc = false;//验证码是否正确
 
-	@Override
-	public String message() {
-		return "搜狗搜索是全球第三代互动式搜索引擎,支持微信公众号和文章搜索、知乎搜索、英文搜索及翻译等,通过自主研发的人工智能算法为用户提供专业、精准、便捷的搜索服务。";
-	}
-
-	@Override
-	public String platform() {
-		return "sogou";
-	}
-
-	@Override
-	public String home() {
-		return "sogou.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "搜狗搜索";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"工具", "搜索引擎"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910000000", "18210538513");
-	}
-
-	private String getImgCode() {
-		for (int i = 0 ; i < 3; i++) {
-			try {
-				WebElement img = chromeDriver.findElementByCssSelector("#valicodeImg");
-				img.click();smartSleep(1000);
-				byte[] body = chromeDriver.screenshot(img);
-				return OCRDecode.decodeImageCode(body);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return "";
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);

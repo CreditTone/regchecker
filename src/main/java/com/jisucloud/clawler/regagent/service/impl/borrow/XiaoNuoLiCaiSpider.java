@@ -5,59 +5,26 @@ import com.alibaba.fastjson.JSONObject;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
-import com.jisucloud.clawler.regagent.interfaces.UsePapaSpider;
-
-import org.springframework.stereotype.Component;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
-@UsePapaSpider
+@PapaSpiderConfig(
+		home = "nyonline.com", 
+		message = "小诺理财是诺远科技发展有限公司（以下简称：诺远科技）旗下互联网金融信息中介服务平台，创建于2015年，总部位于北京。 小诺理财风险管理依托于FICO评分系统，结合本土化大数据模型，利用物联网技术创新及大数据征信系统。", 
+		platform = "nyonline", 
+		platformName = "小诺理财", 
+		tags = { "P2P", "理财" , "借贷" }, 
+		testTelephones = { "13910252000", "18210538513" })
 public class XiaoNuoLiCaiSpider extends PapaSpider {
 
 	
 
-	@Override
-	public String message() {
-		return "小诺理财是诺远科技发展有限公司（以下简称：诺远科技）旗下互联网金融信息中介服务平台，创建于2015年，总部位于北京。 小诺理财风险管理依托于FICO评分系统，结合本土化大数据模型，利用物联网技术创新及大数据征信系统。";
-	}
-
-	@Override
-	public String platform() {
-		return "nyonline";
-	}
-
-	@Override
-	public String home() {
-		return "nyonline.com";
-	}
-
-	@Override
-	public String platformName() {
-		return "小诺理财";
-	}
-
-	@Override
-	public String[] tags() {
-		return new String[] {"P2P", "理财" , "借贷"};
-	}
-	
-	@Override
-	public Set<String> getTestTelephones() {
-		return Sets.newHashSet("13910252000", "18210538513");
-	}
-
-	@Override
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://nyonline.cn/ups/app/v4_0_0/dologin.c";
