@@ -23,8 +23,6 @@ import java.util.Map;
 		testTelephones = { "15985268904", "18210538513" },
 		exclude = true, excludeMsg = "倒闭")
 public class BaoXiangJinRongSpider extends PapaSpider {
-
-	
 	
 	public boolean checkTelephone(String account) {
 		try {

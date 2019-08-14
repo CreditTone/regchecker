@@ -14,6 +14,7 @@ import com.deep007.spiderbase.killer.LinuxJvmProcrssMonitor;
 import com.jisucloud.clawler.regagent.service.PapaSpiderService;
 import com.jisucloud.clawler.regagent.service.PapaSpiderService.Status;
 import com.jisucloud.clawler.regagent.service.PapaTaskService;
+import com.jisucloud.clawler.regagent.service.TaskStatus;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,5 +51,10 @@ public class PapaController {
 	@RequestMapping(value = "/status", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public Status status() {
 		return papaSpiderService.getStatus();
+	}
+	
+	@RequestMapping(value = "/taskstatus", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public TaskStatus taskStatus(@RequestParam(name = "id") String id) {
+		return papaTaskService.getTaskStatus(id);
 	}
 }

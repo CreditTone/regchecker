@@ -3,8 +3,10 @@ package com.jisucloud.clawler.regagent.service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 import org.bson.Document;
@@ -39,6 +41,17 @@ public class PapaTaskService {
 	@Autowired
 	private StringRedisTemplate redisTemplate;
 	
+	private final Map<String, TaskStatus> taskCostInfos = new ConcurrentHashMap<String, TaskStatus>(){
+		public TaskStatus get(Object key) {
+			TaskStatus result = super.get(key);
+			if (result == null) {
+				result = new TaskStatus((String) key);
+				put((String) key, result);
+			}
+			return result;
+		};
+	};
+	
 	/**
 	 * 分配任务，返回任务id
 	 * @param username 必须，手机号或邮箱
@@ -48,6 +61,7 @@ public class PapaTaskService {
 	 */
 	public synchronized String allocTask(String username, String name, String idcard) {
 		String id = UUID.randomUUID().toString();
+		TaskStatus statusInfo = taskCostInfos.get(id);
 		if (username != null && !usernameFiler.contains(username)) {
 			usernameFiler.set(username, true, 3600 * 24);
 			log.warn("添加任务:"+username+",id:"+id);
@@ -60,6 +74,7 @@ public class PapaTaskService {
 						continue;
 					}
 					PapaTask papaTask = PapaTask.builder().telephone(username).id(id).papaClz(clz.getName()).name(name).idcard(idcard).build();
+					statusInfo.addPapaClzName(clz.getName());
 					redisTemplate.opsForList().rightPush(PAPATASK_QUEUE_KEY, JSON.toJSONString(papaTask));
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -79,7 +94,10 @@ public class PapaTaskService {
 		while(true) {
 			String str = redisTemplate.opsForList().leftPop(PAPATASK_QUEUE_KEY, 10, TimeUnit.SECONDS);
 			if (str != null) {
-				return JSON.parseObject(str, PapaTask.class);
+				PapaTask papaTask = JSON.parseObject(str, PapaTask.class);
+				TaskStatus statusInfo = taskCostInfos.get(papaTask.getId());
+				statusInfo.costPapaClzName(papaTask.getPapaClz());
+				return papaTask;
 			}
 		}
 	}
@@ -102,6 +120,13 @@ public class PapaTaskService {
 			nums = 0L;
 		}
 		return nums;
+	}
+	
+	public TaskStatus getTaskStatus(String id) {
+		if (id != null && taskCostInfos.containsKey(id)) {
+			return taskCostInfos.get(id);
+		}
+		return null;
 	}
 	
 }

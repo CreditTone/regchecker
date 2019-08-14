@@ -30,7 +30,7 @@ public class PapaSpiderService extends Thread {
 	
 	private MongoCollection<Document> collection;
 	
-	private CountableThreadPool trehadPool = new CountableThreadPool(300);
+	private CountableThreadPool trehadPool = new CountableThreadPool(100);
 	
 	@Autowired
 	private PapaTaskService papaTaskService;
