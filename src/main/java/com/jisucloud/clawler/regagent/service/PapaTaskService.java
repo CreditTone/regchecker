@@ -1,13 +1,12 @@
 package com.jisucloud.clawler.regagent.service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -52,6 +51,8 @@ public class PapaTaskService {
 		};
 	};
 	
+	private AtomicInteger queueTaskAtomic = new AtomicInteger();
+	
 	/**
 	 * 分配任务，返回任务id
 	 * @param username 必须，手机号或邮箱
@@ -76,6 +77,7 @@ public class PapaTaskService {
 					PapaTask papaTask = PapaTask.builder().telephone(username).id(id).papaClz(clz.getName()).name(name).idcard(idcard).build();
 					statusInfo.addPapaClzName(clz.getName());
 					redisTemplate.opsForList().rightPush(PAPATASK_QUEUE_KEY, JSON.toJSONString(papaTask));
+					queueTaskAtomic.incrementAndGet();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -85,18 +87,19 @@ public class PapaTaskService {
 	}
 	
 	public PapaTask takePapaTask() {
-		long papaTaskNums = redisTemplate.opsForList().size(PAPATASK_QUEUE_KEY);
-		if (papaTaskNums > 5000) {
-			String rename = PAPATASK_QUEUE_KEY+"_bak_"+new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-			log.warn("任务堆积严重，移除任务列表 " + PAPATASK_QUEUE_KEY + " " + papaTaskNums + " " + rename);
-			redisTemplate.rename(PAPATASK_QUEUE_KEY, rename);
-		}
+//		long papaTaskNums = redisTemplate.opsForList().size(PAPATASK_QUEUE_KEY);
+//		if (papaTaskNums > 5000) {
+//			String rename = PAPATASK_QUEUE_KEY+"_bak_"+new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+//			log.warn("任务堆积严重，移除任务列表 " + PAPATASK_QUEUE_KEY + " " + papaTaskNums + " " + rename);
+//			redisTemplate.rename(PAPATASK_QUEUE_KEY, rename);
+//		}
 		while(true) {
 			String str = redisTemplate.opsForList().leftPop(PAPATASK_QUEUE_KEY, 10, TimeUnit.SECONDS);
 			if (str != null) {
 				PapaTask papaTask = JSON.parseObject(str, PapaTask.class);
 				TaskStatus statusInfo = taskCostInfos.get(papaTask.getId());
 				statusInfo.costPapaClzName(papaTask.getPapaClz());
+				queueTaskAtomic.decrementAndGet();
 				return papaTask;
 			}
 		}
@@ -114,12 +117,8 @@ public class PapaTaskService {
 		return platforms;
 	}
 	
-	public long getPapaTaskSize() {
-		Long nums = redisTemplate.opsForList().size(PAPATASK_QUEUE_KEY);
-		if (nums == null) {
-			nums = 0L;
-		}
-		return nums;
+	public int getPapaTaskSize() {
+		return queueTaskAtomic.get();
 	}
 	
 	public TaskStatus getTaskStatus(String id) {

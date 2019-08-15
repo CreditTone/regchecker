@@ -1,5 +1,11 @@
 package com.jisucloud.clawler.regagent.service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import javax.annotation.PostConstruct;
 
 import org.bson.Document;
@@ -12,7 +18,6 @@ import com.deep007.spiderbase.util.TimerRecoder;
 import com.jisucloud.clawler.regagent.interfaces.Account;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
-import com.jisucloud.clawler.regagent.util.CountableThreadPool;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
@@ -23,52 +28,77 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class PapaSpiderService extends Thread {
+public class PapaSpiderService{
 	
 	@Autowired
 	private MongoDatabase mongoDatabase;
 	
 	private MongoCollection<Document> collection;
 	
-	private CountableThreadPool trehadPool = new CountableThreadPool(100);
+	private int threadNums = 100;
+	
+	private List<CustomerThread> customerThreads = new ArrayList<>();
 	
 	@Autowired
 	private PapaTaskService papaTaskService;
 	
+	/**
+	 * 所有任务执行的总时间
+	 */
+	private BigDecimal taskExecuteTimeAsSecond = new BigDecimal(0);
+	
+	/**
+	 * 执行成功任务的总个数
+	 */
+	private AtomicInteger gdpAtomic = new AtomicInteger();
 	
 	@Data
 	public class Status {
 		
-		private long taskNums; 
+		private int taskNums; 
 		
-		private int aliveThreadNums; 
+		private int aliveThreadNums;
+		
+		private int gdp;
+		
+		private float averageExeTime;
 	}
 	
 	public Status getStatus() {
 		Status status = new Status();
 		status.taskNums = papaTaskService.getPapaTaskSize();
-		status.aliveThreadNums = trehadPool.getThreadAlive();
+		status.aliveThreadNums = threadNums;
+		status.gdp = gdpAtomic.get();
+		status.averageExeTime = taskExecuteTimeAsSecond.divide(new BigDecimal(status.gdp)).floatValue();
 		return status;
 	}
 	
 	@PostConstruct
 	private void init() {
-		start();
 		collection = mongoDatabase.getCollection("account");
+		for (int i = 0; i < threadNums; i++) {
+			CustomerThread customerThread = new CustomerThread();
+			customerThread.start();
+			customerThreads.add(customerThread);
+		}
 	}
 	
-	@Override
-	public void run() {
-		PapaTask papaTask = null;
-		while (true) {
-			try {
-				trehadPool.waitIdleThread();
-			} catch (Exception e) {
-				log.warn("takePapaTask等待线程超时,服务终止", e);
-				break;
+	public final class CustomerThread extends Thread {
+		
+		public final String id = UUID.randomUUID().toString().replaceAll("\\-", "");
+		
+		public PapaTask currentPapaTask = null;
+
+		@Override
+		public void run() {
+			while (true) {
+				currentPapaTask = papaTaskService.takePapaTask();
+				if (currentPapaTask != null) {
+					PapaSpiderClassRunnable papaSpiderClassRunnable = new PapaSpiderClassRunnable(currentPapaTask);
+					papaSpiderClassRunnable.execute();
+				}
+				
 			}
-			papaTask = papaTaskService.takePapaTask();
-			trehadPool.execute(new PapaSpiderClassRunnable(papaTask));
 		}
 	}
 	
@@ -78,7 +108,7 @@ public class PapaSpiderService extends Thread {
 	 *
 	 */
 	@Data
-	public final class PapaSpiderClassRunnable implements Runnable {
+	public final class PapaSpiderClassRunnable {
 		
 		private PapaTask papaTask = null;
 		private boolean isStarted = false;
@@ -88,8 +118,7 @@ public class PapaSpiderService extends Thread {
 			this.papaTask = papaTask;
 		}
 
-		@Override
-		public void run() {
+		public void execute() {
 			isStarted = true;
 			try {
 				TimerRecoder timerRecoder = new TimerRecoder();
@@ -109,6 +138,8 @@ public class PapaSpiderService extends Thread {
 					username = papaTask.getEmail();
 				}
 				if (username != null) {
+					taskExecuteTimeAsSecond.add(new BigDecimal(timerRecoder.consumeTimeAsSecond()));
+					gdpAtomic.incrementAndGet();
 					Account data = Account.builder()
 							.username(username)
 							.registed(registed)
