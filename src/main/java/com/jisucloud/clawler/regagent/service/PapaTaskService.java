@@ -8,6 +8,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.annotation.PostConstruct;
+
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +54,15 @@ public class PapaTaskService {
 	};
 	
 	private AtomicInteger queueTaskAtomic = new AtomicInteger();
+	
+	@PostConstruct
+	private void init() {
+		Long papaTaskNums = redisTemplate.opsForList().size(PAPATASK_QUEUE_KEY);
+		if (papaTaskNums != null) {
+			queueTaskAtomic.addAndGet(papaTaskNums.intValue());
+		}
+		
+	}
 	
 	/**
 	 * 分配任务，返回任务id
