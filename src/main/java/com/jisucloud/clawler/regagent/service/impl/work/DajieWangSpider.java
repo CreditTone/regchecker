@@ -22,8 +22,6 @@ import java.util.Map;
 		testTelephones = { "18515290717", "18210538513" })
 public class DajieWangSpider extends PapaSpider {
 
-	
-
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://www.dajie.com/account/phonestatuscheck?callback=jQuery151020488464963648478_"+System.currentTimeMillis()+"&ajax=1&phoneNumber="+account+"&_=1559213156444&_CSRFToken=";

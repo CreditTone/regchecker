@@ -18,6 +18,7 @@ import java.util.Map;
 		message = "名片全能王,名片识别、管理的专业工具:手机拍摄名片,信息瞬间存入通讯录,用名片呈现图文、语音、视频、附件,精准识别16种语言的名片!", 
 		platform = "camcard", 
 		platformName = "名片全能王", 
+		userActiveness = 0.7f,
 		tags = { "工具"  }, 
 		testTelephones = { "18210538513", "15011488781" })
 public class MingPianQuanNengWangSpider extends PapaSpider {

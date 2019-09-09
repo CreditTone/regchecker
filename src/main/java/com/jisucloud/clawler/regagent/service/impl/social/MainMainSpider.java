@@ -25,7 +25,8 @@ import java.util.Map;
 		home = "taou.com", 
 		message = "脉脉(maimai.cn),中国领先的职场实名社交平台,利用科学算法为职场人拓展人脉,降低商务社交门槛,实现各行各业交流合作。", 
 		platform = "mainmain", 
-		platformName = "脉脉", 
+		platformName = "脉脉",
+		userActiveness = 0.6f,
 		tags = {  "社交", "找合作", "求职", "招聘", "工具"  }, 
 		testTelephones = { "18210530000", "18210538513" })
 public class MainMainSpider extends PapaSpider implements AjaxHook {

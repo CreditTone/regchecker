@@ -20,8 +20,6 @@ import java.util.Map;
 		testTelephones = { "13925306966", "18210538513" })
 public class DouBanSpider extends PapaSpider {
 
-	
-
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://accounts.douban.com/j/mobile/reset_password/request_phone_code";

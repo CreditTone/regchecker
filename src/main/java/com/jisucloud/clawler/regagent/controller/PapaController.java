@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.deep007.spiderbase.killer.LinuxJvmProcrssMonitor;
-import com.jisucloud.clawler.regagent.service.PapaSpiderService;
-import com.jisucloud.clawler.regagent.service.PapaSpiderService.Status;
-import com.jisucloud.clawler.regagent.service.PapaTaskService;
+import com.jisucloud.clawler.regagent.service.PapaTaskConsume;
+import com.jisucloud.clawler.regagent.service.PapaTaskConsume.Status;
+import com.jisucloud.clawler.regagent.service.PapaTaskProduce;
 import com.jisucloud.clawler.regagent.service.TaskStatus;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,10 +24,10 @@ import lombok.extern.slf4j.Slf4j;
 public class PapaController {
 	
 	@Autowired
-	private PapaTaskService papaTaskService;
+	private PapaTaskProduce papaTaskService;
 	
 	@Autowired
-	private PapaSpiderService papaSpiderService;
+	private PapaTaskConsume papaSpiderService;
 	
 	@Autowired
 	private ConfigurableApplicationContext context;

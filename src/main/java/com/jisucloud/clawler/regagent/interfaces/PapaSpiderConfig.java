@@ -25,6 +25,12 @@ public @interface PapaSpiderConfig {
 	 */
 	boolean ignoreTestResult() default false;
 	
+	/**
+	 * 该平台所赋予的用户的活跃度，范围（0-1.0）默认0.5
+	 * @return
+	 */
+	float userActiveness() default 0.5f;
+	
 	String message();
 
 	String platform();

@@ -18,6 +18,7 @@ import java.util.Map;
 		message = "拉卡拉是综合普惠科技金融平台。拉卡拉成立于2005年，秉承普惠、科技、创新、综合的理念，打造了底层统一，用户导向的共生系统，为个人和企业用户提供支付、征信、融资、社区金融等服务。", 
 		platform = "lakala", 
 		platformName = "拉卡拉", 
+		userActiveness = 0.7f,
 		tags = { "聚合支付", "科技金融" }, 
 		testTelephones = { "13193091202", "13193091201" })
 public class LaKaLaSpider extends PapaSpider {

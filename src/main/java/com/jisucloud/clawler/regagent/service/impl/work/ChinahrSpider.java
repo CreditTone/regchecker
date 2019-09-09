@@ -22,8 +22,6 @@ import java.util.Map;
 		testTelephones = { "18515290000", "18210538513" })
 public class ChinahrSpider extends PapaSpider {
 
-	
-
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "http://passport.chinahr.com/ajax/m/existLoginName?input="+account+"&_=" +System.currentTimeMillis();

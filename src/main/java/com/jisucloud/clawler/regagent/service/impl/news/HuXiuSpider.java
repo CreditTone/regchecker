@@ -3,7 +3,6 @@ package com.jisucloud.clawler.regagent.service.impl.news;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
-import com.jisucloud.clawler.regagent.service.PapaSpiderTester;
 import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;

@@ -19,35 +19,10 @@ public class DingDingSpider extends BasicEmailSpider {
 
 	private String name;
 
-	
-	
-
-	
-	
-
-	
-	
-
-	
-	
-
-	
-	
-
-	
 	public boolean checkEmail(String account) {
 		return false;
 	}
 
-	
-	public Map<String, String> getFields() {
-		return null;
-	}
-
-	
-	
-
-	
 	public String getEmail(String account) {
 		if (name != null) {
 			String pingyin = PingyinUtil.toPinyin(name);

@@ -2,7 +2,6 @@ package com.jisucloud.clawler.regagent.service.impl.trip;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.deep007.spiderbase.okhttp.OKHttpUtil;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
@@ -10,9 +9,6 @@ import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import okhttp3.FormBody;
 import okhttp3.Headers;
 import okhttp3.Request;
-
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,10 +22,9 @@ import java.util.regex.Pattern;
 		platform = "12306", 
 		platformName = "12306", 
 		tags = { "出行" , "火车" , "高铁" }, 
+		userActiveness = 0.6f,
 		testTelephones = { "19910002005", "18210538513" })
 public class Web12306Spider extends PapaSpider {
-	
-	
 	
     private Map<String, String> fields = null;
 
@@ -84,7 +79,7 @@ public class Web12306Spider extends PapaSpider {
 					.post(getParams(account, ""))
 					.build();
 			JSONObject result = JSON.parseObject(okHttpClient.newCall(request).execute().body().string());
-            System.out.println(result);
+            //System.out.println(result);
             if (result.getBooleanValue("status") == true) {
                 String msg = result.getJSONObject("data").getString("msg");
                 if (msg != null && msg.contains("您输入的手机号码已被其他注册用户")) {

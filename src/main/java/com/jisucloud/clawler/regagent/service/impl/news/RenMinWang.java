@@ -1,6 +1,5 @@
 package com.jisucloud.clawler.regagent.service.impl.news;
 
-import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
@@ -10,7 +9,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.Map;
-import java.util.Set;
 
 @Slf4j
 @PapaSpiderConfig(

@@ -19,11 +19,10 @@ import java.util.Map;
 		message = "智联卓聘highpin.cn是智联招聘网旗下中高端人才招聘网站,整合全球1088个国家和地区40多个行业海量年薪10万以上的中高端职位。中高端人才求职、找工作,首选智联卓聘。", 
 		platform = "highpin", 
 		platformName = "智联卓聘", 
+		userActiveness = 0.7f,
 		tags = { "求职" , "招聘" }, 
 		testTelephones = { "15700102866", "15700102860" })
 public class HighpinSpider extends PapaSpider {
-
-	
 
 	public boolean checkTelephone(String account) {
 		try {

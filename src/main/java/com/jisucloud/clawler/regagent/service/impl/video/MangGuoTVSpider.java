@@ -1,7 +1,5 @@
 package com.jisucloud.clawler.regagent.service.impl.video;
 
-import com.deep007.spiderbase.okhttp.OKHttpUtil;
-
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.OCRDecode;

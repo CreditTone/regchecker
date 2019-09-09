@@ -19,6 +19,7 @@ import java.util.Map;
 		message = "去哪儿是中国领先的旅游搜索引擎，去哪儿是目前全球最大的中文在线旅行网站，创立于2005年2月，总部在北京。去哪儿网为消费者提供机票、酒店、会场、度假产品的实时搜索，并提供旅游产品团购以及其他旅游信息服务，为旅游行业合作伙伴提供在线技术、移动技术解决方案。", 
 		platform = "qunar", 
 		platformName = "去哪儿", 
+		userActiveness = 0.6f,
 		tags = { "旅游" , "酒店" , "机票" , "o2o" }, 
 		testTelephones = { "18210538000", "18210538513" })
 public class QunarSpider extends PapaSpider {

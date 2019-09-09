@@ -18,6 +18,7 @@ import java.util.Map;
 		message = "趣头条作为一款新生代内容资讯APP，由上海基分文化传播有限公司开发。团队致力于让用户的阅读更有价值，通过大数据算法和云计算等技术，为用户提供感兴趣、有价值的个性化内容及服务。2018年8月18日，趣头条提交美国IPO申请。", 
 		platform = "qutoutiao", 
 		platformName = "趣头条", 
+		userActiveness = 0.7f,
 		tags = { "新闻资讯" }, 
 		testTelephones = { "18720982007", "18210538513" })
 public class QuTouTiaoSpider extends PapaSpider {

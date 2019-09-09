@@ -19,11 +19,10 @@ import java.util.Map;
 		message = "金蝶云之家是国内先进的移动办公平台,传承金蝶25余年管理经验,以组织/消息/社交为核心,提供OA系统、移动审批、考勤、会议等移动办公SaaS应用,助力企业高效智能办公!", 
 		platform = "yunzhijia", 
 		platformName = "金蝶云", 
+		userActiveness = 0.8f,
 		tags = { "工具" , "财务软件" , "saas" }, 
 		testTelephones = { "18210538511", "13953679455" })
 public class YunZhiJiaSpider extends PapaSpider {
-
-	
 
 	public boolean checkTelephone(String account) {
 		try {

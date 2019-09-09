@@ -17,6 +17,7 @@ import java.util.Map;
 		message = "云付通集团是一家综合型互联网企业，全国运营中心设在广州市广州大道中988号圣丰广场国际金融中心25楼。云付通集团以创新理念推出——财富社交平台，主营业务为商务服务业。", 
 		platform = "ipaye", 
 		platformName = "云付通", 
+		userActiveness = 0.8f,
 		tags = { "聚合支付", "科技金融" }, 
 		testTelephones = { "13418466345", "13193091201" })
 public class YunFuTongSpider extends PapaSpider {

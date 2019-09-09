@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
-import com.jisucloud.clawler.regagent.service.PapaSpiderTester;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -22,12 +21,12 @@ import java.util.Map;
 		message = "猎聘网，知名中高端人才招聘网站，汇聚行业名企。为求职者提供免费注册，热门职位推送，猎头精准推荐，24小时急速反馈等服务。每日新增数万条名企招聘信息，猎头在线服务，真实职位信息。官方首页www.liepin.com，8秒注册填简历，找工作更快，更轻松！", 
 		platform = "liepin", 
 		platformName = "猎聘网", 
+		userActiveness = 0.7f,
 		tags = { "求职", "招聘" }, 
 		testTelephones = { "13210038513", "18210538513" })
 public class LiePinWangSpider extends PapaSpider {
 
 	
-
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://passport.liepin.com/forgetpwd/v1/checklogin.json?_=" + System.currentTimeMillis();

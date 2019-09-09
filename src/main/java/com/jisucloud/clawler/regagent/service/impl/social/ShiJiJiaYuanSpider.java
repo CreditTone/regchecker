@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.Random;
 
 
-
 @Slf4j
 @PapaSpiderConfig(
 		home = "jiayuan.com", 
@@ -23,6 +22,7 @@ import java.util.Random;
 		platform = "jiayuan", 
 		platformName = "世纪佳缘", 
 		tags = { "单身交友" , "婚恋" }, 
+		userActiveness = 0.7f,
 		testTelephones = { "18810038000", "18210538513" })
 public class ShiJiJiaYuanSpider extends PapaSpider {
 

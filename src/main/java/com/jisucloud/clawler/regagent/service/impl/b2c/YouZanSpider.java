@@ -19,7 +19,8 @@ import java.util.Map;
 		message = "有赞是一个商家服务公司，我们帮助每一位重视产品和服务的商家成功。目前旗下拥有：有赞微商城、有赞零售、有赞教育、有赞美业、有赞小程序等SaaS软件产品，适用全行业多场景，帮商家网上开店、网上营销、管理客户、获取订单。", 
 		platform = "youzan", 
 		platformName = "有赞", 
-		tags = { "saas", "生意" , "电商" }, 
+		tags = { "saas", "生意" , "电商" },
+		userActiveness = 0.7f,
 		testTelephones = { "18210538513", "13761090875" })
 public class YouZanSpider extends PapaSpider {
 

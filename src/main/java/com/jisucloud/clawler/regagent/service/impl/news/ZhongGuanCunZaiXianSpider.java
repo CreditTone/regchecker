@@ -18,6 +18,7 @@ import java.util.Map;
 		message = "中国领先的IT信息与商务门户, 包括新闻, 商城, 硬件, 下载, 游戏, 手机, 评测等40个大型频道,每天发布大量各类产品促销信息及文章专题,是IT行业的厂商。", 
 		platform = "zol", 
 		platformName = "中关村在线", 
+		userActiveness = 0.7f,
 		tags = { "新闻资讯" , "3C资讯" , "智能手机" }, 
 		testTelephones = { "18720982007", "18210538513" })
 public class ZhongGuanCunZaiXianSpider extends PapaSpider {

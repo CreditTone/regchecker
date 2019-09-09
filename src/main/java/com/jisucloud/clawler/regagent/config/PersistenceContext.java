@@ -35,7 +35,7 @@ public class PersistenceContext {
 		if (mongoClient == null) {
 			MongoClientOptions.Builder builder = new MongoClientOptions.Builder();
 			// build the connection options
-			builder.maxConnectionIdleTime(6000);// set the max wait time in (ms)
+			builder.maxConnectionIdleTime(150000);
 			builder.maxConnectionLifeTime(150000);
 			builder.connectTimeout(3000);
 			builder.socketTimeout(6000);

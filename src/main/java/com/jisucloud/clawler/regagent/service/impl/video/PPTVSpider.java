@@ -18,6 +18,7 @@ import java.util.Map;
 		message = "PPTV是国内领先的综合视频门户网站平台,视频内容丰富多元,包括电视剧、电影、动漫、综艺、体育、娱乐、游戏、搞笑、旅游、财富、少儿、教育、音乐、直播、原创等。", 
 		platform = "pptv", 
 		platformName = "PPTV", 
+		userActiveness = 0.6f,
 		tags = { "视频", "影音" }, 
 		testTelephones = { "18720982607", "18210538513" })
 public class PPTVSpider extends PapaSpider {

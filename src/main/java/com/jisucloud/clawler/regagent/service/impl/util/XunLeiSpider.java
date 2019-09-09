@@ -20,6 +20,7 @@ import java.util.Map;
 		message = "迅雷是全球领先的共享计算与区块链技术创新企业,公司成立于2003年,基于深耕十几年、获得国际专利的P2SP下载加速技术优势,面向个人用户和企业用户打造了丰富的下载加速器。", 
 		platform = "xunlei", 
 		platformName = "迅雷", 
+		userActiveness = 0.7f,
 		tags = { "系统工具", "影音" }, 
 		testTelephones = { "18611216720", "18210538513" })
 public class XunLeiSpider extends PapaSpider {

@@ -28,19 +28,19 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class PapaSpiderService{
+public class PapaTaskConsume{
 	
 	@Autowired
 	private MongoDatabase mongoDatabase;
 	
 	private MongoCollection<Document> collection;
 	
-	private int threadNums = 100;
+	private int threadNums = 50;
 	
 	private List<CustomerThread> customerThreads = new ArrayList<>();
 	
 	@Autowired
-	private PapaTaskService papaTaskService;
+	private PapaTaskProduce papaTaskService;
 	
 	/**
 	 * 所有任务执行的总时间
@@ -55,7 +55,7 @@ public class PapaSpiderService{
 	@Data
 	public class Status {
 		
-		private int taskNums; 
+		private int taskNums;
 		
 		private int aliveThreadNums;
 		
@@ -103,7 +103,7 @@ public class PapaSpiderService{
 	}
 	
 	/**
-	 * 具体撞库任务
+	 * 具体撞库任务类
 	 * @author stephen
 	 *
 	 */

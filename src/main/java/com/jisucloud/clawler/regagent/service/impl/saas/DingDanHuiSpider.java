@@ -19,9 +19,7 @@ import java.util.Map;
 		tags = { "求职" , "招聘" }, 
 		testTelephones = { "18515290000", "15008276300" })
 public class DingDanHuiSpider extends PapaSpider {
-
 	
-
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://ddhing.com/account/ddhUserCheck?mobile="+account+"&_=" +System.currentTimeMillis();

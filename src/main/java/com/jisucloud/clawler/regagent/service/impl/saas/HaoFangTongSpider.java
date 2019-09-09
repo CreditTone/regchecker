@@ -23,8 +23,6 @@ import java.util.Map;
 public class HaoFangTongSpider extends PapaSpider {
 
 	
-
-
 	public boolean checkTelephone(String account) {
 		if (account.length() != 11) {
 			return false;

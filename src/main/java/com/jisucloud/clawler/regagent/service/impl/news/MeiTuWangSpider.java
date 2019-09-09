@@ -22,6 +22,7 @@ import java.util.Map;
 		message = "美图官网,提供美图手机(美图T9、美图V6、美图M8s、美图T8s)、相关配件的详细介绍及在线购买。同时也是美图秀秀、美颜相机、美拍等热门产品的官方网站。", 
 		platform = "meitu", 
 		platformName = "美图秀秀", 
+		userActiveness = 0.7f,
 		tags = { "美图" , "美颜", "工具" }, 
 		testTelephones = { "18210538513", "15161509916" })
 public class MeiTuWangSpider extends PapaSpider implements AjaxHook{
@@ -30,7 +31,7 @@ public class MeiTuWangSpider extends PapaSpider implements AjaxHook{
 
 	public boolean checkTelephone(String account) {
 		try {
-			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, false);
+			chromeDriver = ChromeAjaxHookDriver.newChromeInstance(true, true);
 			chromeDriver.get("https://account.meitu.com/#!/login/");
 			chromeDriver.addAjaxHook(this);smartSleep(2000);
 			chromeDriver.findElementByCssSelector("input[placeholder='请输入手机号码']").sendKeys(account);

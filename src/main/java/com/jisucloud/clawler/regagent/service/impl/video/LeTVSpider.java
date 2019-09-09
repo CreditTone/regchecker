@@ -19,6 +19,7 @@ import java.util.Map;
 		message = "乐视TV,是乐视网专门为用户打造的一款在线视频播放应用,其适用于智能电视和智能盒子。依托乐视网强大的版权优势,拥有海量正版影视,内容涵盖电影、电视剧、动漫。", 
 		platform = "letv", 
 		platformName = "乐视TV", 
+		userActiveness = 0.6f,
 		tags = { "视频", "影音" }, 
 		testTelephones = { "18720982607", "18210538513" })
 public class LeTVSpider extends PapaSpider {

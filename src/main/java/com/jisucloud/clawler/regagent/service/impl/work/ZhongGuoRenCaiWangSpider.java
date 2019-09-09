@@ -1,7 +1,5 @@
 package com.jisucloud.clawler.regagent.service.impl.work;
 
-import com.deep007.spiderbase.okhttp.OKHttpUtil;
-
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 import com.jisucloud.clawler.regagent.util.StringUtil;
@@ -23,8 +21,6 @@ import java.util.Map;
 		tags = { "求职" , "招聘" }, 
 		testTelephones = { "18210538513", "18230012895" })
 public class ZhongGuoRenCaiWangSpider extends PapaSpider {
-
-	
 
 	public boolean checkTelephone(String account) {
 		try {

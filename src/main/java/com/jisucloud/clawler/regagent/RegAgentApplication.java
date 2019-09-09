@@ -7,9 +7,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.deep007.spiderbase.Init;
 import com.deep007.spiderbase.killer.LinuxKiller;
-import com.deep077.spiderbase.selenium.mitm.MitmServer;
-import com.deep077.spiderbase.selenium.mitm.cache.JedisMitmCacheProvider;
-import com.jisucloud.clawler.regagent.mitm.StringRedisTemplateMitmCacheProvider;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,7 +41,12 @@ public class RegAgentApplication {
 
 	public static void main(String[] args) {
 		init();
-		//if (kilim.tools.Kilim.trampoline(new Object() {},false,args)) return;
+		if (LinuxKiller.hookMain(args)) {
+			return;
+		}
+		if (TaskAMain.hookMain(args)) {
+			return;
+		}
 		SpringApplication application = new SpringApplication(RegAgentApplication.class);
 		application.run(args);
 		log.info("撞库服务启动完成");

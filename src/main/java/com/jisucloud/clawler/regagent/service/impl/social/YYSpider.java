@@ -1,16 +1,11 @@
 package com.jisucloud.clawler.regagent.service.impl.social;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.FormBody;
-import okhttp3.Request;
-import okhttp3.Response;
 
 
 import java.util.Map;

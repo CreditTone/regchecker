@@ -24,7 +24,6 @@ import java.util.Map;
 public class BaoFengYingYinSpider extends PapaSpider {
 
 	
-
 	public boolean checkTelephone(String account) {
 		try {
 			String url = "https://sso.baofeng.com/new/api/is_mobile_used?appid=8637&sign=de75e7a58d2fe0fb26bed9f2909d52595cf8ee90&mobile="+account+"&callback=jQuery112402612518137038946_"+System.currentTimeMillis()+"&_=" +System.currentTimeMillis();

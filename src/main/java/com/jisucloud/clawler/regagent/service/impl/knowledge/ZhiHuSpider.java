@@ -19,7 +19,8 @@ import java.util.Map;
 		home = "zhihu.com", 
 		message = "有问题,上知乎。知乎,可信赖的问答社区,以让每个人高效获得可信赖的解答为使命。知乎凭借认真、专业和友善的社区氛围,结构化、易获得的优质内容,基于问答的内容生产。", 
 		platform = "zhihu", 
-		platformName = "知乎", 
+		platformName = "知乎",
+		userActiveness = 0.6f,
 		tags = { "社区", "知识" }, 
 		testTelephones = { "13210538513", "18210538513" })
 public class ZhiHuSpider extends PapaSpider {
