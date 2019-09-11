@@ -17,7 +17,7 @@ import java.util.Map;
 		home = "boqii.com", 
 		message = "波奇宠物网是属于宠物爱好者的综合型网站.这里是宠物猫，宠物狗等宠物爱好者们的集中地.也是包含宠物商城和宠物百科的专业网站.选择波奇宠物网,健康宠物生活从波奇开始.", 
 		platform = "boqii", 
-		platformName = "boqiiName", 
+		platformName = "波奇宠物网", 
 		tags = { "宠物" }, 
 		testTelephones = { "13771025665", "18210538513" })
 public class BoQiChongWuSpider extends PapaSpider {

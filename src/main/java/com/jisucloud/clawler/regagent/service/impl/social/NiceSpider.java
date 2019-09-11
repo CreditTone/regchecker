@@ -18,7 +18,7 @@ import java.util.Map;
 		home = "nice.com", 
 		message = "nice好赞作为一款图片社交软件可以让你结识到跟你有共同生活方式或者有共同兴趣爱好的朋友。拍张照片-选择滤镜效果-选择贴纸-为照片打上标签-发布。发布的同时照片可以自动保存在相册里，同时也可以一键同步到微博，微信，QQ空间。", 
 		platform = "nice", 
-		platformName = "nice", 
+		platformName = "nice好赞", 
 		tags = { "交友" , "二手物品", "社区" }, 
 		testTelephones = { "18515290717", "18210538513" })
 public class NiceSpider extends PapaSpider {

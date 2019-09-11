@@ -23,7 +23,7 @@ import java.util.Map;
 		home = "yesvion.com", 
 		message = "粤商贷是隶属于深圳前海斯坦德互联网金融服务有限公司的网贷信息中介平台,坚持合规经营,风控严谨,稳健运营,累计撮合交易金额37亿元,为客户带来1.35亿元收益。", 
 		platform = "yesvion", 
-		platformName = "yesvionName", 
+		platformName = "粤商贷", 
 		tags = { "P2P", "借贷" }, 
 		testTelephones = { "15900068904", "18210538513" },
 		exclude = true , excludeMsg = "行为反扒")

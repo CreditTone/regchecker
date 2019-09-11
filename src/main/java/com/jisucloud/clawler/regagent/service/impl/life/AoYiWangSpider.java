@@ -15,7 +15,7 @@ import java.util.Map;
 		home = "oeeee.com", 
 		message = "奥一网是广东首席城市生活社区,南方都市报官方网站,为你提供各类优质新闻和生活资讯。通过打造思想平台、意见平台、批判平台、服务平台、全媒体平台,参与国家治理体系。", 
 		platform = "oeeee", 
-		platformName = "oeeeeName", 
+		platformName = "奥一网", 
 		tags = { "社区" }, 
 		testTelephones = { "15901537458", "18210538513" })
 public class AoYiWangSpider extends PapaSpider {

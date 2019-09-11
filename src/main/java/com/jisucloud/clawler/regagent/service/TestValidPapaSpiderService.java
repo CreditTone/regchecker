@@ -24,9 +24,9 @@ import org.springframework.util.ClassUtils;
 import com.deep007.spiderbase.util.BootUtil;
 import com.deep007.spiderbase.util.JEmail;
 import com.deep007.spiderbase.util.JEmail.JEmailBuilder;
+import com.deep007.spiderbase.util.ReflectUtil;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
-import com.jisucloud.clawler.regagent.util.ReflectUtil;
 
 import lombok.extern.slf4j.Slf4j;
 

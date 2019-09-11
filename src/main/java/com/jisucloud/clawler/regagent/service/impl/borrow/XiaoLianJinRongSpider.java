@@ -23,7 +23,7 @@ import java.util.Map;
 		home = "facebank.com", 
 		message = "笑脸金融是阳光保险集团旗下成员企业在深圳投资发起成立,由深圳光华普惠科技有限公司运营。拥有健全严格的风险管控体系,汇集优质资产, 1000元起投、收益高,安全有保障。", 
 		platform = "facebank", 
-		platformName = "facebankName", 
+		platformName = "笑脸金融", 
 		tags = { "P2P", "借贷" }, 
 		testTelephones = { "15985268904", "18210538513" },
 		exclude = true, 

@@ -22,7 +22,7 @@ import java.util.Map;
 		home = "hexindai.com", 
 		message = "和信贷，纳斯达克上市互联网金融平台。注册资本1亿元，5年稳健运营，AAA级互联网信用认证，央行支付清算协会互联网金融风险信息共享系统接入单位，严谨的风险管控保护体系，为您提供专业、透明的出借服务！", 
 		platform = "hexindai", 
-		platformName = "hexindaiName", 
+		platformName = "和信贷", 
 		tags = { "P2P", "借贷" }, 
 		testTelephones = { "15201215815", "18210538513" },
 		excludeMsg = "防火墙")

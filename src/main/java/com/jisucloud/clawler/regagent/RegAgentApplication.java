@@ -1,5 +1,10 @@
 package com.jisucloud.clawler.regagent;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Collection;
+
+import org.apache.commons.io.FileUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -7,6 +12,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.deep007.spiderbase.Init;
 import com.deep007.spiderbase.killer.LinuxKiller;
+import com.deep007.spiderbase.util.ReflectUtil;
+import com.deep007.spiderbase.util.StringUtil;
+import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,7 +47,7 @@ public class RegAgentApplication {
 		//Init.initGoogleProxy(GOOGLE_PROXY_HOST, GOOGLE_PROXY_POST, null, null);
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		init();
 		if (LinuxKiller.hookMain(args)) {
 			return;
@@ -47,10 +55,19 @@ public class RegAgentApplication {
 		if (TaskAMain.hookMain(args)) {
 			return;
 		}
-		SpringApplication application = new SpringApplication(RegAgentApplication.class);
-		application.run(args);
-		log.info("撞库服务启动完成");
+//		SpringApplication application = new SpringApplication(RegAgentApplication.class);
+//		application.run(args);
+//		log.info("撞库服务启动完成");
 		
+		Collection<Class<?>> borrows = ReflectUtil.scanClasses("com.jisucloud.clawler.regagent.service.impl");
+		for (Class<?> borrow : borrows ) {
+			if (ReflectUtil.isUsedAnnotate(PapaSpiderConfig.class, borrow)) {
+				PapaSpiderConfig papaSpiderConfig = borrow.getAnnotation(PapaSpiderConfig.class);
+				if (!StringUtil.hasChinese(papaSpiderConfig.platformName())) {
+					System.out.println(borrow);
+				}
+			}
+		}
 	}
 
 }

@@ -24,7 +24,7 @@ import java.util.Map;
 		home = "xiaoniu88.com", 
 		message = "小牛在线是中国线上智能金融服务平台,提供专业的P2P网贷服务,为出借人提供多种互联网金融服务项目,是中国社科院网贷评级A级平台,互联网金融平台首选小牛在线!", 
 		platform = "xiaoniu88", 
-		platformName = "xiaoniu88Name", 
+		platformName = "小牛在线", 
 		tags = { "P2P", "借贷" }, 
 		testTelephones = { "13910252045", "18210538513" })
 public class XiaoNiuZaiXianSpider extends PapaSpider implements AjaxHook {
