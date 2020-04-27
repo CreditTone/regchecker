@@ -26,7 +26,7 @@ import java.util.Map;
 		platform = "itouzi", 
 		platformName = "爱投资", 
 		tags = { "P2P", "借贷" }, 
-		testTelephones = { "13879580000", "18210538513" },
+		testTelephones = { "13879580000", "18212345678" },
 		exclude = true , excludeMsg = "图片验证码太复杂")
 public class AiTouZiSpider extends PapaSpider implements AjaxHook {
 	

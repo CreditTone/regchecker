@@ -20,7 +20,7 @@ import java.util.Map;
 		platformName = "名片全能王", 
 		userActiveness = 0.7f,
 		tags = { "工具"  }, 
-		testTelephones = { "18210538513", "15011488781" })
+		testTelephones = { "18212345678", "15011488781" })
 public class MingPianQuanNengWangSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

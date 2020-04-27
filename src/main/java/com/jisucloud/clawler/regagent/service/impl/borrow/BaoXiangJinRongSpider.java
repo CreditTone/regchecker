@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "bxjr", 
 		platformName = "宝象金融", 
 		tags = { "P2P", "消费分期" , "借贷" }, 
-		testTelephones = { "15985268904", "18210538513" },
+		testTelephones = { "15985268904", "18212345678" },
 		exclude = true, excludeMsg = "倒闭")
 public class BaoXiangJinRongSpider extends PapaSpider {
 	

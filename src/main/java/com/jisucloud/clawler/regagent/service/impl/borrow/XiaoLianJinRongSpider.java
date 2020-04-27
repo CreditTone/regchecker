@@ -25,7 +25,7 @@ import java.util.Map;
 		platform = "facebank", 
 		platformName = "笑脸金融", 
 		tags = { "P2P", "借贷" }, 
-		testTelephones = { "15985268904", "18210538513" },
+		testTelephones = { "15985268904", "18212345678" },
 		exclude = true, 
 		excludeMsg = "由于笑脸平台服务升级，当前版本的APP已不再提供服务。请去应用商店下载和安装最新版本的「笑脸金融」APP")
 public class XiaoLianJinRongSpider extends PapaSpider {

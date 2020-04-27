@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "17k", 
 		platformName = "17K小说网", 
 		tags = { "电子书", "阅读" , "小说" }, 
-		testTelephones = { "18720982607", "18210538513" })
+		testTelephones = { "18720982607", "18212345678" })
 public class _17KSpider extends PapaSpider {
 
 	

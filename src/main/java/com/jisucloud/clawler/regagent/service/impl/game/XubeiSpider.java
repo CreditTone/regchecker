@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "xubei", 
 		platformName = "虚贝网", 
 		tags = { "游戏", "租号玩" }, 
-		testTelephones = { "15188533909", "18210538513" })
+		testTelephones = { "15188533909", "18212345678" })
 public class XubeiSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

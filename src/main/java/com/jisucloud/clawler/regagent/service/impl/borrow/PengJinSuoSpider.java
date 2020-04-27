@@ -28,7 +28,7 @@ import java.util.Map;
 		platform = "penging", 
 		platformName = "鹏金所", 
 		tags = { "P2P", "借贷" }, 
-		testTelephones = { "15900068904", "18210538513" })
+		testTelephones = { "15900068904", "18212345678" })
 public class PengJinSuoSpider extends PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;

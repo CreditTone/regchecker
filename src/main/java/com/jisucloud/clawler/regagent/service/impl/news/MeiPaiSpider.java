@@ -26,7 +26,7 @@ import java.util.Map;
 		platform = "meipai", 
 		platformName = "美拍", 
 		tags = { "美图" , "美颜", "工具" , "短视频" }, 
-		testTelephones = { "18210538513", "15161509916" })
+		testTelephones = { "18212345678", "15161509916" })
 public class MeiPaiSpider extends PapaSpider implements AjaxHook{
 
 	

@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "2345dh", 
 		platformName = "2345导航", 
 		tags = { "门户网址", "资讯" }, 
-		testTelephones = { "13771025665", "18210538513" })
+		testTelephones = { "13771025665", "18212345678" })
 public class _2345Spider extends PapaSpider {
 
 

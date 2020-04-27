@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "360haoyao", 
 		platformName = "360健康", 
 		tags = { "健康运动", "医疗", "生活应用" , "购药" }, 
-		testTelephones = { "13528428484", "18210538513" })
+		testTelephones = { "13528428484", "18212345678" })
 public class _360HaoYaoSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

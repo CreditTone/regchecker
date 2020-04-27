@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "jmw", 
 		platformName = "中国加盟网", 
 		tags = { "招商加盟" ,"生意" }, 
-		testTelephones = { "18210538513", "13953670000" })
+		testTelephones = { "18212345678", "13953670000" })
 public class ZhongGuoJiaMengSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

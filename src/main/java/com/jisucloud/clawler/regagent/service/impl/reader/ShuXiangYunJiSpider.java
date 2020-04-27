@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "sxyj", 
 		platformName = "书香云集", 
 		tags = { "电子书", "阅读" , "小说" }, 
-		testTelephones = { "18685656206", "18210538513" })
+		testTelephones = { "18685656206", "18212345678" })
 public class ShuXiangYunJiSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

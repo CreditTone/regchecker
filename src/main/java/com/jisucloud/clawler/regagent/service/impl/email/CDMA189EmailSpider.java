@@ -12,7 +12,7 @@ import java.util.Map;
 		platform = "189Email", 
 		platformName = "189邮箱", 
 		tags = { "邮箱" }, 
-		testTelephones = { "15010645316", "18210538513" },
+		testTelephones = { "15010645316", "18212345678" },
 		ignoreTestResult = true)
 public class CDMA189EmailSpider extends BasicEmailSpider {
 

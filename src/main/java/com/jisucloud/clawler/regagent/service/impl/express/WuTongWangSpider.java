@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "chinawutong", 
 		platformName = "物通网", 
 		tags = { "物流" ,"生意" }, 
-		testTelephones = { "18210538513", "13761990875" })
+		testTelephones = { "18212345678", "13761990875" })
 public class WuTongWangSpider extends PapaSpider {
 
 	

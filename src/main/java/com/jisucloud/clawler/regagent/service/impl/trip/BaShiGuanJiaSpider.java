@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "chebada", 
 		platformName = "巴士管家", 
 		tags = { "出行" , "巴士" , "班车" }, 
-		testTelephones = { "15611695226", "18210538513" })
+		testTelephones = { "15611695226", "18212345678" })
 public class BaShiGuanJiaSpider extends PapaSpider {
 
 	

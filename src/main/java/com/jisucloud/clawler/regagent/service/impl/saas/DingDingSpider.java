@@ -14,7 +14,7 @@ import java.util.Map;
 		platform = "dinding", 
 		platformName = "钉钉", 
 		tags = {  "办公软件"  }, 
-		testTelephones = { "13925300066", "18210538513" })
+		testTelephones = { "13925300066", "18212345678" })
 public class DingDingSpider extends BasicEmailSpider {
 
 	private String name;

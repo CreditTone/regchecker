@@ -19,7 +19,7 @@ import org.openqa.selenium.WebElement;
 		platform = "meituan", 
 		platformName = "美团网", 
 		tags = { "o2o", "外卖", "电影票" , "酒店" , "共享单车" }, 
-		testTelephones = { "18210538513", "18210530000" },
+		testTelephones = { "18212345678", "18210530000" },
 		exclude = true)
 public class MeiTuanSpider2 extends PapaSpider {
 	

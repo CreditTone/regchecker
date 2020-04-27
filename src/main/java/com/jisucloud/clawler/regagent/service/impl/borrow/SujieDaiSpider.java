@@ -17,7 +17,7 @@ import java.util.Map;
 
 
 @PapaSpiderConfig(home = "kyxdloan.com", message = "速借贷作为一款应用，解决的是需求用户贷款难的问题，我们用专业的服务，解决您贷款难、审核严、下款慢、利息高的问题！！！", platform = "sujiedai", platformName = "速借贷", tags = {
-		"P2P", "消费分期", "借贷" }, testTelephones = { "15985268900", "18210538513" })
+		"P2P", "消费分期", "借贷" }, testTelephones = { "15985268900", "18212345678" })
 public class SujieDaiSpider extends PapaSpider {
 
 	private Headers getHeader() {

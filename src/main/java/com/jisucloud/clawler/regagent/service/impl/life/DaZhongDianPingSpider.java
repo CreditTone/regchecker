@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "dianping", 
 		platformName = "大众点评", 
 		tags = { "生活" , "消费点评" , "外卖" , "团购" }, 
-		testTelephones = { "13910250000", "18210538513" })
+		testTelephones = { "13910250000", "18212345678" })
 public class DaZhongDianPingSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

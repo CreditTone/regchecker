@@ -55,17 +55,18 @@ public class RegAgentApplication {
 		if (TaskAMain.hookMain(args)) {
 			return;
 		}
-//		SpringApplication application = new SpringApplication(RegAgentApplication.class);
-//		application.run(args);
-//		log.info("撞库服务启动完成");
+		SpringApplication application = new SpringApplication(RegAgentApplication.class);
+		application.run(args);
+		log.info("撞库服务启动完成");
 		
 		Collection<Class<?>> borrows = ReflectUtil.scanClasses("com.jisucloud.clawler.regagent.service.impl");
 		for (Class<?> borrow : borrows ) {
 			if (ReflectUtil.isUsedAnnotate(PapaSpiderConfig.class, borrow)) {
 				PapaSpiderConfig papaSpiderConfig = borrow.getAnnotation(PapaSpiderConfig.class);
-				if (!StringUtil.hasChinese(papaSpiderConfig.platformName())) {
-					System.out.println(borrow);
-				}
+//				if (!StringUtil.hasChinese(papaSpiderConfig.platformName())) {
+//					System.out.println(borrow);
+//				}
+//				System.out.println(papaSpiderConfig.platformName()+":"+papaSpiderConfig.home());
 			}
 		}
 	}

@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "booking", 
 		platformName = "缤客酒店", 
 		tags = { "旅游" , "酒店" , "美食" , "o2o" }, 
-		testTelephones = { "13800100001", "18210538513" })
+		testTelephones = { "13800100001", "18212345678" })
 public class BookingSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;

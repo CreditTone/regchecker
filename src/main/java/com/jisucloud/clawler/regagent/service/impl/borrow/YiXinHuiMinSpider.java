@@ -27,7 +27,7 @@ import java.util.Map;
 		platform = "creditease", 
 		platformName = "宜信惠民", 
 		tags = { "P2P", "借贷" }, 
-		testTelephones = { "13910252045", "18210538513" })
+		testTelephones = { "13912345678", "18212345678" })
 public class YiXinHuiMinSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;

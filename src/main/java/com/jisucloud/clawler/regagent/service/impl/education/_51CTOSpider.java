@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "51cto", 
 		platformName = "51CTO学院", 
 		tags = { "程序员","it","网络技术" }, 
-		testTelephones = { "18720982607", "18210538513" })
+		testTelephones = { "18720982607", "18212345678" })
 public class _51CTOSpider extends PapaSpider {
 
 	

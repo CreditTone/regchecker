@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "kdnet", 
 		platformName = "凯迪网络", 
 		tags = { "资讯", "社区", "论坛" }, 
-		testTelephones = { "13910252045", "18210538513" })
+		testTelephones = { "13912345678", "18212345678" })
 public class KaiDiWangSpider extends PapaSpider {
 
 

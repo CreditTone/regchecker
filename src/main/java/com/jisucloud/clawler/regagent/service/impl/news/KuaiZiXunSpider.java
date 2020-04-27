@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "360kuai", 
 		platformName = "快资讯", 
 		tags = { "新闻", "资讯" }, 
-		testTelephones = { "18720982607", "18210538513" },
+		testTelephones = { "18720982607", "18212345678" },
 		excludeMsg = "360旗下")
 public class KuaiZiXunSpider extends PapaSpider {
 

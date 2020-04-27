@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "ek360", 
 		platformName = "恩科e贷", 
 		tags = { "P2P" , "借贷" }, 
-		testTelephones = { "15985268904", "18210538513" })
+		testTelephones = { "15985268904", "18212345678" })
 public class EnKeEDaiSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

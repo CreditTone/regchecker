@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "kaolalicai", 
 		platformName = "AI考拉", 
 		tags = { "P2P", "征信" , "借贷" }, 
-		testTelephones = { "18611216720", "18210538513" })
+		testTelephones = { "18611216720", "18212345678" })
 public class AIKaoLaSpider extends PapaSpider {
 
 	

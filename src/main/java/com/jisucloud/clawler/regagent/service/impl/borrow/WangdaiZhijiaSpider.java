@@ -27,7 +27,7 @@ import java.util.Map;
 		platform = "wdzj", 
 		platformName = "网贷之家", 
 		tags = {"金融资讯", "贷超" , "借贷" }, 
-		testTelephones = {"19910538500", "18210538513" },
+		testTelephones = {"19910538500", "18212345678" },
 		exclude = true)
 public class WangdaiZhijiaSpider extends PapaSpider {
 	

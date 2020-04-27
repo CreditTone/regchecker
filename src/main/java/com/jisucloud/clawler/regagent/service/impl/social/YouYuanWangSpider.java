@@ -22,7 +22,7 @@ import java.util.Map;
 		platform = "youyuan", 
 		platformName = "有缘网", 
 		tags = { "单身交友" , "婚恋" }, 
-		testTelephones = { "18810030000", "18210538513" })
+		testTelephones = { "18810030000", "18212345678" })
 public class YouYuanWangSpider extends PapaSpider {
 
 	

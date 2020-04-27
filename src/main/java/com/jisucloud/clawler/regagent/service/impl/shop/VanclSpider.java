@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "vancl", 
 		platformName = "凡客诚品", 
 		tags = { "电商" }, 
-		testTelephones = { "18210530000", "18210538513" })
+		testTelephones = { "18210530000", "18212345678" })
 public class VanclSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;

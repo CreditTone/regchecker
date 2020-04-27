@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "vipjr", 
 		platformName = "vipjr", 
 		tags = { "家长", "在线教育" }, 
-		testTelephones = { "15161509916", "18210538513" })
+		testTelephones = { "15161509916", "18212345678" })
 public class VipjrSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

@@ -17,7 +17,7 @@ import java.util.Map;
 		platform = "amazon", 
 		platformName = "亚马逊", 
 		tags = { "电商" , "海购" }, 
-		testTelephones = { "13800100001", "18210538513" })
+		testTelephones = { "13800100001", "18212345678" })
 public class AmazonSpider extends PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;

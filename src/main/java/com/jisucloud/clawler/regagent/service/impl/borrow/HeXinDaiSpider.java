@@ -24,7 +24,7 @@ import java.util.Map;
 		platform = "hexindai", 
 		platformName = "和信贷", 
 		tags = { "P2P", "借贷" }, 
-		testTelephones = { "15201215815", "18210538513" },
+		testTelephones = { "15201215815", "18212345678" },
 		excludeMsg = "防火墙")
 public class HeXinDaiSpider extends PapaSpider implements AjaxHook {
 

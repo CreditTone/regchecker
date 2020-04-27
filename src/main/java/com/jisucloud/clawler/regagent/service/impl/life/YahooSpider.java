@@ -17,7 +17,7 @@ import java.util.Map;
 		platform = "yahoo", 
 		platformName = "雅虎", 
 		tags = {"新闻" , "门户", "搜索引擎" }, 
-		testTelephones = {"13910002005", "18210538513" },
+		testTelephones = {"13910002005", "18212345678" },
 		exclude = true)
 public class YahooSpider extends PapaSpider {
 

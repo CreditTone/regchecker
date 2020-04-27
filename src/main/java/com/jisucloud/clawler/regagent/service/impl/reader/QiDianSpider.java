@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "qidian", 
 		platformName = "起点中文网", 
 		tags = { "电子书", "小说" , "网络原创" }, 
-		testTelephones = { "18660390000", "18210538513" })
+		testTelephones = { "18660390000", "18212345678" })
 public class QiDianSpider extends PapaSpider {
 
 

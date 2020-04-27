@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "zuche", 
 		platformName = "神州租车", 
 		tags = { "出行" , "租车" }, 
-		testTelephones = { "13910000045", "18210538513" })
+		testTelephones = { "13910000045", "18212345678" })
 public class ShenZhouZuCheSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

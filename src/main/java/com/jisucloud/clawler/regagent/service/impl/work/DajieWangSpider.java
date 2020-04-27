@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "dajie", 
 		platformName = "大街网", 
 		tags = { "求职" , "招聘" , "商务" }, 
-		testTelephones = { "18515290717", "18210538513" })
+		testTelephones = { "18515290717", "18212345678" })
 public class DajieWangSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

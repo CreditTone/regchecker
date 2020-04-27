@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "htouhui", 
 		platformName = "海投汇", 
 		tags = { "P2P", "借贷" }, 
-		testTelephones = { "15985268904", "18210538513" })
+		testTelephones = { "15985268904", "18212345678" })
 public class HaiTouHuiSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

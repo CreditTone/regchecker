@@ -23,7 +23,7 @@ import java.util.Random;
 		platform = "hzed", 
 		platformName = "合众e贷", 
 		tags = { "P2P", "借贷" }, 
-		testTelephones = { "15985268901", "18210538513" })
+		testTelephones = { "15985268901", "18212345678" })
 public class HeZhogEDaiSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

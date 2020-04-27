@@ -19,7 +19,7 @@ import org.jsoup.nodes.Document;
 		platform = "wukonglicai", 
 		platformName = "玖富金融", 
 		tags = { "理财" , "p2p" , "借贷" }, 
-		testTelephones = { "15985268900", "18210538513" })
+		testTelephones = { "15985268900", "18212345678" })
 public class WuKongLiCaiSpider extends PapaSpider {
 	
 	private ChromeAjaxHookDriver chromeDriver;

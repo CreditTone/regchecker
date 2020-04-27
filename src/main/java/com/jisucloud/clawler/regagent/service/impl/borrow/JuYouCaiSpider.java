@@ -21,7 +21,7 @@ import java.util.UUID;
 		platform = "jyc99", 
 		platformName = "聚优财", 
 		tags = { "P2P", "消费分期" , "借贷" }, 
-		testTelephones = { "13910002045", "18210538513" })
+		testTelephones = { "13910002045", "18212345678" })
 public class JuYouCaiSpider extends PapaSpider {
 
 	

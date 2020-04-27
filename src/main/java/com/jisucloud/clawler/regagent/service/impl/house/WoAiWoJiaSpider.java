@@ -22,7 +22,7 @@ import java.util.Map;
 		platform = "5i5j", 
 		platformName = "我爱我家网", 
 		tags = { "房产家居" , "房产中介" }, 
-		testTelephones = { "18515290717", "18210538513" })
+		testTelephones = { "18515290717", "18212345678" })
 public class WoAiWoJiaSpider extends PapaSpider {
 
 	

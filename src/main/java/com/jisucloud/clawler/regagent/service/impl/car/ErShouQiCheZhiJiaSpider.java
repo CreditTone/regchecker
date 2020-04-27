@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "che168", 
 		platformName = "二手车之家", 
 		tags = { "二手车", "卖车", "买车" }, 
-		testTelephones = { "18210538577", "18210538513" })
+		testTelephones = { "18210538577", "18212345678" })
 public class ErShouQiCheZhiJiaSpider extends PapaSpider {
 
 	

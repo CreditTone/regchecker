@@ -29,7 +29,7 @@ import java.util.Map;
 		platform = "hfax", 
 		platformName = "惠金所", 
 		tags = { "P2P", "借贷" , "小微金融" }, 
-		testTelephones = { "15985268900", "18210538513" })
+		testTelephones = { "15985268900", "18212345678" })
 public class HuiJinSuoSpider extends PapaSpider implements AjaxHook {
 
 	public boolean checkTelephone(String account) {

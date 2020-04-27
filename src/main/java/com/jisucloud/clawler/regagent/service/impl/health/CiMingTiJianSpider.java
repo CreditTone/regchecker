@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "ciming", 
 		platformName = "慈铭体检", 
 		tags = { "体检", "医疗" }, 
-		testTelephones = { "13877117175", "18210538513" })
+		testTelephones = { "13877117175", "18212345678" })
 public class CiMingTiJianSpider extends PapaSpider {
 
 	

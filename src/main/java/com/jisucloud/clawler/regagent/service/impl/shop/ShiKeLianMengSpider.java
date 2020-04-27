@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "shikee", 
 		platformName = "试客联盟", 
 		tags = { "购物" ,"试客" ,"9.9包邮" }, 
-		testTelephones = { "18515290717", "18210538513" })
+		testTelephones = { "18515290717", "18212345678" })
 public class ShiKeLianMengSpider extends PapaSpider {
 
 	

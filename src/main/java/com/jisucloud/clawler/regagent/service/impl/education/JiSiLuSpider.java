@@ -22,7 +22,7 @@ import java.util.Map;
 		platform = "jisilu", 
 		platformName = "集思录", 
 		tags = { "理财资讯","学习","社区" }, 
-		testTelephones = { "18230012895", "18210538513" })
+		testTelephones = { "18230012895", "18212345678" })
 public class JiSiLuSpider extends PapaSpider {
 
 	

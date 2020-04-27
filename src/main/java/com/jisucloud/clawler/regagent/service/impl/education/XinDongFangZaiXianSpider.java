@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "koolearn", 
 		platformName = "新东方在线", 
 		tags = { "考试","学习","英语" }, 
-		testTelephones = { "15010645316", "18210538513" })
+		testTelephones = { "15010645316", "18212345678" })
 public class XinDongFangZaiXianSpider extends PapaSpider {
 
 	

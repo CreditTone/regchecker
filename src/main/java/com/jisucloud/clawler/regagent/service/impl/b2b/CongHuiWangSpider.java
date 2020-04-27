@@ -17,7 +17,7 @@ import java.util.Map;
 		platform = "hc360", 
 		platformName = "慧聪网", 
 		tags = { "b2b" ,"商机" ,"生意" }, 
-		testTelephones = { "18515290717", "18210538513" })
+		testTelephones = { "18515290717", "18212345678" })
 public class CongHuiWangSpider extends PapaSpider {
 
 	@Override

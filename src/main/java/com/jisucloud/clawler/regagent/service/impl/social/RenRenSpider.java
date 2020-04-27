@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "renren", 
 		platformName = "人人网", 
 		tags = { "论坛" , "社交" , "校园" }, 
-		testTelephones = { "18810038000", "18210538513" })
+		testTelephones = { "18810038000", "18212345678" })
 public class RenRenSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

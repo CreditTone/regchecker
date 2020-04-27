@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "qixin", 
 		platformName = "启信宝", 
 		tags = { "工具" }, 
-		testTelephones = { "18210538513", "18210538000" })
+		testTelephones = { "18212345678", "18210538000" })
 public class QiXinBaoSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;

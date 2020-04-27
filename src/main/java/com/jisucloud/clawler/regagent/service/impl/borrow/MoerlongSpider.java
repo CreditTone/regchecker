@@ -21,7 +21,7 @@ import java.util.Random;
 		platform = "edai", 
 		platformName = "摩尔龙金融", 
 		tags = { "P2P", "消费分期" , "借贷" }, 
-		testTelephones = { "15985268004", "18210538513" })
+		testTelephones = { "15985268004", "18212345678" })
 @Slf4j
 public class MoerlongSpider extends PapaSpider {
 	

@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "baidu", 
 		platformName = "百度", 
 		tags = { "系统工具", "游览器" }, 
-		testTelephones = { "15901530000", "18210538513" })
+		testTelephones = { "15901530000", "18212345678" })
 public class BaiduSpider extends PapaSpider {
 
 

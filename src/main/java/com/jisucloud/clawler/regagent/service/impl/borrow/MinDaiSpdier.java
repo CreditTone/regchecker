@@ -25,7 +25,7 @@ import java.util.Set;
 		platform = "mindai", 
 		platformName = "民贷天下", 
 		tags = { "理财", "P2P" , "借贷" }, 
-		testTelephones = { "18369630455", "18210538513" })
+		testTelephones = { "18369630455", "18212345678" })
 public class MinDaiSpdier extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;

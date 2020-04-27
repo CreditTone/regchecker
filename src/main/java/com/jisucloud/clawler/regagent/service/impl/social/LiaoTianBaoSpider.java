@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "zidanduanxin", 
 		platformName = "聊天宝", 
 		tags = {  "社交", "资讯"  }, 
-		testTelephones = { "18210530000", "18210538513" })
+		testTelephones = { "18210530000", "18212345678" })
 public class LiaoTianBaoSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;

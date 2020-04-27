@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "cashlai", 
 		platformName = "山东高速金服", 
 		tags = { "p2p", "借贷" , "小微金融" }, 
-		testTelephones = { "18210538513", "15120058878" })
+		testTelephones = { "18212345678", "15120058878" })
 public class ShanDongGaoSuJinFuSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

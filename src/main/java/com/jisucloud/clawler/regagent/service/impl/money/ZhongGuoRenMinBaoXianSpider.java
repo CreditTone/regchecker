@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "epicc", 
 		platformName = "人保官网", 
 		tags = { "理财", "保险" }, 
-		testTelephones = { "15985268900", "18210538513" })
+		testTelephones = { "15985268900", "18212345678" })
 public class ZhongGuoRenMinBaoXianSpider extends PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;

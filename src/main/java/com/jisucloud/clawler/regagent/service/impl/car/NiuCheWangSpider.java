@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "niuche", 
 		platformName = "牛车网", 
 		tags = { "买车" , "汽车" }, 
-		testTelephones = { "18210538577", "18210538513" })
+		testTelephones = { "18210538577", "18212345678" })
 public class NiuCheWangSpider extends PapaSpider {
 
 	public NiuCheWangSpider() {

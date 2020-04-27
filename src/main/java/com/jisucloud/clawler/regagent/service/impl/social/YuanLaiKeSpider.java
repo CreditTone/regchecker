@@ -23,7 +23,7 @@ import org.jsoup.Jsoup;
 		platform = "ylike", 
 		platformName = "缘来客", 
 		tags = { "单身交友", "社区" }, 
-		testTelephones = { "18515290717", "18210538513" })
+		testTelephones = { "18515290717", "18212345678" })
 public class YuanLaiKeSpider extends PapaSpider {
 	
 	private String getRegCck() throws Exception {

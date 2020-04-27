@@ -17,7 +17,7 @@ import java.util.Map;
 		platform = "aol", 
 		platformName = "美国在线", 
 		tags = {"新闻" , "国外新闻" }, 
-		testTelephones = {"13910002005", "18210538513" },
+		testTelephones = {"13910002005", "18212345678" },
 		excludeMsg = "没有测试账户")
 public class AOLSpider extends PapaSpider {
 

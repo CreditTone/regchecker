@@ -26,7 +26,7 @@ import java.util.Map;
 		platform = "qufenqi", 
 		platformName = "趣分期", 
 		tags = { "P2P", "消费分期" , "借贷" }, 
-		testTelephones = { "18210538577", "18210538513" })
+		testTelephones = { "18210538577", "18212345678" })
 public class DabaiqicheSpider extends PapaSpider {
 	
 	private Map<String, String> getHeader() {

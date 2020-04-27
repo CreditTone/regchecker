@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "5aitou", 
 		platformName = "爱投金融", 
 		tags = { "P2P", "借贷" }, 
-		testTelephones = { "13910252000", "18210538513" })
+		testTelephones = { "13910252000", "18212345678" })
 public class AiTouJinRongSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;

@@ -24,7 +24,7 @@ import java.util.Map;
 		platformName = "美图秀秀", 
 		userActiveness = 0.7f,
 		tags = { "美图" , "美颜", "工具" }, 
-		testTelephones = { "18210538513", "15161509916" })
+		testTelephones = { "18212345678", "15161509916" })
 public class MeiTuWangSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;

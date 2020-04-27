@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "cgtz", 
 		platformName = "草根投资", 
 		tags = { "P2P", "借贷" }, 
-		testTelephones = { "13910252045", "18210538513" })
+		testTelephones = { "13912345678", "18212345678" })
 public class CaoGenTouZiSpider extends PapaSpider {
 
 	

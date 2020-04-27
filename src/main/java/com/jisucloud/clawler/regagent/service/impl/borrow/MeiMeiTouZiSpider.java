@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "meme2c", 
 		platformName = "美美投资", 
 		tags = { "p2p", "理财" , "借贷" }, 
-		testTelephones = { "18210538513", "15161500000" })
+		testTelephones = { "18212345678", "15161500000" })
 public class MeiMeiTouZiSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

@@ -22,7 +22,7 @@ import java.util.Map;
 		platform = "xiangshang360", 
 		platformName = "向上金服", 
 		tags = { "P2P" , "借贷" }, 
-		testTelephones = { "15985268904", "18210538513" })
+		testTelephones = { "15985268904", "18212345678" })
 public class XiangShangJinFuSpider extends PapaSpider {
 	
 	private DefaultHttpDownloader downloader = createDefaultHttpDownloader();

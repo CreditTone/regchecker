@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "microsoft", 
 		platformName = "微软", 
 		tags = { "软件服务" , "系统工具" }, 
-		testTelephones = { "13910252045", "18210538513" })
+		testTelephones = { "13912345678", "18212345678" })
 public class MicrosoftSpider extends PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;

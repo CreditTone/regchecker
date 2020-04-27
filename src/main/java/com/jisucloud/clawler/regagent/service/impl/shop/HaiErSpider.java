@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "shunguang", 
 		platformName = "海尔顺逛商城", 
 		tags = { "电商", "购物" }, 
-		testTelephones = { "18515290717", "18210538513" })
+		testTelephones = { "18515290717", "18212345678" })
 public class HaiErSpider extends PapaSpider {
 
 	

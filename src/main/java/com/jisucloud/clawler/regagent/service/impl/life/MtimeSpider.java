@@ -25,7 +25,7 @@ import java.util.Map;
 		platform = "mtime", 
 		platformName = "Mtime时光网", 
 		tags = { "娱乐", "影音", "追星" }, 
-		testTelephones = { "13910252045", "18210538513" })
+		testTelephones = { "13912345678", "18212345678" })
 public class MtimeSpider extends PapaSpider implements AjaxHook {
 	
 	private ChromeAjaxHookDriver chromeDriver;

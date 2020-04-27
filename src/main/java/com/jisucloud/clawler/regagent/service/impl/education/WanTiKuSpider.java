@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "wantiku", 
 		platformName = "万题库", 
 		tags = { "考试","学习","教育" }, 
-		testTelephones = { "15970663703", "18210538513" })
+		testTelephones = { "15970663703", "18212345678" })
 public class WanTiKuSpider extends PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;

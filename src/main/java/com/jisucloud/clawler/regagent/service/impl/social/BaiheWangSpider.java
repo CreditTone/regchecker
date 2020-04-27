@@ -21,7 +21,7 @@ import java.util.Random;
 		platform = "baihe", 
 		platformName = "百合网", 
 		tags = { "单身交友" , "婚恋" }, 
-		testTelephones = { "18700001101", "18210538513" })
+		testTelephones = { "18700001101", "18212345678" })
 public class BaiheWangSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

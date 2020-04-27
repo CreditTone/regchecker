@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "ctfmall", 
 		platformName = "周大福", 
 		tags = { "电商" , "首饰" }, 
-		testTelephones = { "18779861101", "18210538513" })
+		testTelephones = { "18779861101", "18212345678" })
 public class ZhouDaFuSpider extends PapaSpider {
 
 	

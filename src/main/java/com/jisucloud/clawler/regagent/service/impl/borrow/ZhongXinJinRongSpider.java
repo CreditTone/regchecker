@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "imzhongxin", 
 		platformName = "众信金融", 
 		tags = { "P2P", "借贷" , "保险" }, 
-		testTelephones = { "15201215815", "18210538513" })
+		testTelephones = { "15201215815", "18212345678" })
 public class ZhongXinJinRongSpider extends PapaSpider {
 
 	private boolean checkTel = false;

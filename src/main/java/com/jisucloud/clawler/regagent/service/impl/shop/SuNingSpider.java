@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "suning", 
 		platformName = "苏宁易购", 
 		tags = { "购物" , "电器" }, 
-		testTelephones = { "18210530000", "18210538513" })
+		testTelephones = { "18210530000", "18212345678" })
 public class SuNingSpider extends PapaSpider implements AjaxHook {
 	
 	private ChromeAjaxHookDriver chromeDriver;

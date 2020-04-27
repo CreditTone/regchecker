@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "huawei", 
 		platformName = "华为商城", 
 		tags = {  "购物", "手机"}, 
-		testTelephones = { "13925306966", "18210538513" },
+		testTelephones = { "13925306966", "18212345678" },
 		exclude = true)
 public class HuaWeiCloudSpider extends PapaSpider {
 

@@ -26,7 +26,7 @@ import java.util.Map;
 		platform = "itoumi", 
 		platformName = "投米网", 
 		tags = { "P2P", "理财", "借贷"}, 
-		testTelephones = { "15985268904", "18210538513" })
+		testTelephones = { "15985268904", "18212345678" })
 public class TouMiWangSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;

@@ -19,7 +19,7 @@ import org.springframework.http.MediaType;
 		platform = "gerensuodeshui", 
 		platformName = "个人所得税", 
 		tags = { "纳税", "五险一金" }, 
-		testTelephones = { "18210538513" , "18210008510" },
+		testTelephones = { "18212345678" , "18210008510" },
 		exclude = true, excludeMsg = "接口404")
 public class TaxItsSpider extends PapaSpider {
 

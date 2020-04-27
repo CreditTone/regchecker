@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "sina", 
 		platformName = "新浪网", 
 		tags = { "新闻资讯" }, 
-		testTelephones = { "18720982007", "18210538513" })
+		testTelephones = { "18720982007", "18212345678" })
 public class XinLangSpider extends PapaSpider {
 
 	

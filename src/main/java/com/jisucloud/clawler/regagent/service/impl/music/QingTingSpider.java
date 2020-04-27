@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "qingting", 
 		platformName = "蜻蜓FM", 
 		tags = { "听书", "生活休闲" , "FM" }, 
-		testTelephones = { "18720982607", "18210538513" })
+		testTelephones = { "18720982607", "18212345678" })
 public class QingTingSpider extends PapaSpider {
 
 	

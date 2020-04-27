@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "mydrivers", 
 		platformName = "快科技", 
 		tags = { "系统驱动", "科技" ,"软件" }, 
-		testTelephones = { "15510257873", "18210538513" })
+		testTelephones = { "15510257873", "18212345678" })
 public class KuaiKeJiSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;

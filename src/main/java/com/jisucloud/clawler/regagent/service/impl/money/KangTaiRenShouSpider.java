@@ -26,7 +26,7 @@ import org.openqa.selenium.WebElement;
 		platform = "taikang", 
 		platformName = "泰康人寿", 
 		tags = { "理财" , "保险" , "健康保险" , "医疗保险" }, 
-		testTelephones = { "15985268900", "18210538513" })
+		testTelephones = { "15985268900", "18212345678" })
 public class KangTaiRenShouSpider extends PapaSpider implements AjaxHook {
 	
 	private ChromeAjaxHookDriver chromeDriver;

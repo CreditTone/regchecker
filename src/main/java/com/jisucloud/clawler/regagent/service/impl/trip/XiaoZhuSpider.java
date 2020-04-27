@@ -28,7 +28,7 @@ import java.util.Map;
 		platform = "xiaozhu", 
 		platformName = "小猪短租", 
 		tags = { "旅游" , "民宿" , "o2o" }, 
-		testTelephones = { "13910200045", "18210538513" })
+		testTelephones = { "13910200045", "18212345678" })
 public class XiaoZhuSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;

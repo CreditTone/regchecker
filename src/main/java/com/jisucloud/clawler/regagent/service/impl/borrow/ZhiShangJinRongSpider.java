@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "i2p", 
 		platformName = "知商金融", 
 		tags = { "P2P", "借贷" }, 
-		testTelephones = { "13910252045", "18210538513" })
+		testTelephones = { "13912345678", "18212345678" })
 public class ZhiShangJinRongSpider extends PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;

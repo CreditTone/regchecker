@@ -21,7 +21,7 @@ import java.util.UUID;
 		platform = "qyer", 
 		platformName = "穷游网", 
 		tags = { "旅游" , "酒店" , "美食" , "o2o" }, 
-		testTelephones = { "18210538000", "18210538513" })
+		testTelephones = { "18210538000", "18212345678" })
 public class QiongYouSpider extends PapaSpider {
 
 	

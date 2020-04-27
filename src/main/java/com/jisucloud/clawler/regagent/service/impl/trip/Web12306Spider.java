@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 		platformName = "12306", 
 		tags = { "出行" , "火车" , "高铁" }, 
 		userActiveness = 0.6f,
-		testTelephones = { "19910002005", "18210538513" })
+		testTelephones = { "19910002005", "18212345678" })
 public class Web12306Spider extends PapaSpider {
 	
     private Map<String, String> fields = null;

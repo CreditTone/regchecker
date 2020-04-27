@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "laqu", 
 		platformName = "拉趣网", 
 		tags = { "9.9包邮" , "试用" , "便宜货" }, 
-		testTelephones = { "13800000000", "18210538513" })
+		testTelephones = { "13800000000", "18212345678" })
 public class LaQuWangSpider extends PapaSpider {
 
 	

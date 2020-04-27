@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "yhd", 
 		platformName = "1号店", 
 		tags = { "购物" }, 
-		testTelephones = {"13800000000", "18210538513" })
+		testTelephones = {"13800000000", "18212345678" })
 public class _1HaoDianSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;

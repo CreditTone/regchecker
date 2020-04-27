@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "wasu", 
 		platformName = "华数TV", 
 		tags = { "影音", "视频", "MV" , "TV" }, 
-		testTelephones = { "18611216720", "18210538513" })
+		testTelephones = { "18611216720", "18212345678" })
 public class HuaShuTVSpider extends PapaSpider {
 
 	

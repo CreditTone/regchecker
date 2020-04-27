@@ -15,7 +15,7 @@ import java.util.Map;
 		platform = "google", 
 		platformName = "谷歌", 
 		tags = {"软件服务" , "搜索引擎" }, 
-		testTelephones = {"13910002005", "18210538513" })
+		testTelephones = {"13910002005", "18212345678" })
 public class GoogleSpider extends PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;

@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "51job", 
 		platformName = "前程无忧", 
 		tags = { "求职" , "招聘" }, 
-		testTelephones = { "18210538513", "15011008001" })
+		testTelephones = { "18212345678", "15011008001" })
 public class QianChengWuYouSpider extends PapaSpider {
 
 

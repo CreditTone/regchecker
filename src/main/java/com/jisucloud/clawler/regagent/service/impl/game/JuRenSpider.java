@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "ztgame", 
 		platformName = "巨人网络", 
 		tags = { "游戏" }, 
-		testTelephones = { "15700102865", "18210538513" })
+		testTelephones = { "15700102865", "18212345678" })
 public class JuRenSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;

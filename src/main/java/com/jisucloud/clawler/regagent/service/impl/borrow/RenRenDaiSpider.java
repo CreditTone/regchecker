@@ -14,7 +14,7 @@ import java.util.Map;
 		platform = "renrendai", 
 		platformName = "人人贷", 
 		tags = {  "P2P", "消费分期", "借贷"  }, 
-		testTelephones = { "15985268904", "18210538513" })
+		testTelephones = { "15985268904", "18212345678" })
 public class RenRenDaiSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

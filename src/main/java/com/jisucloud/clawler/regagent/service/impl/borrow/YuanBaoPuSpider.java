@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "yuanbaopu", 
 		platformName = "元宝铺", 
 		tags = { "P2P", "电商贷" , "借贷" }, 
-		testTelephones = { "18210538577", "18210538513" })
+		testTelephones = { "18210538577", "18212345678" })
 @Slf4j
 public class YuanBaoPuSpider extends PapaSpider {
 	

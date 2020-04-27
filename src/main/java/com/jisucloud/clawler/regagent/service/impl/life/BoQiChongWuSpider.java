@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "boqii", 
 		platformName = "波奇宠物网", 
 		tags = { "宠物" }, 
-		testTelephones = { "13771025665", "18210538513" })
+		testTelephones = { "13771025665", "18212345678" })
 public class BoQiChongWuSpider extends PapaSpider {
 
 

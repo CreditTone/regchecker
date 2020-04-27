@@ -17,7 +17,7 @@ import java.util.Map;
 		platform = "sonhoo", 
 		platformName = "商虎中国", 
 		tags = { "b2b" ,"商机" ,"生意" }, 
-		testTelephones = { "18210538513", "13925306966" })
+		testTelephones = { "18212345678", "13925306966" })
 public class ShangHuZhongGuoSpider extends PapaSpider {
 
 	@Override

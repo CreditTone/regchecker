@@ -22,7 +22,7 @@ import java.util.Map;
 		platform = "shuidi", 
 		platformName = "水滴信用", 
 		tags = { "新闻咨询", "工具" }, 
-		testTelephones = { "15970663703", "18210538513" })
+		testTelephones = { "15970663703", "18212345678" })
 public class ShuiDiXinYongSpider extends PapaSpider {
 
 	

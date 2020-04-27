@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "yugusoft", 
 		platformName = "鱼骨办公", 
 		tags = { "办公软件" , "沟通平台" }, 
-		testTelephones = { "18210538513","18515290000" })
+		testTelephones = { "18212345678","18515290000" })
 public class YugusoftSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

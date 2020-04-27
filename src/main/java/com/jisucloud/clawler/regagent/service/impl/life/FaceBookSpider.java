@@ -17,7 +17,7 @@ import java.util.Map;
 		platform = "facebook", 
 		platformName = "facebookName", 
 		tags = { "社交" , "社区" }, 
-		testTelephones = { "13910002005", "18210538513" },
+		testTelephones = { "13910002005", "18212345678" },
 		exclude = true)
 public class FaceBookSpider extends PapaSpider {
 

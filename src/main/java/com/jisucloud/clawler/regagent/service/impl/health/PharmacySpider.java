@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "pharmacyonline", 
 		platformName = "澳洲PO药房", 
 		tags = { "购药", "用药" }, 
-		testTelephones = { "15008276300", "18210538513" })
+		testTelephones = { "15008276300", "18212345678" })
 public class PharmacySpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;

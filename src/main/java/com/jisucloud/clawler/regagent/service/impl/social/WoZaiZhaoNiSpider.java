@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "95195", 
 		platformName = "我在找你", 
 		tags = { "单身交友" }, 
-		testTelephones = { "18810038000", "18210538513" })
+		testTelephones = { "18810038000", "18212345678" })
 public class WoZaiZhaoNiSpider extends PapaSpider {
 	
 	private ChromeAjaxHookDriver chromeDriver;

@@ -15,7 +15,7 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 import java.util.Map;
 
 @Slf4j
-@PapaSpiderConfig(exclude = true , excludeMsg = "疑似黑客攻击", home = "test", message = "test", platform = "test", platformName = "测试平台", tags = { "测试" }, testTelephones = { "13910252000", "18210538513" })
+@PapaSpiderConfig(exclude = true , excludeMsg = "疑似黑客攻击", home = "test", message = "test", platform = "test", platformName = "测试平台", tags = { "测试" }, testTelephones = { "13910252000", "18212345678" })
 public class TestSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;

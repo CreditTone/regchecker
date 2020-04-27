@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "jdbbx", 
 		platformName = "简单百宝箱", 
 		tags = { "游戏" }, 
-		testTelephones = { "18511912334", "18210538513" })
+		testTelephones = { "18511912334", "18212345678" })
 public class BaiBaoXiangSpider extends PapaSpider {
 
 	

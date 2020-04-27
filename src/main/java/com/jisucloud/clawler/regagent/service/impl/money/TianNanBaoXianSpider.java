@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "tianaw", 
 		platformName = "天安保险", 
 		tags = { "理财", "保险" }, 
-		testTelephones = { "15901537458", "18210538513" },
+		testTelephones = { "15901537458", "18212345678" },
 		ignoreTestResult = true)
 public class TianNanBaoXianSpider extends PapaSpider implements AjaxHook{
 

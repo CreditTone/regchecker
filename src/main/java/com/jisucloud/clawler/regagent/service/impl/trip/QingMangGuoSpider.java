@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "qmango", 
 		platformName = "青芒果旅行", 
 		tags = { "旅游" , "酒店" , "o2o" }, 
-		testTelephones = { "13910252045", "18210538513" })
+		testTelephones = { "13912345678", "18212345678" })
 public class QingMangGuoSpider extends PapaSpider {
 
 	

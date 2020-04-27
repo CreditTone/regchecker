@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "jiehun", 
 		platformName = "中国婚博会", 
 		tags = { "电商", "结婚" }, 
-		testTelephones = { "13426345414", "18210000000" , "18210538513" })
+		testTelephones = { "13426345414", "18210000000" , "18212345678" })
 public class ZhongGuoHunBoHuiSpider extends PapaSpider {
 
 	

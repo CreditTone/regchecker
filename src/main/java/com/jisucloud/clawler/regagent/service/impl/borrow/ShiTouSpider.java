@@ -24,7 +24,7 @@ import java.util.Map;
 		platform = "shitou", 
 		platformName = "石投金融", 
 		tags = { "P2P", "消费分期" , "借贷" }, 
-		testTelephones = { "13910252045", "18210538513" })
+		testTelephones = { "13912345678", "18212345678" })
 public class ShiTouSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;

@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "pipaw", 
 		platformName = "琵琶网", 
 		tags = { "游戏" }, 
-		testTelephones = { "18779861102", "18210538513" })
+		testTelephones = { "18779861102", "18212345678" })
 public class PiPaSpider extends PapaSpider {
 
 	

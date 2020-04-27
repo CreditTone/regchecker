@@ -18,7 +18,7 @@ import java.util.Map;
 	platform = "pconline", 
 	platformName = "太平洋电脑网", 
 	tags = { "3c", "科技", "智能手机" }, 
-	testTelephones = { "15510257873", "18210538513" })
+	testTelephones = { "15510257873", "18212345678" })
 public class TaiPingYangMobileSpider extends PapaSpider {
 
 	@Override

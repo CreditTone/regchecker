@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "doudoucash", 
 		platformName = "豆豆钱包", 
 		tags = { "P2P", "消费分期" , "借贷" }, 
-		testTelephones = { "15985268900", "18210538513" })
+		testTelephones = { "15985268900", "18212345678" })
 public class DouDouCashMSpider extends PapaSpider {
 
     private String getRequestBody(String mobile) {

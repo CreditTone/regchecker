@@ -22,7 +22,7 @@ import java.util.Map;
 		platform = "iqianjin", 
 		platformName = "爱钱进", 
 		tags = { "P2P", "借贷" }, 
-		testTelephones = { "13879530000", "18210538513" })
+		testTelephones = { "13879530000", "18212345678" })
 public class AiQianJinSpider extends PapaSpider {
 	
 	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClientWithRandomProxy();

@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "wechat", 
 		platformName = "微信", 
 		tags = { "社交" , "通信" , "金融" , "支付" , "生活应用" }, 
-		testTelephones = { "13910250000", "18210538513" })
+		testTelephones = { "13910250000", "18212345678" })
 public class WeiXinSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

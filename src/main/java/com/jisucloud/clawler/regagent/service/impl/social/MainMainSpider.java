@@ -28,7 +28,7 @@ import java.util.Map;
 		platformName = "脉脉",
 		userActiveness = 0.6f,
 		tags = {  "社交", "找合作", "求职", "招聘", "工具"  }, 
-		testTelephones = { "18210530000", "18210538513" })
+		testTelephones = { "18210530000", "18212345678" })
 public class MainMainSpider extends PapaSpider implements AjaxHook {
 	
 	public boolean checkTelephone(String account) {

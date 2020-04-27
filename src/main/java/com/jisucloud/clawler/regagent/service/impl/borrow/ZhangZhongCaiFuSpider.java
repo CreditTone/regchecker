@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "wealth365", 
 		platformName = "掌众财富", 
 		tags = { "P2P", "消费分期" , "借贷" }, 
-		testTelephones = { "15985268904", "18210538513" })
+		testTelephones = { "15985268904", "18212345678" })
 public class ZhangZhongCaiFuSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

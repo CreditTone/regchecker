@@ -9,7 +9,7 @@ import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 		platform = "pinganxd", 
 		platformName = "平安小额贷", 
 		tags = {"P2P", "借贷" }, 
-		testTelephones = {"18810038000", "18210538513" },
+		testTelephones = {"18810038000", "18212345678" },
 		exclude = true)
 public class PingAnXiaoDaiSpdier extends PapaSpider {
 

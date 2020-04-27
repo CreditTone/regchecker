@@ -24,7 +24,7 @@ import java.util.Map;
 		platform = "id68", 
 		platformName = "理想宝", 
 		tags = { "P2P", "借贷" }, 
-		testTelephones = { "13900002045", "18210538513" },
+		testTelephones = { "13900002045", "18212345678" },
 		exclude = true, excludeMsg = "防火墙")
 public class LiXiangBaoSpider extends PapaSpider implements AjaxHook{
 

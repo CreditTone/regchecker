@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "9you", 
 		platformName = "久游网", 
 		tags = { "游戏" }, 
-		testTelephones = { "18209649992", "18210538513" })
+		testTelephones = { "18209649992", "18212345678" })
 public class _9youSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

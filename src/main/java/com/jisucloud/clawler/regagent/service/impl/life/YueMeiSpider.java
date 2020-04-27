@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "yuemei", 
 		platformName = "悦美网", 
 		tags = { "医美", "美容" , "整容" }, 
-		testTelephones = { "18515290717", "18210538513" })
+		testTelephones = { "18515290717", "18212345678" })
 public class YueMeiSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

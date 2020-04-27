@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "lrts", 
 		platformName = "懒人听书", 
 		tags = { "听书", "生活休闲" }, 
-		testTelephones = { "15985260000", "18210538513" })
+		testTelephones = { "15985260000", "18212345678" })
 public class LanRenTingShuSpider extends PapaSpider {
 
 	

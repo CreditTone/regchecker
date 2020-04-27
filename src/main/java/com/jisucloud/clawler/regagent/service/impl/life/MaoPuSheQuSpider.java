@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "mop", 
 		platformName = "猫扑网络", 
 		tags = { "资讯", "社区", "论坛" }, 
-		testTelephones = { "13910252045", "18210538513" })
+		testTelephones = { "13912345678", "18212345678" })
 public class MaoPuSheQuSpider extends PapaSpider {
 
 	

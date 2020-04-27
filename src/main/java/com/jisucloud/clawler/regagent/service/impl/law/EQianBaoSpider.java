@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "esign", 
 		platformName = "e签宝", 
 		tags = { "电子合同" }, 
-		testTelephones = { "18230012895", "18210538513" })
+		testTelephones = { "18230012895", "18212345678" })
 public class EQianBaoSpider extends PapaSpider {
 
 	

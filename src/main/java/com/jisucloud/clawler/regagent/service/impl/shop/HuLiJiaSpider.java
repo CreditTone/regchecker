@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "helijia", 
 		platformName = "河狸家", 
 		tags = { "购物" , "低价" , "美容", "女性" }, 
-		testTelephones = { "13654022846", "18210538513" })
+		testTelephones = { "13654022846", "18212345678" })
 public class HuLiJiaSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

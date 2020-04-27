@@ -19,7 +19,7 @@ import org.jsoup.nodes.Document;
 		platform = "benlai", 
 		platformName = "本来生活网", 
 		tags = { "电商" , "农产品" }, 
-		testTelephones = { "18800000001", "18210538513" })
+		testTelephones = { "18800000001", "18212345678" })
 public class BenlaiShenghuoSpider extends PapaSpider {
 	
 	private ChromeAjaxHookDriver chromeDriver;

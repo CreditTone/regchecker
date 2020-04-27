@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "irongbei", 
 		platformName = "融贝网", 
 		tags = { "P2P", "借贷" }, 
-		testTelephones = { "15985268904", "18210538513" })
+		testTelephones = { "15985268904", "18212345678" })
 public class RongBeiWangSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;

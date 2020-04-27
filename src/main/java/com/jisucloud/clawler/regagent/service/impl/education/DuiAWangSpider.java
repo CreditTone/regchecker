@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "duia", 
 		platformName = "对啊网", 
 		tags = { "考试","学习","教育" }, 
-		testTelephones = { "15584382173", "18210538513" })
+		testTelephones = { "15584382173", "18212345678" })
 public class DuiAWangSpider extends PapaSpider {
 
 	

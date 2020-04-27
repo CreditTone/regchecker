@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "teambition", 
 		platformName = "Teambition", 
 		tags = { "工作协调" , "沟通平台" }, 
-		testTelephones = { "18515290000", "18210538513" })
+		testTelephones = { "18515290000", "18212345678" })
 public class TeambitionSpider extends PapaSpider {
 
 	

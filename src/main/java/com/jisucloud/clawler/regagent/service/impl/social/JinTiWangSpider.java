@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "jinti", 
 		platformName = "今题网", 
 		tags = { "社区", "招聘", "论坛" }, 
-		testTelephones = { "13800000000", "18210538513" })
+		testTelephones = { "13800000000", "18212345678" })
 public class JinTiWangSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;

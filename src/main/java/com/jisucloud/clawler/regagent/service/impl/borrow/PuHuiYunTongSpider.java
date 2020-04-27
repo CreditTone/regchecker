@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "phyt88", 
 		platformName = "普汇云通", 
 		tags = { "P2P", "消费分期" , "车贷" , "借贷" }, 
-		testTelephones = { "15985268904", "18210538513" })
+		testTelephones = { "15985268904", "18212345678" })
 public class PuHuiYunTongSpider extends PapaSpider {
 
 	

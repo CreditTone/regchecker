@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "yooli", 
 		platformName = "有利网", 
 		tags = { "P2P", "借贷" }, 
-		testTelephones = { "15985268904", "18210538513" })
+		testTelephones = { "15985268904", "18212345678" })
 public class YouLiWangSpider extends PapaSpider {
 
 	

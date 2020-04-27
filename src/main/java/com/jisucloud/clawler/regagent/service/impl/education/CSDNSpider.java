@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "csdn", 
 		platformName = "CSDN", 
 		tags = { "新闻阅读","it资料" }, 
-		testTelephones = { "18720982607", "18210538513" })
+		testTelephones = { "18720982607", "18212345678" })
 public class CSDNSpider extends PapaSpider {
 
 	

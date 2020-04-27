@@ -27,7 +27,7 @@ import java.util.Map;
 		platform = "xiaojilicai", 
 		platformName = "小鸡理财", 
 		tags = { "P2P", "借贷" }, 
-		testTelephones = { "15900068904", "18210538513" })
+		testTelephones = { "15900068904", "18212345678" })
 public class XiaoJinLiCaiSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;

@@ -16,7 +16,7 @@ import java.util.Map;
 		platform = "xiangqianjinfu", 
 		platformName = "向前金服", 
 		tags = { "P2P", "借贷" }, 
-		testTelephones = { "13910252045", "18210538513" })
+		testTelephones = { "13912345678", "18212345678" })
 public class XiangQianJinFuSpider extends PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;

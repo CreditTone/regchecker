@@ -22,7 +22,7 @@ import java.util.Map;
 		platform = "zhenrongbaop2p", 
 		platformName = "真金服", 
 		tags = { "P2P", "借贷" }, 
-		testTelephones = { "15985268904", "18210538513" })
+		testTelephones = { "15985268904", "18212345678" })
 public class ZhenJinFuSpider extends PapaSpider {
 
 	

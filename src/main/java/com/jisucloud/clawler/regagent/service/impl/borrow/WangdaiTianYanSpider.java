@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "p2peye", 
 		platformName = "网贷天眼", 
 		tags = { "金融资讯", "贷超" , "借贷" }, 
-		testTelephones = { "18210538577", "18210538513" })
+		testTelephones = { "18210538577", "18212345678" })
 @Slf4j
 public class WangdaiTianYanSpider extends PapaSpider {
 	

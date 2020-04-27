@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "ifeng", 
 		platformName = "凤凰网", 
 		tags = { "新闻资讯" }, 
-		testTelephones = { "18720982607", "18210538513" })
+		testTelephones = { "18720982607", "18212345678" })
 public class FenghuangSpider extends PapaSpider {
 
 

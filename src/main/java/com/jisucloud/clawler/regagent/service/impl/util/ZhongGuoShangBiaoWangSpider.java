@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "tmkoo", 
 		platformName = "标库网", 
 		tags = { "商标查询" , "工具" }, 
-		testTelephones = { "18210538513", "18230012895" })
+		testTelephones = { "18212345678", "18230012895" })
 public class ZhongGuoShangBiaoWangSpider extends PapaSpider {
 
 	

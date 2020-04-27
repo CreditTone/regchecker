@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "zrbao", 
 		platformName = "中融宝", 
 		tags = { "p2p", "借贷" }, 
-		testTelephones = { "18210538513", "15161509916" })
+		testTelephones = { "18212345678", "15161509916" })
 public class ZhongRongBaoSpider extends PapaSpider {
 
 	

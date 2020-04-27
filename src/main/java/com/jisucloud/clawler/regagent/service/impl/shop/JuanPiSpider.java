@@ -26,7 +26,7 @@ import org.openqa.selenium.WebElement;
 		platform = "juanpi", 
 		platformName = "卷皮网", 
 		tags = { "9.9包邮" , "购物" }, 
-		testTelephones = { "18210008513", "18210538513" })
+		testTelephones = { "18210008513", "18212345678" })
 public class JuanPiSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;

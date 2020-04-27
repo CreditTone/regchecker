@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "eqxiu", 
 		platformName = "易企秀", 
 		tags = { "工具" , "企业宣传" }, 
-		testTelephones = { "15901537458", "18210538513" })
+		testTelephones = { "15901537458", "18212345678" })
 public class YiQiXiuSpider extends PapaSpider {
 
 	private OkHttpClient okHttpClient = OKHttpUtil.createOkHttpClientWithRandomProxy();

@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "juaicai", 
 		platformName = "聚爱财", 
 		tags = { "p2p", "理财" , "借贷" }, 
-		testTelephones = { "13910002045", "18210538513" },
+		testTelephones = { "13910002045", "18212345678" },
 		ignoreTestResult = true)
 public class JuAiCaiSpider extends PapaSpider {
 

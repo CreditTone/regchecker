@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "baofeng", 
 		platformName = "暴风影音", 
 		tags = { "影音", "视频", "MV" }, 
-		testTelephones = { "15700102865", "18210538513" })
+		testTelephones = { "15700102865", "18212345678" })
 public class BaoFengYingYinSpider extends PapaSpider {
 
 	

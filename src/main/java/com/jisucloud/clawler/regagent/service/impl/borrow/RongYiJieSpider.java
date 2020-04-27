@@ -15,7 +15,7 @@ import okhttp3.Response;
 		platform = "casheasy", 
 		platformName = "借钱花呗", 
 		tags = {"P2P", "借贷"},
-		testTelephones = { "13910252000", "18210538513"})
+		testTelephones = { "13910252000", "18212345678"})
 public class RongYiJieSpider extends PapaSpider {
 
 	@Override

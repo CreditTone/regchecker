@@ -27,7 +27,7 @@ import org.openqa.selenium.WebElement;
 		platform = "iqiyi", 
 		platformName = "爱奇艺", 
 		tags = { "影音", "视频", "MV" }, 
-		testTelephones = { "18210530000", "18210538513" })
+		testTelephones = { "18210530000", "18212345678" })
 public class AiQiyiSpider extends PapaSpider implements AjaxHook{
 	
 	private ChromeAjaxHookDriver chromeDriver;

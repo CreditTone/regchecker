@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "sunlands", 
 		platformName = "尚德机构", 
 		tags = { "学历提升","自考","教育" }, 
-		testTelephones = { "18779861101", "18210538513" })
+		testTelephones = { "18779861101", "18212345678" })
 public class ShangDeSpider extends PapaSpider {
 
 	

@@ -26,7 +26,7 @@ import java.util.Map;
 		platform = "vip", 
 		platformName = "唯品会", 
 		tags = {"化妆品" , "奢侈品" ,"购物" }, 
-		testTelephones = {"13910250000", "18210538513" },
+		testTelephones = {"13910250000", "18212345678" },
 		excludeMsg = "按钮无法点击")
 public class WeiPinHuiSpider extends PapaSpider implements AjaxHook{
 

@@ -16,7 +16,7 @@ message = "Amigo（朋友）是金立旗下，基于Android进行深度优化、
 platform = "amigo", 
 platformName = "金立Amigo", 
 tags = {"3c", "科技" ,"智能手机"}, 
-testTelephones = { "18767922855", "18210538513" })
+testTelephones = { "18767922855", "18212345678" })
 public class JinLiSpider extends PapaSpider {
 
 	@Override

@@ -20,7 +20,7 @@ import java.util.Map;
 		platformName = "PPTV", 
 		userActiveness = 0.6f,
 		tags = { "视频", "影音" }, 
-		testTelephones = { "18720982607", "18210538513" })
+		testTelephones = { "18720982607", "18212345678" })
 public class PPTVSpider extends PapaSpider {
 
 	

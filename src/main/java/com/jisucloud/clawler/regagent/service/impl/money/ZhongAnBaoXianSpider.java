@@ -15,7 +15,7 @@ import okhttp3.Request;
 		platform = "zhonganbx", 
 		platformName = "众安保险", 
 		tags = { "理财", "保险" }, 
-		testTelephones = { "13261165342", "18210538513" })
+		testTelephones = { "13261165342", "18212345678" })
 public class ZhongAnBaoXianSpider extends PapaSpider {
 
 	@Override

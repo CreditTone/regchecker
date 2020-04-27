@@ -10,14 +10,6 @@ import java.util.regex.Pattern;
 
 public class StringUtil {
 	
-	public static void main(String[] args) {
-		System.out.println(getMD5("18210538513adr4.0.1dsad12312312"));
-		System.out.println(getMD5("18210538513dsad12312312"));
-		System.out.println(getMD5("18210538513"));
-		System.out.println(getMD5("dsad12312312"));
-		System.out.println(getMD5("phoneNum=182105385130&sourceMark=adr&appVersion=4.0.1&password=dsad12312312"));
-	}
-	
 	
 	   /**
      * unicode转中文

@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "chinaums", 
 		platformName = "银联商务", 
 		tags = { "理财", "信用卡" , "储蓄" }, 
-		testTelephones = { "15985268900", "18210538513" })
+		testTelephones = { "15985268900", "18212345678" })
 public class YinLianShangWuSpider extends PapaSpider {
 
 	

@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "hoomxb", 
 		platformName = "红小宝金融", 
 		tags = { "消费分期" , "p2p", "借贷" }, 
-		testTelephones = { "18210538513", "15161509916" })
+		testTelephones = { "18212345678", "15161509916" })
 public class HongXiaoBaoSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;

@@ -22,7 +22,7 @@ import java.util.Map;
 		platform = "cnfol", 
 		platformName = "中金在线", 
 		tags = { "金融资讯", "期货" , "贵金属" , "股票" }, 
-		testTelephones = { "15985260000", "18210538513" })
+		testTelephones = { "15985260000", "18212345678" })
 public class ZhongJinZaiXianSpider extends PapaSpider {
 
 	

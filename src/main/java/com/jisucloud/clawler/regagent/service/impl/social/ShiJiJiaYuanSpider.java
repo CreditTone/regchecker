@@ -23,7 +23,7 @@ import java.util.Random;
 		platformName = "世纪佳缘", 
 		tags = { "单身交友" , "婚恋" }, 
 		userActiveness = 0.7f,
-		testTelephones = { "18810038000", "18210538513" })
+		testTelephones = { "18810038000", "18212345678" })
 public class ShiJiJiaYuanSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

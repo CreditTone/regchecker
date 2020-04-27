@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "7192", 
 		platformName = "全影网", 
 		tags = { "摄影", "化妆", "造型" }, 
-		testTelephones = { "18720982607", "18210538513" })
+		testTelephones = { "18720982607", "18212345678" })
 public class _7192Spider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

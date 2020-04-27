@@ -22,7 +22,7 @@ import java.util.Map;
 		platform = "mgtv", 
 		platformName = "芒果TV", 
 		tags = { "影音", "视频", "TV" }, 
-		testTelephones = { "18720982607", "18210538513" })
+		testTelephones = { "18720982607", "18212345678" })
 public class MangGuoTVSpider extends PapaSpider {
 	
 	private Headers getHeader() {

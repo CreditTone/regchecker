@@ -25,7 +25,7 @@ import java.util.Map;
 		platform = "tongbanjie", 
 		platformName = "铜板街", 
 		tags = {"P2P", "借贷"}, 
-		testTelephones = {"15900068904", "18210538513" },
+		testTelephones = {"15900068904", "18212345678" },
 		exclude = true)
 public class TongBanJieSpider extends PapaSpider implements AjaxHook{
 

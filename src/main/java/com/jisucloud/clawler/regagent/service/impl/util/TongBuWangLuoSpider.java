@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "tongbu", 
 		platformName = "同步网络", 
 		tags = { "工具" , "手机越狱", "手机助手" }, 
-		testTelephones = { "13695286288", "18210538513" })
+		testTelephones = { "13695286288", "18212345678" })
 public class TongBuWangLuoSpider extends PapaSpider {
 
 

@@ -24,7 +24,7 @@ import java.util.Random;
 		platform = "juzifenqi", 
 		platformName = "桔子分期", 
 		tags = {  "P2P", "消费分期", "借贷"  }, 
-		testTelephones = { "18210538577", "18210538513" })
+		testTelephones = { "18210538577", "18212345678" })
 public class JuZiFenqiSpider extends PapaSpider {
 	
 	private Headers getHeader() {

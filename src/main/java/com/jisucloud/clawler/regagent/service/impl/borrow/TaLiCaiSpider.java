@@ -22,7 +22,7 @@ import org.jsoup.nodes.Document;
 		platform = "talicai", 
 		platformName = "她理财网", 
 		tags = { "女性", "理财" }, 
-		testTelephones = { "18210538513", "15161509916" })
+		testTelephones = { "18212345678", "15161509916" })
 public class TaLiCaiSpider extends PapaSpider {
 	
 	private String getCsrfToken() throws Exception {

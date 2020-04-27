@@ -15,7 +15,7 @@ import com.jisucloud.clawler.regagent.util.StringUtil;
 		platform = "xiaoying", 
 		platformName = "小赢卡贷", 
 		tags = {"P2P", "借贷" }, 
-		testTelephones = {"13910252000", "18210538513" })
+		testTelephones = {"13910252000", "18212345678" })
 public class XiaoYingKaDaiSpider extends PapaSpider {
 
 

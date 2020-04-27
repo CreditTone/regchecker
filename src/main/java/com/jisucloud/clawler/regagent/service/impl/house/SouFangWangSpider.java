@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "fang", 
 		platformName = "房天下", 
 		tags = { "房产", "房价信息" }, 
-		testTelephones = { "15970663703", "18210538513" })
+		testTelephones = { "15970663703", "18212345678" })
 public class SouFangWangSpider extends PapaSpider {
 
 	

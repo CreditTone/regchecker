@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "dinghuo123", 
 		platformName = "易订货", 
 		tags = { "b2b" ,"商机" ,"生意" }, 
-		testTelephones = { "15120058878", "18210538513" },
+		testTelephones = { "15120058878", "18212345678" },
 		exclude = true)
 public class YiDingHuoSpider extends PapaSpider {
 

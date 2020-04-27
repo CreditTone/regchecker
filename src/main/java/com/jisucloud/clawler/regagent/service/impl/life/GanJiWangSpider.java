@@ -22,7 +22,7 @@ import java.util.Map;
 		platform = "ganji", 
 		platformName = "赶集网", 
 		tags = { "o2o", "生活休闲", "求职" , "招聘" , "二手物品" }, 
-		testTelephones = { "18210538513", "18210538511" })
+		testTelephones = { "18212345678", "18210538511" })
 public class GanJiWangSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;

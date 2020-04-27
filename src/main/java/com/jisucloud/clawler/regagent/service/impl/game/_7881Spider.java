@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "7881", 
 		platformName = "7881游戏交易平台", 
 		tags = { "游戏" }, 
-		testTelephones = { "18720982607", "18210538513" })
+		testTelephones = { "18720982607", "18212345678" })
 public class _7881Spider extends PapaSpider {
 
 	

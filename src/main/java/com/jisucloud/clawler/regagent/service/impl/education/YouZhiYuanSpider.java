@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "youzy", 
 		platformName = "优志愿", 
 		tags = { "志愿填报", "高考志愿" , "高考查询" }, 
-		testTelephones = { "13891156630", "18210538513" })
+		testTelephones = { "13891156630", "18212345678" })
 public class YouZhiYuanSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

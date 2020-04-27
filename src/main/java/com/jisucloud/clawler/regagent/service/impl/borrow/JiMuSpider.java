@@ -23,7 +23,7 @@ import java.util.*;
 		platform = "jimu", 
 		platformName = "积木盒子", 
 		tags = {"理财", "P2P", "借贷" }, 
-		testTelephones = {"13261165342", "18210538513"})
+		testTelephones = {"13261165342", "18212345678"})
 public class JiMuSpider extends PapaSpider implements AjaxHook{
 	
 	private ChromeAjaxHookDriver chromeDriver;

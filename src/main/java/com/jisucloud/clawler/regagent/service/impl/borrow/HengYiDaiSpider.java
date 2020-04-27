@@ -28,7 +28,7 @@ import java.util.Map;
 		platform = "hengyidai", 
 		platformName = "恒易贷", 
 		tags = {"P2P", "借贷" }, 
-		testTelephones = { "13910252000", "18210538513", "18210538511" })
+		testTelephones = { "13910252000", "18212345678", "18210538511" })
 public class HengYiDaiSpider extends PapaSpider {
 	
 	@Override

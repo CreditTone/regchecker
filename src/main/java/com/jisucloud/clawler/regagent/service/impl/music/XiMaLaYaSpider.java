@@ -24,7 +24,7 @@ import java.util.Map;
 		platform = "ximalaya", 
 		platformName = "喜马拉雅", 
 		tags = { "听书", "生活休闲" }, 
-		testTelephones = { "13700982607", "18210538513" })
+		testTelephones = { "13700982607", "18212345678" })
 public class XiMaLaYaSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;

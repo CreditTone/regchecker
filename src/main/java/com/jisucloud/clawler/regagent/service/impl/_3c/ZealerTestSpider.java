@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "zealer", 
 		platformName = "自如评测", 
 		tags = { "3c", "科技" ,"智能手机", "手机评测" }, 
-		testTelephones = { "15510257873", "18210538513" })
+		testTelephones = { "15510257873", "18212345678" })
 public class ZealerTestSpider extends PapaSpider {
 
 	@Override

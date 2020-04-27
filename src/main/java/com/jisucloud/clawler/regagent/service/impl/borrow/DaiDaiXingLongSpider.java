@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "ddxlong", 
 		platformName = "贷贷兴隆", 
 		tags = { "p2p", "借贷" }, 
-		testTelephones = { "18210538513", "15161509916" })
+		testTelephones = { "18212345678", "15161509916" })
 public class DaiDaiXingLongSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "nyonline", 
 		platformName = "小诺理财", 
 		tags = { "P2P", "理财" , "借贷" }, 
-		testTelephones = { "13910252000", "18210538513" })
+		testTelephones = { "13910252000", "18212345678" })
 public class XiaoNuoLiCaiSpider extends PapaSpider {
 
 	

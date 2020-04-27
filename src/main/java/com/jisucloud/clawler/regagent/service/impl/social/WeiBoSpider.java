@@ -25,7 +25,7 @@ import java.util.Map;
 		platform = "weibo", 
 		platformName = "微博", 
 		tags = { "泛社交" , "微博" }, 
-		testTelephones = { "18700001101", "18210538513" })
+		testTelephones = { "18700001101", "18212345678" })
 public class WeiBoSpider extends PapaSpider implements AjaxHook {
 
 	public boolean checkTelephone(String account) {

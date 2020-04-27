@@ -29,7 +29,7 @@ import org.openqa.selenium.WebElement;
 		platform = "cctv", 
 		platformName = "央视网", 
 		tags = { "影音", "直播", "视频" }, 
-		testTelephones = { "13925306960", "18210538513" })
+		testTelephones = { "13925306960", "18212345678" })
 public class CCTVSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;

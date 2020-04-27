@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "manaowan", 
 		platformName = "玛瑙湾", 
 		tags = { "P2P", "小微金融", "借贷" }, 
-		testTelephones = { "15985268904", "18210538513" })
+		testTelephones = { "15985268904", "18212345678" })
 public class MaNaoWangSpider extends PapaSpider {
 
 	

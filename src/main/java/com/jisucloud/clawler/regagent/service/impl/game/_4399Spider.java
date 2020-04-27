@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "4399", 
 		platformName = "4399游戏网", 
 		tags = { "游戏" }, 
-		testTelephones = { "18720982607", "18210538513" })
+		testTelephones = { "18720982607", "18212345678" })
 public class _4399Spider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 		platform = "yy", 
 		platformName = "YY直播", 
 		tags = { "娱乐" , "交友" , "游戏" , "社区" }, 
-		testTelephones = { "18810038000", "18210538513" })
+		testTelephones = { "18810038000", "18212345678" })
 public class YYSpider extends PapaSpider {
 	
 	private ChromeAjaxHookDriver chromeDriver;

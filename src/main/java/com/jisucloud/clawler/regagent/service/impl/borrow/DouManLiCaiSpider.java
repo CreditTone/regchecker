@@ -17,7 +17,7 @@ import java.util.Map;
 		platform = "mandofin", 
 		platformName = "满兜金融", 
 		tags = { "p2p", "借贷" }, 
-		testTelephones = { "18210538513", "13810973590" })
+		testTelephones = { "18212345678", "13810973590" })
 public class DouManLiCaiSpider extends PapaSpider {
 
 

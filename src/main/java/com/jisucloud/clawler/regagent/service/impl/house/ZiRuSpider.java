@@ -22,7 +22,7 @@ import java.util.Map;
 		platform = "ziroom", 
 		platformName = "自如租房", 
 		tags = { "房产", "租房" , "租房中介" }, 
-		testTelephones = { "13426300000", "18210538513" })
+		testTelephones = { "13426300000", "18212345678" })
 public class ZiRuSpider extends PapaSpider {
 
 	

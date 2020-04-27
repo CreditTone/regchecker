@@ -21,7 +21,7 @@ import java.util.Map;
 		platformName = "去哪儿", 
 		userActiveness = 0.6f,
 		tags = { "旅游" , "酒店" , "机票" , "o2o" }, 
-		testTelephones = { "18210538000", "18210538513" })
+		testTelephones = { "18210538000", "18212345678" })
 public class QunarSpider extends PapaSpider {
 
 	

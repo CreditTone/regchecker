@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "pcauto", 
 		platformName = "太平洋汽车网", 
 		tags = { "二手车", "汽车资讯" }, 
-		testTelephones = { "18210530000", "18210538513" })
+		testTelephones = { "18210530000", "18212345678" })
 public class PCautoSpider extends PapaSpider {
 
 	

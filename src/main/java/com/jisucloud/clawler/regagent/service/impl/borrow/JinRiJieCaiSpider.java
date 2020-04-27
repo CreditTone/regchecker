@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "51jiecai", 
 		platformName = "今日捷财", 
 		tags = { "p2p", "借贷" }, 
-		testTelephones = { "18210538513", "15161509916" })
+		testTelephones = { "18212345678", "15161509916" })
 public class JinRiJieCaiSpider extends PapaSpider {
 
 	

@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "lining", 
 		platformName = "李宁官方商城", 
 		tags = { "购物" , "运动鞋" , "户外装备" }, 
-		testTelephones = { "13695286288", "18210538513" })
+		testTelephones = { "13695286288", "18212345678" })
 public class LiNingSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

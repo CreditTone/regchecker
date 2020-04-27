@@ -18,7 +18,7 @@ import okhttp3.Response;
 		platform = "bjdp2p", 
 		platformName = "博金贷", 
 		tags = { "P2P", "借贷" }, 
-		testTelephones = { "13261165342", "18210538513" })
+		testTelephones = { "13261165342", "18212345678" })
 public class BoJinDaiSpider extends PapaSpider {
 	
 	@Override

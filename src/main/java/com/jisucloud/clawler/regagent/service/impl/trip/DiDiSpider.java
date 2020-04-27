@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "dudichuxing", 
 		platformName = "滴滴出行", 
 		tags = { "出行" , "打车" , "顺风车" }, 
-		testTelephones = { "18515290000", "18210538513" })
+		testTelephones = { "18515290000", "18212345678" })
 public class DiDiSpider extends PapaSpider {
 
 

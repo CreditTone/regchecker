@@ -10,7 +10,7 @@ import java.util.Map;
 		platform = "sohuEmail", 
 		platformName = "搜狐邮箱", 
 		tags = { "邮箱" }, 
-		testTelephones = { "13010010001", "18210538513" },
+		testTelephones = { "13010010001", "18212345678" },
 		ignoreTestResult = true)
 public class SohuEmailSpider extends BasicEmailSpider {
 	

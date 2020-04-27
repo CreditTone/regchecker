@@ -23,7 +23,7 @@ import org.jsoup.nodes.Document;
 		platform = "baixing", 
 		platformName = "百姓网", 
 		tags = { "o2o", "生活休闲", "求职" , "招聘" , "房产家居" }, 
-		testTelephones = { "15101030000", "18210538513" })
+		testTelephones = { "15101030000", "18212345678" })
 public class BaiXingWangSpider extends PapaSpider implements AjaxHook {
 	
 	private ChromeAjaxHookDriver chromeDriver;

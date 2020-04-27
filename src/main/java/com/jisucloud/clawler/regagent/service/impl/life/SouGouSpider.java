@@ -26,7 +26,7 @@ import java.util.Map;
 		platform = "sogou", 
 		platformName = "搜狗", 
 		tags = { "工具", "搜索引擎" }, 
-		testTelephones = { "13910000000", "18210538513" })
+		testTelephones = { "13910000000", "18212345678" })
 public class SouGouSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;

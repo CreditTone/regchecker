@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "qingchifan", 
 		platformName = "请吃饭", 
 		tags = { "单身交友" , "约" }, 
-		testTelephones = { "18210538000", "18210538513" })
+		testTelephones = { "18210538000", "18212345678" })
 public class QingChiFanSpider extends PapaSpider {
 
 	

@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "cntaiping", 
 		platformName = "太平保险", 
 		tags = { "理财", "保险" }, 
-		testTelephones = { "15901537458", "18210538513" })
+		testTelephones = { "15901537458", "18212345678" })
 public class TaiPingBaoXianSpider extends PapaSpider {
 
 	

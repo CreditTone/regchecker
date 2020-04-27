@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "kimao", 
 		platformName = "七猫小说", 
 		tags = { "小说","电子书" }, 
-		testTelephones = { "18779861101", "18210538513" })
+		testTelephones = { "18779861101", "18212345678" })
 public class QiMaoSpider extends PapaSpider {
 
 	

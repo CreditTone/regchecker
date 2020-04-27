@@ -24,7 +24,7 @@ import java.util.Map;
 		platform = "360", 
 		platformName = "360", 
 		tags = { "系统工具", "游览器" }, 
-		testTelephones = { "13010002005", "18210538513" })
+		testTelephones = { "13010002005", "18212345678" })
 public class QiHu360Spider extends PapaSpider implements AjaxHook {
 	
 	private ChromeAjaxHookDriver chromeDriver;

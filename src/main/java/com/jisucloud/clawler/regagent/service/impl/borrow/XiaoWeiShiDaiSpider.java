@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "xwsd", 
 		platformName = "小微时贷", 
 		tags = { "p2p", "借贷" }, 
-		testTelephones = { "18210538513", "15956434943" })
+		testTelephones = { "18212345678", "15956434943" })
 public class XiaoWeiShiDaiSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

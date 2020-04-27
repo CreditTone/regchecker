@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "gamersky", 
 		platformName = "游民星空", 
 		tags = { "游戏" }, 
-		testTelephones = { "15700102865", "18210538513" })
+		testTelephones = { "15700102865", "18212345678" })
 public class GamerskySpider extends PapaSpider {
 
 	

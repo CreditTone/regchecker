@@ -20,7 +20,7 @@ import java.util.Map;
 		platformName = "趣头条", 
 		userActiveness = 0.7f,
 		tags = { "新闻资讯" }, 
-		testTelephones = { "18720982007", "18210538513" })
+		testTelephones = { "18720982007", "18212345678" })
 public class QuTouTiaoSpider extends PapaSpider {
 
 	

@@ -25,7 +25,7 @@ import java.util.Random;
 		platform = "zyxr", 
 		platformName = "中业兴融", 
 		tags = { "P2P", "借贷" }, 
-		testTelephones = { "15201215815", "18210538513" },
+		testTelephones = { "15201215815", "18212345678" },
 		exclude = true)
 public class ZhongYeXingRongSpider extends PapaSpider implements AjaxHook {
 

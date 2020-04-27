@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "gongchangp2p", 
 		platformName = "工场微金", 
 		tags = { "P2P", "借贷" }, 
-		testTelephones = { "13879690000", "18210538513" })
+		testTelephones = { "13879690000", "18212345678" })
 public class GongChangJinRongSpider extends PapaSpider {
 	
 	private ChromeAjaxHookDriver chromeDriver;

@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "sohunews", 
 		platformName = "搜狐", 
 		tags = { "新闻资讯" }, 
-		testTelephones = { "18515290717", "18210538513" })
+		testTelephones = { "18515290717", "18212345678" })
 public class SouHuNewsSpider extends PapaSpider implements AjaxHook {
 
 	public boolean checkTelephone(String account) {

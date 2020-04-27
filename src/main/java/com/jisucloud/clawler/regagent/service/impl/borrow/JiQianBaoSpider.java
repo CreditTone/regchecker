@@ -22,7 +22,7 @@ import java.util.Map;
 		platform = "jiqianbao", 
 		platformName = "急钱宝", 
 		tags = { "P2P", "消费分期" , "借贷" }, 
-		testTelephones = { "15985268900", "18210538513" })
+		testTelephones = { "15985268900", "18212345678" })
 public class JiQianBaoSpider extends PapaSpider {
 
 

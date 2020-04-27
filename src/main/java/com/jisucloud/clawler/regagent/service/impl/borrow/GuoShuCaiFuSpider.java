@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "goodsure", 
 		platformName = "果树财富", 
 		tags = { "P2P", "借贷" }, 
-		testTelephones = { "13910252045", "18210538513" },
+		testTelephones = { "13912345678", "18212345678" },
 		ignoreTestResult = true)
 public class GuoShuCaiFuSpider extends PapaSpider {
 

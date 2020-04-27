@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 		platform = "lu", 
 		platformName = "陆金所", 
 		tags = { "P2P", "借贷" , "理财" }, 
-		testTelephones = { "13900002045", "18210538513" })
+		testTelephones = { "13900002045", "18212345678" })
 public class LuJinSuoSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;

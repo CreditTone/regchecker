@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "gfan", 
 		platformName = "机锋论坛", 
 		tags = { "3c", "科技" ,"智能手机" }, 
-		testTelephones = { "15510257873", "18210538513" })
+		testTelephones = { "15510257873", "18212345678" })
 public class JiFengLunTanSpider extends PapaSpider {
 
 	

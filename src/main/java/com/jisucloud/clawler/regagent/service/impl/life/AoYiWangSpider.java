@@ -17,7 +17,7 @@ import java.util.Map;
 		platform = "oeeee", 
 		platformName = "奥一网", 
 		tags = { "社区" }, 
-		testTelephones = { "15901537458", "18210538513" })
+		testTelephones = { "15901537458", "18212345678" })
 public class AoYiWangSpider extends PapaSpider {
 
 	

@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "allianz", 
 		platformName = "中德安联", 
 		tags = { "理财" , "保险" , "健康保险" , "医疗保险" }, 
-		testTelephones = { "15901537458", "18210538513" })
+		testTelephones = { "15901537458", "18212345678" })
 public class AllianzSpider extends PapaSpider {
 
 	

@@ -28,7 +28,7 @@ import java.util.Map;
 		platform = "biyouxin", 
 		platformName = "碧有信金融", 
 		tags = { "P2P", "借贷" , "商业房贷" }, 
-		testTelephones = { "15985268904", "18210538513" })
+		testTelephones = { "15985268904", "18212345678" })
 public class BiYouXinSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;

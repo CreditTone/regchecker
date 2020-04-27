@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "lawtime", 
 		platformName = "法律快车", 
 		tags = { "法律咨询" , "找律师" }, 
-		testTelephones = { "18230012895", "18210538513" })
+		testTelephones = { "18230012895", "18212345678" })
 public class FaLvKuaiCheSpider extends PapaSpider {
 
 	

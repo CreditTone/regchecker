@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "19lou", 
 		platformName = "19楼", 
 		tags = { "社区", "生活服务" }, 
-		testTelephones = { "18523857478", "18210538513" })
+		testTelephones = { "18523857478", "18212345678" })
 public class _19LouSpider extends PapaSpider {
 
 

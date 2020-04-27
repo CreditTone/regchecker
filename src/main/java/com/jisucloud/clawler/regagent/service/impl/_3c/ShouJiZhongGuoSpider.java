@@ -26,7 +26,7 @@ import org.openqa.selenium.WebElement;
 		platform = "cnmo", 
 		platformName = "手机中国", 
 		tags = { "手机" , "媒体" , "评测" }, 
-		testTelephones = { "15985268900", "18210538513" }
+		testTelephones = { "15985268900", "18212345678" }
 		)
 public class ShouJiZhongGuoSpider extends PapaSpider implements AjaxHook {
 	

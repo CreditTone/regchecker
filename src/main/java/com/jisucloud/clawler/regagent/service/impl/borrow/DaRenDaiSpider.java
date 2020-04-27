@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "darenloan", 
 		platformName = "达人贷", 
 		tags = { "p2p", "借贷" }, 
-		testTelephones = { "18210538513", "15161509916" })
+		testTelephones = { "18212345678", "15161509916" })
 public class DaRenDaiSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

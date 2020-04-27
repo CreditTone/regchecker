@@ -24,7 +24,7 @@ import java.util.Map;
 		platform = "atzuche", 
 		platformName = "凹凸租车", 
 		tags = { "租车" }, 
-		testTelephones = { "18210538577", "18210538513" })
+		testTelephones = { "18210538577", "18212345678" })
 public class AoTuZuCheSpider extends PapaSpider {
 
 	

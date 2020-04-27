@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "smartstudy", 
 		platformName = "智课网", 
 		tags = { "托福", "雅思", "GRE" }, 
-		testTelephones = { "15956434943", "18210538513" })
+		testTelephones = { "15956434943", "18212345678" })
 public class ZhiXueWangSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

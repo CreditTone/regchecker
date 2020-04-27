@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "24pay", 
 		platformName = "掌付通", 
 		tags = { "工具" , "违章查询", "生活应用" }, 
-		testTelephones = { "13925306960", "18210538513" })
+		testTelephones = { "13925306960", "18212345678" })
 public class ZhangFuTongSpider extends PapaSpider {
 
 	

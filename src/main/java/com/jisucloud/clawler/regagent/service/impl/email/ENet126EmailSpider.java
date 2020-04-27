@@ -12,7 +12,7 @@ import java.util.Map;
 		platform = "126Email", 
 		platformName = "网易126邮箱", 
 		tags = { "邮箱" }, 
-		testTelephones = { "15010645316", "18210538513" },
+		testTelephones = { "15010645316", "18212345678" },
 		ignoreTestResult = true)
 public class ENet126EmailSpider extends BasicEmailSpider {
 	

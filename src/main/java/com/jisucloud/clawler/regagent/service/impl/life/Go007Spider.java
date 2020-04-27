@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "go007", 
 		platformName = "城际分类网", 
 		tags = { "o2o", "生活休闲", "求职" , "招聘" , "房产家居" }, 
-		testTelephones = { "13925306966", "18210538513" })
+		testTelephones = { "13925306966", "18212345678" })
 public class Go007Spider extends PapaSpider {
 	
 	private Headers getHeader() {

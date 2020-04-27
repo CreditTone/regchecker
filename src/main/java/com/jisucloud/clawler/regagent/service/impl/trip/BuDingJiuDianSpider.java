@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "podinns", 
 		platformName = "布丁酒店", 
 		tags = { "旅行", "酒店" }, 
-		testTelephones = { "13810973590", "18210538513" })
+		testTelephones = { "13810973590", "18212345678" })
 public class BuDingJiuDianSpider extends PapaSpider {
 
 

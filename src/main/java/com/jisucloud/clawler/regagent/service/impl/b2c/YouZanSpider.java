@@ -21,7 +21,7 @@ import java.util.Map;
 		platformName = "有赞", 
 		tags = { "saas", "生意" , "电商" },
 		userActiveness = 0.7f,
-		testTelephones = { "18210538513", "13761090875" })
+		testTelephones = { "18212345678", "13761090875" })
 public class YouZanSpider extends PapaSpider {
 
 	

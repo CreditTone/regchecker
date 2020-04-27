@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "ikang", 
 		platformName = "国宾体检", 
 		tags = { "健康运动", "医疗", "体检" }, 
-		testTelephones = { "15901537458", "18210538513" })
+		testTelephones = { "15901537458", "18212345678" })
 public class IKangGuoBinSpider extends PapaSpider {
 
 	

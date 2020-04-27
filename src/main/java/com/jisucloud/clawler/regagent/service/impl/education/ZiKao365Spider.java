@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "zikao365", 
 		platformName = "自考365", 
 		tags = { "自考","学习","教育" }, 
-		testTelephones = { "15010645316", "18210538513" })
+		testTelephones = { "15010645316", "18212345678" })
 public class ZiKao365Spider extends PapaSpider {
 
 	

@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "moko", 
 		platformName = "美空", 
 		tags = { "模特", "时装" , "演员" , "摄影师" , "造型师" }, 
-		testTelephones = { "18523857478", "18210538513" })
+		testTelephones = { "18523857478", "18212345678" })
 public class MoKoSpider extends PapaSpider {
 
 

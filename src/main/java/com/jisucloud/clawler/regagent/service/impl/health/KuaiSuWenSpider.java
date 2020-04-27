@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "120ask", 
 		platformName = "快速问医生", 
 		tags = { "医疗", "生活应用" , "用药" }, 
-		testTelephones = { "15901537458", "18210538513" })
+		testTelephones = { "15901537458", "18212345678" })
 public class KuaiSuWenSpider extends PapaSpider {
 
 	

@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "yihuw", 
 		platformName = "医护网", 
 		tags = { "购药", "用药", "在线医生" }, 
-		testTelephones = { "15120058878", "18210538513"},
+		testTelephones = { "15120058878", "18212345678"},
 				exclude = true, excludeMsg = "安全控件问题")
 public class YiHuWangSpider extends PapaSpider implements AjaxHook {
 

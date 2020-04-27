@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "jdair", 
 		platformName = "首都航空", 
 		tags = { "出行" , "飞机" , "机票" }, 
-		testTelephones = { "13910252045", "18210538513" })
+		testTelephones = { "13912345678", "18212345678" })
 public class ShouDuAirSpider extends PapaSpider {
 
 	

@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "168p2p", 
 		platformName = "168金服", 
 		tags = { "p2p", "借贷" }, 
-		testTelephones = { "18210538513", "15161509916" })
+		testTelephones = { "18212345678", "15161509916" })
 public class _168JinFuSpider extends PapaSpider {
 	
 	public boolean checkTelephone(String account) {

@@ -1,97 +1,445 @@
-# 服务调用
-```kotlin
-val execute = Jsoup.connect("http://120.132.22.65:8888/check")
-            .requestBody("""
-                {
-                    "account": "18799990000",
-                    "accountType": "PHONE",
-                    "exclusions": [
-                        "12306"
-                    ]
-                    "reg007CallBackUrl": "http://127.0.0.1:8888/callback"
-                }
-            """)
-            .header("Content-Type", "application/json;charset=UTF-8")
-            .method(Connection.Method.POST)
-            .ignoreContentType(true)
-            .timeout(1000 * 60 * 60)
-            .execute()
-    println(execute.body())
+### 枚举注册网站撞库，注册过哪些网站?输入邮箱或手机号,一搜便知。此项目模仿reg007(https://www.reg007.com/)功能 ，但不是该网站源码。原理利用网站登录或者注册方式，基于网站自身的提示（公开信息）进行检验。用以在无用户业务数据的场景下，重现大致的用户画像和行为偏好。项目在2019年12月已经停止维护，只提供撞库思路。需要请自行fork，更新。
+#### 撞库涉及网站400+如下：
+```text
+中粮我买网:womai.com
+Mtime时光网:mtime.com
+新一站保险:xyz.cn
+缘来客:ylike.com
+安智市场:anzhi.com
+AI考拉:kaolalicai.com
+冰川网络:q1.com
+互动吧:hdb.com
+拍拍贷:ppdai.com
+金象大药房:jinxiang.com
+果树财富:goodsure.com
+凡客诚品:vancl.com
+启信宝:qixin.com
+小树时代:xiaoshushidai.com
+笑脸金融:facebank.com
+久游网:9you.com
+凤凰网:ifeng.com
+中国加盟网:jmw.com
+推特:twitter.com
+168金服:168p2p.com
+快方送药:kfyao.com
+太平洋电脑网:pconline.com
+环球网:huanqiu.com
+钉钉:dingtalk.com
+信融财富:xinrong.com
+订单汇:ddhing.com
+1905电影网:1905.com
+恩科e贷:ek360.com
+昆仑游戏:kunlun.com
+周大福:ctfmall.com
+永乐票务:228.com
+智课网:smartstudy.com
+海尔顺逛商城:shunguang.com
+神州租车:zuche.com
+facebookName:facebook.com
+风行视频网:cli.com
+谷歌:google.com
+蛮便宜网:manpianyi.com
+小鸡理财:xiaojilicai.com
+物通网:chinawutong.com
+中华英才网:chinahr.com
+厚本金融:houbank.com
+我要金蛋:51jindan.com
+网易126邮箱:mail.126.com
+有缘网:youyuan.com
+银多网:yinduowang.com
+人人贷:renrendai.com
+铜板街:tongbanjie.com
+盛趣游戏:sdo.com
+有利网:yooli.com
+黄金钱包:g-banker.com
+约约网:yueus.com
+融金所:rjs.com
+虎嗅网:huxiu.com
+新升贷:newup.com
+金投行:jintouxing.com
+人和网:renhe.com
+米庄理财:mizlicai.com
+盛大网络:sdo.com
+元宝铺:yuanbaopu.com
+恒易贷:credithc.com
+微软:microsoft.com
+乐视TV:le.com
+搜易贷:souyidai.com
+我图网:ooopic.com
+今日头条:toutiao.com
+达人贷:darenloan.com
+通通理财:tongtongli.com
+碧有信金融:biyouxin.com
+易车网:yiche.com
+趣头条:qutoutiao.com
+360健康:360haoyao.com
+千图网:58pic.cn
+粤商贷:yesvion.com
+千千音乐:taihe.com
+布谷农场:lcfarm.com
+布丁酒店:podinns.com
+鹏金所:penging.com
+自考365:zikao365.com
+拉卡拉:lakala.com
+易港金融:ycd360.com
+后河财富:honhe.com
+知乎:zhihu.com
+订订单:dingdingdan.com
+爱回收:aihuishou.com
+e融所:myerong.com
+视觉中国:shijue.me
+简单百宝箱:jdbbx.com
+木蚂蚁:mumayi.com
+紫金所:zijinsuo.com
+巴士管家:chebada.com
+城际分类网:go007.com
+BOSS直聘:zhipin.com
+育儿网:ci123.com
+17K小说网:17k.com
+找工易:hunt007.com
+优志愿:youzy.cn
+和信贷:hexindai.com
+花瓣网:huaban.com
+91旺财:91wangcai.com
+CSDN:csdn.net
+春雨医生:chunyuyisheng.com
+试客联盟:shikee.com
+作业帮:zuoyebang.com
+我爱我家网:5i5j.com
+中华会计网:chinaacc.com
+满兜金融:mandofin.com
+找法网:findlaw.cn
+nice好赞:nice.com
+世纪佳缘:jiayuan.com
+加油宝:jyblife.com
+互动百科:baike.com
+华数TV:wasu.com
+遨游网:aoyou.com
+PPTV:pptv.com
+向上金服:xiangshang360.com
+健客网:jianke.com
+37游戏:37.com
+中融宝:zrbao.com
+宜信惠民:creditease.com
+住哪网:zhuna.com
+海融易:hairongyi.com
+良品铺子:lppz.com
+vipjr:vipjr.com
+人保官网:epicc.com
+太平洋汽车网:pcauto.com
+回家吃饭:huijiachi.com
+全影网:7192.com
+爱钱进:iqianjin.com
+人民网:people.com
+钜宝盆:jpjbp.com
+一起好金服:yiqihao.com
+泰康人寿:taikang.com
+微博:weibo.com
+互融宝:hurbao.com
+doubanName:douban.com
+首金网:shoujinwang.com
+麦德龙官方网:metromall.cn
+李宁官方商城:lining.com
+她理财网:talicai.com
+银谷在线:yingujr.com
+麦子金服:nonobank.com
+iPanda熊猫频道:ipanda.com
+搜狐:sohu.com
+网贷之家:wdzj.com
+51CTO学院:51cto.com
+站酷网:zcool.com.cn
+迅雷:xunlei.com
+游民星空:gamersky.com
+投友圈:touyouquan.com
+白菜金融:baicaif.com
+牛车网:niuche.com
+国美金融:gomefinance.com
+知商金融:i2p.com
+众安保险:zhongan.com
+新新贷:xinxindai.com
+喜马拉雅:ximalaya.com
+猫扑网络:mop.com
+华为商城:huawei.com
+央视网:cctv.com
+贷贷兴隆:ddxlong.com
+楚楚街:ctfmall.com
+尚德机构:sunlands.com
+凯撒旅游:caissa.com
+联金所:uf-club.com
+企汇网:qihuiwang.com
+2345贷款王:2345.com
+二手车之家:che168.com
+4399游戏网:4399.com
+云付通:ipaye.cn
+多商网:yifatong.com
+钱香金融:qianxiangbank.com
+青芒果旅行:qmango.com
+聊天宝:zidanduanxin.com
+海投汇:htouhui.com
+金元宝:jyblc.com
+国宾体检:ikang.com
+美美投资:meme2c.com
+本来生活网:benlai.com
+名片全能王:camcard.com
+懒人听书:lrts.com
+招商贷:zhaoshangdai.com
+39健康网:39.net
+博金贷:bjdp2p.com
+易法通:yifatong.com
+合家金融:hejiajinrong.com
+恒信易贷:p2phx.com
+唯品会:vip.com
+中业兴融:zyxr.com
+微信:pc.weixin.qq.com
+速配网:supei.com
+58同城:58.com
+波奇宠物网:boqii.com
+玖富金融:wukonglicai.com
+99娱乐:99.com
+e签宝:esign.com
+派代网:paidai.com
+暴风影音:baofeng.com
+凹凸租车:atzuche.com
+豆豆钱包:ddcash.cn
+爱投资:itouzi.com
+标库网:tmkoo.com
+快科技:mydrivers.com
+邦帮堂:rmbbox.com
+美国在线:aol.com
+小微金融:weloan.com
+凤凰金融:fengjr.com
+蜻蜓FM:qingting.fm
+聚优财:jyc99.com
+法律快车:lawtime.com
+今日捷财:51jiecai.com
+医护网:yihu.com
+真金服:zhenrongbaop2p.com
+大街网:dajie.com
+鱼骨办公:yugusoft.com
+17173游戏:17173.com
+桔子分期:juzifenqi.com
+道口贷:daokoudai.com
+好孩子商城:haohaizi.com
+卷皮网:juanpi.com
+大智慧:gw.com.cn
+书香云集:sxyj.net
+爱投金融:5aitou.com
+虚贝网:xubei.com
+中国婚博会:jiehun.com
+网贷天眼:p2peye.com
+雅虎:yahoo.com
+合众e贷:hzed.com
+小赢卡贷:xiaoying.com
+男性私人医生:ranknowcn.com
+Gocheck:gocheck.com
+陆金所:lu.com
+投哪网:touna.com
+好房通:hftsoft.com
+工场微金:gongchangp2p.com
+亚马逊:amazon.com
+零用贷:lingyongdai.com
+畅游网:changyou.com
+请吃饭:qingchifan.com
+小微时贷:xwsd.com
+掌付通:24pay.net
+快资讯:360kuai.com
+普惠家:puhuijia.com
+车享网:chexiang.com
+普汇云通:phyt88.com
+中金在线:cnfol.com
+易企秀:eqxiu.com
+快快贷:kuaikuaidai.com
+商虎中国:sonhoo.com
+好大夫在线:haodf.com
+起点中文网:qidian.com
+自如评测:zealer.com
+网金社:wjs.com
+美空:moko.com
+草根投资:cgtz.com
+短融网:duanrong.com
+美团网:meituan.com
+UC浏览器:uc.cn
+智联卓聘:highpin.com
+花生米富:yaoyuefu.com
+360:360.cn
+租号玩:zuhaowan.com
+钱盆网:qianpen.com
+19楼:19lou.com
+平安小额贷:pingan.com
+拉趣网:laqu.com
+游卡桌游:dobest.cn
+YY直播:yy.com
+孔夫子旧书网:kongfz.com
+泰然金融:trc.com
+支付宝:alipay.com
+完美世界:wanmei.com
+投米网:itoumi.com
+信用管家:51nbapi.com
+美图秀秀:meitu.com
+宜贷网:yidai.com
+钱吧:51qianba.com
+地标金融:dib66.com
+猎聘网:liepin.com
+新浪网:sina.com
+河狸家:helijia.com
+拓道金服:51tuodao.com
+7881游戏交易平台:7881.com
+自如租房:ziroom.com
+缤客酒店:booking.com
+前程无忧:51job.com
+慧聪网:hc360.com
+中国知网:cnki.net
+趣分期:qufenqi.com
+大众点评:dianping.com
+信用宝:xyb100.com
+去哪儿:qunar.com
+懒财网:lancai.com
+个人所得税:its.tax.sh.gov.cn
+陪我:peiwo.cn
+金融工场:9888keji.com
+今题网:jinti.com
+汽车之家:autohome.com
+理想宝:id68.com
+蚂蜂窝:mafengwo.com
+领英:linkedin.com
+好又贷:hydbest.com
+捷信金融:homecreditcfc.com
+奇乐融:qilerong.com
+理财范隶:licaifan.com
+搜狐邮箱:mail.sohu.com
+爱爱医:iiyi.com
+众信金融:imzhongxin.com
+酷狗音乐:kugou.com
+56视频:56.com
+:
+速借贷:kyxdloan.com
+腾讯QQ:qq.com
+中德安联:allianz.com
+豆丁网:docin.com
+聚金资本:jujinziben.com
+有赞:youzan.com
+马可波罗网:makepolo.com
+Teambition:teambition.com
+天涯社区:tianya.com
+广金金服:gzjkp2p.com
+快速问医生:120ask.com
+赶集网:ganji.com
+借钱花呗:casheasy.cn
+山东高速金服:cashlai.com
+七猫小说:km.com
+滴滴出行:didiglobal.com
+我在找你:95195.com
+一路财富:yilucaifu.com
+首都航空:jdair.com
+人人网:renren.com
+好贷宝:haodaibao.com
+城铁在融:ctzrnet.com
+澳洲PO药房:pharmacyonline.com
+寺库奢侈品网:secoo.com
+易订货:dinghuo123.com
+手机中国:cnmo.com
+广信贷:guangxindai.com
+暴雪娱乐:battlenet.com
+小米商城:xiami.com
+嘉实金融:jia16.com
+惠金所:hfax.com
+草料二维码:cli.com
+美赞臣:meadjohnson.com.cn
+摩尔龙金融:edai.com
+太平保险:cntaiping.com
+边锋游戏:bianfeng.com
+中国人才网:cnjob.com
+德鸿普惠:dhibank.com
+e路同心:88bank.com
+你我贷:niwodai.com
+聚美优品:jumei.com
+水滴信用:shuidi.com
+爱奇艺:iqiyi.com
+小诺理财:nyonline.com
+首e贷:syr66.com
+苏宁易购:suning.com
+9588旅行网:9588.com
+空中网:kongzhong.com
+天安保险:tianaw.com
+好收益:haoshouyi.com
+百姓网:baixing.com
+当当网:dangdang.com
+企查查:qichacha.com
+朵朵金融:duoduojr.com
+红小宝金融:hoomxb.com
+积木盒子:jimu.com
+新东方在线:koolearn.com
+银湖网:yinhu.com
+向前金服:xiangqianjinfu.com
+银联商务:chinaums.com
+中国国际航空:airchina.com
+生菜金融:shengcaijinrong.com
+钱鼓鼓:qiangugu.com
+金立Amigo:amigo.com
+189邮箱:mail.189.cn
+德众金融:dezhong365.com
+111医药馆:111yao.com
+穷游网:qyer.com
+琵琶网:pipaw.com
+春雨金服:chunyujinfu.com
+瑞钱宝:rqbao.com
+聚爱财:juaicai.com
+至尊用车:top1.cn
+珂兰:kela.com
+捞财宝:laocaibao.com
+理想论坛:55188.com
+黄河金融:hhedai.com
+石投金融:shitou.com
+慈铭体检:ciming.com
+芒果TV:mgtv.com
+交管12123:12123.com
+融贝网:irongbei.com
+掌众财富:wealth365.com
+房天下:fang.com
+汇盈金服:hyjf.com
+悦美网:yuemei.com
+机锋论坛:gfan.com
+对啊网:duia.com
+百合网:baihe.com
+集思录:jisilu.com
+趣管账:finsphere.cn
+珠宝贷:zhubaodai.com
+途牛旅游网:tuniu.com
+同步网络:tongbu.com
+喜财猫:xicaimao.cn
+奇子向钱:qzxq.com
+XY游戏:xy.com
+美拍:meipai.com
+中关村在线:zol.com
+东方融资网:rongzi.com
+网易163邮箱:mail.163.com
+智慧商贸:zhsmjxc.com
+宝象金融:bxjr.com
+12306:12306.cn
+易宝支付:yeepay.com
+广州e贷:gzdai.com
+百度:baidu.com
+奥一网:oeeee.com
+小猪短租:xiaozhu.com
+喜投网:xitouwang.com
+学信网:chsi.com
+1号店:yhd.com
+2345导航:2345.com
+国美电器:gome.com
+民贷天下:bank.mindai.com
+巨人网络:ztgame.com
+玛瑙湾:manaowan.com
+凯迪网络:kdnet.net
+轻易贷:qingyidai.com
+连资贷:lianzidai.com
+小牛在线:xiaoniu88.com
+万题库:wantiku.com
+急钱宝:gzhaitui.cn
+搜狗:sogou.com
+美团网:meituan.com
+金蝶云:yunzhijia.com
+脉脉:taou.com
 ```
-`reg007CallBackUrl`字段设置reg007回调接口地址，会以POST方式提交，Content-Type=application/json;
-# 开发进度
-| platform | 名称 | 状态 | 备注 |
-| ------ | ------ | ------ | ------ |
-| RenRenDai | 人人贷 | 完成 |  |
-|  | 小白来花 | 未开发 | 官网接口奔溃 |
-|  | 原子贷 | 未开发 | 官网无注册入口，登录直接为短信验证码 |
-| ZhongAnBaoXian | 众安保险 | 完成 |  |
-| QuGuanZhang | 趣管账 | 完成 |  |
-| HengYiDai | 恒易贷 | 完成 |  |
-|  | 爱钱进 | 未开发 | 请求响应都加密，有图片验证码 |
-| RongYiJie | 容易借 | 完成 |  |
-| XinYongGuanJia | 信用管家 | 完成 |  |
-| NanXingSiRenYiSheng | 男性私人医生 | 完成 |  |
-|  | 分期贷 | 未开发 | 一直提示：频繁登录操作 |
-| XiaoYingKaDai | 小赢卡贷 | 完成 |  |
-|  | 读秒钱包 | 未开发 | 有图片验证码 |
-|  | 点点 | 未开发 | 已改版，返回信息不包含注册未注册 |
-| WeiDaiQianBao | 微贷钱包 | 完成 |  |
-|  | 51公积金管家 | 未开发 | 没抓到包 |
-| WaCaiJiZhang | 挖财记账 | 完成 | 容易触发访问频繁 |
-| DaZhiHui | 大智慧 | 完成 |  |
-|  | 同花顺 | 未完成 | 提示信息无法区分 |
-|  | 借贷宝 | 未完成 | 无提示语，改密码直接注册 |
-|  | 京东股票 | 未完成 | 流程复杂，有加密，登录有点选验证，改密码有圆圈验证 |
-|  | 京东股票 | 未完成 | 流程复杂，有加密，登录有点选验证，改密码有圆圈验证 |
-|  | 人人贷 | 未完成 | 请求返回乱码，待解决 |
-|  | 携程 | 未完成 | 滑块跟点选验证 |
-|  | 美团WEB | 未完成 | 滑块验证 |
-|  | 西瓜视频 | 未完成 | 直接访问频繁，找回密码点选滑块验证 |
-|  | 唱吧 | 未完成 | 验证码 |
-|  | 皮皮虾 | 未完成 | 接口加密 |
-|  | 启信宝 | 未完成 | 接口加密 |
-|  | 豆瓣 | 未完成 | 短信验证体验问题 |
-|  | csdn | 完成 |  |
-|  | 大街网 | 完成 |  |
-|  | 人人网 | 未完成 | 验证码不好识别 |
-|  | 爱奇艺 | 未完成 | 滑块 |
-|  | 本来生活网 | 完成 |  |
-|  | 学信网 | 完成 |  |
-|  | 中国国际航空 | 完成 |  |
-|  | 空中网 | 完成 |  |
-|  | 二手车之家 | 完成 |  |
-|  | 网贷之家 | 完成 |  |
-|  | 周大福 | 完成 |  |
-|  | yy直播 | 完成 |  |
-|  | 自如 | 完成 |  |
-|  | 拍拍贷 | 完成 |  |
-|  | 111医药馆 | 完成 |  |
-|  | 盛大游戏 | 完成 |  |
-|  | 光宇游戏 | 完成 |  |
-|  | 暴雪娛樂 | 完成 |  |
-|  | PICC | 完成 |  |
-|  | 好大夫在线 | 完成 |  |
-|  | 银联商务 | 完成 |  |
-|  | 新浪网（微博） | 完成 |  |
-|  | 喜马拉雅 | 完成 |  |
-|  | 天涯 | 完成 |  |
-|  | 搜房网 | 完成 |  |
-|  | 汽车之家 | 完成 |  |
-|  | 前程无忧 | 完成 |  |
-|  | 芒果tv | 完成 |  |
-|  | 当当网 | 完成 |  |
-|  | 百姓网 | 完成 |  |
-|  | 安智网 | 完成 |  |
-|  | 慈铭体检 | 完成 |  |
-|  | 企查查 | 完成 |  |
-# 暗网查询
-```kotlin
-Jsoup.connect("http://120.132.22.65:8888/tor/search?account=13800138000")
-    .ignoreContentType(true)
-    .timeout(1000 * 60 * 60)
-    .method(Connection.Method.GET)
-    .execute()
-    
-println(execute.body())
-```
+#### 主类
+	com.jisucloud.clawler.regagent.RegAgentApplication
+### 我们不泄露用户的隐私，我们只是做公开信息的搬运工！！！

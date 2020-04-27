@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "cnjob", 
 		platformName = "中国人才网", 
 		tags = { "求职" , "招聘" }, 
-		testTelephones = { "18210538513", "18230012895" })
+		testTelephones = { "18212345678", "18230012895" })
 public class ZhongGuoRenCaiWangSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

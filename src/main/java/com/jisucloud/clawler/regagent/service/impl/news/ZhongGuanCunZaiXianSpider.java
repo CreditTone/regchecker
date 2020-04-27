@@ -20,7 +20,7 @@ import java.util.Map;
 		platformName = "中关村在线", 
 		userActiveness = 0.7f,
 		tags = { "新闻资讯" , "3C资讯" , "智能手机" }, 
-		testTelephones = { "18720982007", "18210538513" })
+		testTelephones = { "18720982007", "18212345678" })
 public class ZhongGuanCunZaiXianSpider extends PapaSpider {
 
 

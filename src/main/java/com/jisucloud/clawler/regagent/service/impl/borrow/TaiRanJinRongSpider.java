@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "trc", 
 		platformName = "泰然金融", 
 		tags = { "p2p", "借贷" }, 
-		testTelephones = { "18210538513", "15161509916" })
+		testTelephones = { "18212345678", "15161509916" })
 public class TaiRanJinRongSpider extends PapaSpider {
 
 	

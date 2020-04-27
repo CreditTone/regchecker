@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "airchina", 
 		platformName = "中国国际航空", 
 		tags = { "出行" , "飞机" , "机票" }, 
-		testTelephones = { "19910002005", "18210538513" })
+		testTelephones = { "19910002005", "18212345678" })
 public class ZhongGuoGuoJiHangKongSpider extends PapaSpider {
 
 	

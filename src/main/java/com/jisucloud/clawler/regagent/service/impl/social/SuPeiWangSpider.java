@@ -24,7 +24,7 @@ import org.jsoup.nodes.Document;
 		platform = "supei", 
 		platformName = "速配网", 
 		tags = { "单身交友", "社区" }, 
-		testTelephones = { "18515290717", "18210538513" })
+		testTelephones = { "18515290717", "18212345678" })
 public class SuPeiWangSpider extends PapaSpider {
 
 	

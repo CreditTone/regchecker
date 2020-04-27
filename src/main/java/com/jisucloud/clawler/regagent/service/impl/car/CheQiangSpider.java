@@ -22,7 +22,7 @@ import java.util.Map;
 		platform = "chexiang", 
 		platformName = "车享网", 
 		tags = { "租车", "o2o" }, 
-		testTelephones = { "18210538577", "18210538513" })
+		testTelephones = { "18210538577", "18212345678" })
 public class CheQiangSpider extends PapaSpider {
 
 	

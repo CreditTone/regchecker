@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "kugou", 
 		platformName = "酷狗音乐", 
 		tags = {"音乐", "MV"}, 
-		testTelephones = { "15985260000", "18210538513" })
+		testTelephones = { "15985260000", "18212345678" })
 public class KugouSpider extends PapaSpider {
 	
 	

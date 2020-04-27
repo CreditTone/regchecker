@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "12123", 
 		platformName = "交管12123", 
 		tags = { "违章查询" }, 
-		testTelephones = { "18210530000", "18210538513" },
+		testTelephones = { "18210530000", "18212345678" },
 		exclude = true)
 public class JiaoGuanSpider extends PapaSpider {
 

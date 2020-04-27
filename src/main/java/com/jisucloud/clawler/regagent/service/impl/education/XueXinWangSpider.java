@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "chsi", 
 		platformName = "学信网", 
 		tags = { "学历" }, 
-		testTelephones = { "15210000000", "18210538513" })
+		testTelephones = { "15210000000", "18212345678" })
 public class XueXinWangSpider extends PapaSpider {
 
 	

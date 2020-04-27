@@ -14,7 +14,7 @@ import okhttp3.Request;
 		platform = "51nbapi", 
 		platformName = "信用管家", 
 		tags = {  "P2P", "借贷"  }, 
-		testTelephones = { "13910252000", "18210538513" })
+		testTelephones = { "13910252000", "18212345678" })
 public class XinYongGuanJiaSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

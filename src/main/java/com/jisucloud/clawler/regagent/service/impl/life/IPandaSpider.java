@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "ipanda", 
 		platformName = "iPanda熊猫频道", 
 		tags = { "和平", "媒体" , "熊猫" }, 
-		testTelephones = { "13477079270", "18210538513" })
+		testTelephones = { "13477079270", "18212345678" })
 public class IPandaSpider extends PapaSpider {
 
 

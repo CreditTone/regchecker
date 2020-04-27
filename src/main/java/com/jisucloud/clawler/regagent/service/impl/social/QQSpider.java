@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 		platform = "qq", 
 		platformName = "腾讯QQ", 
 		tags = { "交友" , "社交" }, 
-		testTelephones = { "18810038000", "18210538513" },
+		testTelephones = { "18810038000", "18212345678" },
 		ignoreTestResult = true)
 public class QQSpider extends PapaSpider {
 	

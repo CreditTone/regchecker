@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "37", 
 		platformName = "37游戏", 
 		tags = { "游戏" }, 
-		testTelephones = { "13910252045", "13269423806" })
+		testTelephones = { "13912345678", "13269423806" })
 public class SanQiGameSpider extends PapaSpider {
 
 	

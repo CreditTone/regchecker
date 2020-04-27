@@ -26,7 +26,7 @@ import org.jsoup.nodes.Document;
 		platform = "womai", 
 		platformName = "中粮我买网", 
 		tags = { "购物" , "食品" }, 
-		testTelephones = { "18779861101", "18210538513" })
+		testTelephones = { "18779861101", "18212345678" })
 public class ZhongLiangSpider extends PapaSpider {
 	
 	private Headers getHeader() {

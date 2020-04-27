@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "haodf", 
 		platformName = "好大夫在线", 
 		tags = { "健康运动", "医疗", "生活应用" , "挂号" , "用药" }, 
-		testTelephones = { "13877117175", "18210538513" })
+		testTelephones = { "13877117175", "18212345678" })
 public class HaoDaiFuSpider extends PapaSpider {
 
 	

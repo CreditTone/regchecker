@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "dingdingdan", 
 		platformName = "订订单", 
 		tags = { "b2b" ,"商机" ,"生意" }, 
-		testTelephones = { "13925306966", "18210538513" },
+		testTelephones = { "13925306966", "18212345678" },
 		exclude = true)
 public class DingDingDanSpider extends PapaSpider {
 

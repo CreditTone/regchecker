@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "gocheck", 
 		platformName = "Gocheck", 
 		tags = { "考试","论文","教育" }, 
-		testTelephones = { "15210234070", "18210538513" })
+		testTelephones = { "15210234070", "18212345678" })
 public class GoCheckSpider extends PapaSpider {
 
 	

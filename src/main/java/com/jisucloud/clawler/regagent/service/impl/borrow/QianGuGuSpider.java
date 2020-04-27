@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "qiangugu", 
 		platformName = "钱鼓鼓", 
 		tags = { "P2P", "消费分期" , "借贷" }, 
-		testTelephones = { "18611216720", "18210538513" })
+		testTelephones = { "18611216720", "18212345678" })
 public class QianGuGuSpider extends PapaSpider {
 
 

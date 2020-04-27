@@ -26,7 +26,7 @@ import org.openqa.selenium.WebElement;
 		platform = "zhaoshangdai", 
 		platformName = "招商贷", 
 		tags = { "消费分期" , "p2p", "借贷" }, 
-		testTelephones = { "18210538513", "15161509916" })
+		testTelephones = { "18212345678", "15161509916" })
 public class ZhaoShangDaiSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;

@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "aoyou", 
 		platformName = "遨游网", 
 		tags = { "旅游" , "酒店" , "美食" , "o2o" }, 
-		testTelephones = { "13910252045", "18210538513" })
+		testTelephones = { "13912345678", "18212345678" })
 public class AoYouSpider extends PapaSpider {
 
 	

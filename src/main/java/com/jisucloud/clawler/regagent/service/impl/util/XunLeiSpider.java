@@ -22,7 +22,7 @@ import java.util.Map;
 		platformName = "迅雷", 
 		userActiveness = 0.7f,
 		tags = { "系统工具", "影音" }, 
-		testTelephones = { "18611216720", "18210538513" })
+		testTelephones = { "18611216720", "18212345678" })
 public class XunLeiSpider extends PapaSpider {
 
 	

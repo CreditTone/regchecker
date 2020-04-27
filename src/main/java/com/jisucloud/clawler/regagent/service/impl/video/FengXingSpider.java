@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "cli", 
 		platformName = "风行视频网", 
 		tags = { "影音", "视频" }, 
-		testTelephones = { "15700102860", "18210538513" })
+		testTelephones = { "15700102860", "18212345678" })
 public class FengXingSpider extends PapaSpider {
 
 	

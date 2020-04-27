@@ -20,7 +20,7 @@ import org.openqa.selenium.WebElement;
 		platform = "uc", 
 		platformName = "UC浏览器", 
 		tags = { "工具", "浏览器" }, 
-		testTelephones = { "13910000000", "18210538513" })
+		testTelephones = { "13910000000", "18212345678" })
 public class UCSpider extends PapaSpider {
 	
 	private ChromeAjaxHookDriver chromeDriver;

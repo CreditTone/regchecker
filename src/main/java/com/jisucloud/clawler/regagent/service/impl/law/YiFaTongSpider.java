@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "yifatong", 
 		platformName = "易法通", 
 		tags = { "法律咨询" , "找律师" }, 
-		testTelephones = { "18210538513", "13761990875" })
+		testTelephones = { "18212345678", "13761990875" })
 public class YiFaTongSpider extends PapaSpider {
 
 	

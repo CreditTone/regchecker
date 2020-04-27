@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "huanqiu", 
 		platformName = "环球网", 
 		tags = { "新闻资讯" }, 
-		testTelephones = { "18720982607", "18210538513" })
+		testTelephones = { "18720982607", "18212345678" })
 public class HuanQiuWangSpider extends PapaSpider {
 
 	

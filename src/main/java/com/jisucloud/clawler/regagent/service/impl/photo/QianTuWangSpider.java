@@ -27,7 +27,7 @@ import org.openqa.selenium.WebElement;
 		platform = "58pic", 
 		platformName = "千图网", 
 		tags = { "工具", "海报设计" }, 
-		testTelephones = { "13910000000", "18210538513" })
+		testTelephones = { "13910000000", "18212345678" })
 public class QianTuWangSpider extends PapaSpider implements AjaxHook{
 	
 	private ChromeAjaxHookDriver chromeDriver;

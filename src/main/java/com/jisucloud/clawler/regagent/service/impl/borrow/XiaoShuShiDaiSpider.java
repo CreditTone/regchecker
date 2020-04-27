@@ -28,7 +28,7 @@ import java.util.Map;
 		platform = "xiaoshushidai", 
 		platformName = "小树时代", 
 		tags = { "P2P", "借贷" , "消费贷" , "小微金融" }, 
-		testTelephones = { "13910252045", "18210538513" })
+		testTelephones = { "13912345678", "18212345678" })
 public class XiaoShuShiDaiSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;

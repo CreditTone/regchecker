@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "syr66", 
 		platformName = "首e贷", 
 		tags = { "P2P", "借贷" }, 
-		testTelephones = { "13910252045", "18210538513" })
+		testTelephones = { "13912345678", "18212345678" })
 public class ShouEDaiSpider extends PapaSpider {
 
 	private ChromeAjaxHookDriver chromeDriver;

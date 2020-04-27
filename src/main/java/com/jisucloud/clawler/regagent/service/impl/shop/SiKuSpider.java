@@ -24,7 +24,7 @@ import java.util.Map;
 		platform = "secoo", 
 		platformName = "寺库奢侈品网", 
 		tags = { "购物" , "首饰" , "奢侈品" }, 
-		testTelephones = { "18515290710", "18210538513" })
+		testTelephones = { "18515290710", "18212345678" })
 public class SiKuSpider extends PapaSpider {
 
 	String cck = "";

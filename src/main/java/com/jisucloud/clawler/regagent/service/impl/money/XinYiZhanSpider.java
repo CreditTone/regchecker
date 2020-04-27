@@ -28,7 +28,7 @@ import org.jsoup.nodes.Document;
 		platform = "xyzbx", 
 		platformName = "新一站保险", 
 		tags = { "保险" , "理财" }, 
-		testTelephones = { "15985268900", "18210538513" })
+		testTelephones = { "15985268900", "18212345678" })
 public class XinYiZhanSpider extends PapaSpider {
 	
 	private Headers getHeader() {

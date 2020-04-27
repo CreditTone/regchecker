@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "xinxindai", 
 		platformName = "新新贷", 
 		tags = { "P2P", "小微金融" , "借贷" }, 
-		testTelephones = { "15985268904", "18210538513" })
+		testTelephones = { "15985268904", "18212345678" })
 public class XinXinDaiSpider extends PapaSpider {
 
 	

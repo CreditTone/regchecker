@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "rmbbox", 
 		platformName = "邦帮堂", 
 		tags = { "p2p", "借贷", "贷超" }, 
-		testTelephones = { "18210538513", "15161509916" },
+		testTelephones = { "18212345678", "15161509916" },
 		ignoreTestResult = true)
 public class BangBangTangSpider extends PapaSpider {
 

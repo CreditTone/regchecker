@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "mafengwo", 
 		platformName = "蚂蜂窝", 
 		tags = { "旅游" , "酒店" , "美食" , "o2o" }, 
-		testTelephones = { "13800100001", "18210538513" })
+		testTelephones = { "13800100001", "18212345678" })
 public class MaFengWoSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;

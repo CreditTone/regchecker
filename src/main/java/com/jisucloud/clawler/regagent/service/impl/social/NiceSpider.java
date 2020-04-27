@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "nice", 
 		platformName = "nice好赞", 
 		tags = { "交友" , "二手物品", "社区" }, 
-		testTelephones = { "18515290717", "18210538513" })
+		testTelephones = { "18515290717", "18212345678" })
 public class NiceSpider extends PapaSpider {
 
 	

@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "mumayi", 
 		platformName = "木蚂蚁", 
 		tags = { "工具" , "软件下载" }, 
-		testTelephones = { "13925306966", "18210538513" })
+		testTelephones = { "13925306966", "18212345678" })
 public class MuMaYiSpider extends PapaSpider {
 
 

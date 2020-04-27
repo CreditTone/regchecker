@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "toutiao", 
 		platformName = "今日头条", 
 		tags = { "新闻资讯" }, 
-		testTelephones = { "18720000000", "18210538513" })
+		testTelephones = { "18720000000", "18212345678" })
 public class TouTiaoSpider extends PapaSpider {
 	
 	private static Map<String,String> datas = new HashMap<String, String>();

@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "hyjf", 
 		platformName = "汇盈金服", 
 		tags = { "P2P", "消费分期" , "借贷" }, 
-		testTelephones = { "13910252045", "18210538513" })
+		testTelephones = { "13912345678", "18212345678" })
 public class HuiYingJInFuSpider extends PapaSpider {
 
 	

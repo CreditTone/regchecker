@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "mizlicai", 
 		platformName = "米庄理财", 
 		tags = { "P2P", "理财" , "借贷" }, 
-		testTelephones = { "15985268904", "18210538513" })
+		testTelephones = { "15985268904", "18212345678" })
 public class MiZhuangTouZiSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

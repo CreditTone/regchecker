@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "zuhaowan", 
 		platformName = "租号玩", 
 		tags = { "游戏" , "游戏租号" }, 
-		testTelephones = { "13877117175", "18210538513" })
+		testTelephones = { "13877117175", "18212345678" })
 public class ZuHaoWanSpider extends PapaSpider {
 
 	

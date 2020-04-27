@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "58", 
 		platformName = "58同城", 
 		tags = { "o2o", "生活休闲", "求职" , "招聘" , "二手物品" }, 
-		testTelephones = { "18515290000", "18210538513" })
+		testTelephones = { "18515290000", "18212345678" })
 public class _58Spider extends PapaSpider {
 
     private Headers getHeader() {

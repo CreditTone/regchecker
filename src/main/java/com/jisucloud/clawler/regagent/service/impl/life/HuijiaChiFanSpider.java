@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "huijiachi", 
 		platformName = "回家吃饭", 
 		tags = { "o2o", "外卖" }, 
-		testTelephones = { "13925306966", "18210538513" })
+		testTelephones = { "13925306966", "18212345678" })
 public class HuijiaChiFanSpider extends PapaSpider {
 
 	

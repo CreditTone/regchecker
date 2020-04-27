@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "anzhi", 
 		platformName = "安智市场", 
 		tags = { "系统工具" , "软件下载" }, 
-		testTelephones = { "15901537458", "18210538513" })
+		testTelephones = { "15901537458", "18212345678" })
 public class AnZhiWangSpider extends PapaSpider {
 
 	

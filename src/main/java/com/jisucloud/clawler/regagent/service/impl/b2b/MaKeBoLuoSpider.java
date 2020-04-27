@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "makepolo", 
 		platformName = "马可波罗网", 
 		tags = { "b2b" ,"商机" ,"生意" }, 
-		testTelephones = { "18210538513", "15700102860" })
+		testTelephones = { "18212345678", "15700102860" })
 public class MaKeBoLuoSpider extends PapaSpider {
 
 	@Override

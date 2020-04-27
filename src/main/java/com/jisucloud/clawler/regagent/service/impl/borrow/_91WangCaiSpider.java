@@ -26,7 +26,7 @@ import java.util.Map;
 		platform = "91wangcai", 
 		platformName = "91旺财", 
 		tags = { "P2P", "借贷" }, 
-		testTelephones = { "13910252000", "18210538513" },
+		testTelephones = { "13910252000", "18212345678" },
 		exclude = true , excludeMsg = "疑似黑客攻击")
 public class _91WangCaiSpider extends PapaSpider implements AjaxHook {
 

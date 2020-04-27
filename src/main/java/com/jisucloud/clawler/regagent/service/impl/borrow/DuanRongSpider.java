@@ -22,7 +22,7 @@ import java.util.Map;
 		platform = "duanrong", 
 		platformName = "短融网", 
 		tags = { "P2P" , "借贷" }, 
-		testTelephones = { "18210538577", "18210538513" })
+		testTelephones = { "18210538577", "18212345678" })
 @Slf4j
 public class DuanRongSpider extends PapaSpider {
 	

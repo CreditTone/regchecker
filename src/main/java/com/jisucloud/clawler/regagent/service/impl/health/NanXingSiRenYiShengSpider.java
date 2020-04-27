@@ -19,7 +19,7 @@ import com.jisucloud.clawler.regagent.util.StringUtil;
 		platform = "ranknowcn", 
 		platformName = "男性私人医生", 
 		tags = {"医疗", "男科"  }, 
-		testTelephones = { "13261165342", "18210538513" , "18210538510" })
+		testTelephones = { "13261165342", "18212345678" , "18210538510" })
 public class NanXingSiRenYiShengSpider extends PapaSpider {
 
 

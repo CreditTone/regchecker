@@ -24,7 +24,7 @@ import java.util.Map;
 		platform = "findlaw", 
 		platformName = "找法网", 
 		tags = { "律师", "法律" ,"打官司" }, 
-		testTelephones = { "13991808887", "18210538513" })
+		testTelephones = { "13991808887", "18212345678" })
 public class ZhaoFaWangSpider extends PapaSpider implements AjaxHook {
 	
 	public boolean checkTelephone(String account) {

@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "xiaomi", 
 		platformName = "小米商城", 
 		tags = {  "电商", "智能手机"  }, 
-		testTelephones = { "18210530000", "18210538513" })
+		testTelephones = { "18210530000", "18212345678" })
 public class XiaomiSpider extends PapaSpider {
 	
 	private Headers getHeader(String account) {

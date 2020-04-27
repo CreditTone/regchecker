@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "caissa", 
 		platformName = "凯撒旅游", 
 		tags = { "旅游" , "开房", "酒店" , "美食" , "o2o" }, 
-		testTelephones = { "18515290717", "18210538513" })
+		testTelephones = { "18515290717", "18212345678" })
 public class CaissaSpider extends PapaSpider {
 
 	

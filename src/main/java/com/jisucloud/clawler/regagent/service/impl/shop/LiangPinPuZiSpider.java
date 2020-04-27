@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "lppz", 
 		platformName = "良品铺子", 
 		tags = { "电商" , "零食" }, 
-		testTelephones = { "18515290717", "18210538513" })
+		testTelephones = { "18515290717", "18212345678" })
 public class LiangPinPuZiSpider extends PapaSpider {
 
 	

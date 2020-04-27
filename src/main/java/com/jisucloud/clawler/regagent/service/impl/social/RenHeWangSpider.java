@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "renhe", 
 		platformName = "人和网", 
 		tags = { "社交" , "人脉" }, 
-		testTelephones = { "18810038000", "18210538513" })
+		testTelephones = { "18810038000", "18212345678" })
 public class RenHeWangSpider extends PapaSpider {
 
 	

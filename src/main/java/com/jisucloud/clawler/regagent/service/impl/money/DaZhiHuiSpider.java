@@ -21,7 +21,7 @@ import net.lightbody.bmp.util.HttpMessageInfo;
 		platform = "dazhihui", 
 		platformName = "大智慧", 
 		tags = { "理财", "炒股" }, 
-		testTelephones = { "18763623587", "18210538513" })
+		testTelephones = { "18763623587", "18212345678" })
 public class DaZhiHuiSpider extends PapaSpider implements AjaxHook{
 	
 	private ChromeAjaxHookDriver chromeDriver;

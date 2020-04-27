@@ -22,7 +22,7 @@ import java.util.Map;
 		platform = "jumei", 
 		platformName = "聚美优品", 
 		tags = { "护肤品" , "化妆品" }, 
-		testTelephones = { "18779861101", "18210538513" })
+		testTelephones = { "18779861101", "18212345678" })
 public class JuMeiYouPinSpider extends PapaSpider {
 
 	

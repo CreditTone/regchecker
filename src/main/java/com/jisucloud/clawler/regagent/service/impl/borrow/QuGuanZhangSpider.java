@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "finsphere", 
 		platformName = "趣管账", 
 		tags = { "P2P" , "小额借款" }, 
-		testTelephones = { "18810038000", "18210538513" })
+		testTelephones = { "18810038000", "18212345678" })
 public class QuGuanZhangSpider extends PapaSpider {
 
 	

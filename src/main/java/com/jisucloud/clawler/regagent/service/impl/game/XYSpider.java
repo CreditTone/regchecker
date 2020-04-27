@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "xy", 
 		platformName = "XY游戏", 
 		tags = { "游戏" }, 
-		testTelephones = { "18210538513", "13269423806" })
+		testTelephones = { "18212345678", "13269423806" })
 public class XYSpider extends PapaSpider {
 
 	

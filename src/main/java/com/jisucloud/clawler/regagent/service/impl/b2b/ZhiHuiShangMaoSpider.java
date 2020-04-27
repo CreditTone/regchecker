@@ -18,12 +18,12 @@ import java.util.UUID;
 		platform = "zhsmjxc", 
 		platformName = "智慧商贸", 
 		tags = { "saas" ,"财务软件" ,"生意" }, 
-		testTelephones = { "18210538513", "13953679455" })
+		testTelephones = { "18212345678", "13953679455" })
 public class ZhiHuiShangMaoSpider extends PapaSpider {
 
 //	public static void main(String[] args) throws InterruptedException {
 //		System.out.println(new ZhiHuiShangMaoSpider().checkTelephone("18210538000"));
-//		System.out.println(new ZhiHuiShangMaoSpider().checkTelephone("18210538513"));
+//		System.out.println(new ZhiHuiShangMaoSpider().checkTelephone("18212345678"));
 //	}
 
 	@Override

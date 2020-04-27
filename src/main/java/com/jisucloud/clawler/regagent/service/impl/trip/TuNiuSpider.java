@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "tuniu", 
 		platformName = "途牛旅游网", 
 		tags = { "旅游" , "酒店" , "美食" , "o2o" }, 
-		testTelephones = { "13910252075", "18210538513" })
+		testTelephones = { "13910252075", "18212345678" })
 public class TuNiuSpider extends PapaSpider {
 
 	

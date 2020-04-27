@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "ctzrnet", 
 		platformName = "城铁在融", 
 		tags = { "p2p", "借贷" }, 
-		testTelephones = { "18210538513", "15161509916" })
+		testTelephones = { "18212345678", "15161509916" })
 public class ChengTieZaiRongSpider extends PapaSpider {
 
 	

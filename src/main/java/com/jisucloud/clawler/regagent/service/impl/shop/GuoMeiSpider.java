@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "gome", 
 		platformName = "国美电器", 
 		tags = { "电商" , "电器" }, 
-		testTelephones = { "18210538000", "18210538513" })
+		testTelephones = { "18210538000", "18212345678" })
 public class GuoMeiSpider extends PapaSpider {
 
 	

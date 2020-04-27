@@ -23,7 +23,7 @@ import java.util.Map;
 		platformName = "猎聘网", 
 		userActiveness = 0.7f,
 		tags = { "求职", "招聘" }, 
-		testTelephones = { "13210038513", "18210538513" })
+		testTelephones = { "13210038513", "18212345678" })
 public class LiePinWangSpider extends PapaSpider {
 
 	

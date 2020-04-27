@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "9588", 
 		platformName = "9588旅行网", 
 		tags = { "旅行", "机票", "酒店" }, 
-		testTelephones = { "15120058878", "18210538513" })
+		testTelephones = { "15120058878", "18212345678" })
 public class _9588Spider extends PapaSpider {
 
 

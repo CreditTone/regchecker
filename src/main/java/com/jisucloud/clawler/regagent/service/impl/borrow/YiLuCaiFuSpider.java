@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "yilucaifu", 
 		platformName = "一路财富", 
 		tags = { "p2p", "借贷" }, 
-		testTelephones = { "18210538513", "13991808887" })
+		testTelephones = { "18212345678", "13991808887" })
 public class YiLuCaiFuSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

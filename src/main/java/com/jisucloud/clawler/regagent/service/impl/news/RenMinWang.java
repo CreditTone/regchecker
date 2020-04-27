@@ -17,7 +17,7 @@ import java.util.Map;
 		platform = "people", 
 		platformName = "人民网", 
 		tags = { "新闻", "资讯" }, 
-		testTelephones = { "18720982007", "18210538513" })
+		testTelephones = { "18720982007", "18212345678" })
 public class RenMinWang extends PapaSpider {
 
 	@Override

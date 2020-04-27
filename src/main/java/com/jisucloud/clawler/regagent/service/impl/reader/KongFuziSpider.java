@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "kongfz", 
 		platformName = "孔夫子旧书网", 
 		tags = { "书城" }, 
-		testTelephones = { "18660396405", "18210538513" })
+		testTelephones = { "18660396405", "18212345678" })
 public class KongFuziSpider extends PapaSpider {
 
 	

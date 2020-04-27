@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "kela", 
 		platformName = "珂兰", 
 		tags = { "购物" , "首饰" }, 
-		testTelephones = { "18779861101", "18210538513" })
+		testTelephones = { "18779861101", "18212345678" })
 public class KeLaSpider extends PapaSpider {
 
 	

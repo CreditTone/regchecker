@@ -20,7 +20,7 @@ import org.openqa.selenium.WebElement;
 		platform = "zhipin", 
 		platformName = "BOSS直聘", 
 		tags = {"求职", "招聘" ,"互联网招聘"}, 
-		testTelephones = {"18210538513", "18800000001" },
+		testTelephones = {"18212345678", "18800000001" },
 		excludeMsg = "被反扒")
 public class BossSpider extends PapaSpider {
 	

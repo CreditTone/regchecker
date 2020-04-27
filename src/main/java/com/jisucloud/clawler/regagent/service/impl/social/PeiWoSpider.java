@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "peiwo", 
 		platformName = "陪我", 
 		tags = { "单身交友" , "婚恋" }, 
-		testTelephones = { "18210538000", "18210538513" },
+		testTelephones = { "18210538000", "18212345678" },
 		exclude = true)
 public class PeiWoSpider extends PapaSpider {
 

@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "baike", 
 		platformName = "互动百科", 
 		tags = { "社区", "知识" , "学习" }, 
-		testTelephones = { "13925306966", "18210538513" })
+		testTelephones = { "13925306966", "18212345678" })
 public class HuDongBaiKeSpider extends PapaSpider {
 
 

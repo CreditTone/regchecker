@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "gzjkp2p", 
 		platformName = "广金金服", 
 		tags = { "p2p", "借贷" }, 
-		testTelephones = { "18210538513", "15161509916" })
+		testTelephones = { "18212345678", "15161509916" })
 public class GuangJinJinFuSpider extends PapaSpider implements AjaxHook{
 
 	private ChromeAjaxHookDriver chromeDriver;

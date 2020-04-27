@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "39jk", 
 		platformName = "39健康网", 
 		tags = { "健康运动", "医疗", "生活应用" , "挂号" , "用药" }, 
-		testTelephones = { "13877117175", "18210538513" })
+		testTelephones = { "13877117175", "18212345678" })
 public class _39JianKangSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

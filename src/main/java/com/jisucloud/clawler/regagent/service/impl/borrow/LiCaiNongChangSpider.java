@@ -22,7 +22,7 @@ import java.util.Map;
 		platform = "lcfarm", 
 		platformName = "布谷农场", 
 		tags = { "P2P", "农民贷" , "借贷" }, 
-		testTelephones = { "15985268904", "18210538513" })
+		testTelephones = { "15985268904", "18212345678" })
 public class LiCaiNongChangSpider extends PapaSpider {
 
 	

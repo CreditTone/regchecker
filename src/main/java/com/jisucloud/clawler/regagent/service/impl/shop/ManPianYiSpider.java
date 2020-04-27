@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "manpianyi", 
 		platformName = "蛮便宜网", 
 		tags = { "9.9包邮" , "购物" }, 
-		testTelephones = { "18515290717", "18210538513" })
+		testTelephones = { "18515290717", "18212345678" })
 public class ManPianYiSpider extends PapaSpider {
 
 	

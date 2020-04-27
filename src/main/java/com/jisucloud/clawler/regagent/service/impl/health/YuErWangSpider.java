@@ -22,7 +22,7 @@ import java.util.Map;
 		platform = "ci123", 
 		platformName = "育儿网", 
 		tags = { "育儿", "保健" }, 
-		testTelephones = { "18515290717", "18210538513" })
+		testTelephones = { "18515290717", "18212345678" })
 public class YuErWangSpider extends PapaSpider {
 
 	

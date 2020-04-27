@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "weloan", 
 		platformName = "小微金融", 
 		tags = { "P2P", "消费分期" , "借贷" }, 
-		testTelephones = { "18210538577", "18210538513" })
+		testTelephones = { "18210538577", "18212345678" })
 @Slf4j
 public class XiaoWeiJinRongSpider extends PapaSpider {
 	

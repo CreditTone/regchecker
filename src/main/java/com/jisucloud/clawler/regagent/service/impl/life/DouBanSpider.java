@@ -17,7 +17,7 @@ import java.util.Map;
 		platform = "douban", 
 		platformName = "doubanName", 
 		tags = { "社区", "影音" , "阅读" }, 
-		testTelephones = { "13925306966", "18210538513" })
+		testTelephones = { "13925306966", "18212345678" })
 public class DouBanSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

@@ -22,7 +22,7 @@ import java.util.Map;
 		platform = "kfyao", 
 		platformName = "快方送药", 
 		tags = { "医疗", "购药" }, 
-		testTelephones = { "15510257873", "18210538513" })
+		testTelephones = { "15510257873", "18212345678" })
 public class KuaiFangSpider extends PapaSpider {
 
 	

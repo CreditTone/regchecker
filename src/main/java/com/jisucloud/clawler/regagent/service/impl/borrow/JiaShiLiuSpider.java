@@ -24,7 +24,7 @@ import java.util.Map;
 		platform = "jia16", 
 		platformName = "嘉实金融", 
 		tags = { "P2P", "消费分期" , "借贷" }, 
-		testTelephones = { "15985268904", "18210538513" })
+		testTelephones = { "15985268904", "18212345678" })
 public class JiaShiLiuSpider extends PapaSpider implements AjaxHook {
 
 	private ChromeAjaxHookDriver chromeDriver;

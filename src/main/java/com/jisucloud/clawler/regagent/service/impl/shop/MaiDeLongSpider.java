@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "metromall", 
 		platformName = "麦德龙官方网", 
 		tags = { "购物" , "进口商品" , "优质商品" }, 
-		testTelephones = { "13991808887", "18210538513" })
+		testTelephones = { "13991808887", "18212345678" })
 public class MaiDeLongSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

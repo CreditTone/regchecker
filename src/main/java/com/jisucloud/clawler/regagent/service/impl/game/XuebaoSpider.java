@@ -20,7 +20,7 @@ import org.jsoup.nodes.Document;
 		platform = "battlenet", 
 		platformName = "暴雪娱乐", 
 		tags = { "游戏" ,"魔兽世界" }, 
-		testTelephones = { "18210538513", "13269423806" })
+		testTelephones = { "18212345678", "13269423806" })
 public class XuebaoSpider extends PapaSpider {
 	
 	private ChromeAjaxHookDriver chromeDriver;

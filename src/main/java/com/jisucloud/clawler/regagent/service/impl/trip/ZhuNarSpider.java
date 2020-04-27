@@ -24,7 +24,7 @@ import java.util.Map;
 		platform = "zhuna", 
 		platformName = "住哪网", 
 		tags = { "旅游" , "酒店" }, 
-		testTelephones = { "13910252045", "18210538513" })
+		testTelephones = { "13912345678", "18212345678" })
 public class ZhuNarSpider extends PapaSpider {
 
 	private String name = null;

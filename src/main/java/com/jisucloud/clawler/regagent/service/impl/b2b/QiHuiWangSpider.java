@@ -17,7 +17,7 @@ import java.util.Map;
 		platform = "qihuiwang", 
 		platformName = "企汇网", 
 		tags = { "b2b" ,"商机" ,"生意" }, 
-		testTelephones = { "18210538513", "13925306966" })
+		testTelephones = { "18212345678", "13925306966" })
 public class QiHuiWangSpider extends PapaSpider {
 
 	@Override

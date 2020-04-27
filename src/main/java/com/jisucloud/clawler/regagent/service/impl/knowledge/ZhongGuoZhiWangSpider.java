@@ -18,7 +18,7 @@ import java.util.Map;
 		platform = "cnki", 
 		platformName = "中国知网", 
 		tags = { "中国学术文献", "外文文献", "学位论文" }, 
-		testTelephones = { "13910200000", "18210538513" },
+		testTelephones = { "13910200000", "18212345678" },
 		ignoreTestResult = true)
 public class ZhongGuoZhiWangSpider extends PapaSpider {
 

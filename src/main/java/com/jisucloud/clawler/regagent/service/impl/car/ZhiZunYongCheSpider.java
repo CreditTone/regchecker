@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "top1", 
 		platformName = "至尊用车", 
 		tags = { "租车" }, 
-		testTelephones = { "18720982607", "18210538513" })
+		testTelephones = { "18720982607", "18212345678" })
 public class ZhiZunYongCheSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

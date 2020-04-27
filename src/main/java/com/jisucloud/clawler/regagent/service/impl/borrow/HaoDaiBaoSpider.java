@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "haodaibao", 
 		platformName = "好贷宝", 
 		tags = { "贷超", "贷超" , "借贷" }, 
-		testTelephones = { "15985268904", "18210538513" })
+		testTelephones = { "15985268904", "18212345678" })
 public class HaoDaiBaoSpider extends PapaSpider {
 
 

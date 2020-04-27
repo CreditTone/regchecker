@@ -25,7 +25,7 @@ import java.util.Map;
 		platform = "yesvion", 
 		platformName = "粤商贷", 
 		tags = { "P2P", "借贷" }, 
-		testTelephones = { "15900068904", "18210538513" },
+		testTelephones = { "15900068904", "18212345678" },
 		exclude = true , excludeMsg = "行为反扒")
 public class YueShangDaiSpider extends PapaSpider implements AjaxHook{
 

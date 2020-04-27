@@ -19,7 +19,7 @@ import java.util.Map;
 		platform = "99", 
 		platformName = "99娱乐", 
 		tags = { "游戏" }, 
-		testTelephones = { "15956434943", "18210538513" })
+		testTelephones = { "15956434943", "18212345678" })
 public class _99Spider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

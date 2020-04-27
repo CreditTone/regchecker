@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "chunyuyisheng", 
 		platformName = "春雨医生", 
 		tags = { "健康运动", "医疗", "生活应用" , "挂号" , "用药" }, 
-		testTelephones = { "13910252045", "18210538513" })
+		testTelephones = { "13912345678", "18212345678" })
 public class ChunYuSpider extends PapaSpider {
 
 	

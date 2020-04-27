@@ -23,7 +23,7 @@ import java.util.Random;
 		platform = "2345dk", 
 		platformName = "2345贷款王", 
 		tags = { "贷超", "消费分期" , "借贷" }, 
-		testTelephones = { "18210538513", "15161509916" },
+		testTelephones = { "18212345678", "15161509916" },
 		excludeMsg = "不做了"
 		)
 public class _2345DaiKuanWangSpider extends PapaSpider {

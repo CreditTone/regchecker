@@ -26,7 +26,7 @@ import org.openqa.selenium.WebElement;
 		platform = "yeepay", 
 		platformName = "易宝支付", 
 		tags = { "聚合支付" , "互联网金融" }, 
-		testTelephones = { "13193091202", "18210538513" })
+		testTelephones = { "13193091202", "18212345678" })
 public class YiBaoZhiFuSpider extends PapaSpider implements AjaxHook {
 	
 	private ChromeAjaxHookDriver chromeDriver;

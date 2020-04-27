@@ -21,7 +21,7 @@ import java.util.Map;
 		platformName = "企查查", 
 		tags = { "工具" , "资讯" }, 
 		userActiveness = 0.7f,
-		testTelephones = { "18210538513", "15011008001" })
+		testTelephones = { "18212345678", "15011008001" })
 public class QiChaChaSpider extends PapaSpider {
 
 	

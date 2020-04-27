@@ -22,7 +22,7 @@ import java.util.Map;
 		platformName = "知乎",
 		userActiveness = 0.6f,
 		tags = { "社区", "知识" }, 
-		testTelephones = { "13210538513", "18210538513" })
+		testTelephones = { "13210538513", "18212345678" })
 public class ZhiHuSpider extends PapaSpider {
 	
 	

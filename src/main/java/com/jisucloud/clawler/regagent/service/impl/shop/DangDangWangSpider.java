@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "dangdang", 
 		platformName = "当当网", 
 		tags = { "电商" , "网上书城" }, 
-		testTelephones = { "18210538577", "18210538513" })
+		testTelephones = { "18210538577", "18212345678" })
 public class DangDangWangSpider extends PapaSpider implements AjaxHook{
 	
 	private ChromeAjaxHookDriver chromeDriver;

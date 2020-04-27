@@ -21,7 +21,7 @@ import java.util.Map;
 		platform = "haohaizi", 
 		platformName = "好孩子商城", 
 		tags = { "电商" , "电器" }, 
-		testTelephones = { "13419594450", "18210538513" })
+		testTelephones = { "13419594450", "18212345678" })
 public class HaoHaiZiSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

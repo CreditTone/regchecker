@@ -25,7 +25,7 @@ import java.util.Map;
 		tags = { 
 			"新闻阅读","小说","听书","教育"
 		 }, 
-		testTelephones = { "15070860150", "18210538513" })
+		testTelephones = { "15070860150", "18212345678" })
 public class DocinSpider extends PapaSpider {
 
 	

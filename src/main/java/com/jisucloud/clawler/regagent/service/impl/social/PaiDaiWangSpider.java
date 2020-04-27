@@ -22,7 +22,7 @@ import java.util.Map;
 		platform = "paidai", 
 		platformName = "派代网", 
 		tags = { "社交" , "人脉", "电商" , "电商运营" ,"网店" }, 
-		testTelephones = { "18810038000", "18210538513" })
+		testTelephones = { "18810038000", "18212345678" })
 public class PaiDaiWangSpider extends PapaSpider {
 
 	

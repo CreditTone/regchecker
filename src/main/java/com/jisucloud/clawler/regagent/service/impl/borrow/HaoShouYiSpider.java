@@ -24,7 +24,7 @@ import java.util.Map;
 		platform = "haoshouyi", 
 		platformName = "好收益", 
 		tags = { "贷超", "借贷" }, 
-		testTelephones = { "15985268900", "18210538513" })
+		testTelephones = { "15985268900", "18212345678" })
 public class HaoShouYiSpider extends PapaSpider {
 
 	

@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "1905", 
 		platformName = "1905电影网", 
 		tags = { "影音", "视频" }, 
-		testTelephones = { "13925306960", "18210538513" })
+		testTelephones = { "13925306960", "18212345678" })
 public class _1905Spider extends PapaSpider {
 
 	

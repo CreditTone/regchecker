@@ -15,7 +15,7 @@ import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 		platform = "gbanker", 
 		platformName = "黄金钱包", 
 		tags = { "P2P", "借贷" }, 
-		testTelephones = {"13910252000", "18210538513" })
+		testTelephones = {"13910252000", "18212345678" })
 public class HuangJinQianBaoSpider extends PapaSpider {
 
 	@Override

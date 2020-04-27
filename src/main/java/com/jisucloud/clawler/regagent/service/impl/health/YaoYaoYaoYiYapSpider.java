@@ -23,7 +23,7 @@ import java.util.Map;
 		platform = "111yao", 
 		platformName = "111医药馆", 
 		tags = { "购药" , "健康" }, 
-		testTelephones = { "15901537458", "18210538513" })
+		testTelephones = { "15901537458", "18212345678" })
 public class YaoYaoYaoYiYapSpider extends PapaSpider {
 
 	

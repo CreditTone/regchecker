@@ -21,7 +21,7 @@ import java.util.Map;
 		platformName = "乐视TV", 
 		userActiveness = 0.6f,
 		tags = { "视频", "影音" }, 
-		testTelephones = { "18720982607", "18210538513" })
+		testTelephones = { "18720982607", "18212345678" })
 public class LeTVSpider extends PapaSpider {
 
 	

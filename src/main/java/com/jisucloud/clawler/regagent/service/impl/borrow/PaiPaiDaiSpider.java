@@ -24,7 +24,7 @@ import org.openqa.selenium.WebElement;
 		platform = "ppdai", 
 		platformName = "拍拍贷", 
 		tags = { "P2P", "借贷" }, 
-		testTelephones = { "13910250000", "18210538513" })
+		testTelephones = { "13910250000", "18212345678" })
 public class PaiPaiDaiSpider extends PapaSpider implements AjaxHook{
 	
 	private ChromeAjaxHookDriver chromeDriver;

@@ -17,7 +17,7 @@ import java.util.Map;
 		platform = "touyouquan", 
 		platformName = "投友圈", 
 		tags = { "P2P", "社交" , "借贷" }, 
-		testTelephones = { "15985268904", "18210538513" })
+		testTelephones = { "15985268904", "18212345678" })
 public class TouYouQuanSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {

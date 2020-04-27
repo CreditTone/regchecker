@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "bingchuan", 
 		platformName = "冰川网络", 
 		tags = { "游戏" }, 
-		testTelephones = { "13910252045", "18210538513" })
+		testTelephones = { "13912345678", "18212345678" })
 public class BingChuanSpider extends PapaSpider {
 
 	

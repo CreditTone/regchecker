@@ -20,7 +20,7 @@ import java.util.Map;
 		platform = "hdb", 
 		platformName = "互动吧", 
 		tags = { "论坛" , "交友" , "户外交友" }, 
-		testTelephones = { "13925306966", "18210538513" })
+		testTelephones = { "13925306966", "18212345678" })
 public class HuDongBaSpider extends PapaSpider {
 
 	public boolean checkTelephone(String account) {
