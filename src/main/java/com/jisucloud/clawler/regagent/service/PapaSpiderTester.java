@@ -12,9 +12,9 @@ import java.util.regex.Pattern;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.WebElement;
 
-import com.deep007.spiderbase.util.JEmail.JEmailBuilder;
-import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
-import com.deep077.spiderbase.selenium.mitm.MitmServer;
+import com.deep007.goniub.util.JEmail.JEmailBuilder;
+import com.deep007.goniub.selenium.mitm.ChromeAjaxHookDriver;
+import com.deep007.goniub.selenium.mitm.MitmServer;
 import com.google.common.collect.Sets;
 import com.jisucloud.clawler.regagent.RegAgentApplication;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;

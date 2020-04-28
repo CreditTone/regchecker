@@ -1,9 +1,8 @@
 package com.jisucloud.clawler.regagent.service.impl.social;
 
-import com.deep007.spiderbase.util.StringUtil;
-
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
+import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Request;

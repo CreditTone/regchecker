@@ -5,7 +5,7 @@ import okhttp3.FormBody;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import com.deep007.spiderbase.okhttp.OKHttpUtil;
+import com.deep007.goniub.okhttp.OKHttpUtil;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 

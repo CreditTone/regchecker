@@ -21,10 +21,10 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ClassUtils;
 
-import com.deep007.spiderbase.util.BootUtil;
-import com.deep007.spiderbase.util.JEmail;
-import com.deep007.spiderbase.util.JEmail.JEmailBuilder;
-import com.deep007.spiderbase.util.ReflectUtil;
+import com.deep007.goniub.util.BootUtil;
+import com.deep007.goniub.util.JEmail;
+import com.deep007.goniub.util.JEmail.JEmailBuilder;
+import com.deep007.goniub.util.ReflectUtil;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 

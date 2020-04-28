@@ -6,10 +6,10 @@ import com.jisucloud.clawler.regagent.util.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
-import com.deep007.spiderbase.DefaultHttpDownloader;
-import com.deep007.spiderbase.request.PageRequest;
-import com.deep007.spiderbase.request.PageRequestBuilder;
-import com.deep007.spiderbase.response.Page;
+import com.deep007.goniub.DefaultHttpDownloader;
+import com.deep007.goniub.request.PageRequest;
+import com.deep007.goniub.request.PageRequestBuilder;
+import com.deep007.goniub.response.Page;
 
 
 import java.util.Map;

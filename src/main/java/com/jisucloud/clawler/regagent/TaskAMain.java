@@ -7,7 +7,7 @@ import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 
-import com.deep007.spiderbase.util.ReadExcelUtils;
+import com.deep007.goniub.util.ReadExcelUtils;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 

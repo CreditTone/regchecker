@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
+import com.deep007.goniub.selenium.mitm.ChromeAjaxHookDriver;
 
 import org.openqa.selenium.WebElement;
 

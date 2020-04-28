@@ -10,10 +10,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import com.deep007.spiderbase.Init;
-import com.deep007.spiderbase.killer.LinuxKiller;
-import com.deep007.spiderbase.util.ReflectUtil;
-import com.deep007.spiderbase.util.StringUtil;
+import com.deep007.goniub.Init;
+import com.deep007.goniub.killer.LinuxKiller;
+import com.deep007.goniub.util.ReflectUtil;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
 
 import lombok.extern.slf4j.Slf4j;

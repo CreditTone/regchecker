@@ -6,7 +6,7 @@ import com.jisucloud.clawler.regagent.service.PapaSpiderTester;
 
 import lombok.extern.slf4j.Slf4j;
 
-import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
+import com.deep007.goniub.selenium.mitm.ChromeAjaxHookDriver;
 
 
 import java.util.Map;

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.deep007.spiderbase.killer.LinuxJvmProcrssMonitor;
+import com.deep007.goniub.killer.LinuxJvmProcrssMonitor;
 import com.jisucloud.clawler.regagent.service.PapaTaskConsume;
 import com.jisucloud.clawler.regagent.service.PapaTaskConsume.Status;
 import com.jisucloud.clawler.regagent.service.PapaTaskProduce;

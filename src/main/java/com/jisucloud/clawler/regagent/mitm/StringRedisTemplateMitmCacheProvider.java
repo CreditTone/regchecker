@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.data.redis.core.StringRedisTemplate;
 
-import com.deep077.spiderbase.selenium.mitm.cache.MitmCacheProvider;
+import com.deep007.goniub.selenium.mitm.cache.MitmCacheProvider;
 
 public class StringRedisTemplateMitmCacheProvider extends MitmCacheProvider {
 	

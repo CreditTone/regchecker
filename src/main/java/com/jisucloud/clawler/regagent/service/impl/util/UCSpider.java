@@ -1,6 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.util;
 
-import com.deep077.spiderbase.selenium.mitm.ChromeAjaxHookDriver;
+import com.deep007.goniub.selenium.mitm.ChromeAjaxHookDriver;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;

@@ -8,7 +8,7 @@ import okhttp3.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import com.deep007.spiderbase.okhttp.OKHttpUtil;
+import com.deep007.goniub.okhttp.OKHttpUtil;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;

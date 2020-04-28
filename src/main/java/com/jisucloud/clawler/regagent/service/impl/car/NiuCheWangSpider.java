@@ -1,6 +1,6 @@
 package com.jisucloud.clawler.regagent.service.impl.car;
 
-import com.deep007.spiderbase.okhttp.OKHttpUtil;
+import com.deep007.goniub.okhttp.OKHttpUtil;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;

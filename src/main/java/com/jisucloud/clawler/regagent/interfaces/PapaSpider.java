@@ -3,8 +3,8 @@ package com.jisucloud.clawler.regagent.interfaces;
 import java.util.Map;
 import java.util.Random;
 
-import com.deep007.spiderbase.DefaultHttpDownloader;
-import com.deep007.spiderbase.okhttp.OKHttpUtil;
+import com.deep007.goniub.DefaultHttpDownloader;
+import com.deep007.goniub.okhttp.OKHttpUtil;
 
 import okhttp3.FormBody;
 import okhttp3.MediaType;

@@ -17,7 +17,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
-import com.deep007.spiderbase.util.MemoryCacheAsRedis;
+import com.deep007.goniub.util.MemoryCacheAsRedis;
 import com.jisucloud.clawler.regagent.service.impl.b2c.YouZanSpider;
 import com.jisucloud.clawler.regagent.service.impl.knowledge.ZhiHuSpider;
 import com.jisucloud.clawler.regagent.service.impl.life.BaiduSpider;

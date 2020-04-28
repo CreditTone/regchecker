@@ -1,7 +1,7 @@
 package com.jisucloud.clawler.regagent.service.impl.news;
 
-import com.deep077.spiderbase.selenium.mitm.AjaxHook;
-import com.deep077.spiderbase.selenium.mitm.HookTracker;
+import com.deep007.goniub.selenium.mitm.AjaxHook;
+import com.deep007.goniub.selenium.mitm.HookTracker;
 
 import com.jisucloud.clawler.regagent.interfaces.PapaSpider;
 import com.jisucloud.clawler.regagent.interfaces.PapaSpiderConfig;
