@@ -66,7 +66,17 @@ public class RegAgentApplication {
 //				if (!StringUtil.hasChinese(papaSpiderConfig.platformName())) {
 //					System.out.println(borrow);
 //				}
-//				System.out.println(papaSpiderConfig.platformName()+":"+papaSpiderConfig.home());
+				if (papaSpiderConfig.home().isEmpty())
+					continue;
+				String tagStr = "";
+				String[] tags = papaSpiderConfig.tags();
+				for (int i = 0; i < tags.length; i++) {
+					tagStr += tags[i];
+					if (i < tags.length - 1) {
+						tagStr += ",";
+					}
+				}
+				System.out.println(papaSpiderConfig.platformName()+":"+papaSpiderConfig.home()+":"+tagStr+"-------"+borrow.getName());
 			}
 		}
 	}
